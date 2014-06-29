@@ -138,83 +138,124 @@ namespace Motorcycle
 
             var contextMenu = mi.Parent as ContextMenu;
             if (contextMenu == null) return;
-            var manuf = contextMenu.Name == "ContextMenuManufactures";
 
-            var db = new Confirmation
+            switch (contextMenu.Name)
             {
-                TextBlockName = {Text = manuf ? "Завод" : "Модель"},
-                ButtonConfirm = {Content = mi.Header as string}
-            };
+                case "ContextMenuManufactures":
+                    var db = new Confirmation
+                    {
+                        TextBlockName = {Text = "Завод"},
+                        ButtonConfirm = {Content = mi.Header as string}
+                    };
 
-            switch (mi.Header as string)
-            {
-                case "Добавить":
-                    var result = db.ShowDialog() ?? false;
-                    if (!result) return;
+                    switch (mi.Header as string)
+                    {
+                        case "Добавить":
+                            var result = db.ShowDialog() ?? false;
+                            if (!result) return;
 
-                    if (db.TextBoxName.Text == string.Empty || db.TextBoxNum.Text == string.Empty) return;
+                            if (db.TextBoxName.Text == string.Empty || 
+                                db.TextBoxM.Text == string.Empty ||
+                                db.TextBoxP.Text == string.Empty ||
+                                db.TextBoxU.Text == string.Empty) return;
 
-                    result = manuf
-                        ? SetSettings.SetManufacture(db.TextBoxName.Text, db.TextBoxNum.Text)
-                        : SetSettings.SetModel((ListViewManufactures.SelectedValue as dynamic).Id,
-                            db.TextBoxName.Text, db.TextBoxNum.Text);
-                    if (result)
-                        if (manuf)
-                        {
-                            TabControl_Click(LabelAddMan, null);
-                            ListViewModels.Items.Clear();
-                        }
-                        else ReloadModels((ListViewManufactures.SelectedValue as dynamic).Id);
+                            if (SetSettings.SetManufacture(db.TextBoxName.Text, db.TextBoxM.Text, db.TextBoxP.Text, db.TextBoxU.Text))
+                            {
+                                TabControl_Click(LabelAddMan, null);
+                                ListViewModels.Items.Clear();
+                            }
+                            break;
+
+                        case "Изменить":
+                            var id = db.TextBoxName.Text = (ListViewManufactures.SelectedValue as dynamic).Id;
+                            db.TextBoxM.Text = (ListViewManufactures.SelectedValue as dynamic).M;
+                            db.TextBoxP.Text = (ListViewManufactures.SelectedValue as dynamic).P;
+                            db.TextBoxU.Text = (ListViewManufactures.SelectedValue as dynamic).U;
+
+                            result = db.ShowDialog() ?? false;
+                            if (!result) return;
+
+                            if (db.TextBoxName.Text == string.Empty ||
+                                db.TextBoxM.Text == string.Empty ||
+                                db.TextBoxP.Text == string.Empty ||
+                                db.TextBoxU.Text == string.Empty) return;
+
+                            if (SetSettings.ChangeManufacture(id, db.TextBoxName.Text, db.TextBoxM.Text, db.TextBoxP.Text, db.TextBoxU.Text))
+                                TabControl_Click(LabelAddMan, null);
+                            break;
+
+                        case "Удалить":
+                            db.TextBoxName.Text = (ListViewManufactures.SelectedValue as dynamic).Id;
+                            db.TextBoxM.Text = (ListViewManufactures.SelectedValue as dynamic).M;
+                            db.TextBoxP.Text = (ListViewManufactures.SelectedValue as dynamic).P;
+                            db.TextBoxU.Text = (ListViewManufactures.SelectedValue as dynamic).U;
+
+                            db.TextBoxName.IsEnabled = db.TextBoxM.IsEnabled = db.TextBoxP.IsEnabled = db.TextBoxU.IsEnabled = false;
+
+
+                            result = db.ShowDialog() ?? false;
+                            if (!result) return;
+
+                            if (SetSettings.DeleteManufacture(db.TextBoxName.Text))
+                            {
+                                TabControl_Click(LabelAddMan, null);
+                                ListViewModels.Items.Clear();
+                            }
+                            break;
+                    }
                     break;
-                case "Изменить":
-                    var key = manuf
-                        ? (ListViewManufactures.SelectedValue as dynamic).Key
-                        : (ListViewModels.SelectedValue as dynamic).Key;
-                    var id = manuf
-                        ? (ListViewManufactures.SelectedValue as dynamic).Id
-                        : (ListViewModels.SelectedValue as dynamic).Id;
-                    db.TextBoxName.Text = id;
-                    db.TextBoxNum.Text = key;
 
-                    result = db.ShowDialog() ?? false;
-                    if (!result) return;
-                    if (db.TextBoxName.Text == string.Empty || db.TextBoxNum.Text == string.Empty) return;
+                case "ContextMenuModels":
+                    var bd = new Confirmation(75)
+                    {
+                        TextBlockName = {Text = "Модель"},
+                        ButtonConfirm = {Content = mi.Header as string},
+                        TextBoxP = {Visibility = Visibility.Hidden},
+                        TextBoxU = {Visibility = Visibility.Hidden},
+                        TextBlockP = {Visibility = Visibility.Hidden},
+                        TextBlockU = {Visibility = Visibility.Hidden}
+                    };
 
-                    result = manuf
-                        ? SetSettings.ChangeManufacture(id, db.TextBoxName.Text, db.TextBoxNum.Text)
-                        : SetSettings.ChangeModel((ListViewManufactures.SelectedValue as dynamic).Id, id,
-                            db.TextBoxName.Text, db.TextBoxNum.Text);
-                    if (result)
-                        if (manuf)
-                            TabControl_Click(LabelAddMan, null);
-                        else ReloadModels((ListViewManufactures.SelectedValue as dynamic).Id);
-                    break;
-                case "Удалить":
-                    db.TextBoxNum.Text = manuf
-                        ? (ListViewManufactures.SelectedValue as dynamic).Key
-                        : (ListViewModels.SelectedValue as dynamic).Key;
-                    db.TextBoxName.Text = manuf
-                        ? (ListViewManufactures.SelectedValue as dynamic).Id
-                        : (ListViewModels.SelectedValue as dynamic).Id;
+                    switch (mi.Header as string)
+                    {
+                        case "Добавить":
+                            var result = bd.ShowDialog() ?? false;
+                            if (!result) return;
 
-                    db.TextBoxNum.IsReadOnly = true;
-                    db.TextBoxName.IsReadOnly = true;
+                            if (bd.TextBoxName.Text == string.Empty || bd.TextBoxM.Text == string.Empty) return;
 
-                    result = db.ShowDialog() ?? false;
-                    if (!result) return;
+                            var id = (ListViewManufactures.SelectedValue as dynamic).Id;
 
-                    result = manuf
-                        ? SetSettings.DeleteManufacture(db.TextBoxName.Text)
-                        : SetSettings.DeleteModel((ListViewManufactures.SelectedValue as dynamic).Id,
-                            db.TextBoxName.Text);
-                    if (result)
-                        if (manuf)
-                        {
-                            TabControl_Click(LabelAddMan, null);
-                            ListViewModels.Items.Clear();
-                        }
-                        else
-                            ReloadModels((ListViewManufactures.SelectedValue as dynamic).Id);
+                            if (SetSettings.SetModel(id, bd.TextBoxName.Text, bd.TextBoxM.Text))
+                                ReloadModels(id);
+                            break;
+
+                        case "Изменить":
+                            id = bd.TextBoxName.Text = (ListViewModels.SelectedValue as dynamic).Id;
+                            bd.TextBoxM.Text = (ListViewModels.SelectedValue as dynamic).M;
+
+                            result = bd.ShowDialog() ?? false;
+                            if (!result) return;
+                            if (bd.TextBoxName.Text == string.Empty || bd.TextBoxM.Text == string.Empty) return;
+
+                            if (SetSettings.ChangeModel((ListViewManufactures.SelectedValue as dynamic).Id, id, bd.TextBoxName.Text, bd.TextBoxM.Text))
+                                ReloadModels((ListViewManufactures.SelectedValue as dynamic).Id);
+                            break;
+
+                        case "Удалить":                            
+                            bd.TextBoxName.Text = (ListViewModels.SelectedValue as dynamic).Id;
+                            bd.TextBoxM.Text = (ListViewModels.SelectedValue as dynamic).M;
+                            
+                            bd.TextBoxName.IsEnabled = false;
+                            bd.TextBoxM.IsEnabled = false;
+
+                            result = bd.ShowDialog() ?? false;
+                            if (!result) return;
+
+                            if (SetSettings.DeleteModel((ListViewManufactures.SelectedValue as dynamic).Id, bd.TextBoxName.Text))
+                                ReloadModels((ListViewManufactures.SelectedValue as dynamic).Id);
+                            break;
+                    }
                     break;
             }
         }

@@ -14,6 +14,8 @@
         {
             _id = id;
             _m = m;
+            _p = string.Empty;
+            _u = string.Empty;
         }
 
         private string _id;
@@ -30,14 +32,14 @@
             set { _m = value; }
         }
 
-        private static string _p;
+        private string _p;
         public string P
         {
             get { return _p; }
             set { _p = value; }
         }
 
-        private static string _u;
+        private string _u;
         public string U
         {
             get { return _u; }

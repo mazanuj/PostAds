@@ -18,7 +18,7 @@ namespace Motorcycle.Config
             return true;
         }
 
-        internal static bool ChangeManufacture(string id, string newID, string newKEY)
+        internal static bool ChangeManufacture(string id, string newID, string m, string p, string u)
         {
             var xml = XDocument.Load("Main.config").Root;
             if (xml == null) return false;
@@ -28,7 +28,9 @@ namespace Motorcycle.Config
             foreach (var item in xElement.Elements("item").Where(item => item.Attribute("id").Value == id.ToUpper()))
             {
                 item.Attribute("id").Value = newID.ToUpper();
-                item.Attribute("key").Value = newKEY.ToUpper();
+                item.Attribute("m").Value = m.ToUpper();
+                item.Attribute("p").Value = p.ToUpper();
+                item.Attribute("u").Value = u.ToUpper();
             }
             xml.Save("Main.config");
             return true;
@@ -46,7 +48,7 @@ namespace Motorcycle.Config
             xml.Save("Main.config");
         }
 
-        internal static bool SetManufacture(string id, string key)
+        internal static bool SetManufacture(string id, string m, string p, string u)
         {
             var xml = XDocument.Load("Main.config").Root;
             if (xml == null) return false;
@@ -57,12 +59,17 @@ namespace Motorcycle.Config
                 xElement.Elements("item")
                     .Any(
                         item =>
-                            item.Attribute("id").Value == id.ToUpper() || item.Attribute("key").Value == key.ToUpper()))
+                            item.Attribute("id").Value == id.ToUpper() || 
+                            item.Attribute("m").Value == m.ToUpper() || 
+                            item.Attribute("p").Value == p.ToUpper() || 
+                            item.Attribute("u").Value == u.ToUpper()))
                 return false;
 
             var newElem = new XElement("item");
             newElem.SetAttributeValue("id", id.ToUpper());
-            newElem.SetAttributeValue("key", key.ToUpper());
+            newElem.SetAttributeValue("m", m.ToUpper());
+            newElem.SetAttributeValue("p", p.ToUpper());
+            newElem.SetAttributeValue("u", u.ToUpper());
             xElement.Add(newElem);
             xml.Save("Main.config");
             return true;
