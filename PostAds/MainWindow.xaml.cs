@@ -50,6 +50,9 @@ namespace Motorcycle
                 case "ButtonStart":
                     //TODO Create data for posting
                     break;
+                case "ButtonClearLog":
+                    ListBoxLog.Items.Clear();
+                    break;
                 case "ButtonCaptcha":
                     switch (button.Content as string)
                     {

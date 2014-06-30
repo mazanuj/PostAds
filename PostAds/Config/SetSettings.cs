@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Xml.Linq;
 
 namespace Motorcycle.Config
@@ -7,22 +8,27 @@ namespace Motorcycle.Config
     {
         internal static bool DeleteManufacture(string id)
         {
-            var xml = XDocument.Load("Main.config").Root;
-            if (xml == null) return false;
-            var xElement = xml.Element("manufacture");
-            if (xElement == null) return false;
+            try
+            {
+                var xml = XDocument.Load("Main.config").Root;                
+                var xElement = xml.Element("moto").Element("manufacture");                
 
-            foreach (var item in xElement.Elements("item").Where(item => item.Attribute("id").Value == id.ToUpper()))
-                item.Remove();
-            xml.Save("Main.config");
-            return true;
+                foreach (var item in xElement.Elements("item").Where(item => item.Attribute("id").Value == id.ToUpper()))
+                    item.Remove();
+                xml.Save("Main.config");
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         internal static bool ChangeManufacture(string id, string newID, string m, string p, string u)
         {
             var xml = XDocument.Load("Main.config").Root;
             if (xml == null) return false;
-            var xElement = xml.Element("manufacture");
+            var xElement = xml.Element("moto").Element("manufacture");
             if (xElement == null) return false;
 
             foreach (var item in xElement.Elements("item").Where(item => item.Attribute("id").Value == id.ToUpper()))
@@ -52,7 +58,7 @@ namespace Motorcycle.Config
         {
             var xml = XDocument.Load("Main.config").Root;
             if (xml == null) return false;
-            var xElement = xml.Element("manufacture");
+            var xElement = xml.Element("moto").Element("manufacture");
             if (xElement == null) return false;
 
             if (
@@ -79,7 +85,7 @@ namespace Motorcycle.Config
         {
             var xml = XDocument.Load("Main.config").Root;
             if (xml == null) return false;
-            var xElement = xml.Element("manufacture");
+            var xElement = xml.Element("moto").Element("manufacture");
             if (xElement == null) return false;
 
             if (xElement.Elements("item")
@@ -106,7 +112,7 @@ namespace Motorcycle.Config
         {
             var xml = XDocument.Load("Main.config").Root;
             if (xml == null) return false;
-            var xElement = xml.Element("manufacture");
+            var xElement = xml.Element("moto").Element("manufacture");
             if (xElement == null) return false;
 
             foreach (var item in xElement.Elements("item")
@@ -121,7 +127,7 @@ namespace Motorcycle.Config
         {
             var xml = XDocument.Load("Main.config").Root;
             if (xml == null) return false;
-            var xElement = xml.Element("manufacture");
+            var xElement = xml.Element("moto").Element("manufacture");
             if (xElement == null) return false;
 
             foreach (var item in xElement.Elements("item")

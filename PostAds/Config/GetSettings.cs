@@ -22,7 +22,7 @@ namespace Motorcycle.Config
             {
                 var xElement = XDocument.Load("Main.config").Root;
                 if (xElement == null) return null;
-                var xml = xElement.Element("manufacture");
+                var xml = xElement.Element("moto").Element("manufacture");
 
                 return xml == null
                     ? null
@@ -39,7 +39,7 @@ namespace Motorcycle.Config
             var xElement = XDocument.Load("Main.config").Root;
             if (xElement == null)
                 return null;
-            var xml = xElement.Element("manufacture");
+            var xml = xElement.Element("moto").Element("manufacture");
 
             return xml == null
                 ? null

@@ -15,8 +15,10 @@
                     </StackPanel>
                 </TabItem.Header>
                 <StackPanel>
-                    <Grid Height="324" Margin="196,0,0,0" HorizontalAlignment="Left" Width="436">
-                        <Button Click="Button_Click" x:Name="ButtonStart" Content="START" HorizontalAlignment="Left" VerticalAlignment="Top" Width="235" RenderTransformOrigin="0.5,0.5" Margin="83,121,0,0" Height="112"/>
+                    <Grid Height="484" Margin="10,0,0,0" HorizontalAlignment="Left" Width="808">
+                        <Button Click="Button_Click" x:Name="ButtonStart" Content="START" HorizontalAlignment="Left" VerticalAlignment="Top" Width="111" RenderTransformOrigin="0.5,0.5" Margin="29,146,0,0" Height="52"/>
+                        <ListBox x:Name="ListBoxLog" HorizontalAlignment="Left" Height="413" VerticalAlignment="Top" Width="409" Margin="389,10,0,0"/>
+                        <Button Click="Button_Click" x:Name="ButtonClearLog" Content="Clear" RenderTransformOrigin="0.822,20.752" Margin="717,442,16,22"/>
                     </Grid>
                 </StackPanel>
             </TabItem>
@@ -52,19 +54,19 @@
                         </TabItem.Header>
                         <StackPanel>
                             <Grid Height="461" d:DataContext="{d:DesignData Source=Config/AdManufacture}">
-                                <DockPanel LastChildFill="True">                                    
-                                    <TextBlock Text="HEADER" Background="Tomato" Height="50" DockPanel.Dock="Top"/>                                    
-                                    <ListView ContextMenuOpening="OnContextMenuOpening" x:Name="ListViewManufactures" Width="300" DockPanel.Dock="Left" SelectionChanged="ListView_OnSelectionChanged">                                        
-                                        <ListView.View>                                                                                        
-                                            <GridView>                                                
+                                <DockPanel LastChildFill="True">
+                                    <TextBlock Text="HEADER" Background="Tomato" Height="50" DockPanel.Dock="Top"/>
+                                    <ListView ContextMenuOpening="OnContextMenuOpening" x:Name="ListViewManufactures" Width="300" DockPanel.Dock="Left" SelectionChanged="ListView_OnSelectionChanged">
+                                        <ListView.View>
+                                            <GridView>
                                                 <GridViewColumn Header="Завод" DisplayMemberBinding="{Binding Id}" Width="105"/>
-                                                <GridViewColumn Header="Moto" DisplayMemberBinding="{Binding M}" Width="65"/>                                                
+                                                <GridViewColumn Header="Moto" DisplayMemberBinding="{Binding M}" Width="65"/>
                                                 <GridViewColumn Header="Proday" DisplayMemberBinding="{Binding P}" Width="65"/>
                                                 <GridViewColumn Header="Used" DisplayMemberBinding="{Binding U}" Width="65"/>
                                             </GridView>
                                         </ListView.View>
                                     </ListView>
-                                    <ListView ContextMenuOpening="OnContextMenuOpening" x:Name="ListViewModels" Width="340" DockPanel.Dock="Right">                                        
+                                    <ListView ContextMenuOpening="OnContextMenuOpening" x:Name="ListViewModels" Width="340" DockPanel.Dock="Right">
                                         <ListView.View>
                                             <GridView>
                                                 <GridViewColumn Header="Модель" DisplayMemberBinding="{Binding Id}" Width="270"/>
