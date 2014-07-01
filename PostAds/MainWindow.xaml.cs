@@ -18,7 +18,7 @@ namespace Motorcycle
             InitializeComponent();
         }
 
-        private void TabControl_Click(object sender, MouseButtonEventArgs e)
+        internal void TabControl_Click(object sender, MouseButtonEventArgs e)
         {
             var tab = (sender as Label);
             if (tab == null) return;
@@ -89,7 +89,7 @@ namespace Motorcycle
             }
         }
 
-        private void ReloadModels(string id)
+        internal void ReloadModels(string id)
         {
             if (string.IsNullOrEmpty(id)) return;
             ListViewModels.Items.Clear();
