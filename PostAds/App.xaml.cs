@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace MotorcycleWPF
+namespace Motorcycle
 {
     /// <summary>
     /// Interaction logic for App.xaml
