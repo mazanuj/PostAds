@@ -1,26 +1,35 @@
 ﻿<Window
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d" 
-        x:Class="Motorcycle.MainWindow"
-        Title="MainWindow" Height="553.947" Width="842.105">
-    <Grid>
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                mc:Ignorable="d"
+    xmlns:lc="clr-namespace:Motorcycle.Controls"
+    x:Class="Motorcycle.MainWindow"
+    Title="MainWindow" Height="553.947" Width="842.105">
+    <StackPanel>
         <TabControl>
             <TabItem>
                 <TabItem.Header>
-                    <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Подача объявлений"/>
-                    </StackPanel>
                 </TabItem.Header>
-                <StackPanel>
-                    <Grid Height="484" Margin="10,0,0,0" HorizontalAlignment="Left" Width="808">
-                        <Button Click="Button_Click" x:Name="ButtonStart" Content="START" HorizontalAlignment="Left" VerticalAlignment="Top" Width="111" RenderTransformOrigin="0.5,0.5" Margin="29,146,0,0" Height="52"/>
-                        <ListBox x:Name="ListBoxLog" HorizontalAlignment="Left" Height="413" VerticalAlignment="Top" Width="409" Margin="389,10,0,0"/>
-                        <Button Click="Button_Click" x:Name="ButtonClearLog" Content="Clear" RenderTransformOrigin="0.822,20.752" Margin="717,442,16,22"/>
+                <Grid>      
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                        <Grid Grid.Column="0">
+                            <Button Click="Button_Click" x:Name="ButtonStart" Content="START" HorizontalAlignment="Left" VerticalAlignment="Top" Width="111" RenderTransformOrigin="0.5,0.5" Margin="30,140,30,0" Height="52"/>
+                        </Grid>
+                        <Grid Grid.Column="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <lc:LoggingControl Grid.Row="0" Margin="20"/>
+                            <Button Grid.Row="1" Click="Button_Click" x:Name="ButtonClearLog" Content="Clear" RenderTransformOrigin="0.822,20.752" Margin="717,442,16,22"/>
+                        </Grid>
                     </Grid>
-                </StackPanel>
             </TabItem>
             <TabItem>
                 <TabItem.Header>
@@ -53,7 +62,7 @@
                             <Label x:Name="LabelAddMan" Content="Добавить элементы" MouseLeftButtonDown="TabControl_Click"/>
                         </TabItem.Header>
                         <StackPanel>
-                            <Grid Height="461" d:DataContext="{d:DesignData Source=Config/AdManufacture}">
+                            <Grid Height="461">
                                 <DockPanel LastChildFill="True">
                                     <TextBlock Text="HEADER" Background="Tomato" Height="50" DockPanel.Dock="Top"/>
                                     <ListView ContextMenuOpening="OnContextMenuOpening" x:Name="ListViewManufactures" Width="300" DockPanel.Dock="Left" SelectionChanged="ListView_OnSelectionChanged">
@@ -94,5 +103,5 @@
                 </TabControl>
             </TabItem>
         </TabControl>
-    </Grid>
+    </StackPanel>
 </Window>
