@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
-using System.Windows.Media.Imaging;
+using Motorcycle.Captcha;
 using Motorcycle.Config;
-using MotorcycleWPF.Captcha;
-using MotorcycleWPF.HTTP;
-using MotorcycleWPF.POST;
+using Motorcycle.HTTP;
+using Motorcycle.POST;
 
-namespace MotorcycleWPF.Sites
+namespace Motorcycle.Sites
 {
     static class MotoSale
     {

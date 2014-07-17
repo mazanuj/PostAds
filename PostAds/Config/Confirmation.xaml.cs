@@ -5,7 +5,7 @@ namespace Motorcycle.Config
     /// <summary>
     /// Interaction logic for Confirmation.xaml
     /// </summary>
-    public partial class Confirmation : Window
+    public partial class Confirmation
     {
         public Confirmation()
         {

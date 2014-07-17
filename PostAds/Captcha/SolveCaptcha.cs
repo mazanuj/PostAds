@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Threading;
-using MotorcycleWPF.HTTP;
+using Motorcycle.HTTP;
 
-namespace MotorcycleWPF.Captcha
+namespace Motorcycle.Captcha
 {
     internal static class SolveCaptcha
     {

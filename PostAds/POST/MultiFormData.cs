@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace MotorcycleWPF.POST
+namespace Motorcycle.POST
 {
     internal static class MultiFormData
     {

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Text;
-using MotorcycleWPF.POST;
+using Motorcycle.POST;
 
-namespace MotorcycleWPF.HTTP
+namespace Motorcycle.HTTP
 {
     static class Request
     {

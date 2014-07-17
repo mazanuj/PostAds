@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace MotorcycleWPF.POST
+namespace Motorcycle.POST
 {
     internal static class PostMultiString
     {

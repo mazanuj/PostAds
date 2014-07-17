@@ -1,7 +1,7 @@
 ﻿using System.Net;
-using MotorcycleWPF.HTTP;
+using Motorcycle.HTTP;
 
-namespace MotorcycleWPF.POST
+namespace Motorcycle.POST
 {
     static class Cookies
     {

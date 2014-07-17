@@ -18,10 +18,12 @@
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                        <Grid Grid.Column="0">
-                            <Button Click="Button_Click" x:Name="ButtonStart" Content="START" HorizontalAlignment="Left" VerticalAlignment="Top" Width="111" RenderTransformOrigin="0.5,0.5" Margin="30,140,30,0" Height="52"/>
+                    <Border BorderThickness="0,0,1,0" BorderBrush="DarkGray">
+                        <Grid>
+                            <Button Click="Button_Click" x:Name="ButtonStart" Content="START" HorizontalAlignment="Left" VerticalAlignment="Top" Width="111" RenderTransformOrigin="0.5,0.5" Margin="30" Height="52"/>
                         </Grid>
-                        <Grid Grid.Column="1">
+                    </Border>
+                    <Grid Grid.Column="1">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="Auto"/>

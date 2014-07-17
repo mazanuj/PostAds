@@ -3,7 +3,7 @@ using System.IO;
 using System.Net;
 using System.Threading;
 
-namespace MotorcycleWPF.Captcha
+namespace Motorcycle.Captcha
 {
     internal static class CaptchaString
     {

@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Windows;
-using System.Windows.Controls;
 using Motorcycle.Controls.Log;
 using NLog;
 using NLog.Config;
 
 namespace Motorcycle.Controls
 {
-    public partial class LoggingControl : UserControl
+    public partial class LoggingControl
     {
         public static ObservableCollection<LogEventInfo> LogCollection { get; set; }
 

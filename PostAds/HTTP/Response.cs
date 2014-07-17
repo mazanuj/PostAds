@@ -1,10 +1,9 @@
 ﻿using System.IO;
 using System.Net;
 using System.Text;
-using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 
-namespace MotorcycleWPF.HTTP
+namespace Motorcycle.HTTP
 {
     internal static class Response
     {

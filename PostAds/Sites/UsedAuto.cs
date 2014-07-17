@@ -2,10 +2,10 @@
 using System.Collections.Specialized;
 using System.Net;
 using System.Text;
-using MotorcycleWPF.HTTP;
-using MotorcycleWPF.POST;
+using Motorcycle.HTTP;
+using Motorcycle.POST;
 
-namespace MotorcycleWPF.Sites
+namespace Motorcycle.Sites
 {
     static class UsedAuto
     {

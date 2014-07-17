@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using MotorcycleWPF;
 
-namespace Motorcycle.Config
+namespace Motorcycle
 {
     static class UsedAutoData
     {
