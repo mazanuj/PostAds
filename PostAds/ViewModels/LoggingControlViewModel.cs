@@ -1,21 +1,22 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Windows;
+﻿using System.Collections.ObjectModel;
+using System.Windows.Threading;
+using Caliburn.Micro;
+using Motorcycle.Controls;
 using Motorcycle.Controls.Log;
 using NLog;
 using NLog.Config;
+using Action = System.Action;
+using LogManager = NLog.LogManager;
 
-namespace Motorcycle.Controls
+namespace Motorcycle.ViewModels
 {
-    public partial class LoggingControl
+    public class LoggingControlViewModel : PropertyChangedBase
     {
         public static ObservableCollection<LogEventInfo> LogCollection { get; set; }
 
-        public LoggingControl()
+        public LoggingControlViewModel()
         {
             LogCollection = new ObservableCollection<LogEventInfo>();
-
-            InitializeComponent();
 
             //initialize default NLog rules
             ConfigurationItemFactory.Default.Targets.RegisterDefinition("MemoryEvent", typeof(MemoryEventTarget));
@@ -25,23 +26,28 @@ namespace Motorcycle.Controls
             _logTarget.EventReceived += EventReceived;
 
             config.AddTarget("memoryevent", _logTarget);
-            config.LoggingRules.Add(new LoggingRule("*", LogLevel.Info, _logTarget));
+            config.LoggingRules.Add(new LoggingRule("*", LogLevel.Debug, _logTarget));
             SimpleConfigurator.ConfigureForTargetLogging(_logTarget, LogLevel.Debug);
             LogManager.Configuration = config;
         }
 
-        private void EventReceived(LogEventInfo message)
+        private static void EventReceived(LogEventInfo message)
         {
-            Dispatcher.Invoke(new Action(() =>
+            Dispatcher.CurrentDispatcher.Invoke(new Action(() =>
             {
                 if (LogCollection.Count >= 50) LogCollection.RemoveAt(LogCollection.Count - 1);
                 LogCollection.Add(message);
             }));
         }
 
-        private void SendLog_OnClick(object sender, RoutedEventArgs e)
+        public void SendLog()
         {
-            MailSender.SendEmail("mazanuj@gmail.com", "postads@ya.ru", "ERROR", "See in attachment");
+            MailSender.SendEmail("mazanuj@gmail.com", "postads@ya.ru", "Log", "See in attachment");
+        }
+
+        public void ClearLog()
+        {
+            LogCollection.Clear();
         }
     }
 }

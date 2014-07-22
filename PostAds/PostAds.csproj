@@ -34,11 +34,20 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Caliburn.Micro">
+      <HintPath>..\packages\Caliburn.Micro.Core.2.0.0\lib\net40\Caliburn.Micro.dll</HintPath>
+    </Reference>
+    <Reference Include="Caliburn.Micro.Platform">
+      <HintPath>..\packages\Caliburn.Micro.2.0.0\lib\net40\Caliburn.Micro.Platform.dll</HintPath>
+    </Reference>
     <Reference Include="NLog">
       <HintPath>..\packages\NLog.3.1.0.0\lib\net40\NLog.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Caliburn.Micro.2.0.0\lib\net40\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -56,12 +65,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AppBootstrapper.cs" />
     <Compile Include="Config\AddManufacture.cs" />
     <Compile Include="Advertising.cs" />
     <Compile Include="Config\Confirmation.xaml.cs">
       <DependentUpon>Confirmation.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\LoggingControl.cs" />
+    <Compile Include="ViewModels\LoggingControlViewModel.cs" />
     <Compile Include="Controls\Log\LogItemBgColorConverter.cs" />
     <Compile Include="Controls\Log\LogItemFgColorConverter.cs" />
     <Compile Include="Controls\Log\MemoryEventTarget.cs" />
@@ -75,17 +85,19 @@
     <Compile Include="Sites\MotoSale.cs" />
     <Compile Include="Sites\Proday2Kolesa.cs" />
     <Compile Include="Sites\UsedAuto.cs" />
+    <Compile Include="Views\LoggingControlView.xaml.cs">
+      <DependentUpon>LoggingControlView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MainView.xaml.cs">
+      <DependentUpon>MainView.xaml</DependentUpon>
+    </Compile>
     <Page Include="Config\Confirmation.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\LoggingControl.xaml">
+    <Page Include="Views\LoggingControlView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
@@ -99,10 +111,11 @@
     <Compile Include="UsedAutoData.cs" />
     <Compile Include="HTTP\Request.cs" />
     <Compile Include="HTTP\Response.cs" />
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="ViewModels\MainViewModel.cs" />
+    <Page Include="Views\MainView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
