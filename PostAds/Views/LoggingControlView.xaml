@@ -19,7 +19,6 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <Grid>
-                <!--<TextBox IsReadOnly="True" AcceptsReturn="True"  Height="Auto" HorizontalAlignment="Stretch" Name="dgLog" VerticalAlignment="Stretch" Width="Auto"/>-->
                 <ListView ItemsSource="{Binding LogCollection}">
                     <ListView.ItemContainerStyle>
                         <Style TargetType="{x:Type ListViewItem}">
@@ -32,8 +31,8 @@
                                     <Setter Property="Foreground" Value="black"/>
                                 </Trigger>
                                 <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource Self}, Path=Background}"/>
-                                    <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Self}, Path=Foreground}"/>
+                                    <Setter Property="Background" Value="{Binding Path=Background}"/>
+                                    <Setter Property="Foreground" Value="{Binding Path=Foreground}"/>
                                 </Trigger>
                             </Style.Triggers>
                         </Style>
@@ -49,11 +48,10 @@
                         </GridView>
                     </ListView.View>
                 </ListView>
-                <!--<ListBox Height="Auto" HorizontalAlignment="Stretch" Name="dgLog" VerticalAlignment="Stretch" Width="Auto" />-->
             </Grid>
         </Grid>
         <Grid Row="2">
-            <Button Content="Clear log" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,100,0" Name="ClearLog"/>
+            <Button Content="Clear log" Name="ClearLog" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,100,0"/>
             <Button Content="Send via mail" Name="SendLog" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
         </Grid>
     </StackPanel>
