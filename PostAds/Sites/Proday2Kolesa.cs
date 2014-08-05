@@ -62,7 +62,7 @@ namespace Motorcycle.Sites
 
             //Get captcha result
             CaptchaString.GetCaptchaImage(captchaUrl);
-            var captcha = CaptchaString.GetCaptchaString(GetSettings.GetCaptcha("key"), "captcha.jpg", GetSettings.GetCaptcha("domain"));
+            var captcha = CaptchaString.GetCaptchaString(/*GetSettings.GetCaptcha(*/"key"/*)*/, "captcha.jpg", /*GetSettings.GetCaptcha(*/"domain"/*)*/);
 
             //Send captcha request
             var captchaDictionary = new Dictionary<string, string>

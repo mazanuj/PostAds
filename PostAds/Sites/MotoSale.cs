@@ -20,7 +20,7 @@ namespace Motorcycle.Sites
             Response.GetImageFromResponse(requestImage);
 
             //Get captcha result
-            var captcha = CaptchaString.GetCaptchaString(GetSettings.GetCaptcha("key"), "captcha.jpg", GetSettings.GetCaptcha("domain"));
+            var captcha = CaptchaString.GetCaptchaString(/*GetSettings.GetCaptcha(*/"key"/*)*/, "captcha.jpg", /*GetSettings.GetCaptcha(*/"domain"/*)*/);
 
             dataDictionary["fConfirmationCode"] = captcha;
 

@@ -44,7 +44,10 @@
       <HintPath>..\packages\NLog.3.1.0.0\lib\net40\NLog.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Caliburn.Micro.2.0.0\lib\net40\System.Windows.Interactivity.dll</HintPath>
     </Reference>
@@ -66,11 +69,13 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AppBootstrapper.cs" />
-    <Compile Include="Config\AddManufacture.cs" />
     <Compile Include="Advertising.cs" />
     <Compile Include="Config\Confirmation.xaml.cs">
       <DependentUpon>Confirmation.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\ChangeBaseViewModel.cs" />
+    <Compile Include="ViewModels\FrontPanelViewModel.cs" />
+    <Compile Include="ViewModels\GeneralSettingsViewModel.cs" />
     <Compile Include="ViewModels\LoggingControlViewModel.cs" />
     <Compile Include="Controls\Log\LogItemBgColorConverter.cs" />
     <Compile Include="Controls\Log\LogItemFgColorConverter.cs" />
@@ -85,13 +90,45 @@
     <Compile Include="Sites\MotoSale.cs" />
     <Compile Include="Sites\Proday2Kolesa.cs" />
     <Compile Include="Sites\UsedAuto.cs" />
+    <Compile Include="ViewModels\ProxyViewModel.cs" />
+    <Compile Include="ViewModels\SettingsViewModel.cs" />
+    <Compile Include="Views\ChangeBaseView.xaml.cs">
+      <DependentUpon>ChangeBaseView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FrontPanelView.xaml.cs">
+      <DependentUpon>FrontPanelView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GeneralSettingsView.xaml.cs">
+      <DependentUpon>GeneralSettingsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\LoggingControlView.xaml.cs">
       <DependentUpon>LoggingControlView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ProxyView.xaml.cs">
+      <DependentUpon>ProxyView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SettingsView.xaml.cs">
+      <DependentUpon>SettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="XmlWorker\Item.cs" />
+    <Compile Include="XmlWorker\Value.cs" />
+    <Compile Include="XmlWorker\XmlWorker.cs" />
     <Page Include="Config\Confirmation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ChangeBaseView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FrontPanelView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GeneralSettingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -106,13 +143,19 @@
     <Compile Include="Captcha\CaptchaString.cs" />
     <Compile Include="Captcha\SolveCaptcha.cs" />
     <Compile Include="DvaKolesaData.cs" />
-    <Compile Include="Config\GetSettings.cs" />
-    <Compile Include="Config\SetSettings.cs" />
     <Compile Include="UsedAutoData.cs" />
     <Compile Include="HTTP\Request.cs" />
     <Compile Include="HTTP\Response.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Page Include="Views\MainView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ProxyView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SettingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -152,7 +195,9 @@
     </None>
     <AppDesigner Include="Properties\" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Utils\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

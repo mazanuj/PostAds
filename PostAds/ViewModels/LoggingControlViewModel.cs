@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.ComponentModel.Composition;
 using System.Windows.Threading;
 using Caliburn.Micro;
 using Motorcycle.Controls;
@@ -10,10 +11,12 @@ using LogManager = NLog.LogManager;
 
 namespace Motorcycle.ViewModels
 {
+    [Export(typeof(LoggingControlViewModel))]
     public class LoggingControlViewModel : PropertyChangedBase
     {
-        public static ObservableCollection<LogEventInfo> LogCollection { get; set; }
+        public static ObservableCollection<LogEventInfo> LogCollection { get; private set; }
 
+        [ImportingConstructor]
         public LoggingControlViewModel()
         {
             LogCollection = new ObservableCollection<LogEventInfo>();
