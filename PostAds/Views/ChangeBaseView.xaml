@@ -6,17 +6,13 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <StackPanel>
-<<<<<<< HEAD
         <Grid Height="461" >
             <DockPanel LastChildFill="True">
                 <TextBlock Text="HEADER" Background="Tomato" Height="50" DockPanel.Dock="Top"/>
                 <ListView Name="ItemCollection"  Width="300" DockPanel.Dock="Left" >
-=======
-        <Grid Height="461">
-            <DockPanel LastChildFill="True">
-                <TextBlock Text="HEADER" Background="Tomato" Height="50" DockPanel.Dock="Top"/>
-                <ListView  x:Name="ListViewManufactures" Width="300" DockPanel.Dock="Left" >
->>>>>>> origin/mazanuj
+
+    
+
                     <!--SelectionChanged="ListView_OnSelectionChanged" ContextMenuOpening="OnContextMenuOpening"-->
                     <ListView.View>
                         <GridView>
@@ -27,8 +23,6 @@
                         </GridView>
                     </ListView.View>
                 </ListView>
-<<<<<<< HEAD
-
 
                 <ListView  Name = "ValueCollection" Width="340" DockPanel.Dock="Right">
                     <!--ContextMenuOpening="OnContextMenuOpening"-->
@@ -36,14 +30,8 @@
                         <GridView>
                             <GridViewColumn Header="Модель" DisplayMemberBinding="{Binding Name}" Width="270"/>
                             <GridViewColumn Header="Motosale" DisplayMemberBinding="{Binding Price}"/>
-=======
-                <ListView  x:Name="ListViewModels" Width="340" DockPanel.Dock="Right">
-                    <!--ContextMenuOpening="OnContextMenuOpening"-->
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn Header="Модель" DisplayMemberBinding="{Binding Id}" Width="270"/>
-                            <GridViewColumn Header="Motosale" DisplayMemberBinding="{Binding M}"/>
->>>>>>> origin/mazanuj
+
+                
                         </GridView>
                     </ListView.View>
                 </ListView>

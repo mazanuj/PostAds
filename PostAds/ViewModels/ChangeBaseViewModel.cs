@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 ﻿using Caliburn.Micro;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
@@ -10,17 +10,9 @@ namespace Motorcycle.ViewModels
     [Export(typeof(ChangeBaseViewModel))]
     public class ChangeBaseViewModel : PropertyChangedBase
     {
-        public ObservableCollection<Item> ItemCollection
-        {
-            get;
-            private set;
-        }
+        public ObservableCollection<Item> ItemCollection { get; private set; }
 
-        public ObservableCollection<Value> ValueCollection
-        {
-            get;
-            private set;
-        }
+        public ObservableCollection<Value> ValueCollection { get; private set; }
 
         public ChangeBaseViewModel()
         {
@@ -35,9 +27,13 @@ namespace Motorcycle.ViewModels
         }
 
         private Item selectedItem;
+
         public Item SelectedItemCollection
         {
-            get { return this.selectedItem; }
+            get
+            {
+                return this.selectedItem;
+            }
             set
             {
                 this.selectedItem = value;
@@ -51,18 +47,5 @@ namespace Motorcycle.ViewModels
                 }
             }
         }
-=======
-﻿using System.Collections.ObjectModel;
-using System.ComponentModel.Composition;
-using Caliburn.Micro;
-using NLog;
-
-namespace Motorcycle.ViewModels
-{
-    [Export(typeof (ChangeBaseViewModel))]
-    public class ChangeBaseViewModel : PropertyChangedBase
-    {
-        public static ObservableCollection<LogEventInfo> LogCollection { get; private set; }
->>>>>>> origin/mazanuj
     }
 }
