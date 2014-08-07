@@ -1,15 +1,16 @@
-
 ﻿using Caliburn.Micro;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
+﻿using NLog;
 
 namespace Motorcycle.ViewModels
 {
-    using Motorcycle.XmlWorker;
+    using XmlWorker;
 
-    [Export(typeof(ChangeBaseViewModel))]
+    [Export(typeof (ChangeBaseViewModel))]
     public class ChangeBaseViewModel : PropertyChangedBase
     {
+        private readonly Logger log = NLog.LogManager.GetCurrentClassLogger();
         public ObservableCollection<Item> ItemCollection { get; private set; }
 
         public ObservableCollection<Value> ValueCollection { get; private set; }
@@ -30,18 +31,15 @@ namespace Motorcycle.ViewModels
 
         public Item SelectedItemCollection
         {
-            get
-            {
-                return this.selectedItem;
-            }
+            get { return selectedItem; }
             set
             {
-                this.selectedItem = value;
+                selectedItem = value;
                 //NotifyOfPropertyChange("SelectedItem");
 
                 ValueCollection.Clear();
 
-                foreach (var val in this.selectedItem.Values)
+                foreach (var val in selectedItem.Values)
                 {
                     ValueCollection.Add(val);
                 }

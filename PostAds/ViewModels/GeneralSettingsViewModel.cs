@@ -2,6 +2,7 @@
 using System.Windows.Data;
 using System.Xml;
 using Caliburn.Micro;
+using NLog;
 
 namespace Motorcycle.ViewModels
 {
@@ -10,6 +11,7 @@ namespace Motorcycle.ViewModels
     {
         private static XmlDataProvider xml;
         private const string dbPath = "Main.config";
+        private readonly Logger log = NLog.LogManager.GetCurrentClassLogger();
 
         [ImportingConstructor]
         public GeneralSettingsViewModel()

@@ -9,6 +9,5 @@ namespace Motorcycle.ViewModels
     public class ProxyViewModel : PropertyChangedBase
     {
         private readonly Logger log = LogManager.GetCurrentClassLogger();
-
     }
 }
