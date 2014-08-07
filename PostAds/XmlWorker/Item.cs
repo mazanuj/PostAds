@@ -1,5 +1,4 @@
-﻿
-namespace Motorcycle.XmlWorker
+﻿namespace Motorcycle.XmlWorker
 {
     using System.Collections.Generic;
 
@@ -19,13 +18,11 @@ namespace Motorcycle.XmlWorker
             Values = new List<Value>();
         }
 
-
         public string Id { get; set; }
         public string M { get; set; }
         public string P { get; set; }
         public string U { get; set; }
 
-        public List<Value> Values { get;  set; }
-        
+        public List<Value> Values { get; set; }
     }
 }

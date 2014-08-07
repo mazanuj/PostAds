@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace Motorcycle.XmlWorker
@@ -16,21 +15,20 @@ namespace Motorcycle.XmlWorker
             var items = (from e in xml.Descendants("manufacture").Descendants("item")
 
 
-                         select new Item
-                         {
-                             Id = (string)e.Attribute("id"),
-                             M = (string)e.Attribute("m"),
-                             P = (string)e.Attribute("p"),
-                             U = (string)e.Attribute("u"),
-                             Values = e.Descendants("value")
-                                           .Select(r => new Value
-                                           {
-                                               Name = (string)r.Attribute("name"),
-                                               Val = r.Value
-                                           })
-                                           .ToList()
-                         }).ToList();
-
+                select new Item
+                {
+                    Id = (string) e.Attribute("id"),
+                    M = (string) e.Attribute("m"),
+                    P = (string) e.Attribute("p"),
+                    U = (string) e.Attribute("u"),
+                    Values = e.Descendants("value")
+                        .Select(r => new Value
+                        {
+                            Name = (string) r.Attribute("name"),
+                            Val = r.Value
+                        })
+                        .ToList()
+                }).ToList();
 
             return items;
         }

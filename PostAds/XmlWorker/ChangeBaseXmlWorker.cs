@@ -1,10 +1,9 @@
-﻿
-namespace Motorcycle.XmlWorker
+﻿namespace Motorcycle.XmlWorker
 {
     using System.Xml.Linq;
     using System.Xml.XPath;
 
-    class ChangeBaseXmlWorker
+    internal class ChangeBaseXmlWorker
     {
         private const string XmlFilePath = "Main.config";
 
@@ -62,7 +61,7 @@ namespace Motorcycle.XmlWorker
         {
             var ownerItem = Doc.XPathSelectElement(string.Format(ItemXPath, item.Id, item.M, item.P, item.U));
 
-            var val = new XElement("value", new XAttribute("name", value.Name)) { Value = value.Val };
+            var val = new XElement("value", new XAttribute("name", value.Name)) {Value = value.Val};
 
             ownerItem.Add(val);
 
@@ -98,7 +97,7 @@ namespace Motorcycle.XmlWorker
         {
             var val = Doc.XPathSelectElement(string.Format(ValueXPath, name, value));
 
-            if(val == null) return;
+            if (val == null) return;
 
             val.Remove();
 
@@ -110,13 +109,12 @@ namespace Motorcycle.XmlWorker
             var val = Doc.XPathSelectElement(string.Format(ValueXPathWithItemParams, item.Id, item.M, item.P, item.U,
                 value.Name, value.Val));
 
-            if(val == null) return;
+            if (val == null) return;
 
             val.Remove();
 
             Doc.Save(XmlFilePath);
         }
-
         #endregion
     }
 }

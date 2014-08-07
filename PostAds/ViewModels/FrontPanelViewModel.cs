@@ -1,9 +1,4 @@
-﻿using System;
-using System.ComponentModel.Composition;
-using System.Globalization;
-using System.Threading.Tasks;
-using System.Windows.Data;
-using System.Windows.Media;
+﻿using System.ComponentModel.Composition;
 using Caliburn.Micro;
 
 namespace Motorcycle.ViewModels

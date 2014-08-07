@@ -1,5 +1,4 @@
-﻿
-namespace Motorcycle.XmlWorker
+﻿namespace Motorcycle.XmlWorker
 {
     public class Value
     {
@@ -13,8 +12,8 @@ namespace Motorcycle.XmlWorker
             Name = name;
             Val = val;
 
-            this.Name = name;
-            this.Val = val;
+            Name = name;
+            Val = val;
 
         }
 
