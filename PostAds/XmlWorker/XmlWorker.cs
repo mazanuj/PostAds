@@ -1,4 +1,4 @@
-﻿using System;
+﻿
 using System.Collections.Generic;
 using System.Linq;
 
@@ -17,14 +17,14 @@ namespace Motorcycle.XmlWorker
                          select new Item
                          {
                              Id = (string)e.Attribute("id"),
-                             M = (int)e.Attribute("m"),
-                             P = (int)e.Attribute("p"),
-                             U = (int)e.Attribute("u"),
+                             M = (string)e.Attribute("m"),
+                             P = (string)e.Attribute("p"),
+                             U = (string)e.Attribute("u"),
                              Values = e.Descendants("value")
                                            .Select(r => new Value
                                            {
                                                Name = (string)r.Attribute("name"),
-                                               Price = Convert.ToInt32(r.Value)
+                                               Val = r.Value
                                            })
                                            .ToList()
                          }).ToList();
