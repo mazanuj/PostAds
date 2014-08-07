@@ -10,9 +10,5 @@ namespace Motorcycle.ViewModels
     {
         private readonly Logger log = LogManager.GetCurrentClassLogger();
 
-        public void ButtonProxy()
-        {
-            log.Debug("ProxyViewModel");
-        }
     }
 }

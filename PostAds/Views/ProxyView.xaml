@@ -13,6 +13,5 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button x:Name="ButtonProxy" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="100" Height="25"/>
     </Grid>
 </UserControl>

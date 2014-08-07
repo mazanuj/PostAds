@@ -73,14 +73,15 @@
     <Compile Include="Config\Confirmation.xaml.cs">
       <DependentUpon>Confirmation.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Converters\BoolToColorConverter.cs" />
     <Compile Include="ViewModels\ChangeBaseViewModel.cs" />
     <Compile Include="ViewModels\FrontPanelViewModel.cs" />
     <Compile Include="ViewModels\GeneralSettingsViewModel.cs" />
     <Compile Include="ViewModels\LoggingControlViewModel.cs" />
-    <Compile Include="Controls\Log\LogItemBgColorConverter.cs" />
-    <Compile Include="Controls\Log\LogItemFgColorConverter.cs" />
+    <Compile Include="Controls\Converters\LogItemBgColorConverter.cs" />
+    <Compile Include="Controls\Converters\LogItemFgColorConverter.cs" />
     <Compile Include="Controls\Log\MemoryEventTarget.cs" />
-    <Compile Include="Controls\MailSender.cs" />
+    <Compile Include="Controls\Log\MailSender.cs" />
     <Compile Include="MotosaleData.cs" />
     <Compile Include="Parameters.cs" />
     <Compile Include="POST\Cookies.cs" />

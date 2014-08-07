@@ -1,0 +1,44 @@
+﻿Merge remote-tracking branch 'origin/mazanuj' into mazanuj
+
+Conflicts:
+	PostAds/XmlWorker/Item.cs
+#
+# It looks like you may be committing a merge.
+# If this is not correct, please remove the file
+#	.git/MERGE_HEAD
+# and try again.
+
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch mazanuj
+# Your branch and 'origin/mazanuj' have diverged,
+# and have 1 and 2 different commits each, respectively.
+#   (use "git pull" to merge the remote branch into yours)
+#
+# All conflicts fixed but you are still merging.
+#   (use "git commit" to conclude merge)
+#
+# Changes to be committed:
+#
+#	new file:   PostAds/Controls/Converters/BoolToColorConverter.cs
+#	renamed:    PostAds/Controls/Log/LogItemBgColorConverter.cs -> PostAds/Controls/Converters/LogItemBgColorConverter.cs
+#	renamed:    PostAds/Controls/Log/LogItemFgColorConverter.cs -> PostAds/Controls/Converters/LogItemFgColorConverter.cs
+#	renamed:    PostAds/Controls/MailSender.cs -> PostAds/Controls/Log/MailSender.cs
+#	modified:   PostAds/PostAds.csproj
+#	modified:   PostAds/ViewModels/FrontPanelViewModel.cs
+#	modified:   PostAds/ViewModels/ProxyViewModel.cs
+#	modified:   PostAds/Views/FrontPanelView.xaml
+#	modified:   PostAds/Views/FrontPanelView.xaml.cs
+#	modified:   PostAds/Views/LoggingControlView.xaml
+#	modified:   PostAds/Views/ProxyView.xaml
+#	modified:   PostAds/XmlWorker/Item.cs
+#	modified:   PostAds/XmlWorker/Value.cs
+#	modified:   PostAds/XmlWorker/XmlWorker.cs
+#
+# Untracked files:
+#   (use "git add <file>..." to include in what will be committed)
+#
+#	pgr0qsoy.5rd.txt
+#	zfwj0tgo.pmj.txt
+

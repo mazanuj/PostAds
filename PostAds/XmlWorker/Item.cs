@@ -7,20 +7,24 @@ namespace Motorcycle.XmlWorker
     {
         public Item()
         {
-            
         }
 
         public Item(string id, string m, string p, string u)
         {
-            this.Id = id;
-            this.M = m;
-            this.P = p;
-            this.U = u;
+            Id = id;
+            M = m;
+            P = p;
+            U = u;
 
-            this.Values = new List<Value>();
-
+            Values = new List<Value>();
         }
 
+<<<<<<< HEAD
+        public string Id { get; set; }
+        public int M { get; set; }
+        public int P { get; set; }
+        public int U { get; set; }
+=======
         public string Id { get;  set; }
         public string M { get;  set; }
         public string P { get;  set; }
@@ -28,7 +32,11 @@ namespace Motorcycle.XmlWorker
 
         public List<Value> Values { get;  set; }
         
-    }
+<<<<<<< HEAD
+=======
+>>>>>>> origin/mazanuj
 
-    
+        public List<Value> Values { get; set; }
+>>>>>>> origin/mazanuj
+    }
 }
