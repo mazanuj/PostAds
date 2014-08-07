@@ -8,13 +8,13 @@ namespace Motorcycle.XmlWorker
 
         }
 
-        public Value(string name, int price)
+        public Value(string name, string val)
         {
             this.Name = name;
-            this.Price = price;
+            this.Val = val;
         }
 
         public string Name { get; set; }
-        public int Price { get; set; }
+        public string Val { get; set; }
     }
 }
