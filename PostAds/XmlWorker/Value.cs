@@ -9,13 +9,13 @@ namespace Motorcycle.XmlWorker
 
         public Value(string name, string val)
         {
-<<<<<<< HEAD
+
             Name = name;
-            Price = price;
-=======
+            Val = val;
+
             this.Name = name;
             this.Val = val;
->>>>>>> origin/mazanuj
+
         }
 
         public string Name { get; set; }
