@@ -5,13 +5,12 @@ namespace Motorcycle.XmlWorker
     {
         public Value()
         {
-
         }
 
         public Value(string name, int price)
         {
-            this.Name = name;
-            this.Price = price;
+            Name = name;
+            Price = price;
         }
 
         public string Name { get; set; }
