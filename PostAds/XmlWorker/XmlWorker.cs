@@ -14,6 +14,7 @@ namespace Motorcycle.XmlWorker
             var xml = XDocument.Load("Main.config");
 
             var items = (from e in xml.Descendants("manufacture").Descendants("item")
+<<<<<<< HEAD
                 select new Item
                 {
                     Id = (string) e.Attribute("id"),
@@ -28,6 +29,22 @@ namespace Motorcycle.XmlWorker
                         })
                         .ToList()
                 }).ToList();
+=======
+                         select new Item
+                         {
+                             Id = (string)e.Attribute("id"),
+                             M = (string)e.Attribute("m"),
+                             P = (string)e.Attribute("p"),
+                             U = (string)e.Attribute("u"),
+                             Values = e.Descendants("value")
+                                           .Select(r => new Value
+                                           {
+                                               Name = (string)r.Attribute("name"),
+                                               Val = r.Value
+                                           })
+                                           .ToList()
+                         }).ToList();
+>>>>>>> origin/mazanuj
 
             return items;
         }

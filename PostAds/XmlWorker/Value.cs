@@ -7,13 +7,18 @@ namespace Motorcycle.XmlWorker
         {
         }
 
-        public Value(string name, int price)
+        public Value(string name, string val)
         {
+<<<<<<< HEAD
             Name = name;
             Price = price;
+=======
+            this.Name = name;
+            this.Val = val;
+>>>>>>> origin/mazanuj
         }
 
         public string Name { get; set; }
-        public int Price { get; set; }
+        public string Val { get; set; }
     }
 }
