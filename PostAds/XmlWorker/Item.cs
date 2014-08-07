@@ -28,7 +28,6 @@ namespace Motorcycle.XmlWorker
 
         public List<Value> Values { get;  set; }
         
-
     }
 
     
