@@ -1,11 +1,10 @@
 
-﻿using Caliburn.Micro;
-using System.Collections.ObjectModel;
-using System.ComponentModel.Composition;
-
 namespace Motorcycle.ViewModels
 {
+    ﻿using Caliburn.Micro;
     using Motorcycle.XmlWorker;
+    using System.Collections.ObjectModel;
+    using System.ComponentModel.Composition;
 
     [Export(typeof(ChangeBaseViewModel))]
     public class ChangeBaseViewModel : PropertyChangedBase
@@ -14,8 +13,13 @@ namespace Motorcycle.ViewModels
 
         public ObservableCollection<Value> ValueCollection { get; private set; }
 
-        public ChangeBaseViewModel()
+        private readonly IWindowManager _windowManager;
+
+        [ImportingConstructor]
+        public ChangeBaseViewModel(IWindowManager windowManager)
         {
+            _windowManager = windowManager;
+
             ItemCollection = new ObservableCollection<Item>();
 
             foreach (var item in XmlWorker.GetManufacture())
@@ -39,12 +43,39 @@ namespace Motorcycle.ViewModels
                 this.selectedItem = value;
                 //NotifyOfPropertyChange("SelectedItem");
 
-                ValueCollection.Clear();
+                //ValueCollection.Clear();
 
-                foreach (var val in this.selectedItem.Values)
-                {
-                    ValueCollection.Add(val);
-                }
+                //foreach (var val in this.selectedItem.Values)
+                //{
+                //    ValueCollection.Add(val);
+                //}
+            }
+        }
+
+        public void RemoveItem(Item item)
+        {
+            ChangeBaseXmlWorker.RemoveItemNode(item);
+
+            this.RefreshItemList();
+        }
+
+        public void AddNewItem()
+        {
+            var confirmationViewModel = new ConfirmationViewModel();
+            _windowManager.ShowDialog(confirmationViewModel);
+
+            if (confirmationViewModel.IsOkay)
+                this.RefreshItemList();
+
+        }
+
+        private void RefreshItemList()
+        {
+            this.ItemCollection.Clear();
+
+            foreach (var item in XmlWorker.GetManufacture())
+            {
+                this.ItemCollection.Add(item);
             }
         }
     }

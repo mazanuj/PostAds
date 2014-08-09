@@ -70,11 +70,9 @@
     </ApplicationDefinition>
     <Compile Include="AppBootstrapper.cs" />
     <Compile Include="Advertising.cs" />
-    <Compile Include="Config\Confirmation.xaml.cs">
-      <DependentUpon>Confirmation.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Controls\Converters\BoolToColorConverter.cs" />
     <Compile Include="ViewModels\ChangeBaseViewModel.cs" />
+    <Compile Include="ViewModels\ConfirmationViewModel.cs" />
     <Compile Include="ViewModels\FrontPanelViewModel.cs" />
     <Compile Include="ViewModels\GeneralSettingsViewModel.cs" />
     <Compile Include="ViewModels\LoggingControlViewModel.cs" />
@@ -95,6 +93,9 @@
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="Views\ChangeBaseView.xaml.cs">
       <DependentUpon>ChangeBaseView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ConfirmationView.xaml.cs">
+      <DependentUpon>ConfirmationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\FrontPanelView.xaml.cs">
       <DependentUpon>FrontPanelView.xaml</DependentUpon>
@@ -118,11 +119,11 @@
     <Compile Include="XmlWorker\Item.cs" />
     <Compile Include="XmlWorker\Value.cs" />
     <Compile Include="XmlWorker\XmlWorker.cs" />
-    <Page Include="Config\Confirmation.xaml">
+    <Page Include="Views\ChangeBaseView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ChangeBaseView.xaml">
+    <Page Include="Views\ConfirmationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -198,6 +199,7 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Config\" />
     <Folder Include="Utils\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

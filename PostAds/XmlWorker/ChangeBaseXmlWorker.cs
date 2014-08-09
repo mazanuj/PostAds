@@ -42,13 +42,13 @@
             Doc.Save(XmlFilePath);
         }
 
-        public static void RemoveItemNode(string id, string m, string p, string u)
+        public static void RemoveItemNode(Item item)
         {
-            var item = Doc.XPathSelectElement(string.Format(ItemXPath, id, m, p, u));
+            var selectedItem = Doc.XPathSelectElement(string.Format(ItemXPath, item.Id, item.M, item.P, item.U));
 
-            if (item == null) return;
+            if (selectedItem == null) return;
 
-            item.Remove();
+            selectedItem.Remove();
 
             Doc.Save(XmlFilePath);
         }
