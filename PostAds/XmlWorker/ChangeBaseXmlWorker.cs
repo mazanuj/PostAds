@@ -1,5 +1,7 @@
 ﻿namespace Motorcycle.XmlWorker
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Xml.Linq;
     using System.Xml.XPath;
 
@@ -10,6 +12,8 @@
         private static readonly XDocument Doc = XDocument.Load(XmlFilePath);
 
         private const string ItemXPath = "//manufacture/item[@id='{0}' and @m='{1}' and @p='{2}' and @u='{3}']";
+
+        private const string XPathForGettingValues = "//manufacture/item[@id='{0}' and @m='{1}' and @p='{2}' and @u='{3}']/value";
 
         private const string ValueXPath = "//manufacture/item/value[@name='{0}' and text()='{1}']";
 
@@ -53,6 +57,27 @@
             Doc.Save(XmlFilePath);
         }
 
+        public static IEnumerable<Item> GetItemsWithTheirValues()
+        {
+            var items = (from e in Doc.Descendants("manufacture").Descendants("item")
+                         select new Item
+                         {
+                             Id = (string)e.Attribute("id"),
+                             M = (string)e.Attribute("m"),
+                             P = (string)e.Attribute("p"),
+                             U = (string)e.Attribute("u"),
+                             Values = e.Descendants("value")
+                                 .Select(r => new Value
+                                 {
+                                     Name = (string)r.Attribute("name"),
+                                     Val = r.Value
+                                 })
+                                 .ToList()
+                         }).ToList();
+
+            return items;
+        }
+
         #endregion
 
         #region Work with Value node
@@ -61,7 +86,7 @@
         {
             var ownerItem = Doc.XPathSelectElement(string.Format(ItemXPath, item.Id, item.M, item.P, item.U));
 
-            var val = new XElement("value", new XAttribute("name", value.Name)) {Value = value.Val};
+            var val = new XElement("value", new XAttribute("name", value.Name)) { Value = value.Val };
 
             ownerItem.Add(val);
 
@@ -114,6 +139,14 @@
             val.Remove();
 
             Doc.Save(XmlFilePath);
+        }
+
+        public static List<Value> GetValuesForItem(Item item)
+        {
+            var valueXElements = Doc.XPathSelectElements(
+                string.Format(XPathForGettingValues, item.Id, item.M, item.P, item.U));
+
+            return valueXElements.Select(valueXElement => new Value(valueXElement.Attribute("name").Value, valueXElement.Value)).ToList();
         }
         #endregion
     }

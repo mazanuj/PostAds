@@ -13,7 +13,7 @@
                 <TextBlock Text="HEADER" Background="Tomato" Height="50" DockPanel.Dock="Top"/>
 
 
-                <ListView Name="ItemCollection"  Width="300" DockPanel.Dock="Left">
+                <ListView Name="ItemCollection"  Width="300" DockPanel.Dock="Left" SelectionMode="Single">
                     <ListView.ItemContainerStyle >
                         <Style TargetType="ListBoxItem" >
                             <Setter Property="Tag" Value="{Binding Path=DataContext, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListView}}"/>
@@ -21,13 +21,19 @@
                                 <Setter.Value>
 
                                     <ContextMenu Name="cm" cal:Action.TargetWithoutContext="{Binding Path=PlacementTarget.Tag, RelativeSource={RelativeSource Self}}">
+
+                                        <MenuItem Header="Add new item" 
+                               cal:Message.Attach="[Event Click] = [Action AddNewItem()]">
+                                        </MenuItem>
+
+                                        <MenuItem Header="Change" 
+                               cal:Message.Attach="[Event Click] = [Action ChangeItem($dataContext)]">
+                                        </MenuItem>
+
                                         <MenuItem Header="Remove" 
                                cal:Message.Attach="[Event Click] = [Action RemoveItem($dataContext)]">
                                         </MenuItem>
 
-                                        <MenuItem Header="Add new" 
-                               cal:Message.Attach="[Event Click] = [Action AddNewItem()]">
-                                        </MenuItem>
                                     </ContextMenu>
                                     
                                 </Setter.Value>
@@ -44,20 +50,62 @@
                             <GridViewColumn Header="Used" DisplayMemberBinding="{Binding U}" Width="65"/>
                         </GridView>
                     </ListView.View>
+                    
+                    <ListView.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Add new item" 
+                               cal:Message.Attach="[Event Click] = [Action AddNewItem()]">
+                            </MenuItem>
+                        </ContextMenu>
+                    </ListView.ContextMenu>
 
                 </ListView>
 
 
                 <ListView  Name = "ValueCollection" Width="340" DockPanel.Dock="Right">
-                    <!--ContextMenuOpening="OnContextMenuOpening"-->
+
+                    <ListView.ItemContainerStyle >
+                        <Style TargetType="ListViewItem" >
+                            <Setter Property="Tag" Value="{Binding Path=DataContext, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListView}}"/>
+                            <Setter Property="ContextMenu">
+                                <Setter.Value>
+
+                                    <ContextMenu Name="cm" cal:Action.TargetWithoutContext="{Binding Path=PlacementTarget.Tag, RelativeSource={RelativeSource Self}}">
+
+                                        <MenuItem Header="Add new value" 
+                               cal:Message.Attach="[Event Click] = [Action AddNewValue()]">
+                                        </MenuItem>
+
+                                        <MenuItem Header="Change" 
+                               cal:Message.Attach="[Event Click] = [Action ChangeValue($dataContext)]">
+                                        </MenuItem>
+
+                                        <MenuItem Header="Remove" 
+                               cal:Message.Attach="[Event Click] = [Action RemoveValue($dataContext)]">
+                                        </MenuItem>
+
+                                    </ContextMenu>
+
+                                </Setter.Value>
+                            </Setter>
+
+                        </Style>
+                    </ListView.ItemContainerStyle>
+
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="Модель" DisplayMemberBinding="{Binding Name}" Width="270"/>
-                            <GridViewColumn Header="Motosale" DisplayMemberBinding="{Binding Price}"/>
-
-
+                            <GridViewColumn Header="Motosale" DisplayMemberBinding="{Binding Val}"/>
                         </GridView>
                     </ListView.View>
+                    
+                    <ListView.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Add new value" 
+                               cal:Message.Attach="[Event Click] = [Action AddNewValue()]">
+                            </MenuItem>
+                        </ContextMenu>
+                    </ListView.ContextMenu>
                 </ListView>
                 <Image/>
             </DockPanel>

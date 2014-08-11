@@ -72,6 +72,7 @@
     <Compile Include="Advertising.cs" />
     <Compile Include="Controls\Converters\BoolToColorConverter.cs" />
     <Compile Include="ViewModels\ChangeBaseViewModel.cs" />
+    <Compile Include="ViewModels\ConfirmationValueViewModel.cs" />
     <Compile Include="ViewModels\ConfirmationViewModel.cs" />
     <Compile Include="ViewModels\FrontPanelViewModel.cs" />
     <Compile Include="ViewModels\GeneralSettingsViewModel.cs" />
@@ -93,6 +94,9 @@
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="Views\ChangeBaseView.xaml.cs">
       <DependentUpon>ChangeBaseView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ConfirmationValueView.xaml.cs">
+      <DependentUpon>ConfirmationValueView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ConfirmationView.xaml.cs">
       <DependentUpon>ConfirmationView.xaml</DependentUpon>
@@ -118,8 +122,11 @@
     <Compile Include="XmlWorker\ChangeBaseXmlWorker.cs" />
     <Compile Include="XmlWorker\Item.cs" />
     <Compile Include="XmlWorker\Value.cs" />
-    <Compile Include="XmlWorker\XmlWorker.cs" />
     <Page Include="Views\ChangeBaseView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ConfirmationValueView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

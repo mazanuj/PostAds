@@ -115,7 +115,7 @@ namespace Motorcycle.ViewModels
         //    item.Click += ContextMenu_Click;
         //    contextMenu.Items.Add(item);
 
-        //    if (listView.SelectedItem != null)
+        //    if (listView.SelectedItemCollection != null)
         //    {
         //        var item1 = new MenuItem { Header = "Изменить" };
         //        var item2 = new MenuItem { Header = "Удалить" };
