@@ -8,17 +8,17 @@ namespace Motorcycle.Controls.Converters
 {
     public class BoolToColorConverter : IValueConverter
     {
-        private readonly Logger log = NLog.LogManager.GetCurrentClassLogger();
+        private readonly Logger log = LogManager.GetCurrentClassLogger();
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value == null)
             {
-                return new SolidColorBrush(Colors.Blue);
+                return new SolidColorBrush(Colors.Brown);
             }
 
             return System.Convert.ToBoolean(value) ?
-                new SolidColorBrush(Colors.Red)
-                : new SolidColorBrush(Colors.Aqua);
+                new SolidColorBrush(Colors.Green)
+                : new SolidColorBrush(Colors.Brown);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

@@ -21,6 +21,7 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <Button x:Name="ButtonStart" Grid.Row="0" Content="START" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Margin="10,10,10,50" Height="35"/>
                 <Button Content="Транспорт" x:Name="ButtonMoto" Grid.Row="1" Width="100" Height="25" HorizontalAlignment="Left" Margin="10"/>
@@ -29,6 +30,19 @@
                 <Label Background="{Binding SpareFileLabel, Converter={StaticResource BoolToColorConverter}}" Grid.Row="2" Width="20" Height="25" HorizontalAlignment="Left" Margin="120,10,10,10"/>
                 <Button Content="Экипировка" x:Name="ButtonEquip" Grid.Row="3" Width="100" Height="25" HorizontalAlignment="Left" Margin="10"/>
                 <Label Background="{Binding EquipFileLabel, Converter={StaticResource BoolToColorConverter}}" Grid.Row="3" Width="20" Height="25" HorizontalAlignment="Left" Margin="120,10,10,10"/>
+                <GroupBox Grid.Row="4" Margin="10,20,10,10" Padding="10">
+                    <GroupBox.Header>С какими сайтами работать?</GroupBox.Header>    
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <CheckBox x:Name="BoxMoto" Content="Motosale" Grid.Row="0"/>
+                        <CheckBox x:Name="BoxUsed" Content="UsedAvto" Grid.Row="1"/>
+                        <CheckBox x:Name="BoxKol" Content="Proday2Kolesa" Grid.Row="2"/>
+                    </Grid>
+                </GroupBox>
             </Grid>
         </Border>
             <ContentControl x:Name="LoggingControl" Grid.Column="1" Margin="20"/>

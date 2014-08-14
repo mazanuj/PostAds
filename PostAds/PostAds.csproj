@@ -69,7 +69,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AppBootstrapper.cs" />
-    <Compile Include="Advertising.cs" />
+    <Compile Include="Config\Advertising.cs" />
     <Compile Include="Config\Confirmation.xaml.cs">
       <DependentUpon>Confirmation.xaml</DependentUpon>
     </Compile>
@@ -82,12 +82,11 @@
     <Compile Include="Controls\Converters\LogItemFgColorConverter.cs" />
     <Compile Include="Controls\Log\MemoryEventTarget.cs" />
     <Compile Include="Controls\Log\MailSender.cs" />
-    <Compile Include="MotosaleData.cs" />
-    <Compile Include="Parameters.cs" />
+    <Compile Include="Config\Data\MotosaleData.cs" />
     <Compile Include="POST\Cookies.cs" />
     <Compile Include="POST\MultiFormData.cs" />
     <Compile Include="POST\PostMultiString.cs" />
-    <Compile Include="ReturnData.cs" />
+    <Compile Include="Config\Data\ReturnData.cs" />
     <Compile Include="Sites\MotoSale.cs" />
     <Compile Include="Sites\Proday2Kolesa.cs" />
     <Compile Include="Sites\UsedAuto.cs" />
@@ -144,8 +143,8 @@
     </Compile>
     <Compile Include="Captcha\CaptchaString.cs" />
     <Compile Include="Captcha\SolveCaptcha.cs" />
-    <Compile Include="DvaKolesaData.cs" />
-    <Compile Include="UsedAutoData.cs" />
+    <Compile Include="Config\Data\DvaKolesaData.cs" />
+    <Compile Include="Config\Data\UsedAutoData.cs" />
     <Compile Include="HTTP\Request.cs" />
     <Compile Include="HTTP\Response.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />

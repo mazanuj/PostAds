@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Motorcycle
+namespace Motorcycle.Config.Data
 {
     class MotosaleData
     {
@@ -14,7 +14,7 @@ namespace Motorcycle
                 {"phone", data[2]},
                 {"header", data[3]},
                 {"type_obj", "1"},//Sell|Buy
-                {"model", Parameters.GetManufacture("motosale",data[4])},//Proizvoditel'
+                {"model", ""},//Parameters.GetManufacture("motosale",data[4])},//Proizvoditel'
                 {"manufactured_model", "41"},//Model
                 {"custom_model", ""},
                 {"docum", "1"},

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Motorcycle
+namespace Motorcycle.Config.Data
 {
     static class DvaKolesaData
     {
