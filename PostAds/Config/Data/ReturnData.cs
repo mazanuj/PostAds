@@ -1,18 +1,22 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Windows.Documents;
 
 namespace Motorcycle.Config.Data
 {
-    struct ReturnData
+    internal static class ReturnData
     {
-        private readonly Dictionary<string, string> _dataDictionary, _filesDictionary;
-
-        internal ReturnData(Dictionary<string, string> data, Dictionary<string, string> files)
+        internal static List<Dictionary<string, string>> Moto(List<string> list, IList<byte> flag)
         {
-            _dataDictionary = data;
-            _filesDictionary = files;
+            if (flag[0] == 1)
+            {
+                var motoData = new List<Dictionary<string, string>>();
+                foreach (var row in list)
+                {
+                    var t = MotosaleData.GetData(new List<string>(row.Split('\t')));
+                    motoData.Add(t);
+                }
+            }
         }
-
-        internal Dictionary<string, string> GetData { get { return _dataDictionary; } }
-        internal Dictionary<string, string> GetFiles { get { return _filesDictionary; } }
     }
 }
