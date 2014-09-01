@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 namespace Motorcycle.ViewModels
 {
@@ -5,14 +6,28 @@ namespace Motorcycle.ViewModels
     using Motorcycle.XmlWorker;
     using System.Collections.ObjectModel;
     using System.ComponentModel.Composition;
+=======
+﻿using Caliburn.Micro;
+using System.Collections.ObjectModel;
+using System.ComponentModel.Composition;
+﻿using NLog;
 
-    [Export(typeof(ChangeBaseViewModel))]
+namespace Motorcycle.ViewModels
+{
+    using XmlWorker;
+>>>>>>> mazanuj
+
+    [Export(typeof (ChangeBaseViewModel))]
     public class ChangeBaseViewModel : PropertyChangedBase
     {
+<<<<<<< HEAD
         private readonly IWindowManager _windowManager;
 
         private Item _selectedItemCollection;
 
+=======
+        private readonly Logger log = NLog.LogManager.GetCurrentClassLogger();
+>>>>>>> mazanuj
         public ObservableCollection<Item> ItemCollection { get; private set; }
 
         public ObservableCollection<Value> ValueCollection { get; private set; }
@@ -31,6 +46,7 @@ namespace Motorcycle.ViewModels
 
         public Item SelectedItemCollection
         {
+<<<<<<< HEAD
             get
             {
                 return this._selectedItemCollection;
@@ -109,6 +125,13 @@ namespace Motorcycle.ViewModels
                 this.RefreshItemList();
             }
         }
+=======
+            get { return selectedItem; }
+            set
+            {
+                selectedItem = value;
+                //NotifyOfPropertyChange("SelectedItem");
+>>>>>>> mazanuj
 
         private void ShowConfirmationValueDialog(Item currentItem, Value currentValue)
         {
@@ -122,6 +145,7 @@ namespace Motorcycle.ViewModels
             }
         }
 
+<<<<<<< HEAD
         private void GetItemsFromXmlFile()
         {
             foreach (var item in ChangeBaseXmlWorker.GetItemsWithTheirValues())
@@ -137,6 +161,9 @@ namespace Motorcycle.ViewModels
                 this.ValueCollection.Clear();
 
                 foreach (var val in ChangeBaseXmlWorker.GetValuesForItem(_selectedItemCollection))
+=======
+                foreach (var val in selectedItem.Values)
+>>>>>>> mazanuj
                 {
                     this.ValueCollection.Add(val);
                 }

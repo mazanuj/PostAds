@@ -1,6 +1,0 @@
-﻿namespace Motorcycle
-{
-    class Advertising
-    {
-    }
-}
