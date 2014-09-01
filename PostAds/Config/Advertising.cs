@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.IO;
+using Motorcycle.Config.Data;
 using NLog;
 
 namespace Motorcycle.Config
@@ -12,23 +14,18 @@ namespace Motorcycle.Config
 
         internal static void Initialize(string motoFile, string spareFile, string equipFile, byte[] flag)
         {
-            if (motoFile != null) motoList = new List<Dictionary<string, string>>(Moto(motoFile));
+            if (motoFile != null) motoList = new List<Dictionary<string, string>>(Moto(motoFile, flag));
             if (spareFile != null) spareList = new List<Dictionary<string, string>>(Spare(spareFile));
             if (equipFile != null) equipList = new List<Dictionary<string, string>>(Equip(equipFile));
-
-            StartPosting(flag);
         }
 
-        private static void StartPosting(byte[] flag)
+        private static IEnumerable<Dictionary<string, string>> Moto(string motoFile, IList<byte> flag)
         {
-            if (flag[0] == 1)
-            {
-                
-            }
-        }
+            var filePerLine = new List<string>(File.ReadAllLines(motoFile));
+            var dictionaryForSites = new List<List<Dictionary<string, string>>>[3];
 
-        private static IEnumerable<Dictionary<string, string>> Moto(string motoFile)
-        {
+            ReturnData.Moto(filePerLine, flag);
+
             return null;
         }
 

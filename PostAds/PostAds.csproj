@@ -69,7 +69,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AppBootstrapper.cs" />
-    <Compile Include="Advertising.cs" />
     <Compile Include="Config\Advertising.cs" />
     <Compile Include="Config\Confirmation.xaml.cs">
       <DependentUpon>Confirmation.xaml</DependentUpon>
