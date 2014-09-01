@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Motorcycle.Captcha;
-using Motorcycle.Config;
 using Motorcycle.HTTP;
 using Motorcycle.POST;
 

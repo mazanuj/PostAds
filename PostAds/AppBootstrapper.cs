@@ -57,5 +57,6 @@ namespace Motorcycle
         {
             DisplayRootViewFor<MainViewModel>();
         }
+
     }
 }
