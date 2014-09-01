@@ -74,6 +74,10 @@
     <Compile Include="Config\Confirmation.xaml.cs">
       <DependentUpon>Confirmation.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Config\Data\DicHolder.cs" />
+    <Compile Include="Config\Data\InfoHolder.cs" />
+    <Compile Include="Config\Data\ProductEnum.cs" />
+    <Compile Include="Config\Data\SiteEnum.cs" />
     <Compile Include="Controls\Converters\BoolToColorConverter.cs" />
     <Compile Include="ViewModels\ChangeBaseViewModel.cs" />
     <Compile Include="ViewModels\ConfirmationValueViewModel.cs" />
@@ -209,7 +213,6 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Config\" />
     <Folder Include="Utils\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
