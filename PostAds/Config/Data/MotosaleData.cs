@@ -4,32 +4,85 @@ namespace Motorcycle.Config.Data
 {
     internal static class MotosaleData
     {
-        internal static List<Dictionary<string, string>> GetData(List<string> data)
+        internal static DicHolder GetMoto(string row)
         {
-            #region motosale
+            var data = row.Split('\t');
 
-            var dataMotoSale = new Dictionary<string, string>
+            return new DicHolder
             {
-                {"name", data[0]},
-                {"mail", data[1]},
-                {"phone", data[2]},
-                {"header", data[3]},
-                {"type_obj", "1"}, //Sell|Buy
-                {"model", ""}, //Parameters.GetManufacture("motosale",data[4])},//Proizvoditel'
-                {"manufactured_model", "41"}, //Model
-                {"custom_model", ""},
-                {"docum", "1"},
-                {"fConfirmationCode", "3582"},
-                {"insert", ""}
+                DataDictionary = new Dictionary<string, string>
+                {
+                    {"name", data[0]},
+                    {"mail", data[1]},
+                    {"phone", data[2]},
+                    {"header", data[3]},
+                    {"type_obj", "1"}, //Sell|Buy
+                    {"model", ""}, //Parameters.GetManufacture("motosale",data[4])},//Proizvoditel'
+                    {"manufactured_model", "41"}, //Model
+                    {"custom_model", ""},
+                    {"docum", "1"},
+                    {"fConfirmationCode", "3582"},
+                    {"insert", ""}
+                },
+                FileDictionary = new Dictionary<string, string>
+                {
+                    {"filename", "virginia.jpg"}
+                }
             };
-            var filesMotoSale = new Dictionary<string, string>
+        }
+
+        internal static DicHolder GetSpare(string row)
+        {
+            var data = row.Split('\t');
+
+            return new DicHolder
             {
-                {"filename", "virginia.jpg"}
+                DataDictionary = new Dictionary<string, string>
+                {
+                    {"name", data[0]},
+                    {"mail", data[1]},
+                    {"phone", data[2]},
+                    {"header", data[3]},
+                    {"type_obj", "1"}, //Sell|Buy
+                    {"model", ""}, //Parameters.GetManufacture("motosale",data[4])},//Proizvoditel'
+                    {"manufactured_model", "41"}, //Model
+                    {"custom_model", ""},
+                    {"docum", "1"},
+                    {"fConfirmationCode", "3582"},
+                    {"insert", ""}
+                },
+                FileDictionary = new Dictionary<string, string>
+                {
+                    {"filename", "virginia.jpg"}
+                }
             };
+        }
 
-            #endregion
+        internal static DicHolder GetEquip(string row)
+        {
+            var data = row.Split('\t');
 
-            return null;
+            return new DicHolder
+            {
+                DataDictionary = new Dictionary<string, string>
+                {
+                    {"name", data[0]},
+                    {"mail", data[1]},
+                    {"phone", data[2]},
+                    {"header", data[3]},
+                    {"type_obj", "1"}, //Sell|Buy
+                    {"model", ""}, //Parameters.GetManufacture("motosale",data[4])},//Proizvoditel'
+                    {"manufactured_model", "41"}, //Model
+                    {"custom_model", ""},
+                    {"docum", "1"},
+                    {"fConfirmationCode", "3582"},
+                    {"insert", ""}
+                },
+                FileDictionary = new Dictionary<string, string>
+                {
+                    {"filename", "virginia.jpg"}
+                }
+            };
         }
     }
 }

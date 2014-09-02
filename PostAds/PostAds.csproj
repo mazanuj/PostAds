@@ -70,13 +70,7 @@
     </ApplicationDefinition>
     <Compile Include="AppBootstrapper.cs" />
     <Compile Include="Config\Advertising.cs" />
-    <Compile Include="Config\Confirmation.xaml.cs">
-      <DependentUpon>Confirmation.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Config\Data\DicHolder.cs" />
     <Compile Include="Config\Data\InfoHolder.cs" />
-    <Compile Include="Config\Data\ProductEnum.cs" />
-    <Compile Include="Config\Data\SiteEnum.cs" />
     <Compile Include="Controls\Converters\BoolToColorConverter.cs" />
     <Compile Include="ViewModels\ChangeBaseViewModel.cs" />
     <Compile Include="ViewModels\ConfirmationValueViewModel.cs" />
