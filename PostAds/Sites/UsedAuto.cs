@@ -36,7 +36,6 @@ namespace Motorcycle.Sites
 
             //Post advert's data            
             var responseByte = new WebClient().UploadValues(url,"POST", valueCollection);
-// ReSharper disable once UnusedVariable
             var responseString = Encoding.Default.GetString(responseByte);
         }
     }

@@ -4,6 +4,10 @@ namespace Motorcycle.Config.Data
 {
     public class InfoHolder
     {
+        public InfoHolder()
+        {
+            Data = new List<DicHolder>();
+        }
         public SiteEnum Site { get; set; }
 
         public ProductEnum Type { get; set; }

@@ -6,15 +6,13 @@ namespace Motorcycle.XmlWorker
     using System.Xml.Linq;
     using System.Xml.XPath;
 
-    class CaptchaXmlWorker
+    static class CaptchaXmlWorker
     {
         private const string XmlFilePath = "Main.config";
 
         private static readonly XDocument Doc = XDocument.Load(XmlFilePath);
 
         private const string ItemXPath = "//city/item[text() = '{0}']";
-
-
 
         public static void AddNewCaptchaNode(string domain, string key)
         {
@@ -62,9 +60,7 @@ namespace Motorcycle.XmlWorker
         public static string GetCaptchaValues(string element)
         {
             var att = (IEnumerable)Doc.XPathEvaluate(string.Format("//captcha/{0}", element));
-
             var firstOrDefault = att.Cast<XElement>().FirstOrDefault();
-
             return firstOrDefault != null ? firstOrDefault.Value : "";
         }
     }

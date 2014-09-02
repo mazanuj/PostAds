@@ -2,6 +2,7 @@
 using Motorcycle.Captcha;
 using Motorcycle.HTTP;
 using Motorcycle.POST;
+using Motorcycle.XmlWorker;
 
 namespace Motorcycle.Sites
 {
@@ -61,7 +62,8 @@ namespace Motorcycle.Sites
 
             //Get captcha result
             CaptchaString.GetCaptchaImage(captchaUrl);
-            var captcha = CaptchaString.GetCaptchaString(/*GetSettings.GetCaptcha(*/"key"/*)*/, "captcha.jpg", /*GetSettings.GetCaptcha(*/"domain"/*)*/);
+            var captcha = CaptchaString.GetCaptchaString(CaptchaXmlWorker.GetCaptchaValues("key"), "captcha.jpg",
+                CaptchaXmlWorker.GetCaptchaValues("domain"));
 
             //Send captcha request
             var captchaDictionary = new Dictionary<string, string>
@@ -77,7 +79,6 @@ namespace Motorcycle.Sites
             request = Request.POSTRequest(url, cookieContainer, captchaDictionary, null);
             request.Referer = string.Format("http://proday2kolesa.com.ua/component/option,{0}/task,publish/id,{1}/error,0/Itemid,{2}/",
                     data2kolesa["option"], id, Itemid);
-// ReSharper disable once RedundantAssignment
             responseString = Response.GetResponseString(request);
             request.Abort();
         }        
