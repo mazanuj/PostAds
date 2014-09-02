@@ -1,11 +1,12 @@
 ﻿namespace Motorcycle.XmlWorker
 {
+    using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
     using System.Xml.Linq;
     using System.Xml.XPath;
 
-    internal class ChangeBaseXmlWorker
+    internal class ManufactureXmlWorker
     {
         private const string XmlFilePath = "Main.config";
 
@@ -32,7 +33,7 @@
             Doc.Save(XmlFilePath);
         }
 
-        public static void ChangeItemNode(Item oldItem, Item newItem)
+        public static void ChangeItemNode(ManufactureItem oldItem, ManufactureItem newItem)
         {
             var item = Doc.XPathSelectElement(string.Format(ItemXPath, oldItem.Id, oldItem.M, oldItem.P, oldItem.U));
 
@@ -46,7 +47,7 @@
             Doc.Save(XmlFilePath);
         }
 
-        public static void RemoveItemNode(Item item)
+        public static void RemoveItemNode(ManufactureItem item)
         {
             var selectedItem = Doc.XPathSelectElement(string.Format(ItemXPath, item.Id, item.M, item.P, item.U));
 
@@ -57,17 +58,17 @@
             Doc.Save(XmlFilePath);
         }
 
-        public static IEnumerable<Item> GetItemsWithTheirValues()
+        public static IEnumerable<ManufactureItem> GetItemsWithTheirValues()
         {
             var items = (from e in Doc.Descendants("manufacture").Descendants("item")
-                         select new Item
+                         select new ManufactureItem
                          {
                              Id = (string)e.Attribute("id"),
                              M = (string)e.Attribute("m"),
                              P = (string)e.Attribute("p"),
                              U = (string)e.Attribute("u"),
                              Values = e.Descendants("value")
-                                 .Select(r => new Value
+                                 .Select(r => new ManufactureValue
                                  {
                                      Name = (string)r.Attribute("name"),
                                      Val = r.Value
@@ -78,11 +79,20 @@
             return items;
         }
 
+        public static string GetItemSiteValueUsingPlant(string itemId, string site)
+        {
+            var att = (IEnumerable)Doc.XPathEvaluate(string.Format("//manufacture/item[@id='{0}']/@{1}", itemId, site));
+
+            var firstOrDefault = att.Cast<XAttribute>().FirstOrDefault();
+
+            return firstOrDefault != null ? firstOrDefault.Value : "";
+        }
+
         #endregion
 
         #region Work with Value node
 
-        public static void AddNewValueNode(Item item, Value value)
+        public static void AddNewValueNode(ManufactureItem item, ManufactureValue value)
         {
             var ownerItem = Doc.XPathSelectElement(string.Format(ItemXPath, item.Id, item.M, item.P, item.U));
 
@@ -105,7 +115,7 @@
             Doc.Save(XmlFilePath);
         }
 
-        public static void ChangeValueNodeUsingItemNode(Item item, Value oldValue, Value newValue)
+        public static void ChangeValueNodeUsingItemNode(ManufactureItem item, ManufactureValue oldValue, ManufactureValue newValue)
         {
             var value = Doc.XPathSelectElement(string.Format(ValueXPathWithItemParams, item.Id, item.M, item.P, item.U,
                 oldValue.Name, oldValue.Val));
@@ -129,7 +139,7 @@
             Doc.Save(XmlFilePath);
         }
 
-        public static void RemoveValueNodeUsingItemNode(Item item, Value value)
+        public static void RemoveValueNodeUsingItemNode(ManufactureItem item, ManufactureValue value)
         {
             var val = Doc.XPathSelectElement(string.Format(ValueXPathWithItemParams, item.Id, item.M, item.P, item.U,
                 value.Name, value.Val));
@@ -141,12 +151,12 @@
             Doc.Save(XmlFilePath);
         }
 
-        public static List<Value> GetValuesForItem(Item item)
+        public static List<ManufactureValue> GetValuesForItem(ManufactureItem item)
         {
             var valueXElements = Doc.XPathSelectElements(
                 string.Format(XPathForGettingValues, item.Id, item.M, item.P, item.U));
 
-            return valueXElements.Select(valueXElement => new Value(valueXElement.Attribute("name").Value, valueXElement.Value)).ToList();
+            return valueXElements.Select(valueXElement => new ManufactureValue(valueXElement.Attribute("name").Value, valueXElement.Value)).ToList();
         }
         #endregion
     }

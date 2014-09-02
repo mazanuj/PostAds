@@ -11,8 +11,8 @@ namespace Motorcycle.ViewModels
     {
         private readonly bool _isInEditMode;
 
-        private readonly Item _currentItem;
-        private readonly Value _currentValue;
+        private readonly ManufactureItem _currentItem;
+        private readonly ManufactureValue _currentValue;
 
         public string Name { get; set; }
         public string Val { get; set; }
@@ -20,7 +20,7 @@ namespace Motorcycle.ViewModels
         public bool IsOkay { get; set; }
 
         [ImportingConstructor]
-        public ConfirmationValueViewModel(Item currentItem, Value currentValue)
+        public ConfirmationValueViewModel(ManufactureItem currentItem, ManufactureValue currentValue)
         {
             this._currentItem = currentItem;
 
@@ -49,7 +49,7 @@ namespace Motorcycle.ViewModels
             }
             else
             {
-                ChangeBaseXmlWorker.AddNewValueNode(_currentItem, new Value(Name, Val));
+                ManufactureXmlWorker.AddNewValueNode(_currentItem, new ManufactureValue(Name, Val));
             }
 
             IsOkay = true;
@@ -70,8 +70,8 @@ namespace Motorcycle.ViewModels
 
         private void ChangeCurrentValueNode()
         {
-            var newValue = new Value(Name, Val);
-            ChangeBaseXmlWorker.ChangeValueNodeUsingItemNode(_currentItem, _currentValue, newValue);
+            var newValue = new ManufactureValue(Name, Val);
+            ManufactureXmlWorker.ChangeValueNodeUsingItemNode(_currentItem, _currentValue, newValue);
         }
     }
 }

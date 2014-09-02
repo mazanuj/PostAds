@@ -11,25 +11,25 @@ namespace Motorcycle.ViewModels
     {
         private readonly IWindowManager _windowManager;
 
-        private Item _selectedItemCollection;
+        private ManufactureItem _selectedItemCollection;
 
-        public ObservableCollection<Item> ItemCollection { get; private set; }
+        public ObservableCollection<ManufactureItem> ItemCollection { get; private set; }
 
-        public ObservableCollection<Value> ValueCollection { get; private set; }
+        public ObservableCollection<ManufactureValue> ValueCollection { get; private set; }
 
         [ImportingConstructor]
         public ChangeBaseViewModel(IWindowManager windowManager)
         {
             _windowManager = windowManager;
 
-            ItemCollection = new ObservableCollection<Item>();
+            ItemCollection = new ObservableCollection<ManufactureItem>();
 
             this.GetItemsFromXmlFile();
 
-            ValueCollection = new ObservableCollection<Value>();
+            ValueCollection = new ObservableCollection<ManufactureValue>();
         }
 
-        public Item SelectedItemCollection
+        public ManufactureItem SelectedItemCollection
         {
             get
             {
@@ -46,9 +46,9 @@ namespace Motorcycle.ViewModels
 
         #region Item's context menu methods
 
-        public void RemoveItem(Item item)
+        public void RemoveItem(ManufactureItem item)
         {
-            ChangeBaseXmlWorker.RemoveItemNode(item);
+            ManufactureXmlWorker.RemoveItemNode(item);
 
             this.ValueCollection.Clear();
             this.RefreshItemList();
@@ -59,7 +59,7 @@ namespace Motorcycle.ViewModels
             this.ShowConfirmationItemDialog(null);
         }
 
-        public void ChangeItem(Item item)
+        public void ChangeItem(ManufactureItem item)
         {
             this.ShowConfirmationItemDialog(item);
         }
@@ -68,9 +68,9 @@ namespace Motorcycle.ViewModels
 
         #region Value's context menu methods
 
-        public void RemoveValue(Value value)
+        public void RemoveValue(ManufactureValue value)
         {
-            ChangeBaseXmlWorker.RemoveValueNodeUsingItemNode(_selectedItemCollection, value);
+            ManufactureXmlWorker.RemoveValueNodeUsingItemNode(_selectedItemCollection, value);
 
             this.GetValuesForItem();
         }
@@ -82,7 +82,7 @@ namespace Motorcycle.ViewModels
             this.ShowConfirmationValueDialog(_selectedItemCollection, null);
         }
 
-        public void ChangeValue(Value value)
+        public void ChangeValue(ManufactureValue value)
         {
             this.ShowConfirmationValueDialog(_selectedItemCollection, value);
         }
@@ -98,7 +98,7 @@ namespace Motorcycle.ViewModels
             this.GetItemsFromXmlFile();
         }
 
-        private void ShowConfirmationItemDialog(Item currentItem)
+        private void ShowConfirmationItemDialog(ManufactureItem currentItem)
         {
             var confirmationViewModel = new ConfirmationViewModel(currentItem);
 
@@ -110,7 +110,7 @@ namespace Motorcycle.ViewModels
             }
         }
 
-        private void ShowConfirmationValueDialog(Item currentItem, Value currentValue)
+        private void ShowConfirmationValueDialog(ManufactureItem currentItem, ManufactureValue currentValue)
         {
             var confirmationValueViewModel = new ConfirmationValueViewModel(currentItem, currentValue);
 
@@ -124,7 +124,7 @@ namespace Motorcycle.ViewModels
 
         private void GetItemsFromXmlFile()
         {
-            foreach (var item in ChangeBaseXmlWorker.GetItemsWithTheirValues())
+            foreach (var item in ManufactureXmlWorker.GetItemsWithTheirValues())
             {
                 this.ItemCollection.Add(item);
             }
@@ -136,7 +136,7 @@ namespace Motorcycle.ViewModels
             {
                 this.ValueCollection.Clear();
 
-                foreach (var val in ChangeBaseXmlWorker.GetValuesForItem(_selectedItemCollection))
+                foreach (var val in ManufactureXmlWorker.GetValuesForItem(_selectedItemCollection))
                 {
                     this.ValueCollection.Add(val);
                 }
