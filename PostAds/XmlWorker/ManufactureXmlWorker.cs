@@ -27,7 +27,7 @@
         {
             var manufacture = Doc.XPathSelectElement("//manufacture");
 
-            manufacture.Add(new XElement("item", new XAttribute("id", id), new XAttribute("m", m),
+            manufacture.Add(new XElement("item", new XAttribute("id", id.ToLower()), new XAttribute("m", m),
                 new XAttribute("p", p), new XAttribute("u", u)));
 
             Doc.Save(XmlFilePath);
@@ -39,7 +39,7 @@
 
             if (item == null) return;
 
-            item.Attribute("id").Value = newItem.Id;
+            item.Attribute("id").Value = newItem.Id.ToLower();
             item.Attribute("m").Value = newItem.M;
             item.Attribute("p").Value = newItem.P;
             item.Attribute("u").Value = newItem.U;
@@ -81,9 +81,18 @@
 
         public static string GetItemSiteValueUsingPlant(string itemId, string site)
         {
-            var att = (IEnumerable)Doc.XPathEvaluate(string.Format("//manufacture/item[@id='{0}']/@{1}", itemId, site));
+            var att = (IEnumerable)Doc.XPathEvaluate(string.Format("//manufacture/item[@id='{0}']/@{1}", itemId.ToLower(), site.ToLower()));
 
             var firstOrDefault = att.Cast<XAttribute>().FirstOrDefault();
+
+            return firstOrDefault != null ? firstOrDefault.Value : "";
+        }
+
+        public static string GetItemValueUsingPlantAndName(string itemId, string name)
+        {
+            var att = (IEnumerable)Doc.XPathEvaluate(string.Format("//manufacture/item[@id = '{0}']/value[@name = '{1}']", itemId.ToLower(), name.ToLower()));
+
+            var firstOrDefault = att.Cast<XElement>().FirstOrDefault();
 
             return firstOrDefault != null ? firstOrDefault.Value : "";
         }
@@ -96,7 +105,7 @@
         {
             var ownerItem = Doc.XPathSelectElement(string.Format(ItemXPath, item.Id, item.M, item.P, item.U));
 
-            var val = new XElement("value", new XAttribute("name", value.Name)) { Value = value.Val };
+            var val = new XElement("value", new XAttribute("name", value.Name.ToLower())) { Value = value.Val };
 
             ownerItem.Add(val);
 
@@ -109,7 +118,7 @@
 
             if (value == null) return;
 
-            value.Attribute("name").Value = newName;
+            value.Attribute("name").Value = newName.ToLower();
             value.Value = newValue;
 
             Doc.Save(XmlFilePath);
@@ -122,7 +131,7 @@
 
             if (value == null) return;
 
-            value.Attribute("name").Value = newValue.Name;
+            value.Attribute("name").Value = newValue.Name.ToLower();
             value.Value = newValue.Val;
 
             Doc.Save(XmlFilePath);

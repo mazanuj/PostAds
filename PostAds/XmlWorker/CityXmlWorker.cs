@@ -17,7 +17,7 @@ namespace Motorcycle.XmlWorker
 
             var element = new XElement("item", new XAttribute("m", m), new XAttribute("p", p), new XAttribute("u", u))
             {
-                Value = cityName
+                Value = cityName.ToLower()
             };
             city.Add(element);
             Doc.Save(XmlFilePath);
@@ -25,13 +25,13 @@ namespace Motorcycle.XmlWorker
 
         public static void ChangeItemNode(string oldCityName, CityItem newItem)
         {
-            var item = Doc.XPathSelectElement(string.Format(ItemXPath, oldCityName));
+            var item = Doc.XPathSelectElement(string.Format(ItemXPath, oldCityName.ToLower()));
             if (item == null) return;
 
             item.Attribute("m").Value = newItem.M;
             item.Attribute("p").Value = newItem.P;
             item.Attribute("u").Value = newItem.U;
-            item.Value = newItem.CityName;
+            item.Value = newItem.CityName.ToLower();
 
             Doc.Save(XmlFilePath);
         }
@@ -46,7 +46,7 @@ namespace Motorcycle.XmlWorker
 
         public static string GetItemSiteValueUsingCity(string city, string site)
         {
-            var att = (IEnumerable) Doc.XPathEvaluate(string.Format("//city/item[text() = '{0}']/@{1}", city, site));
+            var att = (IEnumerable) Doc.XPathEvaluate(string.Format("//city/item[text() = '{0}']/@{1}", city.ToLower(), site.ToLower()));
             var firstOrDefault = att.Cast<XAttribute>().FirstOrDefault();
 
             return firstOrDefault != null ? firstOrDefault.Value : "";
