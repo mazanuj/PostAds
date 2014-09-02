@@ -2,9 +2,9 @@
 
 namespace Motorcycle.Config.Data
 {
-    internal static class MotosaleData
+    internal class MotosaleData : ISiteData
     {
-        internal static DicHolder GetMoto(string row)
+        public DicHolder GetMoto(string row)
         {
             var data = row.Split('\t');
 
@@ -35,7 +35,7 @@ namespace Motorcycle.Config.Data
             };
         }
 
-        internal static DicHolder GetSpare(string row)
+        public DicHolder GetSpare(string row)
         {
             var data = row.Split('\t');
 
@@ -52,7 +52,7 @@ namespace Motorcycle.Config.Data
             };
         }
 
-        internal static DicHolder GetEquip(string row)
+        public DicHolder GetEquip(string row)
         {
             var data = row.Split('\t');
 

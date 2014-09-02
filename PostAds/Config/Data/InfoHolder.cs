@@ -9,6 +9,11 @@ namespace Motorcycle.Config.Data
         public ProductEnum Type { get; set; }
 
         public List<DicHolder> Data { get; set; }
+
+        public InfoHolder()
+        {
+            Data = new List<DicHolder>();
+        }
     }
 
     public class DicHolder
