@@ -1,12 +1,12 @@
 ﻿namespace Motorcycle.XmlWorker
 {
-    public class Value
+    public class ManufactureValue
     {
-        public Value()
+        public ManufactureValue()
         {
         }
 
-        public Value(string name, string val)
+        public ManufactureValue(string name, string val)
         {
 
             Name = name;

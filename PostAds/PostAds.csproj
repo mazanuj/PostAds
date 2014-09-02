@@ -119,9 +119,12 @@
     <Compile Include="Views\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="XmlWorker\ChangeBaseXmlWorker.cs" />
-    <Compile Include="XmlWorker\Item.cs" />
-    <Compile Include="XmlWorker\Value.cs" />
+    <Compile Include="XmlWorker\CaptchaXmlWorker.cs" />
+    <Compile Include="XmlWorker\CityItem.cs" />
+    <Compile Include="XmlWorker\CityXmlWorker.cs" />
+    <Compile Include="XmlWorker\ManufactureXmlWorker.cs" />
+    <Compile Include="XmlWorker\ManufactureItem.cs" />
+    <Compile Include="XmlWorker\ManufactureValue.cs" />
     <Page Include="Views\ChangeBaseView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

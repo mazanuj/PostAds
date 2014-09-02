@@ -2,20 +2,20 @@
 {
     using System.Collections.Generic;
 
-    public class Item
+    public class ManufactureItem
     {
-        public Item()
+        public ManufactureItem()
         {
         }
 
-        public Item(string id, string m, string p, string u)
+        public ManufactureItem(string id, string m, string p, string u)
         {
             Id = id;
             M = m;
             P = p;
             U = u;
 
-            Values = new List<Value>();
+            Values = new List<ManufactureValue>();
         }
 
         public string Id { get; set; }
@@ -23,6 +23,6 @@
         public string P { get; set; }
         public string U { get; set; }
 
-        public List<Value> Values { get; set; }
+        public List<ManufactureValue> Values { get; set; }
     }
 }
