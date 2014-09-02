@@ -5,163 +5,72 @@ namespace Motorcycle.Config.Data
 {
     internal static class ReturnData
     {
-        private static readonly List<InfoHolder> returnDataHolders = new List<InfoHolder>();
+        private static readonly List<InfoHolder> ReturnDataHolders = new List<InfoHolder>();
 
-        internal static List<InfoHolder> GetData(string motoFile, string spareFile, string equipFile, byte[] flag)
+        private static string motoFile;
+        private static string spareFile;
+        private static string equipFile;
+
+        internal static List<InfoHolder> GetData(string motofile, string sparefile, string equipfile, byte[] flag)
         {
-            //Проверка сайтов для постинга
+            motoFile = motofile;
+            spareFile = sparefile;
+            equipFile = equipfile;
+
+            ////Проверка сайтов для постинга
 
             //MotoSale
             if (flag[0] == 1)
             {
-                if (motoFile != null)
-                {
-                    var listFile = new List<string>(File.ReadAllLines(motoFile));
-                    var infoHolder = new InfoHolder
-                    {
-                        Site = SiteEnum.MotoSale,
-                        Type = ProductEnum.Motorcycle
-                    };
-
-                    foreach (var row in listFile)
-                    {
-                        infoHolder.Data.Add(MotosaleData.GetMoto(row));
-                    }
-                    returnDataHolders.Add(infoHolder);
-                }
-                if (spareFile != null)
-                {
-                    var listFile = new List<string>(File.ReadAllLines(spareFile));
-                    var infoHolder = new InfoHolder
-                    {
-                        Site = SiteEnum.MotoSale,
-                        Type = ProductEnum.Spare
-                    };
-
-                    foreach (var row in listFile)
-                    {
-                        infoHolder.Data.Add(MotosaleData.GetSpare(row));
-                    }
-                    returnDataHolders.Add(infoHolder);
-                }
-                if (equipFile != null)
-                {
-                    var listFile = new List<string>(File.ReadAllLines(equipFile));
-                    var infoHolder = new InfoHolder
-                    {
-                        Site = SiteEnum.MotoSale,
-                        Type = ProductEnum.Equip
-                    };
-
-                    foreach (var row in listFile)
-                    {
-                        infoHolder.Data.Add(MotosaleData.GetEquip(row));
-                    }
-                    returnDataHolders.Add(infoHolder);
-                }
+                OrganizeWorkWithDifferentFiles(SiteEnum.MotoSale);
             }
 
             //UsedAuto
             if (flag[1] == 1)
             {
-                if (motoFile != null)
-                {
-                    var listFile = new List<string>(File.ReadAllLines(motoFile));
-                    var infoHolder = new InfoHolder
-                    {
-                        Site = SiteEnum.UsedAuto,
-                        Type = ProductEnum.Motorcycle
-                    };
-
-                    foreach (var row in listFile)
-                    {
-                        infoHolder.Data.Add(UsedAutoData.GetMoto(row));
-                    }
-                    returnDataHolders.Add(infoHolder);
-                }
-                if (spareFile != null)
-                {
-                    var listFile = new List<string>(File.ReadAllLines(spareFile));
-                    var infoHolder = new InfoHolder
-                    {
-                        Site = SiteEnum.UsedAuto,
-                        Type = ProductEnum.Spare
-                    };
-
-                    foreach (var row in listFile)
-                    {
-                        infoHolder.Data.Add(UsedAutoData.GetSpare(row));
-                    }
-                    returnDataHolders.Add(infoHolder);
-                }
-                if (equipFile != null)
-                {
-                    var listFile = new List<string>(File.ReadAllLines(equipFile));
-                    var infoHolder = new InfoHolder
-                    {
-                        Site = SiteEnum.UsedAuto,
-                        Type = ProductEnum.Equip
-                    };
-
-                    foreach (var row in listFile)
-                    {
-                        infoHolder.Data.Add(UsedAutoData.GetEquip(row));
-                    }
-                    returnDataHolders.Add(infoHolder);
-                }
+                OrganizeWorkWithDifferentFiles(SiteEnum.UsedAuto);
             }
 
             //ProdayDvaKolesa
             if (flag[2] == 1)
             {
-                if (motoFile != null)
-                {
-                    var listFile = new List<string>(File.ReadAllLines(motoFile));
-                    var infoHolder = new InfoHolder
-                    {
-                        Site = SiteEnum.Proday2Kolesa,
-                        Type = ProductEnum.Motorcycle
-                    };
-
-                    foreach (var row in listFile)
-                    {
-                        infoHolder.Data.Add(DvaKolesaData.GetMoto(row));
-                    }
-                    returnDataHolders.Add(infoHolder);
-                }
-                if (spareFile != null)
-                {
-                    var listFile = new List<string>(File.ReadAllLines(spareFile));
-                    var infoHolder = new InfoHolder
-                    {
-                        Site = SiteEnum.Proday2Kolesa,
-                        Type = ProductEnum.Spare
-                    };
-
-                    foreach (var row in listFile)
-                    {
-                        infoHolder.Data.Add(DvaKolesaData.GetSpare(row));
-                    }
-                    returnDataHolders.Add(infoHolder);
-                }
-                if (equipFile != null)
-                {
-                    var listFile = new List<string>(File.ReadAllLines(equipFile));
-                    var infoHolder = new InfoHolder
-                    {
-                        Site = SiteEnum.Proday2Kolesa,
-                        Type = ProductEnum.Equip
-                    };
-
-                    foreach (var row in listFile)
-                    {
-                        infoHolder.Data.Add(DvaKolesaData.GetEquip(row));
-                    }
-                    returnDataHolders.Add(infoHolder);
-                }
+                OrganizeWorkWithDifferentFiles(SiteEnum.Proday2Kolesa);
             }
 
-            return returnDataHolders;
+            return ReturnDataHolders;
+        }
+
+        private static void OrganizeWorkWithDifferentFiles(SiteEnum site)
+        {
+            var siteData = SiteDataFactory.GetSiteData(site);
+
+            if (motoFile != null)
+            {
+                FillReturnDataHoldersList(site, ProductEnum.Motorcycle, motoFile, siteData);
+            }
+
+            if (spareFile != null)
+            {
+                FillReturnDataHoldersList(site, ProductEnum.Spare, spareFile, siteData);
+            }
+
+            if (equipFile != null)
+            {
+                FillReturnDataHoldersList(site, ProductEnum.Equip, equipFile, siteData);
+            }
+        }
+
+        private static void FillReturnDataHoldersList(SiteEnum site, ProductEnum product, string textFile,
+            ISiteData siteData)
+        {
+            var listFile = new List<string>(File.ReadAllLines(textFile));
+            var infoHolder = new InfoHolder {Site = site, Type = product};
+
+            foreach (var row in listFile)
+            {
+                infoHolder.Data.Add(siteData.GetMoto(row));
+            }
+            ReturnDataHolders.Add(infoHolder);
         }
     }
 }

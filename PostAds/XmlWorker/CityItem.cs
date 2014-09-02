@@ -1,4 +1,4 @@
-﻿namespace Motorcycle.XmlWorker
+namespace Motorcycle.XmlWorker
 {
     public class CityItem
     {

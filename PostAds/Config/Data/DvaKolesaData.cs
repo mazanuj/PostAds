@@ -2,9 +2,9 @@
 
 namespace Motorcycle.Config.Data
 {
-    internal static class DvaKolesaData
+    internal class DvaKolesaData : ISiteData
     {
-        internal static DicHolder GetMoto(string row)
+        public DicHolder GetMoto(string row)
         {
             var data = row.Split('\t');
 
@@ -41,12 +41,11 @@ namespace Motorcycle.Config.Data
                     {"option", "com_autobb"},
                     {"task", "save"}
                 },
-
-                FileDictionary = new Dictionary<string, string> {{"photofile_0", "virginia.jpg"}}
+                FileDictionary = new Dictionary<string, string> { { "photofile_0", "virginia.jpg" } }
             };
         }
 
-        internal static DicHolder GetSpare(string row)
+        public DicHolder GetSpare(string row)
         {
             var data = row.Split('\t');
 
@@ -63,7 +62,7 @@ namespace Motorcycle.Config.Data
             };
         }
 
-        internal static DicHolder GetEquip(string row)
+        public DicHolder GetEquip(string row)
         {
             var data = row.Split('\t');
 

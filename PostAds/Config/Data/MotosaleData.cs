@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using Motorcycle.XmlWorker;
 
 namespace Motorcycle.Config.Data
 {
-    internal static class MotosaleData
+    internal class MotosaleData : ISiteData
     {
-        internal static DicHolder GetMoto(string row)
+        public DicHolder GetMoto(string row)
         {
             var data = row.Split('\t');
             var d = data[13].Split(',');
@@ -56,7 +54,7 @@ namespace Motorcycle.Config.Data
             };
         }
 
-        internal static DicHolder GetSpare(string row)
+        public DicHolder GetSpare(string row)
         {
             var data = row.Split('\t');
 
@@ -73,7 +71,7 @@ namespace Motorcycle.Config.Data
             };
         }
 
-        internal static DicHolder GetEquip(string row)
+        public DicHolder GetEquip(string row)
         {
             var data = row.Split('\t');
 

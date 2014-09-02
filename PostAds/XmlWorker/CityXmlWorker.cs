@@ -1,10 +1,10 @@
-﻿using System.Linq;
-using System.Collections;
-using System.Xml.Linq;
-using System.Xml.XPath;
-
 namespace Motorcycle.XmlWorker
-{    
+{
+    using System.Linq;
+    using System.Collections;
+    using System.Xml.Linq;
+    using System.Xml.XPath;
+
     internal static class CityXmlWorker
     {
         private const string XmlFilePath = "Main.config";
@@ -14,11 +14,11 @@ namespace Motorcycle.XmlWorker
         public static void AddNewItemNode(string cityName, string m, string p, string u)
         {
             var city = Doc.XPathSelectElement("//city");
+
             var element = new XElement("item", new XAttribute("m", m), new XAttribute("p", p), new XAttribute("u", u))
             {
                 Value = cityName
             };
-
             city.Add(element);
             Doc.Save(XmlFilePath);
         }
@@ -48,6 +48,7 @@ namespace Motorcycle.XmlWorker
         {
             var att = (IEnumerable) Doc.XPathEvaluate(string.Format("//city/item[text() = '{0}']/@{1}", city, site));
             var firstOrDefault = att.Cast<XAttribute>().FirstOrDefault();
+
             return firstOrDefault != null ? firstOrDefault.Value : "";
         }
     }

@@ -71,6 +71,8 @@
     <Compile Include="AppBootstrapper.cs" />
     <Compile Include="Config\Advertising.cs" />
     <Compile Include="Config\Data\InfoHolder.cs" />
+    <Compile Include="Config\Data\ISiteData.cs" />
+    <Compile Include="Config\Data\SiteDataFactory.cs" />
     <Compile Include="Controls\Converters\BoolToColorConverter.cs" />
     <Compile Include="ViewModels\ChangeBaseViewModel.cs" />
     <Compile Include="ViewModels\ConfirmationValueViewModel.cs" />
