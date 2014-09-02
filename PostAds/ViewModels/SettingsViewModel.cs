@@ -10,15 +10,13 @@ namespace Motorcycle.ViewModels
         private readonly Logger log = NLog.LogManager.GetCurrentClassLogger();
         public GeneralSettingsViewModel GeneralSettings { get; private set; }
         public ChangeBaseViewModel ChangeBase { get; private set; }
-        public ProxyViewModel Proxy { get; private set; }
+        
 
         [ImportingConstructor]
-        public SettingsViewModel(GeneralSettingsViewModel generalSettingsModel, ChangeBaseViewModel changeBaseModel,
-            ProxyViewModel proxyModel)
+        public SettingsViewModel(GeneralSettingsViewModel generalSettingsModel, ChangeBaseViewModel changeBaseModel)
         {
             GeneralSettings = generalSettingsModel;
             ChangeBase = changeBaseModel;
-            Proxy = proxyModel;
         }
     }
 }

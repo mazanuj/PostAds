@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace Motorcycle.Views
 {
     /// <summary>
-    /// Interaction logic for ProxyView.xaml
+    /// Interaction logic for AddChangeCityView.xaml
     /// </summary>
-    public partial class ProxyView : UserControl
+    public partial class AddChangeCityView : UserControl
     {
-        public ProxyView()
+        public AddChangeCityView()
         {
             InitializeComponent();
         }

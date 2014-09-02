@@ -74,6 +74,7 @@
     <Compile Include="Config\Data\ISiteData.cs" />
     <Compile Include="Config\Data\SiteDataFactory.cs" />
     <Compile Include="Controls\Converters\BoolToColorConverter.cs" />
+    <Compile Include="ViewModels\AddChangeCityViewModel.cs" />
     <Compile Include="ViewModels\ChangeBaseViewModel.cs" />
     <Compile Include="ViewModels\ConfirmationValueViewModel.cs" />
     <Compile Include="ViewModels\ConfirmationViewModel.cs" />
@@ -92,8 +93,10 @@
     <Compile Include="Sites\MotoSale.cs" />
     <Compile Include="Sites\Proday2Kolesa.cs" />
     <Compile Include="Sites\UsedAuto.cs" />
-    <Compile Include="ViewModels\ProxyViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
+    <Compile Include="Views\AddChangeCityView.xaml.cs">
+      <DependentUpon>AddChangeCityView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ChangeBaseView.xaml.cs">
       <DependentUpon>ChangeBaseView.xaml</DependentUpon>
     </Compile>
@@ -115,9 +118,6 @@
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ProxyView.xaml.cs">
-      <DependentUpon>ProxyView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
     </Compile>
@@ -127,6 +127,10 @@
     <Compile Include="XmlWorker\ManufactureXmlWorker.cs" />
     <Compile Include="XmlWorker\ManufactureItem.cs" />
     <Compile Include="XmlWorker\ManufactureValue.cs" />
+    <Page Include="Views\AddChangeCityView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ChangeBaseView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -163,10 +167,6 @@
     <Compile Include="HTTP\Response.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Page Include="Views\MainView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\ProxyView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -6,18 +6,31 @@ using NLog;
 
 namespace Motorcycle.ViewModels
 {
-    [Export(typeof (GeneralSettingsViewModel))]
+    using System.Collections.ObjectModel;
+
+    using Motorcycle.XmlWorker;
+
+    [Export(typeof(GeneralSettingsViewModel))]
     public class GeneralSettingsViewModel : PropertyChangedBase
     {
         private static XmlDataProvider xml;
         private const string dbPath = "Main.config";
         private readonly Logger log = NLog.LogManager.GetCurrentClassLogger();
 
+        private readonly IWindowManager _windowManager;
+
+        public ObservableCollection<CityItem> ItemCollection { get; private set; }
+
         [ImportingConstructor]
-        public GeneralSettingsViewModel()
+        public GeneralSettingsViewModel(IWindowManager windowManager)
         {
-            xml = new XmlDataProvider {Document = new XmlDocument()};
+            xml = new XmlDataProvider { Document = new XmlDocument() };
             xml.Document.Load(dbPath);
+
+            _windowManager = windowManager;
+
+            ItemCollection = new ObservableCollection<CityItem>();
+            this.GetItemsFromXmlFile();
         }
 
         public string CaptchaKey
@@ -56,5 +69,54 @@ namespace Motorcycle.ViewModels
         {
             xml.Document.Save(dbPath);
         }
+
+        #region CityXml
+
+        public void RemoveItem(CityItem item)
+        {
+            CityXmlWorker.RemoveItemNode(item.CityName);
+
+            this.RefreshItemList();
+        }
+
+        public void AddNewItem()
+        {
+            this.ShowConfirmationItemDialog(null);
+        }
+
+        public void ChangeItem(CityItem item)
+        {
+            this.ShowConfirmationItemDialog(item);
+        }
+
+        private void RefreshItemList()
+        {
+            this.ItemCollection.Clear();
+
+            this.GetItemsFromXmlFile();
+        }
+
+        private void ShowConfirmationItemDialog(CityItem currentItem)
+        {
+            var addChangeCityViewModel = new AddChangeCityViewModel(currentItem);
+
+            this._windowManager.ShowDialog(addChangeCityViewModel);
+
+            if (addChangeCityViewModel.IsOkay)
+            {
+                this.RefreshItemList();
+            }
+        }
+
+
+        private void GetItemsFromXmlFile()
+        {
+            foreach (var item in CityXmlWorker.GetItems())
+            {
+                this.ItemCollection.Add(item);
+            }
+        }
+
+        #endregion
     }
 }

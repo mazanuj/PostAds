@@ -1,5 +1,6 @@
 namespace Motorcycle.XmlWorker
 {
+    using System.Collections.Generic;
     using System.Linq;
     using System.Collections;
     using System.Xml.Linq;
@@ -46,10 +47,24 @@ namespace Motorcycle.XmlWorker
 
         public static string GetItemSiteValueUsingCity(string city, string site)
         {
-            var att = (IEnumerable) Doc.XPathEvaluate(string.Format("//city/item[text() = '{0}']/@{1}", city.ToLower(), site.ToLower()));
+            var att = (IEnumerable)Doc.XPathEvaluate(string.Format("//city/item[text() = '{0}']/@{1}", city.ToLower(), site.ToLower()));
             var firstOrDefault = att.Cast<XAttribute>().FirstOrDefault();
 
             return firstOrDefault != null ? firstOrDefault.Value : "";
+        }
+
+        public static IEnumerable<CityItem> GetItems()
+        {
+            var items = (from e in Doc.Descendants("city").Descendants("item")
+                         select new CityItem
+                         {
+                             CityName = e.Value,
+                             M = (string)e.Attribute("m"),
+                             P = (string)e.Attribute("p"),
+                             U = (string)e.Attribute("u")
+                         }).ToList();
+
+            return items;
         }
     }
 }

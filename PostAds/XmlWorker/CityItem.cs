@@ -2,6 +2,10 @@ namespace Motorcycle.XmlWorker
 {
     public class CityItem
     {
+        public CityItem()
+        {
+        }
+
         public CityItem(string cityName, string m, string p, string u)
         {
             CityName = cityName;

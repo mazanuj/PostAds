@@ -17,8 +17,6 @@
                 </TabItem.Header>
                 <ContentControl x:Name="ChangeBase"/>
             </TabItem>
-            <TabItem Header="Прокси">
-                <ContentControl x:Name="Proxy"/>
-            </TabItem>
+           
         </TabControl>
 </UserControl>
