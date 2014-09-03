@@ -36,7 +36,7 @@ namespace Motorcycle.Config.Data
                     {"input[6]", "1"}, //tip transmissii  если механика == 3, в противном случае ничего
                     {"input[5]", "color"}, //color
                     //{"input[196]", ""},// max speed   ne nuzhna
-                    {"input[194]", "1"}, //sostoyanie
+                    {"input[194]", "1"}, //sostoyanie BASA
                     //{"input[15]", "on"},//?
                     //{"input[151]", "on"},//?
                     //{"input[219]", "on"},//?

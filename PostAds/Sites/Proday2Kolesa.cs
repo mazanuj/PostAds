@@ -7,9 +7,9 @@ using Motorcycle.XmlWorker;
 
 namespace Motorcycle.Sites
 {
-    internal static class Proday2Kolesa
+    internal class Proday2Kolesa : IPostOnSite
     {
-        internal static void PostMoto(DicHolder data)
+        public void PostMoto(DicHolder data)
         {
             var dataDictionary = data.DataDictionary;
             var fileDictionary = data.FileDictionary;
@@ -92,13 +92,13 @@ namespace Motorcycle.Sites
             request.Abort();
         }
 
-        internal static void PostSpare(DicHolder data)
+        public void PostSpare(DicHolder data)
         {
             var dataDictionary = data.DataDictionary;
             var fileDictionary = data.FileDictionary;
         }
 
-        internal static void PostEquip(DicHolder data)
+        public void PostEquip(DicHolder data)
         {
             var dataDictionary = data.DataDictionary;
             var fileDictionary = data.FileDictionary;

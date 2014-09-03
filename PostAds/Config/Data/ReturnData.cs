@@ -64,12 +64,26 @@ namespace Motorcycle.Config.Data
             ISiteData siteData)
         {
             var listFile = new List<string>(File.ReadAllLines(textFile));
-            var infoHolder = new InfoHolder {Site = site, Type = product};
+            var infoHolder = new InfoHolder { Site = site, Type = product };
 
-            foreach (var row in listFile)
+            switch (product)
             {
-                infoHolder.Data.Add(siteData.GetMoto(row));
+                case ProductEnum.Motorcycle:
+                    foreach (var row in listFile)
+                        infoHolder.Data.Add(siteData.GetMoto(row));
+                    break;
+
+                case ProductEnum.Equip:
+                    foreach (var row in listFile)
+                        infoHolder.Data.Add(siteData.GetEquip(row));
+                    break;
+
+                case ProductEnum.Spare:
+                    foreach (var row in listFile)
+                        infoHolder.Data.Add(siteData.GetSpare(row));
+                    break;
             }
+
             ReturnDataHolders.Add(infoHolder);
         }
     }

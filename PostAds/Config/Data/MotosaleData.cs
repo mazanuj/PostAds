@@ -31,12 +31,12 @@ namespace Motorcycle.Config.Data
                     {"type_obj", "1"}, //Sell|Buy+
                     {"model", ManufactureXmlWorker.GetItemSiteValueUsingPlant(data[4], "m")}, //Proizvoditel'+
                     {"manufactured_model", model},//Model+
-                    {"custom_model", customModel}, //Custom Model
+                    {"custom_model", customModel}, //Custom Model+
                     {"docum", data[6]}, //Без документов+ ////BASA
                     {"price", data[7]}, //цена+
                     {"run", data[8]}, //пробег+
                     {"in", data[9]}, //год выпуска+
-                    {"moto", data[10]}, //тип транс средства+
+                    {"moto", data[10]}, //тип транс средства+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                     {"objem", data[11]}, //+
                     {"param[tip_transmissii][]", data[18]}, //+
                     {"param[transnision]", data[19]}, //+

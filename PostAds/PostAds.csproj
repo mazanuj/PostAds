@@ -74,6 +74,8 @@
     <Compile Include="Config\Data\ISiteData.cs" />
     <Compile Include="Config\Data\SiteDataFactory.cs" />
     <Compile Include="Controls\Converters\BoolToColorConverter.cs" />
+    <Compile Include="Sites\IPostOnSite.cs" />
+    <Compile Include="Sites\PostOnSiteFactory.cs" />
     <Compile Include="ViewModels\AddChangeCityViewModel.cs" />
     <Compile Include="ViewModels\ChangeBaseViewModel.cs" />
     <Compile Include="ViewModels\ConfirmationValueViewModel.cs" />
@@ -124,6 +126,7 @@
     <Compile Include="XmlWorker\CaptchaXmlWorker.cs" />
     <Compile Include="XmlWorker\CityItem.cs" />
     <Compile Include="XmlWorker\CityXmlWorker.cs" />
+    <Compile Include="XmlWorker\DocsXmlWorker.cs" />
     <Compile Include="XmlWorker\ManufactureXmlWorker.cs" />
     <Compile Include="XmlWorker\ManufactureItem.cs" />
     <Compile Include="XmlWorker\ManufactureValue.cs" />
