@@ -1,12 +1,11 @@
-﻿
-namespace Motorcycle.XmlWorker
+﻿namespace Motorcycle.XmlWorker
 {
     using System.Linq;
     using System.Collections;
     using System.Xml.Linq;
     using System.Xml.XPath;
 
-    internal class DocsXmlWorker
+    internal static class DocsXmlWorker
     {
         private const string XmlFilePath = "Main.config";
 
@@ -14,7 +13,9 @@ namespace Motorcycle.XmlWorker
 
         public static string GetItemInfo(string itemId, string site)
         {
-            var att = (IEnumerable)Doc.XPathEvaluate(string.Format("//docs/item[@id='{0}']/@{1}", itemId.ToLower(), site.ToLower()));
+            var att =
+                (IEnumerable)
+                    Doc.XPathEvaluate(string.Format("//docs/item[@id='{0}']/@{1}", itemId.ToLower(), site.ToLower()));
 
             var firstOrDefault = att.Cast<XAttribute>().FirstOrDefault();
 
@@ -24,10 +25,10 @@ namespace Motorcycle.XmlWorker
             {
                 case "m":
                     return "1";
-                    
+
                 case "p":
                     return "0";
-                    
+
                 default:
                     return "";
             }

@@ -1,7 +1,6 @@
-﻿
-namespace Motorcycle.Config
+﻿namespace Motorcycle.Config
 {
-    using Motorcycle.Config.Data;
+    using Data;
     using NLog;
     using System.Threading.Tasks;
 

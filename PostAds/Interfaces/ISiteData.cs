@@ -1,7 +1,6 @@
-﻿
-namespace Motorcycle.Interfaces
+﻿namespace Motorcycle.Interfaces
 {
-    using Motorcycle.Config.Data;
+    using Config.Data;
 
     public interface ISiteData
     {

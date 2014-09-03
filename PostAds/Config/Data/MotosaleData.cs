@@ -1,9 +1,8 @@
-﻿
-namespace Motorcycle.Config.Data
+﻿namespace Motorcycle.Config.Data
 {
     using System.Collections.Generic;
-    using Motorcycle.XmlWorker;
-    using Motorcycle.Interfaces;
+    using XmlWorker;
+    using Interfaces;
 
     internal class MotosaleData : ISiteData
     {
@@ -34,11 +33,11 @@ namespace Motorcycle.Config.Data
                     {"model", ManufactureXmlWorker.GetItemSiteValueUsingPlant(data[4], "m")}, //Proizvoditel'+
                     {"manufactured_model", model},//Model+
                     {"custom_model", customModel}, //Custom Model+
-                    {"docum", data[6]}, //Без документов+ ////BASA
+                    {"docum", DocsXmlWorker.GetItemInfo(data[6],"m")}, //Документы+
                     {"price", data[7]}, //цена+
                     {"run", data[8]}, //пробег+
                     {"in", data[9]}, //год выпуска+
-                    {"moto", data[10]}, //тип транс средства+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                    {"moto", data[10]}, //тип транс средства+
                     {"objem", data[11]}, //+
                     {"param[tip_transmissii][]", data[18]}, //+
                     {"param[transnision]", data[19]}, //+

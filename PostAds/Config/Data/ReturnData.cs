@@ -1,8 +1,6 @@
-﻿
-
-namespace Motorcycle.Config.Data
+﻿namespace Motorcycle.Config.Data
 {
-    using Motorcycle.Interfaces;
+    using Interfaces;
     using System.Collections.Generic;
     using System.IO;
     using System.Threading.Tasks;
@@ -15,7 +13,8 @@ namespace Motorcycle.Config.Data
         private static string spareFile;
         private static string equipFile;
 
-        internal static async Task<List<InfoHolder>> GetData(string motofile, string sparefile, string equipfile, byte[] flag)
+        internal static async Task<List<InfoHolder>> GetData(string motofile, string sparefile, string equipfile,
+            byte[] flag)
         {
             motoFile = motofile;
             spareFile = sparefile;
@@ -71,7 +70,7 @@ namespace Motorcycle.Config.Data
                 () =>
                 {
                     var listFile = new List<string>(File.ReadAllLines(textFile));
-                    var infoHolder = new InfoHolder { Site = site, Type = product };
+                    var infoHolder = new InfoHolder {Site = site, Type = product};
 
                     switch (product)
                     {
@@ -93,7 +92,6 @@ namespace Motorcycle.Config.Data
 
                     ReturnDataHolders.Add(infoHolder);
                 });
-
         }
     }
 }

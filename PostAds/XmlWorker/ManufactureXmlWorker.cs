@@ -6,7 +6,7 @@
     using System.Xml.Linq;
     using System.Xml.XPath;
 
-    internal class ManufactureXmlWorker
+    internal static class ManufactureXmlWorker
     {
         private const string XmlFilePath = "Main.config";
 
@@ -160,7 +160,7 @@
             Doc.Save(XmlFilePath);
         }
 
-        public static List<ManufactureValue> GetValuesForItem(ManufactureItem item)
+        public static IEnumerable<ManufactureValue> GetValuesForItem(ManufactureItem item)
         {
             var valueXElements = Doc.XPathSelectElements(
                 string.Format(XPathForGettingValues, item.Id, item.M, item.P, item.U));

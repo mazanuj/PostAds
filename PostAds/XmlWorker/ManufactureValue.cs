@@ -8,13 +8,11 @@
 
         public ManufactureValue(string name, string val)
         {
-
             Name = name;
             Val = val;
 
             Name = name;
             Val = val;
-
         }
 
         public string Name { get; set; }
