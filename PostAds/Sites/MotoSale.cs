@@ -1,12 +1,15 @@
-﻿using System.Collections.Generic;
-using Motorcycle.Captcha;
-using Motorcycle.Config.Data;
-using Motorcycle.HTTP;
-using Motorcycle.POST;
-using Motorcycle.XmlWorker;
+﻿
 
 namespace Motorcycle.Sites
 {
+    using System.Collections.Generic;
+    using Motorcycle.Captcha;
+    using Motorcycle.Config.Data;
+    using Motorcycle.HTTP;
+    using Motorcycle.POST;
+    using Motorcycle.XmlWorker;
+    using Motorcycle.Interfaces;
+
     internal class MotoSale : IPostOnSite
     {
         public void PostMoto(DicHolder data)

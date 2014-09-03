@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
-
+﻿
 namespace Motorcycle.Config.Data
 {
+    using System.Collections.Generic;
+
     public class InfoHolder
     {
         public InfoHolder()

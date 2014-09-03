@@ -1,6 +1,8 @@
 ﻿
-namespace Motorcycle.Config.Data
+namespace Motorcycle.Interfaces
 {
+    using Motorcycle.Config.Data;
+
     public interface ISiteData
     {
         DicHolder GetMoto(string row);

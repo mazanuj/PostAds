@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
-
+﻿
 namespace Motorcycle.Config.Data
 {
+    using System.Collections.Generic;
+    using Motorcycle.Interfaces;
+
     internal class UsedAutoData : ISiteData
     {
         public DicHolder GetMoto(string row)

@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿
 
 namespace Motorcycle.Config.Data
 {
+    using Motorcycle.Interfaces;
+    using System.Collections.Generic;
+    using System.IO;
     using System.Threading.Tasks;
 
     internal static class ReturnData

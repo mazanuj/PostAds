@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
-using Motorcycle.XmlWorker;
-
+﻿
 namespace Motorcycle.Config.Data
 {
+    using System.Collections.Generic;
+    using Motorcycle.XmlWorker;
+    using Motorcycle.Interfaces;
+
     internal class MotosaleData : ISiteData
     {
         public DicHolder GetMoto(string row)

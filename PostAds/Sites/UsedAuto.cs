@@ -1,14 +1,17 @@
-﻿using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Linq;
-using System.Net;
-using System.Text;
-using Motorcycle.Config.Data;
-using Motorcycle.HTTP;
-using Motorcycle.POST;
+﻿
 
 namespace Motorcycle.Sites
 {
+    using System.Collections.Generic;
+    using System.Collections.Specialized;
+    using System.Linq;
+    using System.Net;
+    using System.Text;
+    using Motorcycle.Config.Data;
+    using Motorcycle.HTTP;
+    using Motorcycle.POST;
+    using Motorcycle.Interfaces;
+
     internal class UsedAuto : IPostOnSite
     {
         public void PostMoto(DicHolder data)

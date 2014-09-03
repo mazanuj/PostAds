@@ -90,10 +90,10 @@
     <Compile Include="AppBootstrapper.cs" />
     <Compile Include="Config\Advertising.cs" />
     <Compile Include="Config\Data\InfoHolder.cs" />
-    <Compile Include="Config\Data\ISiteData.cs" />
+    <Compile Include="Interfaces\ISiteData.cs" />
     <Compile Include="Config\Data\SiteDataFactory.cs" />
     <Compile Include="Controls\Converters\BoolToColorConverter.cs" />
-    <Compile Include="Sites\IPostOnSite.cs" />
+    <Compile Include="Interfaces\IPostOnSite.cs" />
     <Compile Include="Sites\PostOnSiteFactory.cs" />
     <Compile Include="ViewModels\AddChangeCityViewModel.cs" />
     <Compile Include="ViewModels\ChangeBaseViewModel.cs" />

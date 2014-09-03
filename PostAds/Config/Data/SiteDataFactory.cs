@@ -1,6 +1,8 @@
 ﻿
 namespace Motorcycle.Config.Data
 {
+    using Motorcycle.Interfaces;
+
     class SiteDataFactory
     {
         public static ISiteData GetSiteData(SiteEnum site)

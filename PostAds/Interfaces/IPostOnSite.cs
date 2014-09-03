@@ -1,5 +1,5 @@
 ﻿
-namespace Motorcycle.Sites
+namespace Motorcycle.Interfaces
 {
     using Motorcycle.Config.Data;
 
