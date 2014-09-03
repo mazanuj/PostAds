@@ -17,6 +17,9 @@ namespace Motorcycle.Config.Data
                 else files[i] = string.Empty;
             }
 
+            var model = ManufactureXmlWorker.GetItemValueUsingPlantAndName(data[4], data[5]);
+            var customModel = model != string.Empty ? string.Empty : data[5];
+
             return new DicHolder
             {
                 DataDictionary = new Dictionary<string, string>
@@ -27,9 +30,9 @@ namespace Motorcycle.Config.Data
                     {"header", data[3]}, //+
                     {"type_obj", "1"}, //Sell|Buy+
                     {"model", ManufactureXmlWorker.GetItemSiteValueUsingPlant(data[4], "m")}, //Proizvoditel'+
-                    {"manufactured_model", ManufactureXmlWorker.GetItemValueUsingPlantAndName(data[4], data[5])},//Model+
-                    {"custom_model", ""}, //Custom Model
-                    {"docum", data[6]}, //Без документов+
+                    {"manufactured_model", model},//Model+
+                    {"custom_model", customModel}, //Custom Model
+                    {"docum", data[6]}, //Без документов+ ////BASA
                     {"price", data[7]}, //цена+
                     {"run", data[8]}, //пробег+
                     {"in", data[9]}, //год выпуска+

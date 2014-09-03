@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Linq;
 using System.Net;
 using System.Text;
 using Motorcycle.Config.Data;
@@ -8,7 +9,7 @@ using Motorcycle.POST;
 
 namespace Motorcycle.Sites
 {
-    static class UsedAuto
+    internal static class UsedAuto
     {
         internal static void PostMoto(DicHolder data)
         {
@@ -21,17 +22,29 @@ namespace Motorcycle.Sites
 
             var cookieContainer = Cookies.GetCookiesContainer(referer);
 
-            var requestFile = Request.POSTRequest(urlFile, cookieContainer, new Dictionary<string, string> {{"photos", ""}}, fileDictionary);
-            requestFile.Referer = referer;
-            var responseFileString = Response.GetResponseString(requestFile);
-            requestFile.Abort();
+            //Upload fotos
+            var photoId = string.Empty;
 
-            //Get file id
-            var start = responseFileString.IndexOf("value=\"") + "value=\"".Length;
-            var end = responseFileString.IndexOf("\"", start);
-            var photoId = responseFileString.Substring(start, end - start);
+            foreach (var requestFile in fileDictionary.Select(fotoPath => Request.POSTRequest(urlFile, cookieContainer,
+                new Dictionary<string, string> {{"photos", ""}},
+                new Dictionary<string, string> {{fotoPath.Key, fotoPath.Value}})))
+            {
+                requestFile.Referer = referer;
+                var responseFileString = Response.GetResponseString(requestFile);
+                requestFile.Abort();
+
+                //Get file id
+                var start = responseFileString.IndexOf("value=\"") + "value=\"".Length;
+                var end = responseFileString.IndexOf("\"", start);
+                if (photoId == string.Empty)
+                {
+                    photoId = responseFileString.Substring(start, end - start);
+                    dataDictionary["main_photo"] = photoId;
+                }
+                photoId += "," + responseFileString.Substring(start, end - start);
+            }
             dataDictionary["photos"] = photoId;
-            dataDictionary["main_photo"] = photoId;
+            //==============End upload fotos==============//
 
             //Dictionary to NameValueCollection
             var valueCollection = new NameValueCollection();
@@ -39,9 +52,10 @@ namespace Motorcycle.Sites
                 valueCollection.Add(value.Key, value.Value);
 
             //Post advert's data            
-            var responseByte = new WebClient().UploadValues(url,"POST", valueCollection);
+            var responseByte = new WebClient().UploadValues(url, "POST", valueCollection);
             var responseString = Encoding.Default.GetString(responseByte);
         }
+
         internal static void PostSpare(DicHolder data)
         {
             var dataDictionary = data.DataDictionary;
