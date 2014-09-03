@@ -8,9 +8,9 @@ using Motorcycle.POST;
 
 namespace Motorcycle.Sites
 {
-    static class UsedAuto
+    internal class UsedAuto : IPostOnSite
     {
-        internal static void PostMoto(DicHolder data)
+        public void PostMoto(DicHolder data)
         {
             var dataDictionary = data.DataDictionary;
             var fileDictionary = data.FileDictionary;
@@ -42,13 +42,14 @@ namespace Motorcycle.Sites
             var responseByte = new WebClient().UploadValues(url,"POST", valueCollection);
             var responseString = Encoding.Default.GetString(responseByte);
         }
-        internal static void PostSpare(DicHolder data)
+
+        public void PostSpare(DicHolder data)
         {
             var dataDictionary = data.DataDictionary;
             var fileDictionary = data.FileDictionary;
         }
 
-        internal static void PostEquip(DicHolder data)
+        public void PostEquip(DicHolder data)
         {
             var dataDictionary = data.DataDictionary;
             var fileDictionary = data.FileDictionary;
