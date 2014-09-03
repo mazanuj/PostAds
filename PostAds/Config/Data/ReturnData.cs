@@ -3,6 +3,8 @@ using System.IO;
 
 namespace Motorcycle.Config.Data
 {
+    using System.Threading.Tasks;
+
     internal static class ReturnData
     {
         private static readonly List<InfoHolder> ReturnDataHolders = new List<InfoHolder>();
@@ -11,7 +13,7 @@ namespace Motorcycle.Config.Data
         private static string spareFile;
         private static string equipFile;
 
-        internal static List<InfoHolder> GetData(string motofile, string sparefile, string equipfile, byte[] flag)
+        internal static async Task<List<InfoHolder>> GetData(string motofile, string sparefile, string equipfile, byte[] flag)
         {
             motoFile = motofile;
             spareFile = sparefile;
@@ -22,69 +24,74 @@ namespace Motorcycle.Config.Data
             //MotoSale
             if (flag[0] == 1)
             {
-                OrganizeWorkWithDifferentFiles(SiteEnum.MotoSale);
+                await OrganizeWorkWithDifferentFiles(SiteEnum.MotoSale);
             }
 
             //UsedAuto
             if (flag[1] == 1)
             {
-                OrganizeWorkWithDifferentFiles(SiteEnum.UsedAuto);
+                await OrganizeWorkWithDifferentFiles(SiteEnum.UsedAuto);
             }
 
             //ProdayDvaKolesa
             if (flag[2] == 1)
             {
-                OrganizeWorkWithDifferentFiles(SiteEnum.Proday2Kolesa);
+                await OrganizeWorkWithDifferentFiles(SiteEnum.Proday2Kolesa);
             }
 
             return ReturnDataHolders;
         }
 
-        private static void OrganizeWorkWithDifferentFiles(SiteEnum site)
+        private static async Task OrganizeWorkWithDifferentFiles(SiteEnum site)
         {
             var siteData = SiteDataFactory.GetSiteData(site);
 
             if (motoFile != null)
             {
-                FillReturnDataHoldersList(site, ProductEnum.Motorcycle, motoFile, siteData);
+                await FillReturnDataHoldersList(site, ProductEnum.Motorcycle, motoFile, siteData);
             }
 
             if (spareFile != null)
             {
-                FillReturnDataHoldersList(site, ProductEnum.Spare, spareFile, siteData);
+                await FillReturnDataHoldersList(site, ProductEnum.Spare, spareFile, siteData);
             }
 
             if (equipFile != null)
             {
-                FillReturnDataHoldersList(site, ProductEnum.Equip, equipFile, siteData);
+                await FillReturnDataHoldersList(site, ProductEnum.Equip, equipFile, siteData);
             }
         }
 
-        private static void FillReturnDataHoldersList(SiteEnum site, ProductEnum product, string textFile,
+        private static async Task FillReturnDataHoldersList(SiteEnum site, ProductEnum product, string textFile,
             ISiteData siteData)
         {
-            var listFile = new List<string>(File.ReadAllLines(textFile));
-            var infoHolder = new InfoHolder { Site = site, Type = product };
+            await Task.Factory.StartNew(
+                () =>
+                {
+                    var listFile = new List<string>(File.ReadAllLines(textFile));
+                    var infoHolder = new InfoHolder { Site = site, Type = product };
 
-            switch (product)
-            {
-                case ProductEnum.Motorcycle:
-                    foreach (var row in listFile)
-                        infoHolder.Data.Add(siteData.GetMoto(row));
-                    break;
+                    switch (product)
+                    {
+                        case ProductEnum.Motorcycle:
+                            foreach (var row in listFile)
+                                infoHolder.Data.Add(siteData.GetMoto(row));
+                            break;
 
-                case ProductEnum.Equip:
-                    foreach (var row in listFile)
-                        infoHolder.Data.Add(siteData.GetEquip(row));
-                    break;
+                        case ProductEnum.Equip:
+                            foreach (var row in listFile)
+                                infoHolder.Data.Add(siteData.GetEquip(row));
+                            break;
 
-                case ProductEnum.Spare:
-                    foreach (var row in listFile)
-                        infoHolder.Data.Add(siteData.GetSpare(row));
-                    break;
-            }
+                        case ProductEnum.Spare:
+                            foreach (var row in listFile)
+                                infoHolder.Data.Add(siteData.GetSpare(row));
+                            break;
+                    }
 
-            ReturnDataHolders.Add(infoHolder);
+                    ReturnDataHolders.Add(infoHolder);
+                });
+
         }
     }
 }
