@@ -7,6 +7,14 @@ namespace Motorcycle.Config.Data
         public DicHolder GetMoto(string row)
         {
             var data = row.Split('\t');
+            var d = data[13].Split(',');
+            var files = new string[8];
+            for (var i = 0; i < 8; i++)
+            {
+                if (i < d.Length)
+                    files[i] = d[i];
+                else files[i] = string.Empty;
+            }
 
             return new DicHolder
             {
@@ -14,15 +22,15 @@ namespace Motorcycle.Config.Data
                 {
                     {"cid", "83"},
                     {"act", "add"},
-                    {"rid", "3"},
-                    {"input[1]", "19"},
-                    {"input[153]", "model"},
-                    {"input[3]", "1"},
-                    {"price", "1000"},
-                    {"currency", "1"},
-                    {"input[4]", "5555"},
-                    {"input[200]", "600"},
-                    {"input[8]", "110"},
+                    {"rid", "3"},//city
+                    {"input[1]", "19"},//Zavod
+                    {"input[153]", "model"},//Model
+                    {"input[3]", "1"},//Year
+                    {"price", "1000"},//Cena
+                    {"currency", "1"},//$
+                    {"input[4]", "5555"},//Probeg
+                    {"input[200]", "600"},//Objem
+                    {"input[8]", ""},//Moschnost' ne nuzhna
                     {"input[18]", "1"},
                     {"input[61]", "1"},
                     {"input[6]", "1"},

@@ -2,6 +2,7 @@
 using System.Collections.Specialized;
 using System.Net;
 using System.Text;
+using Motorcycle.Config.Data;
 using Motorcycle.HTTP;
 using Motorcycle.POST;
 
@@ -9,8 +10,11 @@ namespace Motorcycle.Sites
 {
     static class UsedAuto
     {
-        internal static void PostAdvert(Dictionary<string, string> datatDictionary, Dictionary<string, string> fileDictionary)
+        internal static void PostMoto(DicHolder data)
         {
+            var dataDictionary = data.DataDictionary;
+            var fileDictionary = data.FileDictionary;
+
             const string url = "http://usedauto.com.ua/add/add.php";
             const string urlFile = "http://usedauto.com.ua/add/modules/picturesUpload.php";
             const string referer = "http://usedauto.com.ua/add/sale.php";
@@ -26,17 +30,28 @@ namespace Motorcycle.Sites
             var start = responseFileString.IndexOf("value=\"") + "value=\"".Length;
             var end = responseFileString.IndexOf("\"", start);
             var photoId = responseFileString.Substring(start, end - start);
-            datatDictionary["photos"] = photoId;
-            datatDictionary["main_photo"] = photoId;
+            dataDictionary["photos"] = photoId;
+            dataDictionary["main_photo"] = photoId;
 
             //Dictionary to NameValueCollection
             var valueCollection = new NameValueCollection();
-            foreach (var data in datatDictionary)
-                valueCollection.Add(data.Key, data.Value);
+            foreach (var value in dataDictionary)
+                valueCollection.Add(value.Key, value.Value);
 
             //Post advert's data            
             var responseByte = new WebClient().UploadValues(url,"POST", valueCollection);
             var responseString = Encoding.Default.GetString(responseByte);
+        }
+        internal static void PostSpare(DicHolder data)
+        {
+            var dataDictionary = data.DataDictionary;
+            var fileDictionary = data.FileDictionary;
+        }
+
+        internal static void PostEquip(DicHolder data)
+        {
+            var dataDictionary = data.DataDictionary;
+            var fileDictionary = data.FileDictionary;
         }
     }
 }

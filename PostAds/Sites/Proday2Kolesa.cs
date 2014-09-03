@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Motorcycle.Captcha;
+using Motorcycle.Config.Data;
 using Motorcycle.HTTP;
 using Motorcycle.POST;
 using Motorcycle.XmlWorker;
@@ -8,15 +9,18 @@ namespace Motorcycle.Sites
 {
     static class Proday2Kolesa
     {
-        internal static void PostAdvert(Dictionary<string,string> data2kolesa, Dictionary<string,string> fileDictionary)
-        {            
+        internal static void PostAdvert(DicHolder data)
+        {
+            var dataDictionary = data.DataDictionary;
+            var fileDictionary = data.FileDictionary;
+
             const string url = "http://proday2kolesa.com.ua/index.php";
             var referer = string.Format("http://proday2kolesa.com.ua/component/option,{0}/v,{1}/Itemid,{2}/task,edit/category,{3}/",
-                    data2kolesa["option"], data2kolesa["vendor"], data2kolesa["Itemid"], data2kolesa["category"]);
+                    dataDictionary["option"], dataDictionary["vendor"], dataDictionary["Itemid"], dataDictionary["category"]);
 
             var cookieContainer = Cookies.GetCookiesContainer(referer);
 
-            var request = Request.POSTRequest(url, cookieContainer, data2kolesa, fileDictionary);
+            var request = Request.POSTRequest(url, cookieContainer, dataDictionary, fileDictionary);
             request.Referer = referer;
 
             var response = Response.GetResponse(request);
@@ -78,9 +82,20 @@ namespace Motorcycle.Sites
 
             request = Request.POSTRequest(url, cookieContainer, captchaDictionary, null);
             request.Referer = string.Format("http://proday2kolesa.com.ua/component/option,{0}/task,publish/id,{1}/error,0/Itemid,{2}/",
-                    data2kolesa["option"], id, Itemid);
+                    dataDictionary["option"], id, Itemid);
             responseString = Response.GetResponseString(request);
             request.Abort();
-        }        
+        }
+        internal static void PostSpare(DicHolder data)
+        {
+            var dataDictionary = data.DataDictionary;
+            var fileDictionary = data.FileDictionary;
+        }
+
+        internal static void PostEquip(DicHolder data)
+        {
+            var dataDictionary = data.DataDictionary;
+            var fileDictionary = data.FileDictionary;
+        }
     }
 }

@@ -21,27 +21,27 @@ namespace Motorcycle.Config.Data
             {
                 DataDictionary = new Dictionary<string, string>
                 {
-                    {"name", data[0]},//+
-                    {"mail", data[1]},//+
-                    {"phone", data[2]},//+
-                    {"header", data[3]},//+
+                    {"name", data[0]}, //+
+                    {"mail", data[1]}, //+
+                    {"phone", data[2]}, //+
+                    {"header", data[3]}, //+
                     {"type_obj", "1"}, //Sell|Buy+
-                    {"model", ManufactureXmlWorker.GetItemSiteValueUsingPlant(data[4],"m")}, //Proizvoditel'+
-                    {"manufactured_model", ""}, //Model////////////////!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                    {"model", ManufactureXmlWorker.GetItemSiteValueUsingPlant(data[4], "m")}, //Proizvoditel'+
+                    {"manufactured_model", ManufactureXmlWorker.GetItemValueUsingPlantAndName(data[4], data[5])},//Model+
                     {"custom_model", ""}, //Custom Model
-                    {"docum", "1"},//Без документов////////////////////!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                    {"price", data[7]},//цена+
-                    {"run",data[8]},//пробег+
-                    {"in",data[9]},//год выпуска+
-                    {"moto",data[10]},//тип транс средства+
-                    {"objem",data[11]},//+
-                    {"param[tip_transmissii][]",data[18]},//+
-                    {"param[transnision]",data[19]},//+
-                    {"city",CityXmlWorker.GetItemSiteValueUsingCity(data[12],"m")},//+
-                    {"youtube",data[15]},//+
-                    {"date_delete","14"},//+
-                    {"fConfirmationCode", ""},//captcha+
-                    {"insert", ""}//+
+                    {"docum", data[6]}, //Без документов+
+                    {"price", data[7]}, //цена+
+                    {"run", data[8]}, //пробег+
+                    {"in", data[9]}, //год выпуска+
+                    {"moto", data[10]}, //тип транс средства+
+                    {"objem", data[11]}, //+
+                    {"param[tip_transmissii][]", data[18]}, //+
+                    {"param[transnision]", data[19]}, //+
+                    {"city", CityXmlWorker.GetItemSiteValueUsingCity(data[12], "m")}, //+
+                    {"youtube", data[15]}, //+
+                    {"date_delete", "14"}, //+
+                    {"fConfirmationCode", ""}, //captcha+
+                    {"insert", ""} //+
                 },
                 FileDictionary = new Dictionary<string, string>
                 {

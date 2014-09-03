@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Motorcycle.Captcha;
+using Motorcycle.Config.Data;
 using Motorcycle.HTTP;
 using Motorcycle.POST;
 using Motorcycle.XmlWorker;
@@ -8,9 +9,11 @@ namespace Motorcycle.Sites
 {
     internal static class MotoSale
     {
-        internal static void PostAdvert(Dictionary<string, string> dataDictionary,
-            Dictionary<string, string> fileDictionary)
+        internal static void PostMoto(DicHolder data)
         {
+            var dataDictionary = data.DataDictionary;
+            var fileDictionary = data.FileDictionary;
+
             const string url = "http://www.motosale.com.ua/?add=moto";
             var cookieContainer = Cookies.GetCookiesContainer(url);
 
@@ -30,6 +33,18 @@ namespace Motorcycle.Sites
             var responseString = Response.GetResponseString(request);
 
             request.Abort();
+        }
+
+        internal static void PostSpare(DicHolder data)
+        {
+            var dataDictionary = data.DataDictionary;
+            var fileDictionary = data.FileDictionary;
+        }
+
+        internal static void PostEquip(DicHolder data)
+        {
+            var dataDictionary = data.DataDictionary;
+            var fileDictionary = data.FileDictionary;
         }
     }
 }
