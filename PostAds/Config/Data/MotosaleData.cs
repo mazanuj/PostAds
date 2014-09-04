@@ -37,7 +37,7 @@
                     {"price", data[7]}, //цена+
                     {"run", data[8]}, //пробег+
                     {"in", data[9]}, //год выпуска+
-                    {"moto", data[10]}, //тип транс средства+
+                    {"moto", ManufactureXmlWorker.GetMotoType(data[10],"m")}, //тип транс средства+
                     {"objem", data[11]}, //+
                     {"param[tip_transmissii][]", data[18]}, //+
                     {"param[transnision]", data[19]}, //+

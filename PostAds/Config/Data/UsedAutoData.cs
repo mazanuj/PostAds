@@ -1,13 +1,15 @@
-﻿
+﻿using Motorcycle.XmlWorker;
+
 namespace Motorcycle.Config.Data
 {
     using System.Collections.Generic;
-    using Motorcycle.Interfaces;
+    using Interfaces;
 
     internal class UsedAutoData : ISiteData
     {
         public DicHolder GetMoto(string row)
         {
+            //Photos
             var data = row.Split('\t');
             var d = data[13].Split(',');
             var files = new string[8];
@@ -18,14 +20,46 @@ namespace Motorcycle.Config.Data
                 else files[i] = string.Empty;
             }
 
+            //Engine type
+            var engine = string.Empty;
+            switch (data[20].ToLower())
+            {
+                case "к2":
+                    engine = "1";
+                    break;
+                case "к4":
+                    engine = "2";
+                    break;
+                case "и4":
+                    engine = "3";
+                    break;
+            }
+
+            //Cooling
+            var cooling = string.Empty;
+            switch (data[21].ToLower())
+            {
+                case "воздушное":
+                    cooling = "1";
+                    break;
+                case "жидкостное":
+                    cooling = "2";
+                    break;
+            }
+
+            //Transmition type
+            var transType = string.Empty;
+            if (data[18].ToLower().StartsWith("мех"))
+                transType = "3";
+
             return new DicHolder
             {
                 DataDictionary = new Dictionary<string, string>
                 {
-                    {"cid", "83"}, //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                    {"cid", ManufactureXmlWorker.GetMotoType(data[10], "u")}, //+
                     {"act", "add"}, //+++
-                    {"rid", XmlWorker.CityXmlWorker.GetItemSiteValueUsingCity(data[12], "u")}, //city+
-                    {"input[1]", XmlWorker.ManufactureXmlWorker.GetItemSiteValueUsingPlant(data[4], "u")}, //Zavod+
+                    {"rid", CityXmlWorker.GetItemSiteValueUsingCity(data[12], "u")}, //city+
+                    {"input[1]", ManufactureXmlWorker.GetItemSiteValueUsingPlant(data[4], "u")}, //Zavod+
                     {"input[153]", data[5]}, //Model вводится с файла+
                     {"input[3]", data[9]}, //Year+
                     {"price", data[7]}, //Cena+
@@ -33,16 +67,12 @@ namespace Motorcycle.Config.Data
                     {"input[4]", data[8]}, //Probeg+
                     {"input[200]", data[11]}, //Objem+
                     //{"input[8]", ""},//Moschnost' ne nuzhna
-                    {"input[18]", "1"},
-                    //tip dvigatelya  BASA!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                    {"input[61]", "1"},
-                    //ohlazhdenie  BASA!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                    {"input[6]", "1"},
-                    //tip transmissii  если механика == 3, в противном случае ничего!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                    {"input[18]", engine}, //tip dvigatelya+
+                    {"input[61]", cooling}, //ohlazhdenie+
+                    {"input[6]", transType}, //tip transmissii+
                     {"input[5]", data[16]}, //color+
                     //{"input[196]", ""},// max speed   ne nuzhna
-                    {"input[194]", "1"},
-                    //sostoyanie BASA!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                    {"input[194]", ManufactureXmlWorker.GetConditionState(data[17],"u")}, //sostoyanie+
                     //{"input[15]", "on"},//?ABS
                     //{"input[151]", "on"},//?Torg
                     //{"input[219]", "on"},//?Exchange

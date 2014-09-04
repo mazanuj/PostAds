@@ -22,7 +22,6 @@
             "//manufacture/item[@id='{0}' and @m='{1}' and @p='{2}' and @u='{3}']/value[@name='{4}' and text()='{5}']";
 
         #region Work with Item node
-
         public static void AddNewItemNode(string id, string m, string p, string u)
         {
             var manufacture = Doc.XPathSelectElement("//manufacture");
@@ -88,6 +87,23 @@
             return firstOrDefault != null ? firstOrDefault.Value : "";
         }
 
+        public static string GetMotoType(string itemId, string site)
+        {
+            var att = (IEnumerable)Doc.XPathEvaluate(string.Format("//type/item[@id='{0}']/@{1}", itemId.ToLower(), site.ToLower()));
+
+            var firstOrDefault = att.Cast<XAttribute>().FirstOrDefault();
+
+            return firstOrDefault != null ? firstOrDefault.Value : "";
+        }
+        public static string GetConditionState(string itemId, string site)
+        {
+            var att = (IEnumerable)Doc.XPathEvaluate(string.Format("//condition/item[@id='{0}']/@{1}", itemId.ToLower(), site.ToLower()));
+
+            var firstOrDefault = att.Cast<XAttribute>().FirstOrDefault();
+
+            return firstOrDefault != null ? firstOrDefault.Value : "";
+        }
+
         public static string GetItemValueUsingPlantAndName(string itemId, string name)
         {
             var att = (IEnumerable)Doc.XPathEvaluate(string.Format("//manufacture/item[@id = '{0}']/value[@name = '{1}']", itemId.ToLower(), name.ToLower()));
@@ -96,11 +112,9 @@
 
             return firstOrDefault != null ? firstOrDefault.Value : "";
         }
-
         #endregion
 
         #region Work with Value node
-
         public static void AddNewValueNode(ManufactureItem item, ManufactureValue value)
         {
             var ownerItem = Doc.XPathSelectElement(string.Format(ItemXPath, item.Id, item.M, item.P, item.U));
