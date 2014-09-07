@@ -2,6 +2,8 @@
 namespace Motorcycle.Config
 {
     using Motorcycle.Config.Data;
+    using Motorcycle.Sites;
+
     using NLog;
     using System.Threading.Tasks;
 
@@ -13,6 +15,8 @@ namespace Motorcycle.Config
         {
             //List<InfoHolder>
             var returnDataHolders = await ReturnData.GetData(motoFile, spareFile, equipFile, flag);
+
+            await SitePoster.PostAdvertises(returnDataHolders);
         }
     }
 }

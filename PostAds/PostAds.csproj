@@ -95,6 +95,7 @@
     <Compile Include="Controls\Converters\BoolToColorConverter.cs" />
     <Compile Include="Interfaces\IPostOnSite.cs" />
     <Compile Include="Sites\PostOnSiteFactory.cs" />
+    <Compile Include="Sites\SitePoster.cs" />
     <Compile Include="ViewModels\AddChangeCityViewModel.cs" />
     <Compile Include="ViewModels\ChangeBaseViewModel.cs" />
     <Compile Include="ViewModels\ConfirmationValueViewModel.cs" />
