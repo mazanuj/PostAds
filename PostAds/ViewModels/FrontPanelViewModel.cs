@@ -1,17 +1,19 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using Caliburn.Micro;
+using Microsoft.Win32;
 using Motorcycle.Config;
 using NLog;
+using LogManager = NLog.LogManager;
 
 namespace Motorcycle.ViewModels
 {
     [Export(typeof (FrontPanelViewModel))]
     public class FrontPanelViewModel : PropertyChangedBase
     {
-        private readonly Logger log = NLog.LogManager.GetCurrentClassLogger();
+        private readonly Logger log = LogManager.GetCurrentClassLogger();
         public LoggingControlViewModel LoggingControl { get; private set; }
-        private readonly Microsoft.Win32.OpenFileDialog dlg;
+        private readonly OpenFileDialog dlg;
         private string motoFile;
         private string equipmentFile;
         private string spareFile;
@@ -23,7 +25,7 @@ namespace Motorcycle.ViewModels
             LoggingControl = loggingControlModel;
 
             // Create OpenFileDialog
-            dlg = new Microsoft.Win32.OpenFileDialog
+            dlg = new OpenFileDialog
             {
                 DefaultExt = ".txt",
                 Filter = "Text documents (.txt)|*.txt",

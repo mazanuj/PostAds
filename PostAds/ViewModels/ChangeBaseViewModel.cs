@@ -2,7 +2,7 @@
 namespace Motorcycle.ViewModels
 {
     ﻿using Caliburn.Micro;
-    using Motorcycle.XmlWorker;
+    using XmlWorker;
     using System.Collections.ObjectModel;
     using System.ComponentModel.Composition;
 
@@ -24,7 +24,7 @@ namespace Motorcycle.ViewModels
 
             ItemCollection = new ObservableCollection<ManufactureItem>();
 
-            this.GetItemsFromXmlFile();
+            GetItemsFromXmlFile();
 
             ValueCollection = new ObservableCollection<ManufactureValue>();
         }
@@ -33,14 +33,14 @@ namespace Motorcycle.ViewModels
         {
             get
             {
-                return this._selectedItemCollection;
+                return _selectedItemCollection;
             }
             set
             {
-                this._selectedItemCollection = value;
+                _selectedItemCollection = value;
                 //NotifyOfPropertyChange(() => this.SelectedItemCollection);
 
-                this.GetValuesForItem();
+                GetValuesForItem();
             }
         }
 
@@ -50,18 +50,18 @@ namespace Motorcycle.ViewModels
         {
             ManufactureXmlWorker.RemoveItemNode(item);
 
-            this.ValueCollection.Clear();
-            this.RefreshItemList();
+            ValueCollection.Clear();
+            RefreshItemList();
         }
 
         public void AddNewItem()
         {
-            this.ShowConfirmationItemDialog(null);
+            ShowConfirmationItemDialog(null);
         }
 
         public void ChangeItem(ManufactureItem item)
         {
-            this.ShowConfirmationItemDialog(item);
+            ShowConfirmationItemDialog(item);
         }
 
         #endregion
@@ -72,19 +72,19 @@ namespace Motorcycle.ViewModels
         {
             ManufactureXmlWorker.RemoveValueNodeUsingItemNode(_selectedItemCollection, value);
 
-            this.GetValuesForItem();
+            GetValuesForItem();
         }
 
         public void AddNewValue()
         {
             if (_selectedItemCollection == null) return;
 
-            this.ShowConfirmationValueDialog(_selectedItemCollection, null);
+            ShowConfirmationValueDialog(_selectedItemCollection, null);
         }
 
         public void ChangeValue(ManufactureValue value)
         {
-            this.ShowConfirmationValueDialog(_selectedItemCollection, value);
+            ShowConfirmationValueDialog(_selectedItemCollection, value);
         }
 
         #endregion
@@ -93,20 +93,20 @@ namespace Motorcycle.ViewModels
 
         private void RefreshItemList()
         {
-            this.ItemCollection.Clear();
+            ItemCollection.Clear();
 
-            this.GetItemsFromXmlFile();
+            GetItemsFromXmlFile();
         }
 
         private void ShowConfirmationItemDialog(ManufactureItem currentItem)
         {
             var confirmationViewModel = new ConfirmationViewModel(currentItem);
 
-            this._windowManager.ShowDialog(confirmationViewModel);
+            _windowManager.ShowDialog(confirmationViewModel);
 
             if (confirmationViewModel.IsOkay)
             {
-                this.RefreshItemList();
+                RefreshItemList();
             }
         }
 
@@ -114,11 +114,11 @@ namespace Motorcycle.ViewModels
         {
             var confirmationValueViewModel = new ConfirmationValueViewModel(currentItem, currentValue);
 
-            this._windowManager.ShowDialog(confirmationValueViewModel);
+            _windowManager.ShowDialog(confirmationValueViewModel);
 
             if (confirmationValueViewModel.IsOkay)
             {
-                this.GetValuesForItem();
+                GetValuesForItem();
             }
         }
 
@@ -126,20 +126,18 @@ namespace Motorcycle.ViewModels
         {
             foreach (var item in ManufactureXmlWorker.GetItemsWithTheirValues())
             {
-                this.ItemCollection.Add(item);
+                ItemCollection.Add(item);
             }
         }
 
         private void GetValuesForItem()
         {
-            if (this._selectedItemCollection != null)
-            {
-                this.ValueCollection.Clear();
+            if (_selectedItemCollection == null) return;
+            ValueCollection.Clear();
 
-                foreach (var val in ManufactureXmlWorker.GetValuesForItem(_selectedItemCollection))
-                {
-                    this.ValueCollection.Add(val);
-                }
+            foreach (var val in ManufactureXmlWorker.GetValuesForItem(_selectedItemCollection))
+            {
+                ValueCollection.Add(val);
             }
         }
 

@@ -8,7 +8,7 @@ namespace Motorcycle.Controls.Converters
 {
     public class LogItemBgColorConverter : IValueConverter
     {
-        private readonly Logger log = NLog.LogManager.GetCurrentClassLogger();
+        private readonly Logger log = LogManager.GetCurrentClassLogger();
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             switch (value.ToString())

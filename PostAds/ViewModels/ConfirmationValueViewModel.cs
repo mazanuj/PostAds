@@ -2,7 +2,7 @@
 namespace Motorcycle.ViewModels
 {
     using Caliburn.Micro;
-    using Motorcycle.XmlWorker;
+    using XmlWorker;
     using System.ComponentModel.Composition;
     using System.Windows;
 
@@ -22,22 +22,20 @@ namespace Motorcycle.ViewModels
         [ImportingConstructor]
         public ConfirmationValueViewModel(ManufactureItem currentItem, ManufactureValue currentValue)
         {
-            this._currentItem = currentItem;
+            _currentItem = currentItem;
 
-            if (currentValue != null)
-            {
-                this._isInEditMode = true;
+            if (currentValue == null) return;
+            _isInEditMode = true;
 
-                this._currentValue = currentValue;
+            _currentValue = currentValue;
 
-                this.Name = currentValue.Name;
-                this.Val = currentValue.Val;
-            }
+            Name = currentValue.Name;
+            Val = currentValue.Val;
         }
 
         public void Save()
         {
-            if (!this.CheckIfFieldsAreFilled())
+            if (!CheckIfFieldsAreFilled())
             {
                 MessageBox.Show("Not all fields are filled");
                 return;
@@ -45,7 +43,7 @@ namespace Motorcycle.ViewModels
 
             if (_isInEditMode)
             {
-                this.ChangeCurrentValueNode();
+                ChangeCurrentValueNode();
             }
             else
             {
@@ -59,13 +57,12 @@ namespace Motorcycle.ViewModels
 
         public void Cancel()
         {
-            this.TryClose();
+            TryClose();
         }
 
         private bool CheckIfFieldsAreFilled()
         {
-            if (string.IsNullOrEmpty(Name) || string.IsNullOrEmpty(Val)) return false;
-            return true;
+            return !string.IsNullOrEmpty(Name) && !string.IsNullOrEmpty(Val);
         }
 
         private void ChangeCurrentValueNode()

@@ -3,12 +3,12 @@
 namespace Motorcycle.Sites
 {
     using System.Collections.Generic;
-    using Motorcycle.Captcha;
-    using Motorcycle.Config.Data;
-    using Motorcycle.HTTP;
-    using Motorcycle.POST;
-    using Motorcycle.XmlWorker;
-    using Motorcycle.Interfaces;
+    using Captcha;
+    using Config.Data;
+    using HTTP;
+    using POST;
+    using XmlWorker;
+    using Interfaces;
 
     internal class Proday2Kolesa : IPostOnSite
     {

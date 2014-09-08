@@ -3,19 +3,20 @@ using System.Windows.Data;
 using System.Xml;
 using Caliburn.Micro;
 using NLog;
+using LogManager = NLog.LogManager;
 
 namespace Motorcycle.ViewModels
 {
     using System.Collections.ObjectModel;
 
-    using Motorcycle.XmlWorker;
+    using XmlWorker;
 
     [Export(typeof(GeneralSettingsViewModel))]
     public class GeneralSettingsViewModel : PropertyChangedBase
     {
         private static XmlDataProvider xml;
         private const string dbPath = "Main.config";
-        private readonly Logger log = NLog.LogManager.GetCurrentClassLogger();
+        private readonly Logger log = LogManager.GetCurrentClassLogger();
 
         private readonly IWindowManager _windowManager;
 
@@ -30,7 +31,7 @@ namespace Motorcycle.ViewModels
             _windowManager = windowManager;
 
             ItemCollection = new ObservableCollection<CityItem>();
-            this.GetItemsFromXmlFile();
+            GetItemsFromXmlFile();
         }
 
         public string CaptchaKey
@@ -76,35 +77,35 @@ namespace Motorcycle.ViewModels
         {
             CityXmlWorker.RemoveItemNode(item.CityName);
 
-            this.RefreshItemList();
+            RefreshItemList();
         }
 
         public void AddNewItem()
         {
-            this.ShowConfirmationItemDialog(null);
+            ShowConfirmationItemDialog(null);
         }
 
         public void ChangeItem(CityItem item)
         {
-            this.ShowConfirmationItemDialog(item);
+            ShowConfirmationItemDialog(item);
         }
 
         private void RefreshItemList()
         {
-            this.ItemCollection.Clear();
+            ItemCollection.Clear();
 
-            this.GetItemsFromXmlFile();
+            GetItemsFromXmlFile();
         }
 
         private void ShowConfirmationItemDialog(CityItem currentItem)
         {
             var addChangeCityViewModel = new AddChangeCityViewModel(currentItem);
 
-            this._windowManager.ShowDialog(addChangeCityViewModel);
+            _windowManager.ShowDialog(addChangeCityViewModel);
 
             if (addChangeCityViewModel.IsOkay)
             {
-                this.RefreshItemList();
+                RefreshItemList();
             }
         }
 
@@ -113,7 +114,7 @@ namespace Motorcycle.ViewModels
         {
             foreach (var item in CityXmlWorker.GetItems())
             {
-                this.ItemCollection.Add(item);
+                ItemCollection.Add(item);
             }
         }
 

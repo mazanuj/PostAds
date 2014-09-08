@@ -1,7 +1,7 @@
 ﻿
 namespace Motorcycle.Config.Data
 {
-    using Motorcycle.Interfaces;
+    using Interfaces;
 
     class SiteDataFactory
     {

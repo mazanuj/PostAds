@@ -2,7 +2,7 @@
 namespace Motorcycle.Config.Data
 {
     using System.Collections.Generic;
-    using Motorcycle.Interfaces;
+    using Interfaces;
 
     internal class DvaKolesaData : ISiteData
     {

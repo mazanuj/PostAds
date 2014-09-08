@@ -7,10 +7,10 @@ namespace Motorcycle.Sites
     using System.Linq;
     using System.Net;
     using System.Text;
-    using Motorcycle.Config.Data;
-    using Motorcycle.HTTP;
-    using Motorcycle.POST;
-    using Motorcycle.Interfaces;
+    using Config.Data;
+    using HTTP;
+    using POST;
+    using Interfaces;
 
     internal class UsedAuto : IPostOnSite
     {

@@ -1,8 +1,8 @@
 ﻿
 namespace Motorcycle.Sites
 {
-    using Motorcycle.Config.Data;
-    using Motorcycle.Interfaces;
+    using Config.Data;
+    using Interfaces;
 
     class PostOnSiteFactory
     {

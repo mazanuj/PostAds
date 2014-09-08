@@ -6,7 +6,7 @@ namespace Motorcycle.ViewModels
 
     using Caliburn.Micro;
 
-    using Motorcycle.XmlWorker;
+    using XmlWorker;
 
     [Export(typeof(ConfirmationViewModel))]
     public class AddChangeCityViewModel : Screen
@@ -25,22 +25,20 @@ namespace Motorcycle.ViewModels
         [ImportingConstructor]
         public AddChangeCityViewModel(CityItem currentItem)
         {
-            if (currentItem != null)
-            {
-                this._isInEditMode = true;
+            if (currentItem == null) return;
+            _isInEditMode = true;
 
-                this._currentItem = currentItem;
+            _currentItem = currentItem;
 
-                this.CityName = currentItem.CityName;
-                this.M = currentItem.M;
-                this.P = currentItem.P;
-                this.U = currentItem.U;
-            }
+            CityName = currentItem.CityName;
+            M = currentItem.M;
+            P = currentItem.P;
+            U = currentItem.U;
         }
 
         public void Save()
         {
-            if (!this.CheckIfFieldsAreFilled())
+            if (!CheckIfFieldsAreFilled())
             {
                 MessageBox.Show("Not all fields are filled");
                 return;
@@ -48,7 +46,7 @@ namespace Motorcycle.ViewModels
 
             if (_isInEditMode)
             {
-                this.ChangeCurrentItemNode();
+                ChangeCurrentItemNode();
             }
             else
             {
@@ -62,19 +60,18 @@ namespace Motorcycle.ViewModels
 
         public void Cancel()
         {
-            this.TryClose();
+            TryClose();
         }
 
         private bool CheckIfFieldsAreFilled()
         {
-            if (string.IsNullOrEmpty(CityName) || string.IsNullOrEmpty(M) || string.IsNullOrEmpty(P) || string.IsNullOrEmpty(U)) return false;
-            return true;
+            return !string.IsNullOrEmpty(CityName) && !string.IsNullOrEmpty(M) && !string.IsNullOrEmpty(P) && !string.IsNullOrEmpty(U);
         }
 
         private void ChangeCurrentItemNode()
         {
             var newItem = new CityItem(CityName, M, P, U);
-            CityXmlWorker.ChangeItemNode(this._currentItem.CityName, newItem);
+            CityXmlWorker.ChangeItemNode(_currentItem.CityName, newItem);
         }
     }
 }

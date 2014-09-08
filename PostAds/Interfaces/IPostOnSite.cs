@@ -1,6 +1,6 @@
 ﻿namespace Motorcycle.Interfaces
 {
-    using Motorcycle.Config.Data;
+    using Config.Data;
 
     public interface IPostOnSite
     {

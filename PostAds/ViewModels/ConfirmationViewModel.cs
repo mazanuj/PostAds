@@ -7,7 +7,7 @@ namespace Motorcycle.ViewModels
 
     using Caliburn.Micro;
 
-    using Motorcycle.XmlWorker;
+    using XmlWorker;
 
     [Export(typeof(ConfirmationViewModel))]
     public class ConfirmationViewModel : Screen
@@ -26,22 +26,20 @@ namespace Motorcycle.ViewModels
         [ImportingConstructor]
         public ConfirmationViewModel(ManufactureItem currentItem)
         {
-            if (currentItem != null)
-            {
-                this._isInEditMode = true;
+            if (currentItem == null) return;
+            _isInEditMode = true;
 
-                this._currentItem = currentItem;
+            _currentItem = currentItem;
 
-                this.Id = currentItem.Id;
-                this.M = currentItem.M;
-                this.P = currentItem.P;
-                this.U = currentItem.U;
-            }
+            Id = currentItem.Id;
+            M = currentItem.M;
+            P = currentItem.P;
+            U = currentItem.U;
         }
 
         public void Save()
         {
-            if (!this.CheckIfFieldsAreFilled())
+            if (!CheckIfFieldsAreFilled())
             {
                 MessageBox.Show("Not all fields are filled");
                 return;
@@ -49,7 +47,7 @@ namespace Motorcycle.ViewModels
 
             if (_isInEditMode)
             {
-                this.ChangeCurrentItemNode();
+                ChangeCurrentItemNode();
             }
             else
             {
@@ -63,19 +61,18 @@ namespace Motorcycle.ViewModels
 
         public void Cancel()
         {
-            this.TryClose();
+            TryClose();
         }
 
         private bool CheckIfFieldsAreFilled()
         {
-            if (string.IsNullOrEmpty(Id) || string.IsNullOrEmpty(M) || string.IsNullOrEmpty(P) || string.IsNullOrEmpty(U)) return false;
-            return true;
+            return !string.IsNullOrEmpty(Id) && !string.IsNullOrEmpty(M) && !string.IsNullOrEmpty(P) && !string.IsNullOrEmpty(U);
         }
 
         private void ChangeCurrentItemNode()
         {
             var newItem = new ManufactureItem(Id, M, P, U);
-            ManufactureXmlWorker.ChangeItemNode(this._currentItem, newItem);
+            ManufactureXmlWorker.ChangeItemNode(_currentItem, newItem);
         }
     }
 }
