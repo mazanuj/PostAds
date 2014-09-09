@@ -1,4 +1,6 @@
 ﻿
+using Motorcycle.XmlWorker;
+
 namespace Motorcycle.Config.Data
 {
     using System.Collections.Generic;
@@ -10,40 +12,59 @@ namespace Motorcycle.Config.Data
         {
             var data = row.Split('\t');
 
+            //Photos
+            var d = data[13].Split(',');
+            var files = new string[5];
+            for (var i = 0; i < 5; i++)
+            {
+                if (i < d.Length)
+                    files[i] = d[i];
+                else files[i] = string.Empty;
+            }
+
             return new DicHolder
             {
                 DataDictionary = new Dictionary<string, string>
                 {
-                    {"model", "620"},
-                    {"modification", "BMW 745"},
-                    {"color", "36"},
-                    {"price", "345"},
-                    {"currency", "1"},
-                    {"year", "2014"},
-                    {"bodytype", "48"},
-                    {"year_real", "2014"},
-                    {"engine", "1"},
-                    {"mileage", "4500"},
-                    {"mileage_unit", "0"},
-                    {"volume", "1233"},
-                    {"state", "10"},
-                    {"choosen", "no"},
-                    {"name", "maza"},
-                    {"phone1", "0981474531"},
-                    {"since1", "10"},
-                    {"till1", "21"},
-                    {"since2", "10"},
-                    {"till2", "21"},
-                    {"city", "22"},
-                    {"during", "360"},
-                    {"vendor", "620"},
-                    {"category", "1"},
-                    {"ip", "127.0.0.1"},
-                    {"Itemid", "2"},
-                    {"option", "com_autobb"},
-                    {"task", "save"}
+                    {"model", ManufactureXmlWorker.GetItemSiteValueUsingPlant(data[4], "p")}, //zavod BASA+
+                    {"modification", data[5]}, //Vvod+
+                    {"color", ManufactureXmlWorker.GetMotoColor(data[16], "p")}, //Create basa+
+                    {"price", data[7]}, //vvod+
+                    {"currency", "2"}, //$+
+                    {"year", data[9]}, //vvod+
+                    {"bodytype", ManufactureXmlWorker.GetMotoType(data[10], "p")}, //type basa+
+                    {"year_real", data[9]}, //vvod+
+                    {"engine", DocsXmlWorker.GetItemInfo(data[6], "p")}, //doki basa+
+                    {"mileage", data[8]}, //probeg vvod+
+                    {"mileage_unit", "0"}, //km+
+                    {"volume", data[11]}, //objem vvod+
+                    {"state", ManufactureXmlWorker.GetConditionState(data[17], "p")}, //sostoyanie basa+
+                    {"choosen", "no"}, //obmen +
+                    {"name", data[0]}, //name vvod+
+                    {"phone1", data[2]}, //phone vvod+
+                    {"since1", "10"}, //s 10+
+                    {"till1", "21"}, //do 21+
+                    {"wrangle", "0"}, //torg+
+                    {"MAX_FILE_SIZE", "6144000"}, //+
+                    {"since2", "10"}, //+
+                    {"till2", "21"}, //+
+                    {"city", CityXmlWorker.GetItemSiteValueUsingCity(data[12], "p")}, //gorod basa+
+                    {"during", "360"}, //publikovat' god+
+                    {"vendor", ManufactureXmlWorker.GetItemSiteValueUsingPlant(data[4], "p")}, //zavod basa+
+                    {"category", "1"}, //+
+                    {"ip", "127.0.0.1"}, //+
+                    {"Itemid", "2"}, //+
+                    {"option", "com_autobb"}, //+
+                    {"task", "save"} //+
                 },
-                FileDictionary = new Dictionary<string, string> { { "photofile_0", "virginia.jpg" } }
+                FileDictionary = new Dictionary<string, string>
+                {
+                    {"photofile_0", files[0]},
+                    {"photofile_1", files[1]},
+                    {"photofile_2", files[2]},
+                    {"photofile_3", files[3]},
+                    {"photofile_4", files[4]}
+                }
             };
         }
 

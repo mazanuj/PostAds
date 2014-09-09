@@ -1,9 +1,8 @@
-﻿
-namespace Motorcycle.Config.Data
+﻿namespace Motorcycle.Config.Data
 {
     using Interfaces;
 
-    class SiteDataFactory
+    internal static class SiteDataFactory
     {
         public static ISiteData GetSiteData(SiteEnum site)
         {

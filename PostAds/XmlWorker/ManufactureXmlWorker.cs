@@ -84,7 +84,7 @@
 
             var firstOrDefault = att.Cast<XAttribute>().FirstOrDefault();
 
-            return firstOrDefault != null ? firstOrDefault.Value : "";
+            return firstOrDefault != null ? firstOrDefault.Value : string.Empty;
         }
 
         public static string GetMotoType(string itemId, string site)
@@ -93,7 +93,15 @@
 
             var firstOrDefault = att.Cast<XAttribute>().FirstOrDefault();
 
-            return firstOrDefault != null ? firstOrDefault.Value : "";
+            return firstOrDefault != null ? firstOrDefault.Value : string.Empty;
+        }
+        public static string GetMotoColor(string itemId, string site)
+        {
+            var att = (IEnumerable)Doc.XPathEvaluate(string.Format("//type/color[@id='{0}']/@{1}", itemId.ToLower(), site.ToLower()));
+
+            var firstOrDefault = att.Cast<XAttribute>().FirstOrDefault();
+
+            return firstOrDefault != null ? firstOrDefault.Value : string.Empty;
         }
         public static string GetConditionState(string itemId, string site)
         {
@@ -101,7 +109,7 @@
 
             var firstOrDefault = att.Cast<XAttribute>().FirstOrDefault();
 
-            return firstOrDefault != null ? firstOrDefault.Value : "";
+            return firstOrDefault != null ? firstOrDefault.Value : string.Empty;
         }
 
         public static string GetItemValueUsingPlantAndName(string itemId, string name)
@@ -110,7 +118,7 @@
 
             var firstOrDefault = att.Cast<XElement>().FirstOrDefault();
 
-            return firstOrDefault != null ? firstOrDefault.Value : "";
+            return firstOrDefault != null ? firstOrDefault.Value : string.Empty;
         }
         #endregion
 

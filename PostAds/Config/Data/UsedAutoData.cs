@@ -9,8 +9,9 @@ namespace Motorcycle.Config.Data
     {
         public DicHolder GetMoto(string row)
         {
-            //Photos
             var data = row.Split('\t');
+
+            //Photos
             var d = data[13].Split(',');
             var files = new string[8];
             for (var i = 0; i < 8; i++)
@@ -66,22 +67,16 @@ namespace Motorcycle.Config.Data
                     {"currency", "1"}, //$+
                     {"input[4]", data[8]}, //Probeg+
                     {"input[200]", data[11]}, //Objem+
-                    //{"input[8]", ""},//Moschnost' ne nuzhna
                     {"input[18]", engine}, //tip dvigatelya+
                     {"input[61]", cooling}, //ohlazhdenie+
                     {"input[6]", transType}, //tip transmissii+
                     {"input[5]", data[16]}, //color+
-                    //{"input[196]", ""},// max speed   ne nuzhna
                     {"input[194]", ManufactureXmlWorker.GetConditionState(data[17],"u")}, //sostoyanie+
-                    //{"input[15]", "on"},//?ABS
-                    //{"input[151]", "on"},//?Torg
-                    //{"input[219]", "on"},//?Exchange
                     {"description", data[14]}, //message+
                     {"photos", ""}, //+
                     {"main_photo", ""}, //+
                     {"user[0]", data[0]}, //name+
                     {"user[1]", data[2]} //phone+
-                    //{"user[5]", ""}//mail ne nuzhen
                 },
                 FileDictionary = new Dictionary<string, string>
                 {

@@ -9,6 +9,8 @@
         public DicHolder GetMoto(string row)
         {
             var data = row.Split('\t');
+
+            //Photos
             var d = data[13].Split(',');
             var files = new string[5];
             for (var i = 0; i < 5; i++)

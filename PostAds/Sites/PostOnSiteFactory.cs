@@ -1,10 +1,9 @@
-﻿
-namespace Motorcycle.Sites
+﻿namespace Motorcycle.Sites
 {
     using Config.Data;
     using Interfaces;
 
-    class PostOnSiteFactory
+    internal static class PostOnSiteFactory
     {
         public static IPostOnSite GetPostOnSite(SiteEnum site)
         {
