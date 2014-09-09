@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,8 @@ namespace Motorcycle.POST
         }
         private static string GetStringFromFile(string filePath)
         {
+            if (filePath == string.Empty)
+                return string.Empty;
 
             var sFileContent = string.Empty;
             Stream fStream = File.OpenRead(filePath);
