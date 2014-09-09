@@ -1,7 +1,6 @@
-﻿
-
-namespace Motorcycle.Sites
+﻿namespace Motorcycle.Sites
 {
+    using System.Threading.Tasks;
     using Captcha;
     using Config.Data;
     using HTTP;
@@ -11,42 +10,56 @@ namespace Motorcycle.Sites
 
     internal class MotoSale : IPostOnSite
     {
-        public void PostMoto(DicHolder data)
+        public async Task PostMoto(DicHolder data)
         {
-            var dataDictionary = data.DataDictionary;
-            var fileDictionary = data.FileDictionary;
+            await Task.Factory.StartNew(
+                () =>
+                {
+                    var dataDictionary = data.DataDictionary;
+                    var fileDictionary = data.FileDictionary;
 
-            const string url = "http://www.motosale.com.ua/?add=moto";
-            var cookieContainer = Cookies.GetCookiesContainer(url);
+                    const string url = "http://www.motosale.com.ua/?add=moto";
+                    var cookieContainer = Cookies.GetCookiesContainer(url);
 
-            var requestImage = Request.GETRequest("http://www.motosale.com.ua/capcha/capcha.php");
-            requestImage.CookieContainer = cookieContainer;
+                    var requestImage = Request.GETRequest("http://www.motosale.com.ua/capcha/capcha.php");
+                    requestImage.CookieContainer = cookieContainer;
 
-            Response.GetImageFromResponse(requestImage);
+                    Response.GetImageFromResponse(requestImage);
 
-            //Get captcha result
-            var captcha = CaptchaString.GetCaptchaString(CaptchaXmlWorker.GetCaptchaValues("key"), "captcha.jpg",
-                CaptchaXmlWorker.GetCaptchaValues("domain"));
+                    //Get captcha result
+                    var captcha = CaptchaString.GetCaptchaString(
+                        CaptchaXmlWorker.GetCaptchaValues("key"),
+                        "captcha.jpg",
+                        CaptchaXmlWorker.GetCaptchaValues("domain"));
 
-            dataDictionary["fConfirmationCode"] = captcha;
+                    dataDictionary["fConfirmationCode"] = captcha;
 
-            var request = Request.POSTRequest(url, cookieContainer, dataDictionary, fileDictionary);
-            request.Referer = url;
-            var responseString = Response.GetResponseString(request);
+                    var request = Request.POSTRequest(url, cookieContainer, dataDictionary, fileDictionary);
+                    request.Referer = url;
+                    var responseString = Response.GetResponseString(request);
 
-            request.Abort();
+                    request.Abort();
+                });
         }
 
-        public void PostSpare(DicHolder data)
+        public async Task PostSpare(DicHolder data)
         {
-            var dataDictionary = data.DataDictionary;
-            var fileDictionary = data.FileDictionary;
+            await Task.Factory.StartNew(
+                () =>
+                {
+                    var dataDictionary = data.DataDictionary;
+                    var fileDictionary = data.FileDictionary;
+                });
         }
 
-        public void PostEquip(DicHolder data)
+        public async Task PostEquip(DicHolder data)
         {
-            var dataDictionary = data.DataDictionary;
-            var fileDictionary = data.FileDictionary;
+            await Task.Factory.StartNew(
+                () =>
+                {
+                    var dataDictionary = data.DataDictionary;
+                    var fileDictionary = data.FileDictionary;
+                });
         }
     }
 }

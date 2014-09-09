@@ -1,12 +1,11 @@
-
-namespace Motorcycle.ViewModels
+﻿namespace Motorcycle.ViewModels
 {
-    ﻿using Caliburn.Micro;
+    using Caliburn.Micro;
     using XmlWorker;
     using System.Collections.ObjectModel;
     using System.ComponentModel.Composition;
 
-    [Export(typeof(ChangeBaseViewModel))]
+    [Export(typeof (ChangeBaseViewModel))]
     public class ChangeBaseViewModel : PropertyChangedBase
     {
         private readonly IWindowManager _windowManager;
@@ -31,10 +30,7 @@ namespace Motorcycle.ViewModels
 
         public ManufactureItem SelectedItemCollection
         {
-            get
-            {
-                return _selectedItemCollection;
-            }
+            get { return _selectedItemCollection; }
             set
             {
                 _selectedItemCollection = value;

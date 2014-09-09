@@ -1,13 +1,14 @@
 ﻿namespace Motorcycle.Interfaces
 {
+    using System.Threading.Tasks;
     using Config.Data;
 
     public interface IPostOnSite
     {
-        void PostMoto(DicHolder data);
+        Task PostMoto(DicHolder data);
 
-        void PostSpare(DicHolder data);
+        Task PostSpare(DicHolder data);
 
-        void PostEquip(DicHolder data);
+        Task PostEquip(DicHolder data);
     }
 }
