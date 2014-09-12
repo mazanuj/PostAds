@@ -112,6 +112,15 @@
             return firstOrDefault != null ? firstOrDefault.Value : string.Empty;
         }
 
+        public static string GetMadeYear(string itemId, string site)
+        {
+            var att = (IEnumerable)Doc.XPathEvaluate(string.Format("//year/item[@id='{0}']/@{1}", itemId.ToLower(), site.ToLower()));
+
+            var firstOrDefault = att.Cast<XAttribute>().FirstOrDefault();
+
+            return firstOrDefault != null ? firstOrDefault.Value : "1";
+        }
+
         public static string GetItemValueUsingPlantAndName(string itemId, string name)
         {
             var att = (IEnumerable)Doc.XPathEvaluate(string.Format("//manufacture/item[@id = '{0}']/value[@name = '{1}']", itemId.ToLower(), name.ToLower()));

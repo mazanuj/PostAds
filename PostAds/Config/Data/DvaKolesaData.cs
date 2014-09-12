@@ -1,5 +1,4 @@
-﻿
-using Motorcycle.XmlWorker;
+﻿using Motorcycle.XmlWorker;
 
 namespace Motorcycle.Config.Data
 {

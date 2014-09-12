@@ -10,9 +10,9 @@
 
     internal class MotoSale : IPostOnSite
     {
-        public async Task PostMoto(DicHolder data)
+        public async Task<SitePoster.PostStatus> PostMoto(DicHolder data)
         {
-            await Task.Factory.StartNew(
+           return await Task.Factory.StartNew(
                 () =>
                 {
                     var dataDictionary = data.DataDictionary;
@@ -37,28 +37,33 @@
                     var request = Request.POSTRequest(url, cookieContainer, dataDictionary, fileDictionary);
                     request.Referer = url;
                     var responseString = Response.GetResponseString(request);
-
                     request.Abort();
+
+                    return responseString.Contains("На указанный вами E-mail отправлено письмо") ? SitePoster.PostStatus.OK : SitePoster.PostStatus.ERROR;
                 });
         }
 
-        public async Task PostSpare(DicHolder data)
+        public async Task<SitePoster.PostStatus> PostSpare(DicHolder data)
         {
-            await Task.Factory.StartNew(
+            return await Task.Factory.StartNew(
                 () =>
                 {
                     var dataDictionary = data.DataDictionary;
                     var fileDictionary = data.FileDictionary;
+
+                    return SitePoster.PostStatus.OK;
                 });
         }
 
-        public async Task PostEquip(DicHolder data)
+        public async Task<SitePoster.PostStatus> PostEquip(DicHolder data)
         {
-            await Task.Factory.StartNew(
+           return await Task.Factory.StartNew(
                 () =>
                 {
                     var dataDictionary = data.DataDictionary;
                     var fileDictionary = data.FileDictionary;
+
+                    return SitePoster.PostStatus.OK;
                 });
         }
     }

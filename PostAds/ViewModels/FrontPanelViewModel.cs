@@ -33,9 +33,9 @@ namespace Motorcycle.ViewModels
             };
         }
 
-        public void ButtonStart()
+        public async void ButtonStart()
         {
-            Advertising.Initialize(motoFile, spareFile, equipmentFile, flag);            
+           await Advertising.Initialize(motoFile, spareFile, equipmentFile, flag);
         }
 
         public bool CanButtonStart

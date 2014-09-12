@@ -5,7 +5,7 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    internal static class SitePoster
+    public static class SitePoster
     {
         public static async Task PostAdvertises(IEnumerable<InfoHolder> holders)
         {
@@ -37,6 +37,12 @@
             {
                 await task;
             }
+        }
+
+        public enum PostStatus
+        {
+            OK,
+            ERROR
         }
     }
 }

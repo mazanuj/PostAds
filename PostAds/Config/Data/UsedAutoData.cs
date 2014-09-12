@@ -62,7 +62,7 @@ namespace Motorcycle.Config.Data
                     {"rid", CityXmlWorker.GetItemSiteValueUsingCity(data[12], "u")}, //city+
                     {"input[1]", ManufactureXmlWorker.GetItemSiteValueUsingPlant(data[4], "u")}, //Zavod+
                     {"input[153]", data[5]}, //Model вводится с файла+
-                    {"input[3]", data[9]}, //Year+
+                    {"input[3]", ManufactureXmlWorker.GetMadeYear(data[9],"u")}, //Year+
                     {"price", data[7]}, //Cena+
                     {"currency", "1"}, //$+
                     {"input[4]", data[8]}, //Probeg+
@@ -81,13 +81,13 @@ namespace Motorcycle.Config.Data
                 FileDictionary = new Dictionary<string, string>
                 {
                     {"file", files[0]},
-                    {"file", files[1]},
-                    {"file", files[2]},
-                    {"file", files[3]},
-                    {"file", files[4]},
-                    {"file", files[5]},
-                    {"file", files[6]},
-                    {"file", files[7]}
+                    {"file1", files[1]},
+                    {"file2", files[2]},
+                    {"file3", files[3]},
+                    {"file4", files[4]},
+                    {"file5", files[5]},
+                    {"file6", files[6]},
+                    {"file7", files[7]}
                 }
             };
         }

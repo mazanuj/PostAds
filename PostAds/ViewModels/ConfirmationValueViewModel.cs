@@ -14,7 +14,7 @@ namespace Motorcycle.ViewModels
         private readonly ManufactureItem _currentItem;
         private readonly ManufactureValue _currentValue;
 
-        public string Name { get; set; }
+        public string Nam { get; set; }
         public string Val { get; set; }
 
         public bool IsOkay { get; set; }
@@ -29,7 +29,7 @@ namespace Motorcycle.ViewModels
 
             _currentValue = currentValue;
 
-            Name = currentValue.Name;
+            Nam = currentValue.Name;
             Val = currentValue.Val;
         }
 
@@ -47,7 +47,7 @@ namespace Motorcycle.ViewModels
             }
             else
             {
-                ManufactureXmlWorker.AddNewValueNode(_currentItem, new ManufactureValue(Name, Val));
+                ManufactureXmlWorker.AddNewValueNode(_currentItem, new ManufactureValue(Nam, Val));
             }
 
             IsOkay = true;
@@ -62,12 +62,12 @@ namespace Motorcycle.ViewModels
 
         private bool CheckIfFieldsAreFilled()
         {
-            return !string.IsNullOrEmpty(Name) && !string.IsNullOrEmpty(Val);
+            return !string.IsNullOrEmpty(Nam) && !string.IsNullOrEmpty(Val);
         }
 
         private void ChangeCurrentValueNode()
         {
-            var newValue = new ManufactureValue(Name, Val);
+            var newValue = new ManufactureValue(Nam, Val);
             ManufactureXmlWorker.ChangeValueNodeUsingItemNode(_currentItem, _currentValue, newValue);
         }
     }

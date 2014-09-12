@@ -13,9 +13,9 @@
 
     internal class UsedAuto : IPostOnSite
     {
-        public async Task PostMoto(DicHolder data)
+        public async Task<SitePoster.PostStatus> PostMoto(DicHolder data)
         {
-            await Task.Factory.StartNew(
+            return await Task.Factory.StartNew(
                 () =>
                 {
                     var dataDictionary = data.DataDictionary;
@@ -32,9 +32,11 @@
 
                     foreach (
                         var requestFile in
-                            fileDictionary.Select(fotoPath => Request.POSTRequest(urlFile, cookieContainer,
-                                new Dictionary<string, string> {{"photos", ""}},
-                                new Dictionary<string, string> {{fotoPath.Key, fotoPath.Value}})))
+                            fileDictionary
+                                .Where(fotoPath => fotoPath.Value != string.Empty)
+                                .Select(fotoPath => Request.POSTRequest(urlFile, cookieContainer,
+                                    new Dictionary<string, string> {{"photos", ""}},
+                                    new Dictionary<string, string> {{"file", fotoPath.Value}})))
                     {
                         requestFile.Referer = referer;
                         var responseFileString = Response.GetResponseString(requestFile);
@@ -48,7 +50,7 @@
                             photoId = responseFileString.Substring(start, end - start);
                             dataDictionary["main_photo"] = photoId;
                         }
-                        photoId += "," + responseFileString.Substring(start, end - start);
+                        else photoId += "," + responseFileString.Substring(start, end - start);
                     }
                     dataDictionary["photos"] = photoId;
                     //==============End upload fotos==============//
@@ -61,26 +63,31 @@
                     //Post advert's data            
                     var responseByte = new WebClient().UploadValues(url, "POST", valueCollection);
                     var responseString = Encoding.Default.GetString(responseByte);
+                    return responseString.Contains("redirect") ? SitePoster.PostStatus.OK : SitePoster.PostStatus.ERROR;
                 });
         }
 
-        public async Task PostSpare(DicHolder data)
+        public async Task<SitePoster.PostStatus> PostSpare(DicHolder data)
         {
-            await Task.Factory.StartNew(
+            return await Task.Factory.StartNew(
                 () =>
                 {
                     var dataDictionary = data.DataDictionary;
                     var fileDictionary = data.FileDictionary;
+
+                    return SitePoster.PostStatus.OK;
                 });
         }
 
-        public async Task PostEquip(DicHolder data)
+        public async Task<SitePoster.PostStatus> PostEquip(DicHolder data)
         {
-            await Task.Factory.StartNew(
+            return await Task.Factory.StartNew(
                 () =>
                 {
                     var dataDictionary = data.DataDictionary;
                     var fileDictionary = data.FileDictionary;
+
+                    return SitePoster.PostStatus.OK;
                 });
         }
     }

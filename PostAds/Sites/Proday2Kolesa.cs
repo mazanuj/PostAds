@@ -1,4 +1,7 @@
-﻿namespace Motorcycle.Sites
+﻿using System.Net;
+using NLog;
+
+namespace Motorcycle.Sites
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
@@ -11,9 +14,10 @@
 
     internal class Proday2Kolesa : IPostOnSite
     {
-        public async Task PostMoto(DicHolder data)
+        private static readonly Logger log = LogManager.GetCurrentClassLogger();
+        public async Task<SitePoster.PostStatus> PostMoto(DicHolder data)
         {
-            await Task.Factory.StartNew(
+            return await Task.Factory.StartNew(
                 () =>
                 {
                     var dataDictionary = data.DataDictionary;
@@ -96,28 +100,42 @@
                         string.Format(
                             "http://proday2kolesa.com.ua/component/option,{0}/task,publish/id,{1}/error,0/Itemid,{2}/",
                             dataDictionary["option"], id, Itemid);
-                    responseString = Response.GetResponseString(request);
+
+                    //responseString = Response.GetResponseString(request);
+                    var test = Response.GetResponse(request);
+                    var b = test.StatusCode;
                     request.Abort();
+
+                    if (b == HttpStatusCode.OK)
+                    {
+                        log.Info("Proday2kolesa OK");
+                        return SitePoster.PostStatus.OK;
+                    }
+                    return SitePoster.PostStatus.ERROR;
                 });
         }
 
-        public async Task PostSpare(DicHolder data)
+        public async Task<SitePoster.PostStatus> PostSpare(DicHolder data)
         {
-            await Task.Factory.StartNew(
+            return await Task.Factory.StartNew(
                 () =>
                 {
                     var dataDictionary = data.DataDictionary;
                     var fileDictionary = data.FileDictionary;
+
+                    return SitePoster.PostStatus.OK;
                 });
         }
 
-        public async Task PostEquip(DicHolder data)
+        public async Task<SitePoster.PostStatus> PostEquip(DicHolder data)
         {
-            await Task.Factory.StartNew(
+            return await Task.Factory.StartNew(
                 () =>
                 {
                     var dataDictionary = data.DataDictionary;
                     var fileDictionary = data.FileDictionary;
+
+                    return SitePoster.PostStatus.OK;
                 });
         }
     }
