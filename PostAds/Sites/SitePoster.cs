@@ -9,33 +9,58 @@
     {
         public static async Task PostAdvertises(IEnumerable<InfoHolder> holders)
         {
-            var tasks = holders.Select(async holder =>
-            {
-                var poster = PostOnSiteFactory.GetPostOnSite(holder.Site);
+            //var tasks = holders.Select(async holder =>
+            //{
+            //    var poster = PostOnSiteFactory.GetPostOnSite(holder.Site);
 
-                foreach (var infoHolder in holder.Data)
+            //    foreach (var infoHolder in holder.Data)
+            //    {
+            //        switch (holder.Type)
+            //        {
+            //            case ProductEnum.Equip:
+            //                await poster.PostEquip(infoHolder);
+            //                break;
+
+            //            case ProductEnum.Motorcycle:
+            //                await poster.PostMoto(infoHolder);
+            //                break;
+
+            //            case ProductEnum.Spare:
+            //                await poster.PostSpare(infoHolder);
+            //                break;
+            //        }
+
+            //    }
+            //}).ToList();
+
+            var tasks = new List<Task<PostStatus>>();
+
+            foreach (var infoHolder in holders)
+            {
+                var poster = PostOnSiteFactory.GetPostOnSite(infoHolder.Site);
+
+                foreach (var dataDic in infoHolder.Data)
                 {
-                    switch (holder.Type)
+                    switch (infoHolder.Type)
                     {
                         case ProductEnum.Equip:
-                            await poster.PostEquip(infoHolder);
+                            tasks.Add(poster.PostEquip(dataDic));
                             break;
 
                         case ProductEnum.Motorcycle:
-                            await poster.PostMoto(infoHolder);
+                            tasks.Add(poster.PostMoto(dataDic));
                             break;
 
                         case ProductEnum.Spare:
-                            await poster.PostSpare(infoHolder);
+                            tasks.Add(poster.PostSpare(dataDic));
                             break;
                     }
-
                 }
-            }).ToList();
+            }
 
             foreach (var task in tasks)
             {
-                await task;
+                var res = await task;
             }
         }
 

@@ -5,6 +5,10 @@ using System.Threading;
 
 namespace Motorcycle.Captcha
 {
+    using System.Threading.Tasks;
+
+    using Motorcycle.Sites;
+
     internal static class CaptchaString
     {
         internal static string GetCaptchaString(string key, string filePath, string domain)
@@ -27,12 +31,17 @@ namespace Motorcycle.Captcha
             return check;
         }
 
-        internal static void GetCaptchaImage(string url)
+        internal static string GetCaptchaImage(string url)
         {
-            if (File.Exists("captcha.jpg"))
-                File.Delete("captcha.jpg");
+            string fileName = CaptchaFileNameGenerator.GetFileName();
+
+            if (File.Exists(fileName))
+                File.Delete(fileName);
             var wc = new WebClient();
-            wc.DownloadFile(url, "captcha.jpg");
+
+            wc.DownloadFile(url, fileName);
+
+            return fileName;
         }
     }
 }

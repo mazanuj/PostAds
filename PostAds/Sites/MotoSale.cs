@@ -24,12 +24,12 @@
                     var requestImage = Request.GETRequest("http://www.motosale.com.ua/capcha/capcha.php");
                     requestImage.CookieContainer = cookieContainer;
 
-                    Response.GetImageFromResponse(requestImage);
+                    var captchaFileName = Response.GetImageFromResponse(requestImage);
 
                     //Get captcha result
                     var captcha = CaptchaString.GetCaptchaString(
                         CaptchaXmlWorker.GetCaptchaValues("key"),
-                        "captcha.jpg",
+                        captchaFileName,
                         CaptchaXmlWorker.GetCaptchaValues("domain"));
 
                     dataDictionary["fConfirmationCode"] = captcha;

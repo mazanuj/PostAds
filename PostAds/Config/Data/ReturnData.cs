@@ -20,6 +20,7 @@
             spareFile = sparefile;
             equipFile = equipfile;
 
+            ReturnDataHolders.Clear();
             ////Проверка сайтов для постинга
 
             //MotoSale

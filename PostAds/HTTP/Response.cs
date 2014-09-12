@@ -5,6 +5,8 @@ using System.Windows.Media.Imaging;
 
 namespace Motorcycle.HTTP
 {
+    using Motorcycle.Sites;
+
     internal static class Response
     {
         internal static string GetResponseString(HttpWebRequest request)
@@ -39,24 +41,28 @@ namespace Motorcycle.HTTP
             return (HttpWebResponse) request.GetResponse();
         }
 
-        internal static void GetImageFromResponse(HttpWebRequest request)
+        internal static string GetImageFromResponse(HttpWebRequest request)
         {
+            var fileName = CaptchaFileNameGenerator.GetFileName();
+
             using (var response = (HttpWebResponse) request.GetResponse())
             using (var stream = response.GetResponseStream())
             {
-                if (File.Exists("captcha.jpg"))
-                    File.Delete("captcha.jpg");
+                if (File.Exists(fileName))
+                    File.Delete(fileName);
                 
                 if (stream == null)
-                    return;
+                    return "";
 
                 var memoryStream = new MemoryStream();
                 stream.CopyTo(memoryStream);
 
                 var jpegEncoder = new JpegBitmapEncoder();
                 jpegEncoder.Frames.Add(BitmapFrame.Create(memoryStream, BitmapCreateOptions.None, BitmapCacheOption.OnLoad));
-                using (var fs = new FileStream("captcha.jpg", FileMode.Create, FileAccess.Write))
+                using (var fs = new FileStream(fileName, FileMode.Create, FileAccess.Write))
                     jpegEncoder.Save(fs);
+
+                return fileName;
             }
         }
     }

@@ -80,8 +80,8 @@ namespace Motorcycle.Sites
                     #endregion
 
                     //Get captcha result
-                    CaptchaString.GetCaptchaImage(captchaUrl);
-                    var captcha = CaptchaString.GetCaptchaString(CaptchaXmlWorker.GetCaptchaValues("key"), "captcha.jpg",
+                    var captchaFileName = CaptchaString.GetCaptchaImage(captchaUrl);
+                    var captcha = CaptchaString.GetCaptchaString(CaptchaXmlWorker.GetCaptchaValues("key"), captchaFileName,
                         CaptchaXmlWorker.GetCaptchaValues("domain"));
 
                     //Send captcha request
@@ -108,7 +108,7 @@ namespace Motorcycle.Sites
 
                     if (b == HttpStatusCode.OK)
                     {
-                        log.Info("Proday2kolesa OK");
+                        //log.Info("Proday2kolesa OK");
                         return SitePoster.PostStatus.OK;
                     }
                     return SitePoster.PostStatus.ERROR;

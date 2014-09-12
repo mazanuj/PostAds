@@ -94,6 +94,7 @@
     <Compile Include="Config\Data\SiteDataFactory.cs" />
     <Compile Include="Controls\Converters\BoolToColorConverter.cs" />
     <Compile Include="Interfaces\IPostOnSite.cs" />
+    <Compile Include="Sites\CaptchaFileNameGenerator.cs" />
     <Compile Include="Sites\PostOnSiteFactory.cs" />
     <Compile Include="Sites\SitePoster.cs" />
     <Compile Include="ViewModels\AddChangeCityViewModel.cs" />
