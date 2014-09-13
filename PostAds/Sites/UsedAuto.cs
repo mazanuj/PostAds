@@ -1,5 +1,6 @@
 ﻿namespace Motorcycle.Sites
 {
+    using System;
     using System.Collections.Generic;
     using System.Collections.Specialized;
     using System.Linq;
@@ -8,11 +9,16 @@
     using System.Threading.Tasks;
     using Config.Data;
     using HTTP;
+
+    using NLog;
+
     using POST;
     using Interfaces;
 
     internal class UsedAuto : IPostOnSite
     {
+        private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+
         public async Task<SitePoster.PostStatus> PostMoto(DicHolder data)
         {
             return await Task.Factory.StartNew(
@@ -35,8 +41,8 @@
                             fileDictionary
                                 .Where(fotoPath => fotoPath.Value != string.Empty)
                                 .Select(fotoPath => Request.POSTRequest(urlFile, cookieContainer,
-                                    new Dictionary<string, string> {{"photos", ""}},
-                                    new Dictionary<string, string> {{"file", fotoPath.Value}})))
+                                    new Dictionary<string, string> { { "photos", "" } },
+                                    new Dictionary<string, string> { { "file", fotoPath.Value } })))
                     {
                         requestFile.Referer = referer;
                         var responseFileString = Response.GetResponseString(requestFile);
@@ -63,7 +69,20 @@
                     //Post advert's data            
                     var responseByte = new WebClient().UploadValues(url, "POST", valueCollection);
                     var responseString = Encoding.Default.GetString(responseByte);
-                    return responseString.Contains("redirect") ? SitePoster.PostStatus.OK : SitePoster.PostStatus.ERROR;
+
+                    if (responseString.Contains("redirect"))
+                    {
+                        Log.Info("UsedAuto OK");
+                        return SitePoster.PostStatus.OK;
+                    }
+                    Log.Error("UsedAuto ERROR");
+                    return SitePoster.PostStatus.ERROR;
+
+                    //TaskEx.Delay(1000);
+                    //throw new Exception("My Exception!");
+
+                    //Log.Info("UsedAuto ERROR");
+                    //return SitePoster.PostStatus.ERROR;
                 });
         }
 

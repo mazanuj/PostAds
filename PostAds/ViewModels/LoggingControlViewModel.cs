@@ -11,6 +11,8 @@ using LogManager = NLog.LogManager;
 
 namespace Motorcycle.ViewModels
 {
+    using System.Windows;
+
     [Export(typeof(LoggingControlViewModel))]
     public class LoggingControlViewModel : PropertyChangedBase
     {
@@ -25,22 +27,25 @@ namespace Motorcycle.ViewModels
             ConfigurationItemFactory.Default.Targets.RegisterDefinition("MemoryEvent", typeof(MemoryEventTarget));
 
             var config = LogManager.Configuration;
-            var _logTarget = new MemoryEventTarget();
-            _logTarget.EventReceived += EventReceived;
+            var logTarget = new MemoryEventTarget();
+            logTarget.EventReceived += EventReceived;
 
-            config.AddTarget("memoryevent", _logTarget);
-            config.LoggingRules.Add(new LoggingRule("*", LogLevel.Debug, _logTarget));
-            SimpleConfigurator.ConfigureForTargetLogging(_logTarget, LogLevel.Debug);
+            config.AddTarget("memoryevent", logTarget);
+            config.LoggingRules.Add(new LoggingRule("*", LogLevel.Debug, logTarget));
+            SimpleConfigurator.ConfigureForTargetLogging(logTarget, LogLevel.Debug);
             LogManager.Configuration = config;
         }
 
         private static void EventReceived(LogEventInfo message)
         {
-            Dispatcher.CurrentDispatcher.Invoke(new Action(() =>
-            {
-                if (LogCollection.Count >= 50) LogCollection.RemoveAt(LogCollection.Count - 1);
-                LogCollection.Add(message);
-            }));
+            Application.Current.Dispatcher.BeginInvoke(
+                DispatcherPriority.Background,
+                new Action(
+                    () =>
+                        {
+                            if (LogCollection.Count >= 50) LogCollection.RemoveAt(0);
+                            LogCollection.Add(message);
+                        }));
         }
 
         public void SendLog()

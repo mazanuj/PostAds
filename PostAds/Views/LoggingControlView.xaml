@@ -10,51 +10,44 @@
         <converters:LogItemBgColorConverter x:Key="LogItemBgColorConverter" />
         <converters:LogItemFgColorConverter x:Key="LogItemFgColorConverter" />
     </UserControl.Resources>
-    <StackPanel Width="580" HorizontalAlignment="Center">
-        <Grid Row="0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-            <Grid>
-                <ListView ItemsSource="{Binding LogCollection}">
-                    <ListView.ItemContainerStyle>
-                        <Style TargetType="{x:Type ListViewItem}">
-                            <Setter Property="ToolTip" Value="{Binding FormattedMessage}" />
-                            <Setter Property="Background" Value="{Binding Level, Converter={StaticResource LogItemBgColorConverter}}" />
-                            <Setter Property="Foreground" Value="{Binding Level, Converter={StaticResource LogItemFgColorConverter}}" />
-                            <Style.Triggers>
-                                <Trigger Property="IsSelected" Value="True">
-                                    <Setter Property="Background" Value="DarkOrange"/>
-                                    <Setter Property="Foreground" Value="black"/>
-                                </Trigger>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Background" Value="{Binding Path=Background}"/>
-                                    <Setter Property="Foreground" Value="{Binding Path=Foreground}"/>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </ListView.ItemContainerStyle>
-                    <ListView.View>
-                        <GridView>
-                            <GridView.Columns>
-                                <!--<GridViewColumn DisplayMemberBinding="{Binding LoggerName}" Header="Logger"/>-->
-                                <GridViewColumn DisplayMemberBinding="{Binding Level}" Header="Level"/>
-                                <GridViewColumn DisplayMemberBinding="{Binding FormattedMessage}" Header="Message"/>
-                                <!--<GridViewColumn DisplayMemberBinding="{Binding Exception}" Header="Exception"/>-->
-                            </GridView.Columns>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
-            </Grid>
-        </Grid>
-        <Grid Row="1" HorizontalAlignment="Right" Margin="0,20,0,0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-            <Button Content="Clear log" Name="ClearLog" VerticalAlignment="Bottom" HorizontalAlignment="Right" Grid.Column="0" Margin="0,0,10,0"/>
-            <Button Content="Send via mail" Name="SendLog" VerticalAlignment="Bottom" HorizontalAlignment="Right" Grid.Column="1"/>
-        </Grid>
-    </StackPanel>
+
+    <Grid >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <ListView Grid.Row="0" ItemsSource="{Binding LogCollection}" >
+            <ListView.ItemContainerStyle>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <Setter Property="ToolTip" Value="{Binding FormattedMessage}" />
+                    <Setter Property="Background" Value="{Binding Level, Converter={StaticResource LogItemBgColorConverter}}" />
+                    <Setter Property="Foreground" Value="{Binding Level, Converter={StaticResource LogItemFgColorConverter}}" />
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="DarkOrange"/>
+                            <Setter Property="Foreground" Value="Black"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{Binding Background}"/>
+                            <Setter Property="Foreground" Value="{Binding Foreground}"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.View>
+                <GridView>
+                    <!--<GridViewColumn DisplayMemberBinding="{Binding LoggerName}" Header="Logger"/>-->
+                    <GridViewColumn DisplayMemberBinding="{Binding Level}" Header="Level"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding FormattedMessage}" Header="Message"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
+            <Button Content="Clear log" x:Name="ClearLog" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="5"/>
+            <Button Content="Send via mail" x:Name="SendLog" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="5"/>
+        </StackPanel>
+
+    </Grid>
 </UserControl>
