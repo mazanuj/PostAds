@@ -2,11 +2,10 @@
 using System.Net;
 using System.Text;
 using System.Windows.Media.Imaging;
+using Motorcycle.Captcha;
 
 namespace Motorcycle.HTTP
 {
-    using Motorcycle.Sites;
-
     internal static class Response
     {
         internal static string GetResponseString(HttpWebRequest request)
@@ -50,7 +49,7 @@ namespace Motorcycle.HTTP
             {
                 if (File.Exists(fileName))
                     File.Delete(fileName);
-                
+
                 if (stream == null)
                     return "";
 
@@ -58,7 +57,8 @@ namespace Motorcycle.HTTP
                 stream.CopyTo(memoryStream);
 
                 var jpegEncoder = new JpegBitmapEncoder();
-                jpegEncoder.Frames.Add(BitmapFrame.Create(memoryStream, BitmapCreateOptions.None, BitmapCacheOption.OnLoad));
+                jpegEncoder.Frames.Add(BitmapFrame.Create(memoryStream, BitmapCreateOptions.None,
+                    BitmapCacheOption.OnLoad));
                 using (var fs = new FileStream(fileName, FileMode.Create, FileAccess.Write))
                     jpegEncoder.Save(fs);
 

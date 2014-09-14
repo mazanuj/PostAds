@@ -51,7 +51,38 @@
                     var dataDictionary = data.DataDictionary;
                     var fileDictionary = data.FileDictionary;
 
-                    return SitePoster.PostStatus.OK;
+                    const string url = "http://www.motosale.com.ua/?add=zap";
+                    var cookieContainer = Cookies.GetCookiesContainer(url);
+
+                    //Get captcha result
+                    var requestImage = Request.GETRequest("http://www.motosale.com.ua/capcha/capcha.php");
+                    requestImage.CookieContainer = cookieContainer;
+
+                    var captchaFileName = Response.GetImageFromResponse(requestImage);
+                    
+                    var captcha = CaptchaString.GetCaptchaString(
+                        CaptchaXmlWorker.GetCaptchaValues("key"),
+                        captchaFileName,
+                        CaptchaXmlWorker.GetCaptchaValues("domain"));
+
+                    //Get hash result
+                    var requestHash = Request.GETRequest(url);
+                    requestHash.CookieContainer = cookieContainer;
+                    var responseHash = Response.GetResponseString(requestHash);
+
+                    var start = responseHash.IndexOf("name=\"insert\" value=\"") + "name=\"insert\" value=\"".Length;
+                    var stop = responseHash.IndexOf("\"", start);
+                    var hash = responseHash.Substring(start, stop - start);
+
+                    dataDictionary["fConfirmationCode"] = captcha;
+                    dataDictionary["insert"] = hash;
+
+                    var request = Request.POSTRequest(url, cookieContainer, dataDictionary, fileDictionary);
+                    request.Referer = url;
+                    var responseString = Response.GetResponseString(request);
+                    request.Abort();
+
+                    return responseString.Contains("На указанный вами E-mail отправлено письмо") ? SitePoster.PostStatus.OK : SitePoster.PostStatus.ERROR;
                 });
         }
 

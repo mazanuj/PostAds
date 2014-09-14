@@ -1,8 +1,8 @@
-﻿namespace Motorcycle.Sites
-{
-    using System.Threading;
+﻿using System.Threading;
 
-    class CaptchaFileNameGenerator
+namespace Motorcycle.Captcha
+{
+    internal static class CaptchaFileNameGenerator
     {
         private static int fileCounter;
 
