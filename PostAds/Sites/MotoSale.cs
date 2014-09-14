@@ -1,5 +1,6 @@
 ﻿namespace Motorcycle.Sites
 {
+    using System;
     using System.Threading.Tasks;
     using Captcha;
     using Config.Data;
@@ -52,7 +53,8 @@
                     Log.Error("MotoSale ERROR");
                     return SitePoster.PostStatus.ERROR;
 
-                    //TaskEx.Delay(1500);
+                    //TaskEx.Delay(8500);
+                    //throw new Exception("Exception in MotoSale");
                     //Log.Info("MotoSale OK");
                     //return SitePoster.PostStatus.OK;
                 });

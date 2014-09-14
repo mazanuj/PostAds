@@ -115,7 +115,7 @@ namespace Motorcycle.Sites
                     Log.Error("Proday2kolesa ERROR");
                     return SitePoster.PostStatus.ERROR;
 
-                    //TaskEx.Delay(2000);
+                    //TaskEx.Delay(8000);
                     //Log.Info("Proday2kolesa ERROR");
                     //return SitePoster.PostStatus.ERROR;
                 });

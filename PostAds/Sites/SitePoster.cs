@@ -1,12 +1,18 @@
 ﻿namespace Motorcycle.Sites
 {
+    using System;
+
     using Config.Data;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
+    using NLog;
+
     public static class SitePoster
     {
+        private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+
         public static async Task PostAdvertises(IEnumerable<InfoHolder> holders)
         {
             //var tasks = holders.Select(async holder =>
@@ -60,7 +66,14 @@
 
             foreach (var task in tasks)
             {
-                var res = await task;
+                try
+                {
+                    var res = await task;
+                }
+                catch (Exception ex)
+                {
+                    Log.Error(ex.Message);
+                }
             }
         }
 

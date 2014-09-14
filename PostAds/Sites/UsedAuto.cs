@@ -78,8 +78,8 @@
                     Log.Error("UsedAuto ERROR");
                     return SitePoster.PostStatus.ERROR;
 
-                    //TaskEx.Delay(1000);
-                    //throw new Exception("My Exception!");
+                    //TaskEx.Delay(8000);
+                    //throw new Exception("Exception in UsedAuto");
 
                     //Log.Info("UsedAuto ERROR");
                     //return SitePoster.PostStatus.ERROR;
