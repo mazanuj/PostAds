@@ -13,10 +13,10 @@ namespace Motorcycle.POST
         {
             var sPostMultiString = string.Empty;
             if (dataDictionary != null)
-                sPostMultiString = dataDictionary.Aggregate(sPostMultiString, (current, data) => current + MultiFormData.GetMultiFormData(data.Key, data.Value, boundary));            
+                sPostMultiString = dataDictionary.Aggregate(sPostMultiString, (current, pair) => current + MultiFormData.GetMultiFormData(pair.Key, pair.Value, boundary));
 
             if (fileDictionary != null)
-                sPostMultiString += fileDictionary.Aggregate(sPostMultiString, (current, file) => current + MultiFormData.GetMultiFormDataFile(file.Key, GetStringFromFile(file.Value), file.Value, "image/jpeg", boundary));
+                sPostMultiString = fileDictionary.Aggregate(sPostMultiString, (current, pair) => current + MultiFormData.GetMultiFormDataFile(pair.Key, GetStringFromFile(pair.Value), pair.Value, "image/jpeg", boundary));
 
             sPostMultiString += "--" + boundary + "--\r\n\r\n";
             return sPostMultiString;

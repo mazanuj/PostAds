@@ -1,8 +1,7 @@
-﻿using Motorcycle.Sites;
-
-namespace Motorcycle.Interfaces
+﻿namespace Motorcycle.Interfaces
 {
     using System.Threading.Tasks;
+    using Sites;
     using Config.Data;
 
     public interface IPostOnSite

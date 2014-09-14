@@ -78,20 +78,20 @@
             {
                 DataDictionary = new Dictionary<string, string>
                 {
-                    {"name", data[0]},//+
-                    {"mail", data[1]},//+
-                    {"phone", data[2]},//+
-                    {"type_obj", "1"},//+
-                    {"model_zap", ManufactureXmlWorker.GetItemSiteValueUsingPlant(data[4], "m")},//+
-                    {"type", data[5]},//+
-                    {"header", data[3]},//+
-                    {"text", data[9]},//+
-                    {"price", data[6]},//+
-                    {"city", CityXmlWorker.GetItemSiteValueUsingCity(data[7], "m")},//+
-                    {"date_delete", "60"},//+
-                    {"fConfirmationCode", ""},//+
-                    {"ok", "Отправить"},//+
-                    {"insert", ""}//+
+                    {"name", data[0]}, //+
+                    {"mail", data[1]}, //+
+                    {"phone", data[2]}, //+
+                    {"type_obj", "1"}, //+
+                    {"model_zap", ManufactureXmlWorker.GetItemSiteValueUsingPlant(data[4], "m")}, //+
+                    {"type", data[5]}, //+
+                    {"header", data[3]}, //+
+                    {"text", data[9]}, //+
+                    {"price", data[6]}, //+
+                    {"city", CityXmlWorker.GetItemSiteValueUsingCity(data[7], "m")}, //+
+                    {"date_delete", "60"}, //+
+                    {"fConfirmationCode", ""}, //+
+                    {"ok", "Отправить"}, //+
+                    {"insert", ""} //+
                 },
                 FileDictionary = new Dictionary<string, string>
                 {

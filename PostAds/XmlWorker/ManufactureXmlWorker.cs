@@ -9,19 +9,14 @@
     internal static class ManufactureXmlWorker
     {
         private const string XmlFilePath = "Main.config";
-
         private static readonly XDocument Doc = XDocument.Load(XmlFilePath);
-
         private const string ItemXPath = "//manufacture/item[@id='{0}' and @m='{1}' and @p='{2}' and @u='{3}']";
-
         private const string XPathForGettingValues = "//manufacture/item[@id='{0}' and @m='{1}' and @p='{2}' and @u='{3}']/value";
-
         private const string ValueXPath = "//manufacture/item/value[@name='{0}' and text()='{1}']";
-
-        private const string ValueXPathWithItemParams =
-            "//manufacture/item[@id='{0}' and @m='{1}' and @p='{2}' and @u='{3}']/value[@name='{4}' and text()='{5}']";
+        private const string ValueXPathWithItemParams = "//manufacture/item[@id='{0}' and @m='{1}' and @p='{2}' and @u='{3}']/value[@name='{4}' and text()='{5}']";
 
         #region Work with Item node
+
         public static void AddNewItemNode(string id, string m, string p, string u)
         {
             var manufacture = Doc.XPathSelectElement("//manufacture");
@@ -60,27 +55,42 @@
         public static IEnumerable<ManufactureItem> GetItemsWithTheirValues()
         {
             var items = (from e in Doc.Descendants("manufacture").Descendants("item")
-                         select new ManufactureItem
-                         {
-                             Id = (string)e.Attribute("id"),
-                             M = (string)e.Attribute("m"),
-                             P = (string)e.Attribute("p"),
-                             U = (string)e.Attribute("u"),
-                             Values = e.Descendants("value")
-                                 .Select(r => new ManufactureValue
-                                 {
-                                     Name = (string)r.Attribute("name"),
-                                     Val = r.Value
-                                 })
-                                 .ToList()
-                         }).ToList();
+                select new ManufactureItem
+                {
+                    Id = (string) e.Attribute("id"),
+                    M = (string) e.Attribute("m"),
+                    P = (string) e.Attribute("p"),
+                    U = (string) e.Attribute("u"),
+                    Values = e.Descendants("value")
+                        .Select(r => new ManufactureValue
+                        {
+                            Name = (string) r.Attribute("name"),
+                            Val = r.Value
+                        })
+                        .ToList()
+                }).ToList();
 
             return items;
         }
 
         public static string GetItemSiteValueUsingPlant(string itemId, string site)
         {
-            var att = (IEnumerable)Doc.XPathEvaluate(string.Format("//manufacture/item[@id='{0}']/@{1}", itemId.ToLower(), site.ToLower()));
+            var att =
+                (IEnumerable)
+                    Doc.XPathEvaluate(string.Format("//manufacture/item[@id='{0}']/@{1}", itemId.ToLower(),
+                        site.ToLower()));
+
+            var firstOrDefault = att.Cast<XAttribute>().FirstOrDefault();
+
+            return firstOrDefault != null ? firstOrDefault.Value : string.Empty;
+        }
+
+        public static string GetItemSiteIdUsingPlant(string site, string value)
+        {
+            var att =
+                (IEnumerable)
+                    Doc.XPathEvaluate(string.Format("//manufacture/item[@{0}='{1}']/@id", site.ToLower(),
+                        value.ToLower()));
 
             var firstOrDefault = att.Cast<XAttribute>().FirstOrDefault();
 
@@ -89,23 +99,31 @@
 
         public static string GetMotoType(string itemId, string site)
         {
-            var att = (IEnumerable)Doc.XPathEvaluate(string.Format("//type/item[@id='{0}']/@{1}", itemId.ToLower(), site.ToLower()));
+            var att =
+                (IEnumerable)
+                    Doc.XPathEvaluate(string.Format("//type/item[@id='{0}']/@{1}", itemId.ToLower(), site.ToLower()));
 
             var firstOrDefault = att.Cast<XAttribute>().FirstOrDefault();
 
             return firstOrDefault != null ? firstOrDefault.Value : string.Empty;
         }
+
         public static string GetMotoColor(string itemId, string site)
         {
-            var att = (IEnumerable)Doc.XPathEvaluate(string.Format("//type/color[@id='{0}']/@{1}", itemId.ToLower(), site.ToLower()));
+            var att =
+                (IEnumerable)
+                    Doc.XPathEvaluate(string.Format("//type/color[@id='{0}']/@{1}", itemId.ToLower(), site.ToLower()));
 
             var firstOrDefault = att.Cast<XAttribute>().FirstOrDefault();
 
             return firstOrDefault != null ? firstOrDefault.Value : string.Empty;
         }
+
         public static string GetConditionState(string itemId, string site)
         {
-            var att = (IEnumerable)Doc.XPathEvaluate(string.Format("//condition/item[@id='{0}']/@{1}", itemId.ToLower(), site.ToLower()));
+            var att =
+                (IEnumerable)
+                    Doc.XPathEvaluate(string.Format("//condition/item[@id='{0}']/@{1}", itemId.ToLower(), site.ToLower()));
 
             var firstOrDefault = att.Cast<XAttribute>().FirstOrDefault();
 
@@ -114,7 +132,9 @@
 
         public static string GetMadeYear(string itemId, string site)
         {
-            var att = (IEnumerable)Doc.XPathEvaluate(string.Format("//year/item[@id='{0}']/@{1}", itemId.ToLower(), site.ToLower()));
+            var att =
+                (IEnumerable)
+                    Doc.XPathEvaluate(string.Format("//year/item[@id='{0}']/@{1}", itemId.ToLower(), site.ToLower()));
 
             var firstOrDefault = att.Cast<XAttribute>().FirstOrDefault();
 
@@ -123,20 +143,25 @@
 
         public static string GetItemValueUsingPlantAndName(string itemId, string name)
         {
-            var att = (IEnumerable)Doc.XPathEvaluate(string.Format("//manufacture/item[@id = '{0}']/value[@name = '{1}']", itemId.ToLower(), name.ToLower()));
+            var att =
+                (IEnumerable)
+                    Doc.XPathEvaluate(string.Format("//manufacture/item[@id = '{0}']/value[@name = '{1}']",
+                        itemId.ToLower(), name.ToLower()));
 
             var firstOrDefault = att.Cast<XElement>().FirstOrDefault();
 
             return firstOrDefault != null ? firstOrDefault.Value : string.Empty;
         }
+
         #endregion
 
         #region Work with Value node
+
         public static void AddNewValueNode(ManufactureItem item, ManufactureValue value)
         {
             var ownerItem = Doc.XPathSelectElement(string.Format(ItemXPath, item.Id, item.M, item.P, item.U));
 
-            var val = new XElement("value", new XAttribute("name", value.Name.ToLower())) { Value = value.Val };
+            var val = new XElement("value", new XAttribute("name", value.Name.ToLower())) {Value = value.Val};
 
             ownerItem.Add(val);
 
@@ -155,7 +180,8 @@
             Doc.Save(XmlFilePath);
         }
 
-        public static void ChangeValueNodeUsingItemNode(ManufactureItem item, ManufactureValue oldValue, ManufactureValue newValue)
+        public static void ChangeValueNodeUsingItemNode(ManufactureItem item, ManufactureValue oldValue,
+            ManufactureValue newValue)
         {
             var value = Doc.XPathSelectElement(string.Format(ValueXPathWithItemParams, item.Id, item.M, item.P, item.U,
                 oldValue.Name, oldValue.Val));
@@ -196,8 +222,12 @@
             var valueXElements = Doc.XPathSelectElements(
                 string.Format(XPathForGettingValues, item.Id, item.M, item.P, item.U));
 
-            return valueXElements.Select(valueXElement => new ManufactureValue(valueXElement.Attribute("name").Value, valueXElement.Value)).ToList();
+            return
+                valueXElements.Select(
+                    valueXElement => new ManufactureValue(valueXElement.Attribute("name").Value, valueXElement.Value))
+                    .ToList();
         }
+
         #endregion
     }
 }
