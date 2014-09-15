@@ -17,9 +17,6 @@ namespace Motorcycle.Sites
 
     internal class UsedAuto : IPostOnSite
     {
-        private static readonly Logger Log = LogManager.GetCurrentClassLogger();
-        private static string reply;
-
         public async Task<SitePoster.PostStatus> PostMoto(DicHolder data)
         {
             return await Task.Factory.StartNew(
@@ -27,9 +24,10 @@ namespace Motorcycle.Sites
                 {
                     try
                     {
+                        var Log = LogManager.GetCurrentClassLogger();
                         var dataDictionary = data.DataDictionary;
                         var fileDictionary = data.FileDictionary;
-                        reply = string.Format("{0} {1}",
+                        var reply = string.Format("{0} {1}",
                             ManufactureXmlWorker.GetItemSiteIdUsingPlant("u", dataDictionary["input[1]"]),
                             dataDictionary["input[153]"]);
 
@@ -86,7 +84,10 @@ namespace Motorcycle.Sites
                     }
                     catch (Exception ex)
                     {
-                        Log.Error(reply + " unsuccessfully posted on UsedAuto", ex);
+                        LogManager.GetCurrentClassLogger()
+                            .Error(string.Format("{0} {1} unsuccessfully posted on UsedAuto",
+                                ManufactureXmlWorker.GetItemSiteIdUsingPlant("u", data.DataDictionary["input[1]"]),
+                                data.DataDictionary["input[153]"]), ex);
                         return SitePoster.PostStatus.ERROR;
                     }
                 });
@@ -99,21 +100,34 @@ namespace Motorcycle.Sites
                 {
                     try
                     {
+                        var Log = LogManager.GetCurrentClassLogger();
                         var dataDictionary = data.DataDictionary;
                         var fileDictionary = data.FileDictionary;
-                        reply = string.Empty; //TODO
+                        var reply = string.Format("{0} {1} successfully posted on UsedAuto",
+                            ManufactureXmlWorker.GetItemSiteIdUsingPlant("u", data.DataDictionary["make"]),
+                            data.DataDictionary["model"]);
 
-                        if (true) //TODO
+                        const string url = "http://usedauto.com.ua/add/zapchasti.php";
+
+                        var cookieContainer = Cookies.GetCookiesContainer(url);
+                        var request = Request.POSTRequest(url, cookieContainer, dataDictionary, fileDictionary, url);
+
+                        if (Response.GetResponseString(request).Contains("success"))
                         {
                             Log.Info(reply + " successfully posted on UsedAuto");
                             return SitePoster.PostStatus.OK;
                         }
                         Log.Warn(reply + " unsuccessfully posted on UsedAuto");
+                        request.Abort();
+
                         return SitePoster.PostStatus.ERROR;
                     }
                     catch (Exception ex)
                     {
-                        Log.Error(reply + " unsuccessfully posted on UsedAuto", ex);
+                        LogManager.GetCurrentClassLogger()
+                            .Error(string.Format("{0} {1} unsuccessfully posted on UsedAuto",
+                                ManufactureXmlWorker.GetItemSiteIdUsingPlant("u", data.DataDictionary["make"]),
+                                data.DataDictionary["model"]), ex);
                         return SitePoster.PostStatus.ERROR;
                     }
                 });
@@ -126,9 +140,10 @@ namespace Motorcycle.Sites
                 {
                     try
                     {
+                        var Log = LogManager.GetCurrentClassLogger();
                         var dataDictionary = data.DataDictionary;
                         var fileDictionary = data.FileDictionary;
-                        reply = string.Empty; //TODO
+                        var reply = string.Empty; //TODO
 
                         if (true) //TODO
                         {
@@ -140,7 +155,10 @@ namespace Motorcycle.Sites
                     }
                     catch (Exception ex)
                     {
-                        Log.Error(reply + " unsuccessfully posted on UsedAuto", ex);
+                        LogManager.GetCurrentClassLogger()
+                            .Error(string.Format("{0} {1} unsuccessfully posted on UsedAuto",
+                                ManufactureXmlWorker.GetItemSiteIdUsingPlant("u", data.DataDictionary["input[1]"]),
+                                data.DataDictionary["input[153]"]), ex);
                         return SitePoster.PostStatus.ERROR;
                     }
                 });

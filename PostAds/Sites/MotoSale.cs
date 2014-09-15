@@ -12,9 +12,6 @@
 
     internal class MotoSale : IPostOnSite
     {
-        private static readonly Logger Log = LogManager.GetCurrentClassLogger();
-        private static string reply;
-
         public async Task<SitePoster.PostStatus> PostMoto(DicHolder data)
         {
             return await Task.Factory.StartNew(
@@ -22,9 +19,10 @@
                 {
                     try
                     {
+                        var Log = LogManager.GetCurrentClassLogger();
                         var dataDictionary = data.DataDictionary;
                         var fileDictionary = data.FileDictionary;
-                        reply = string.Format("{0} {1}{2}",
+                        var reply = string.Format("{0} {1}{2}",
                             ManufactureXmlWorker.GetItemSiteIdUsingPlant("m", dataDictionary["model"]),
                             dataDictionary["manufactured_model"], dataDictionary["custom_model"]);
 
@@ -59,7 +57,10 @@
                     }
                     catch (Exception ex)
                     {
-                        Log.Error(reply + " unsuccessfully posted on Motosale", ex);
+                        LogManager.GetCurrentClassLogger()
+                            .Error(string.Format("{0} {1}{2} unsuccessfully posted on Motosale",
+                                ManufactureXmlWorker.GetItemSiteIdUsingPlant("m", data.DataDictionary["model"]),
+                                data.DataDictionary["manufactured_model"], data.DataDictionary["custom_model"]), ex);
                         return SitePoster.PostStatus.ERROR;
                     }
                 });
@@ -72,9 +73,10 @@
                 {
                     try
                     {
+                        var Log = LogManager.GetCurrentClassLogger();
                         var dataDictionary = data.DataDictionary;
                         var fileDictionary = data.FileDictionary;
-                        reply = string.Format("{0} {1}",
+                        var reply = string.Format("{0} {1}",
                             ManufactureXmlWorker.GetItemSiteIdUsingPlant("m", dataDictionary["model_zap"]),
                             dataDictionary["type"]);
 
@@ -120,7 +122,10 @@
                     }
                     catch (Exception ex)
                     {
-                        Log.Error(reply + " unsuccessfully posted on Motosale", ex);
+                        LogManager.GetCurrentClassLogger()
+                            .Error(string.Format("{0} {1} unsuccessfully posted on Motosale",
+                                ManufactureXmlWorker.GetItemSiteIdUsingPlant("m", data.DataDictionary["model_zap"]),
+                                data.DataDictionary["type"]), ex);
                         return SitePoster.PostStatus.ERROR;
                     }
                 });
@@ -133,9 +138,10 @@
                 {
                     try
                     {
+                        var Log = LogManager.GetCurrentClassLogger();
                         var dataDictionary = data.DataDictionary;
                         var fileDictionary = data.FileDictionary;
-                        reply = string.Empty; //TODO
+                        var reply = string.Empty; //TODO
 
                         if (true) //TODO
                         {
@@ -147,7 +153,10 @@
                     }
                     catch (Exception ex)
                     {
-                        Log.Error(reply + " unsuccessfully posted on Motosale", ex);
+                        LogManager.GetCurrentClassLogger()
+                            .Error(string.Format("{0} {1} unsuccessfully posted on Motosale",
+                                ManufactureXmlWorker.GetItemSiteIdUsingPlant("m", data.DataDictionary["model_zap"]),
+                                data.DataDictionary["type"]), ex);
                         return SitePoster.PostStatus.ERROR;
                     }
                 });

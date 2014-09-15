@@ -1,4 +1,6 @@
-﻿namespace Motorcycle.Config.Data
+﻿using Motorcycle.Factories;
+
+namespace Motorcycle.Config.Data
 {
     using Interfaces;
     using System.Collections.Generic;

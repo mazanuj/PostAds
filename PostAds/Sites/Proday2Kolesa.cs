@@ -14,9 +14,6 @@
 
     internal class Proday2Kolesa : IPostOnSite
     {
-        private static readonly Logger Log = LogManager.GetCurrentClassLogger();
-        private static string reply;
-
         public async Task<SitePoster.PostStatus> PostMoto(DicHolder data)
         {
             return await Task.Factory.StartNew(
@@ -24,10 +21,11 @@
                 {
                     try
                     {
+                        var Log = LogManager.GetCurrentClassLogger();
                         var dataDictionary = data.DataDictionary;
                         var fileDictionary = data.FileDictionary;
-                        reply = string.Format("{0} {1}",
-                            ManufactureXmlWorker.GetItemSiteIdUsingPlant("p", dataDictionary["model"]),
+                        var reply = string.Format("{0} {1}",
+                            ProdayEquipXmlWorker.GetItemSiteIdUsingPlant("p", dataDictionary["model"]),
                             dataDictionary["modification"]);
 
                         const string url = "http://proday2kolesa.com.ua/index.php";
@@ -104,8 +102,8 @@
                         };
 
                         referer = string.Format(
-                                "http://proday2kolesa.com.ua/component/option,{0}/task,publish/id,{1}/error,0/Itemid,{2}/",
-                                dataDictionary["option"], id, Itemid);
+                            "http://proday2kolesa.com.ua/component/option,{0}/task,publish/id,{1}/error,0/Itemid,{2}/",
+                            dataDictionary["option"], id, Itemid);
                         request = Request.POSTRequest(url, cookieContainer, captchaDictionary, null, referer);
 
                         if (Response.GetResponse(request).StatusCode == HttpStatusCode.OK)
@@ -120,7 +118,10 @@
                     }
                     catch (Exception ex)
                     {
-                        Log.Error(reply + " unsuccessfully posted on Proday2kolesa", ex);
+                        LogManager.GetCurrentClassLogger()
+                            .Error(string.Format("{0} {1} unsuccessfully posted on Proday2kolesa",
+                                ProdayEquipXmlWorker.GetItemSiteIdUsingPlant("p", data.DataDictionary["model"]),
+                                data.DataDictionary["modification"]), ex);
                         return SitePoster.PostStatus.ERROR;
                     }
                 });
@@ -133,10 +134,11 @@
                 {
                     try
                     {
+                        var Log = LogManager.GetCurrentClassLogger();
                         var dataDictionary = data.DataDictionary;
                         var fileDictionary = data.FileDictionary;
-                        reply = string.Format("{0} {1}",
-                            ManufactureXmlWorker.GetItemSiteIdUsingPlant("p", dataDictionary["model"]),
+                        var reply = string.Format("{0} {1}",
+                            ProdayEquipXmlWorker.GetItemSiteIdUsingPlant("p", dataDictionary["model"]),
                             dataDictionary["modification"]);
 
                         const string url = "http://proday2kolesa.com.ua/index.php";
@@ -213,8 +215,8 @@
                         };
 
                         referer = string.Format(
-                                "http://proday2kolesa.com.ua/component/option,{0}/task,publish/id,{1}/error,0/Itemid,{2}/",
-                                dataDictionary["option"], id, Itemid);
+                            "http://proday2kolesa.com.ua/component/option,{0}/task,publish/id,{1}/error,0/Itemid,{2}/",
+                            dataDictionary["option"], id, Itemid);
                         request = Request.POSTRequest(url, cookieContainer, captchaDictionary, null, referer);
 
                         if (Response.GetResponse(request).StatusCode == HttpStatusCode.OK)
@@ -229,7 +231,10 @@
                     }
                     catch (Exception ex)
                     {
-                        Log.Error(reply + " unsuccessfully posted on Proday2kolesa", ex);
+                        LogManager.GetCurrentClassLogger()
+                            .Error(string.Format("{0} {1} unsuccessfully posted on Proday2kolesa",
+                                ProdayEquipXmlWorker.GetItemSiteIdUsingPlant("p", data.DataDictionary["model"]),
+                                data.DataDictionary["modification"]), ex);
                         return SitePoster.PostStatus.ERROR;
                     }
                 });
@@ -242,9 +247,10 @@
                 {
                     try
                     {
+                        var Log = LogManager.GetCurrentClassLogger();
                         var dataDictionary = data.DataDictionary;
                         var fileDictionary = data.FileDictionary;
-                        reply = string.Empty; //TODO
+                        var reply = string.Empty; //TODO
 
                         if (true) //TODO
                         {
@@ -256,7 +262,10 @@
                     }
                     catch (Exception ex)
                     {
-                        Log.Error(reply + " unsuccessfully posted on Proday2kolesa", ex);
+                        LogManager.GetCurrentClassLogger()
+                            .Error(string.Format("{0} {1} unsuccessfully posted on Proday2kolesa",
+                                ProdayEquipXmlWorker.GetItemSiteIdUsingPlant("p", data.DataDictionary["model"]),
+                                data.DataDictionary["modification"]), ex);
                         return SitePoster.PostStatus.ERROR;
                     }
                 });

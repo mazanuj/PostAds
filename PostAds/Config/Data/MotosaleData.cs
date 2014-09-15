@@ -83,7 +83,7 @@
                     {"phone", data[2]}, //+
                     {"type_obj", "1"}, //+
                     {"model_zap", ManufactureXmlWorker.GetItemSiteValueUsingPlant(data[4], "m")}, //+
-                    {"type", data[5]}, //+
+                    {"type", ProdayEquipXmlWorker.GetSpareType(data[5],"m")}, //+
                     {"header", data[3]}, //+
                     {"text", data[9]}, //+
                     {"price", data[6]}, //+

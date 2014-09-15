@@ -85,13 +85,13 @@ namespace Motorcycle.Config.Data
             {
                 DataDictionary = new Dictionary<string, string>
                 {
-                    {"model", "511"/*ManufactureXmlWorker.GetItemSiteValueUsingPlant(data[4], "p")*/},//zavod basa+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                    {"model", ProdayEquipXmlWorker.GetItemSiteValueUsingPlant(data[4], "pz")},//zavod basa+
                     {"modification",data[3]},//model vvod+
                     {"color","0"},//+
                     {"price",data[6]},//cena vvod+
                     {"currency","2"},//$+
                     {"year","-----"},//+
-                    {"bodytype","26"},//tip create basa!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                    {"bodytype",ProdayEquipXmlWorker.GetSpareType(data[5],"p")},//tip basa+
                     {"state",ManufactureXmlWorker.GetConditionState(data[10], "p")},//sostoyanie basa+
                     {"choosen","no"},//+
                     {"vin",""},//+
@@ -105,7 +105,7 @@ namespace Motorcycle.Config.Data
                     {"city",CityXmlWorker.GetItemSiteValueUsingCity(data[7], "p")},//gorod basa+
                     {"during","360"},//+
                     {"id",""},//+
-                    {"vendor","511"/*ManufactureXmlWorker.GetItemSiteValueUsingPlant(data[4], "p")*/},//zavod basa+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                    {"vendor",ProdayEquipXmlWorker.GetItemSiteValueUsingPlant(data[4], "pz")},//zavod basa+
                     {"category","5"},//+
                     {"ip","127.0.0.1"},//+
                     {"Itemid","6"},//+

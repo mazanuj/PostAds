@@ -1,10 +1,10 @@
-﻿namespace Motorcycle.Sites
+﻿using Motorcycle.Factories;
+
+namespace Motorcycle.Sites
 {
     using System;
-
     using Config.Data;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
 
     using NLog;

@@ -49,12 +49,12 @@
         public static IEnumerable GetAllItems()
         {
             var items = (from e in Doc.Descendants("production").Descendants("item")
-                         select new
-                         {
-                             Id = (string)e.Attribute("id"),
-                             Pz = (string)e.Attribute("pz"),
-                             Pe = (string)e.Attribute("pe"),
-                         }).ToList();
+                select new
+                {
+                    Id = (string) e.Attribute("id"),
+                    Pz = (string) e.Attribute("pz"),
+                    Pe = (string) e.Attribute("pe"),
+                }).ToList();
 
             return items;
         }
@@ -65,6 +65,30 @@
                 (IEnumerable)
                     Doc.XPathEvaluate(string.Format("//equip/production/item[@id='{0}']/@{1}", itemId.ToLower(),
                         site.ToLower()));
+
+            var firstOrDefault = att.Cast<XAttribute>().FirstOrDefault();
+
+            return firstOrDefault != null ? firstOrDefault.Value : string.Empty;
+        }
+
+        public static string GetSpareType(string itemId, string site)
+        {
+            var att =
+                (IEnumerable)
+                    Doc.XPathEvaluate(string.Format("//equip/typeSpare/item[@id='{0}']/@{1}", itemId.ToLower(),
+                        site.ToLower()));
+
+            var firstOrDefault = att.Cast<XAttribute>().FirstOrDefault();
+
+            return firstOrDefault != null ? firstOrDefault.Value : "36";
+        }
+
+        public static string GetItemSiteIdUsingPlant(string site, string value)
+        {
+            var att =
+                (IEnumerable)
+                    Doc.XPathEvaluate(string.Format("//equip/production/item[@{0}='{1}']/@id", site.ToLower(),
+                        value.ToLower()));
 
             var firstOrDefault = att.Cast<XAttribute>().FirstOrDefault();
 

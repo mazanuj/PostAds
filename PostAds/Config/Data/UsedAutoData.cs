@@ -96,15 +96,31 @@ namespace Motorcycle.Config.Data
         {
             var data = row.Split('\t');
 
+            var condition = data[10].ToLower() == "новый" ? "new" : "used";
+
             return new DicHolder
             {
                 DataDictionary = new Dictionary<string, string>
                 {
-                    {"", ""}
+                    {"hash", "d8d4c90043a5a7fc299fc47610c59184"},//+
+                    {"category_id", "80"},//+
+                    {"parentId", "27"},//+
+                    {"make", ManufactureXmlWorker.GetItemSiteValueUsingPlant(data[4],"u")},//zavod+
+                    {"model", data[3]},//+
+                    {"year", ""},//+
+                    {"part_category_id[]", ProdayEquipXmlWorker.GetSpareType(data[5],"u")},//create basa+
+                    {"part_description[]", data[3]},//+
+                    {"part_condition[]", condition},//+`
+                    {"part_price[]", data[6]},//+
+                    {"part_currency[]", "1"},//$+
+                    {"description", data[9]},//+
+                    {"region_id", CityXmlWorker.GetItemSiteValueUsingCity(data[7],"u")},//+
+                    {"phone1", data[2]},//+
+                    {"fio", data[0]}//+
                 },
                 FileDictionary = new Dictionary<string, string>
                 {
-                    {"", ""}
+                    {"part_photo[]", data[8].Split(',')[0]}//+
                 }
             };
         }

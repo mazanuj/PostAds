@@ -91,11 +91,11 @@
     <Compile Include="Config\Advertising.cs" />
     <Compile Include="Config\Data\InfoHolder.cs" />
     <Compile Include="Interfaces\ISiteData.cs" />
-    <Compile Include="Config\Data\SiteDataFactory.cs" />
+    <Compile Include="Factories\SiteDataFactory.cs" />
     <Compile Include="Controls\Converters\BoolToColorConverter.cs" />
     <Compile Include="Interfaces\IPostOnSite.cs" />
     <Compile Include="Captcha\CaptchaFileNameGenerator.cs" />
-    <Compile Include="Sites\PostOnSiteFactory.cs" />
+    <Compile Include="Factories\PostOnSiteFactory.cs" />
     <Compile Include="Sites\SitePoster.cs" />
     <Compile Include="ViewModels\AddChangeCityViewModel.cs" />
     <Compile Include="ViewModels\ChangeBaseViewModel.cs" />
