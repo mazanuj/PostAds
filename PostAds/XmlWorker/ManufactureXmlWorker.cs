@@ -10,16 +10,16 @@
     {
         private const string XmlFilePath = "Main.config";
         private static readonly XDocument Doc = XDocument.Load(XmlFilePath);
-        private const string ItemXPath = "//manufacture/item[@id='{0}' and @m='{1}' and @p='{2}' and @u='{3}']";
-        private const string XPathForGettingValues = "//manufacture/item[@id='{0}' and @m='{1}' and @p='{2}' and @u='{3}']/value";
-        private const string ValueXPath = "//manufacture/item/value[@name='{0}' and text()='{1}']";
-        private const string ValueXPathWithItemParams = "//manufacture/item[@id='{0}' and @m='{1}' and @p='{2}' and @u='{3}']/value[@name='{4}' and text()='{5}']";
+        private const string ItemXPath = "//moto/manufacture/item[@id='{0}' and @m='{1}' and @p='{2}' and @u='{3}']";
+        private const string XPathForGettingValues = "//moto/manufacture/item[@id='{0}' and @m='{1}' and @p='{2}' and @u='{3}']/value";
+        private const string ValueXPath = "//moto/manufacture/item/value[@name='{0}' and text()='{1}']";
+        private const string ValueXPathWithItemParams = "//moto/manufacture/item[@id='{0}' and @m='{1}' and @p='{2}' and @u='{3}']/value[@name='{4}' and text()='{5}']";
 
         #region Work with Item node
 
         public static void AddNewItemNode(string id, string m, string p, string u)
         {
-            var manufacture = Doc.XPathSelectElement("//manufacture");
+            var manufacture = Doc.XPathSelectElement("//moto/manufacture");
 
             manufacture.Add(new XElement("item", new XAttribute("id", id.ToLower()), new XAttribute("m", m),
                 new XAttribute("p", p), new XAttribute("u", u)));
@@ -77,7 +77,7 @@
         {
             var att =
                 (IEnumerable)
-                    Doc.XPathEvaluate(string.Format("//manufacture/item[@id='{0}']/@{1}", itemId.ToLower(),
+                    Doc.XPathEvaluate(string.Format("//moto/manufacture/item[@id='{0}']/@{1}", itemId.ToLower(),
                         site.ToLower()));
 
             var firstOrDefault = att.Cast<XAttribute>().FirstOrDefault();
@@ -89,7 +89,7 @@
         {
             var att =
                 (IEnumerable)
-                    Doc.XPathEvaluate(string.Format("//manufacture/item[@{0}='{1}']/@id", site.ToLower(),
+                    Doc.XPathEvaluate(string.Format("//moto/manufacture/item[@{0}='{1}']/@id", site.ToLower(),
                         value.ToLower()));
 
             var firstOrDefault = att.Cast<XAttribute>().FirstOrDefault();
@@ -145,7 +145,7 @@
         {
             var att =
                 (IEnumerable)
-                    Doc.XPathEvaluate(string.Format("//manufacture/item[@id = '{0}']/value[@name = '{1}']",
+                    Doc.XPathEvaluate(string.Format("//moto/manufacture/item[@id = '{0}']/value[@name = '{1}']",
                         itemId.ToLower(), name.ToLower()));
 
             var firstOrDefault = att.Cast<XElement>().FirstOrDefault();
