@@ -24,7 +24,7 @@
         public static void ChangeItemNode(string oldId, string oldPz, string oldPe,
             string newId, string newPz, string newPe)
         {
-            var item = Doc.XPathSelectElement(string.Format(ItemXPath, oldId.ToLower(), oldPe, oldPz));
+            var item = Doc.XPathSelectElement(string.Format(ItemXPath, oldId.ToLower(), oldPz, oldPe));
 
             if (item == null) return;
 
@@ -52,8 +52,8 @@
                          select new
                          {
                              Id = (string)e.Attribute("id"),
-                             M = (string)e.Attribute("pz"),
-                             P = (string)e.Attribute("pe"),
+                             Pz = (string)e.Attribute("pz"),
+                             Pe = (string)e.Attribute("pe"),
                          }).ToList();
 
             return items;
