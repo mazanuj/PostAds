@@ -14,10 +14,7 @@ namespace Motorcycle.POST
 
             var cookieCollection = Response.GetResponseCookies(request);
             if (path.Contains("motosale"))
-            {
-                var cookie = new Cookie("b", "b", "/", "www.motosale.com.ua");
-                cookieCollection.Add(cookie);
-            }
+                cookieCollection.Add(new Cookie("b", "b", "/", "www.motosale.com.ua"));            
             cookieContainer.Add(cookieCollection);
 
             return cookieContainer;

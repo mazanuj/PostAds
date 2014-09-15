@@ -5,10 +5,6 @@ using System.Threading;
 
 namespace Motorcycle.Captcha
 {
-    using System.Threading.Tasks;
-
-    using Motorcycle.Sites;
-
     internal static class CaptchaString
     {
         internal static string GetCaptchaString(string key, string filePath, string domain)
@@ -33,7 +29,7 @@ namespace Motorcycle.Captcha
 
         internal static string GetCaptchaImage(string url)
         {
-            string fileName = CaptchaFileNameGenerator.GetFileName();
+            var fileName = CaptchaFileNameGenerator.GetFileName();
 
             if (File.Exists(fileName))
                 File.Delete(fileName);

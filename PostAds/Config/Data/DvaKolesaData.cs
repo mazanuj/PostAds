@@ -71,15 +71,54 @@ namespace Motorcycle.Config.Data
         {
             var data = row.Split('\t');
 
+            //Photos
+            var d = data[8].Split(',');
+            var files = new string[5];
+            for (var i = 0; i < 5; i++)
+            {
+                if (i < d.Length)
+                    files[i] = d[i];
+                else files[i] = string.Empty;
+            }
+
             return new DicHolder
             {
                 DataDictionary = new Dictionary<string, string>
                 {
-                    {"", ""}
+                    {"model", "511"/*ManufactureXmlWorker.GetItemSiteValueUsingPlant(data[4], "p")*/},//zavod basa+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                    {"modification",data[3]},//model vvod+
+                    {"color","0"},//+
+                    {"price",data[6]},//cena vvod+
+                    {"currency","2"},//$+
+                    {"year","-----"},//+
+                    {"bodytype","26"},//tip create basa!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                    {"state",ManufactureXmlWorker.GetConditionState(data[10], "p")},//sostoyanie basa+
+                    {"choosen","no"},//+
+                    {"vin",""},//+
+                    {"wrangle","0"},//+
+                    {"MAX_FILE_SIZE","614400"},//+
+                    {"additional",data[9]},//message vvod+
+                    {"name",data[0]},//vvod+
+                    {"phone1",data[2]},//vvod+
+                    {"since1","10"},//+
+                    {"till1","21"},//+
+                    {"city",CityXmlWorker.GetItemSiteValueUsingCity(data[7], "p")},//gorod basa+
+                    {"during","360"},//+
+                    {"id",""},//+
+                    {"vendor","511"/*ManufactureXmlWorker.GetItemSiteValueUsingPlant(data[4], "p")*/},//zavod basa+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                    {"category","5"},//+
+                    {"ip","127.0.0.1"},//+
+                    {"Itemid","6"},//+
+                    {"option","com_autobb"},//+
+                    {"task","save"}//+
                 },
                 FileDictionary = new Dictionary<string, string>
                 {
-                    {"", ""}
+                    {"photofile_0", files[0]},
+                    {"photofile_1", files[1]},
+                    {"photofile_2", files[2]},
+                    {"photofile_3", files[3]},
+                    {"photofile_4", files[4]}
                 }
             };
         }

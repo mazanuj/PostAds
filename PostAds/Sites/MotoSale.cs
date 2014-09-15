@@ -104,7 +104,7 @@
                         //var stop = responseHash.IndexOf("\"", start);
                         //var hash = responseHash.Substring(start, stop - start);
 
-                        //dataDictionary["insert"] = "";
+                        //dataDictionary["insert"] = hash;
 
                         var request = Request.POSTRequest(url, cookieContainer, dataDictionary, fileDictionary);
                         var responseString = Response.GetResponseString(request);
