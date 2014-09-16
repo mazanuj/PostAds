@@ -53,7 +53,7 @@
                 {
                     Id = (string) e.Attribute("id"),
                     Pz = (string) e.Attribute("pz"),
-                    Pe = (string) e.Attribute("pe"),
+                    Pe = (string) e.Attribute("pe")
                 }).ToList();
 
             return items;
