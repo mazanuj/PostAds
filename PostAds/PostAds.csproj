@@ -90,6 +90,7 @@
     <Compile Include="AppBootstrapper.cs" />
     <Compile Include="Config\Advertising.cs" />
     <Compile Include="Config\Data\InfoHolder.cs" />
+    <Compile Include="Config\Proxy\Socks5Worker.cs" />
     <Compile Include="Interfaces\ISiteData.cs" />
     <Compile Include="Factories\SiteDataFactory.cs" />
     <Compile Include="Controls\Converters\BoolToColorConverter.cs" />
@@ -214,6 +215,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Resource Include="servers.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
