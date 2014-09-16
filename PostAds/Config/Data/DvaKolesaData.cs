@@ -127,15 +127,54 @@ namespace Motorcycle.Config.Data
         {
             var data = row.Split('\t');
 
+            //Photos
+            var d = data[8].Split(',');
+            var files = new string[5];
+            for (var i = 0; i < 5; i++)
+            {
+                if (i < d.Length)
+                    files[i] = d[i];
+                else files[i] = string.Empty;
+            }
+
             return new DicHolder
             {
                 DataDictionary = new Dictionary<string, string>
                 {
-                    {"", ""}
+                    {"model", ProdayEquipXmlWorker.GetItemSiteValueUsingPlant(data[5],"pe")},//+
+                    {"modification", data[3]},//+
+                    {"color", "0"},//+
+                    {"price", data[6]},//+
+                    {"currency", "2"},//$+
+                    {"year", data[10]},//+
+                    {"bodytype", "25"},//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                    {"state", ManufactureXmlWorker.GetConditionState(data[11],"p")},//+
+                    {"choosen", "no"},//+
+                    {"vin", ""},//+
+                    {"wrangle", "0"},//+
+                    {"MAX_FILE_SIZE", "614400"},//+
+                    {"additional", data[9]},//+
+                    {"name", data[0]},//+
+                    {"phone1", data[2]},//+
+                    {"since1", "10"},//+
+                    {"till1", "21"},//+
+                    {"city", CityXmlWorker.GetItemSiteValueUsingCity(data[7],"p")},//+
+                    {"during", "360"},//+
+                    {"id", ""},//+
+                    {"vendor", ProdayEquipXmlWorker.GetItemSiteValueUsingPlant(data[5],"pe")},//+
+                    {"category", "4"},//+
+                    {"ip", "127.0.0.1"},//+
+                    {"Itemid", "5"},//+
+                    {"option", "com_autobb"},//+
+                    {"task", "save"}//+
                 },
                 FileDictionary = new Dictionary<string, string>
                 {
-                    {"", ""}
+                    {"photofile_0", files[0]},
+                    {"photofile_1", files[1]},
+                    {"photofile_2", files[2]},
+                    {"photofile_3", files[3]},
+                    {"photofile_4", files[4]}
                 }
             };
         }
