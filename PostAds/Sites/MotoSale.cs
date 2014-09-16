@@ -42,8 +42,7 @@
 
                         dataDictionary["fConfirmationCode"] = captcha;
 
-                        var request = Request.POSTRequest(url, cookieContainer, dataDictionary, fileDictionary);
-                        request.Referer = url;
+                        var request = Request.POSTRequest(url, cookieContainer, dataDictionary, fileDictionary, url);
                         var responseString = Response.GetResponseString(request);
                         request.Abort();
 
@@ -141,9 +140,29 @@
                         var Log = LogManager.GetCurrentClassLogger();
                         var dataDictionary = data.DataDictionary;
                         var fileDictionary = data.FileDictionary;
-                        var reply = string.Empty; //TODO
+                        var reply = string.Format("{0} {1}", dataDictionary["brand"], dataDictionary["type"]);
 
-                        if (true) //TODO
+                        const string url = "http://www.motosale.com.ua/?add=equ";
+                        var cookieContainer = Cookies.GetCookiesContainer(url);
+
+                        //Get captcha result
+                        var requestImage = Request.GETRequest("http://www.motosale.com.ua/capcha/capcha.php");
+                        requestImage.CookieContainer = cookieContainer;
+
+                        var captchaFileName = Response.GetImageFromResponse(requestImage);
+
+                        var captcha = CaptchaString.GetCaptchaString(
+                            CaptchaXmlWorker.GetCaptchaValues("key"),
+                            captchaFileName,
+                            CaptchaXmlWorker.GetCaptchaValues("domain"));
+
+                        dataDictionary["fConfirmationCode"] = captcha;
+
+                        var request = Request.POSTRequest(url, cookieContainer, dataDictionary, fileDictionary);
+                        var responseString = Response.GetResponseString(request);
+                        request.Abort();
+
+                        if (responseString.Contains("На указанный вами E-mail отправлено письмо"))
                         {
                             Log.Info(reply + " successfully posted on Motosale");
                             return SitePoster.PostStatus.OK;
@@ -154,9 +173,9 @@
                     catch (Exception ex)
                     {
                         LogManager.GetCurrentClassLogger()
-                            .Error(string.Format("{0} {1} unsuccessfully posted on Motosale",
-                                ManufactureXmlWorker.GetItemSiteIdUsingPlant("m", data.DataDictionary["model_zap"]),
-                                data.DataDictionary["type"]), ex);
+                            .Error(
+                                string.Format("{0} {1} unsuccessfully posted on Motosale", data.DataDictionary["brand"],
+                                    data.DataDictionary["type"]), ex);
                         return SitePoster.PostStatus.ERROR;
                     }
                 });
