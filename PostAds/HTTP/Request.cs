@@ -55,6 +55,7 @@ namespace Motorcycle.HTTP
             request.KeepAlive = true;
             request.AllowAutoRedirect = false;
             request.Method = "GET";
+            request.AllowAutoRedirect = true;
 
             return request;
         }
