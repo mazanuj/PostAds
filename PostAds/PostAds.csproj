@@ -52,6 +52,9 @@
     <Reference Include="NLog">
       <HintPath>..\packages\NLog.3.1.0.0\lib\net40\NLog.dll</HintPath>
     </Reference>
+    <Reference Include="OpenPop">
+      <HintPath>..\packages\OpenPop.NET.2.0.6.1076\lib\net40\OpenPop.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data" />
@@ -89,6 +92,7 @@
     </ApplicationDefinition>
     <Compile Include="AppBootstrapper.cs" />
     <Compile Include="Config\Advertising.cs" />
+    <Compile Include="Config\Confirm\PostConfirm.cs" />
     <Compile Include="Config\Data\InfoHolder.cs" />
     <Compile Include="Config\Proxy\Proxy.cs" />
     <Compile Include="Config\Proxy\Socks5Worker.cs" />
