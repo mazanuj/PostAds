@@ -6,21 +6,38 @@
 
     class Socks5Worker
     {
-        private static List<string> proxies = File.ReadAllLines("servers.txt").ToList();
+        private const string FilePath = "servers.txt";
+
+        private static List<string> proxies = File.ReadAllLines(FilePath).ToList();
 
         private static int pointerToProxy;
 
         private static readonly object Locking = new object();
 
+        private static void WriteProxiesToFile(IEnumerable<string> proxiesList)
+        {
+            using (var sw = new StreamWriter(FilePath, false))
+            {
+                foreach (var proxy in proxiesList)
+                {
+                    sw.WriteLine(proxy);
+                }
+            }
+        }
+
         public static string GetSocks5Proxy()
         {
             lock (Locking)
             {
-                if (proxies == null || proxies.Count == 0) proxies = Proxy.ProxyFind();
+                if (proxies == null || proxies.Count == 0)
+                {
+                    proxies = Proxy.ProxyFind();
+                    WriteProxiesToFile(proxies);
+                }
 
                 var avoidLoopHangingVar = 0;
 
-                for (var i = 0; i <= proxies.Count; i++)
+                while (true)
                 {
                     if (pointerToProxy == (proxies.Count)) pointerToProxy = 0;
 
@@ -29,11 +46,11 @@
 
                     //if address doesn't work
                     proxies.RemoveAt(pointerToProxy);
-                    i = 0;
                     if (proxies.Count == 0)
                     {
-                        //if (avoidLoopHangingVar++ == 10) break;
+                        if (avoidLoopHangingVar++ == 5) break;
                         proxies = Proxy.ProxyFind();
+                        WriteProxiesToFile(proxies);
                     }
                 }
                 return null;
@@ -42,7 +59,7 @@
 
         public static void RefreshProxiesFromFile()
         {
-            proxies = File.ReadAllLines("servers.txt").ToList();
+            proxies = File.ReadAllLines(FilePath).ToList();
         }
     }
 }

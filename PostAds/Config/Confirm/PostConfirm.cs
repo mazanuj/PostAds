@@ -51,7 +51,6 @@ namespace Motorcycle.Config.Confirm
 
                     var url = text.Substring(start, stop - start);
                     var req = Request.GETRequest(url);
-                    //var resp = Response.GetResponse(req);
 
                     var Log = LogManager.GetCurrentClassLogger();
 

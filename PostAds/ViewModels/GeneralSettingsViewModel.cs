@@ -8,6 +8,7 @@ using LogManager = NLog.LogManager;
 namespace Motorcycle.ViewModels
 {
     using System.Collections.ObjectModel;
+    using System.Windows;
 
     using XmlWorker;
 
@@ -88,6 +89,11 @@ namespace Motorcycle.ViewModels
         public void ChangeItem(CityItem item)
         {
             ShowConfirmationItemDialog(item);
+        }
+
+        public void CopyCityName(CityItem item)
+        {
+            Clipboard.SetText(item.CityName);
         }
 
         private void RefreshItemList()

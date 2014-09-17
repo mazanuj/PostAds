@@ -1,5 +1,7 @@
 ﻿namespace Motorcycle.ViewModels
 {
+    using System.Windows;
+
     using Caliburn.Micro;
     using XmlWorker;
     using System.Collections.ObjectModel;
@@ -60,6 +62,11 @@
             ShowConfirmationItemDialog(item);
         }
 
+        public void CopyItemId(ManufactureItem item)
+        {
+            Clipboard.SetText(item.Id);
+        }
+
         #endregion
 
         #region Value's context menu methods
@@ -83,6 +90,10 @@
             ShowConfirmationValueDialog(_selectedItemCollection, value);
         }
 
+        public void CopyValueName(ManufactureValue value)
+        {
+            Clipboard.SetText(value.Name);
+        }
         #endregion
 
         #region Private methods

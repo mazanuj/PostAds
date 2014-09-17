@@ -60,6 +60,10 @@
                                cal:Message.Attach="[Event Click] = [Action RemoveItem($dataContext)]">
                                 </MenuItem>
 
+                                <MenuItem Header="Copy" 
+                               cal:Message.Attach="[Event Click] = [Action CopyCityName($dataContext)]">
+                                </MenuItem>
+
                             </ContextMenu>
 
                         </Setter.Value>
