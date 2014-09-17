@@ -12,26 +12,11 @@
 
         private static readonly object Locking = new object();
 
-        private static bool ProxyChecker(string proxy)
-        {
-            return true;
-        }
-
-        private static List<string> ProxyFind()
-        {
-            var list = new List<string>();
-            list.Add("1.1.1.1:11");
-            list.Add("2.2.2.2:22");
-            list.Add("3.3.3.3:33");
-            list.Add("4.4.4.4:44");
-            return list;
-        }
-
         public static string GetSocks5Proxy()
         {
             lock (Locking)
             {
-                if (proxies == null || proxies.Count == 0) proxies = ProxyFind();
+                if (proxies == null || proxies.Count == 0) proxies = Proxy.ProxyFind();
 
                 var avoidLoopHangingVar = 0;
 
@@ -39,7 +24,7 @@
                 {
                     if (pointerToProxy == (proxies.Count)) pointerToProxy = 0;
 
-                    if (ProxyChecker(proxies[pointerToProxy]))
+                    if (Proxy.ProxyChecker(proxies[pointerToProxy]))
                         return proxies[pointerToProxy++];
 
                     //if address doesn't work
@@ -48,7 +33,7 @@
                     if (proxies.Count == 0)
                     {
                         //if (avoidLoopHangingVar++ == 10) break;
-                        proxies = ProxyFind();
+                        proxies = Proxy.ProxyFind();
                     }
                 }
                 return null;
