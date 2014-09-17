@@ -4,13 +4,13 @@ using System.Net;
 
 namespace Motorcycle.Config.Proxy
 {
-    static class Proxy
+    internal static class Proxy
     {
         public static List<string> ProxyFind()
         {
             var proxyList = new List<string>();
 
-            for (var i = 0; ; i++)
+            for (var i = 0;; i++)
             {
                 var downloadString =
                     new WebClient().DownloadString(
@@ -37,7 +37,7 @@ namespace Motorcycle.Config.Proxy
 
         public static bool ProxyChecker(string proxy)
         {
-            
+            return true;
         }
     }
 }

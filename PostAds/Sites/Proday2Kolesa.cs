@@ -25,7 +25,7 @@
                         var dataDictionary = data.DataDictionary;
                         var fileDictionary = data.FileDictionary;
                         var reply = string.Format("{0} {1}",
-                            ProdayEquipXmlWorker.GetItemSiteIdUsingPlant("p", dataDictionary["model"]),
+                            SpareEquipXmlWorker.GetItemSiteIdUsingPlant("p", dataDictionary["model"]),
                             dataDictionary["modification"]);
 
                         const string url = "http://proday2kolesa.com.ua/index.php";
@@ -120,7 +120,7 @@
                     {
                         LogManager.GetCurrentClassLogger()
                             .Error(string.Format("{0} {1} unsuccessfully posted on Proday2kolesa",
-                                ProdayEquipXmlWorker.GetItemSiteIdUsingPlant("p", data.DataDictionary["model"]),
+                                SpareEquipXmlWorker.GetItemSiteIdUsingPlant("p", data.DataDictionary["model"]),
                                 data.DataDictionary["modification"]), ex);
                         return SitePoster.PostStatus.ERROR;
                     }
@@ -138,7 +138,7 @@
                         var dataDictionary = data.DataDictionary;
                         var fileDictionary = data.FileDictionary;
                         var reply = string.Format("{0} {1}",
-                            ProdayEquipXmlWorker.GetItemSiteIdUsingPlant("pz", dataDictionary["model"]),
+                            SpareEquipXmlWorker.GetItemSiteIdUsingPlant("pz", dataDictionary["model"]),
                             dataDictionary["modification"]);
 
                         const string url = "http://proday2kolesa.com.ua/index.php";
@@ -233,7 +233,7 @@
                     {
                         LogManager.GetCurrentClassLogger()
                             .Error(string.Format("{0} {1} unsuccessfully posted on Proday2kolesa",
-                                ProdayEquipXmlWorker.GetItemSiteIdUsingPlant("pz", data.DataDictionary["model"]),
+                                SpareEquipXmlWorker.GetItemSiteIdUsingPlant("pz", data.DataDictionary["model"]),
                                 data.DataDictionary["modification"]), ex);
                         return SitePoster.PostStatus.ERROR;
                     }
@@ -251,7 +251,7 @@
                         var dataDictionary = data.DataDictionary;
                         var fileDictionary = data.FileDictionary;
                         var reply = string.Format("{0} {1}",
-                            ProdayEquipXmlWorker.GetItemSiteIdUsingPlant("pe", dataDictionary["model"]),
+                            SpareEquipXmlWorker.GetItemSiteIdUsingPlant("pe", dataDictionary["model"]),
                             dataDictionary["modification"]);
 
                         const string url = "http://proday2kolesa.com.ua/index.php";
@@ -346,7 +346,7 @@
                     {
                         LogManager.GetCurrentClassLogger()
                             .Error(string.Format("{0} {1} unsuccessfully posted on Proday2kolesa",
-                                ProdayEquipXmlWorker.GetItemSiteIdUsingPlant("pe", data.DataDictionary["model"]),
+                                SpareEquipXmlWorker.GetItemSiteIdUsingPlant("pe", data.DataDictionary["model"]),
                                 data.DataDictionary["modification"]), ex);
                         return SitePoster.PostStatus.ERROR;
                     }

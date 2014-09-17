@@ -5,7 +5,7 @@
     using System.Xml.Linq;
     using System.Xml.XPath;
 
-    internal static class ProdayEquipXmlWorker
+    internal static class SpareEquipXmlWorker
     {
         private const string XmlFilePath = "Main.config";
         private static readonly XDocument Doc = XDocument.Load(XmlFilePath);
@@ -76,6 +76,18 @@
             var att =
                 (IEnumerable)
                     Doc.XPathEvaluate(string.Format("//equip/typeSpare/item[@id='{0}']/@{1}", itemId.ToLower(),
+                        site.ToLower()));
+
+            var firstOrDefault = att.Cast<XAttribute>().FirstOrDefault();
+
+            return firstOrDefault != null ? firstOrDefault.Value : "36";
+        }
+
+        public static string GetEquipType(string itemId, string site)
+        {
+            var att =
+                (IEnumerable)
+                    Doc.XPathEvaluate(string.Format("//equip/typeEquip/item[@id='{0}']/@{1}", itemId.ToLower(),
                         site.ToLower()));
 
             var firstOrDefault = att.Cast<XAttribute>().FirstOrDefault();

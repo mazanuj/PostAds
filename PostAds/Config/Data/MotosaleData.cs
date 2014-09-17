@@ -83,7 +83,7 @@
                     {"phone", data[2]}, //+
                     {"type_obj", "1"}, //+
                     {"model_zap", ManufactureXmlWorker.GetItemSiteValueUsingPlant(data[4], "m")}, //+
-                    {"type", ProdayEquipXmlWorker.GetSpareType(data[5],"m")}, //+
+                    {"type", SpareEquipXmlWorker.GetSpareType(data[5],"m")}, //+
                     {"header", data[3]}, //+
                     {"text", data[9]}, //+
                     {"price", data[6]}, //+
@@ -124,7 +124,7 @@
                     {"mail", data[1]},//+
                     {"phone", data[2]},//+
                     {"type_obj", "1"},//+
-                    {"type", data[4]},//vid+
+                    {"type", SpareEquipXmlWorker.GetEquipType(data[4],"m")},//vid+
                     {"brand", data[5]},//proizvoditel'+
                     {"header", data[3]},//+
                     {"text", data[9]},//+

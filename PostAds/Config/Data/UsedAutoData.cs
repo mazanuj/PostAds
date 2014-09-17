@@ -108,7 +108,7 @@ namespace Motorcycle.Config.Data
                     {"make", ManufactureXmlWorker.GetItemSiteValueUsingPlant(data[4],"u")},//zavod+
                     {"model", data[3]},//+
                     {"year", ""},//+
-                    {"part_category_id[]", ProdayEquipXmlWorker.GetSpareType(data[5],"u")},//create basa+
+                    {"part_category_id[]", SpareEquipXmlWorker.GetSpareType(data[5],"u")},//create basa+
                     {"part_description[]", data[3]},//+
                     {"part_condition[]", condition},//+`
                     {"part_price[]", data[6]},//+

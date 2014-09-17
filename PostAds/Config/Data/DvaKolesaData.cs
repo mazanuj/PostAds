@@ -85,13 +85,13 @@ namespace Motorcycle.Config.Data
             {
                 DataDictionary = new Dictionary<string, string>
                 {
-                    {"model", ProdayEquipXmlWorker.GetItemSiteValueUsingPlant(data[4], "pz")},//zavod basa+
+                    {"model", SpareEquipXmlWorker.GetItemSiteValueUsingPlant(data[4], "pz")},//zavod basa+
                     {"modification",data[3]},//model vvod+
                     {"color","0"},//+
                     {"price",data[6]},//cena vvod+
                     {"currency","2"},//$+
                     {"year","-----"},//+
-                    {"bodytype",ProdayEquipXmlWorker.GetSpareType(data[5],"p")},//tip basa+
+                    {"bodytype",SpareEquipXmlWorker.GetSpareType(data[5],"p")},//tip basa+
                     {"state",ManufactureXmlWorker.GetConditionState(data[10], "p")},//sostoyanie basa+
                     {"choosen","no"},//+
                     {"vin",""},//+
@@ -105,7 +105,7 @@ namespace Motorcycle.Config.Data
                     {"city",CityXmlWorker.GetItemSiteValueUsingCity(data[7], "p")},//gorod basa+
                     {"during","360"},//+
                     {"id",""},//+
-                    {"vendor",ProdayEquipXmlWorker.GetItemSiteValueUsingPlant(data[4], "pz")},//zavod basa+
+                    {"vendor",SpareEquipXmlWorker.GetItemSiteValueUsingPlant(data[4], "pz")},//zavod basa+
                     {"category","5"},//+
                     {"ip","127.0.0.1"},//+
                     {"Itemid","6"},//+
@@ -141,13 +141,13 @@ namespace Motorcycle.Config.Data
             {
                 DataDictionary = new Dictionary<string, string>
                 {
-                    {"model", ProdayEquipXmlWorker.GetItemSiteValueUsingPlant(data[5],"pe")},//+
+                    {"model", SpareEquipXmlWorker.GetItemSiteValueUsingPlant(data[5],"pe")},//+
                     {"modification", data[3]},//+
                     {"color", "0"},//+
                     {"price", data[6]},//+
                     {"currency", "2"},//$+
                     {"year", data[10]},//+
-                    {"bodytype", "25"},//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                    {"bodytype", SpareEquipXmlWorker.GetEquipType(data[4],"p")},//+
                     {"state", ManufactureXmlWorker.GetConditionState(data[11],"p")},//+
                     {"choosen", "no"},//+
                     {"vin", ""},//+
@@ -161,7 +161,7 @@ namespace Motorcycle.Config.Data
                     {"city", CityXmlWorker.GetItemSiteValueUsingCity(data[7],"p")},//+
                     {"during", "360"},//+
                     {"id", ""},//+
-                    {"vendor", ProdayEquipXmlWorker.GetItemSiteValueUsingPlant(data[5],"pe")},//+
+                    {"vendor", SpareEquipXmlWorker.GetItemSiteValueUsingPlant(data[5],"pe")},//+
                     {"category", "4"},//+
                     {"ip", "127.0.0.1"},//+
                     {"Itemid", "5"},//+
