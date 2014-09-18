@@ -1,42 +1,21 @@
-﻿using System.Net;
-
-namespace Motorcycle.Config.Proxy
+﻿namespace Motorcycle.Config.Proxy
 {
+    using Motorcycle.XmlWorker;
     using System.Collections.Generic;
-    using System.IO;
     using System.Linq;
+    using System.Net;
 
     internal class Socks5Worker
     {
-        private const string FilePath = "servers.txt";
-
-        private static List<string> proxies = File.ReadAllLines(FilePath).ToList();
-
-        private static int pointerToProxy;
+        private static List<string> proxyList = ProxyXmlWorker.GetProxyList();
 
         private static readonly object Locking = new object();
-
-        private static void WriteProxiesToFile(IEnumerable<string> proxiesList)
-        {
-            using (var sw = new StreamWriter(FilePath, false))
-            {
-                foreach (var proxy in proxiesList)
-                {
-                    sw.WriteLine(proxy);
-                }
-            }
-        }
-
-        private static bool ProxyChecker(string proxyAddress)
-        {
-            return true;
-        }
 
         private static List<string> ProxyFind()
         {
             var proxyList = new List<string>();
 
-            for (var i = 0;; i++)
+            for (var i = 0; ; i++)
             {
                 var downloadString =
                     new WebClient().DownloadString(
@@ -61,41 +40,33 @@ namespace Motorcycle.Config.Proxy
             return proxyList.Distinct().ToList();
         }
 
-        public static string GetSocks5Proxy()
+        public static string GetSocks5Proxy(string purpose)
         {
             lock (Locking)
             {
-                if (proxies == null || proxies.Count == 0)
+                if (proxyList == null || proxyList.Count == 0)
                 {
-                    proxies = ProxyFind();
-                    WriteProxiesToFile(proxies);
+                    proxyList = ProxyFind();
+                    ProxyXmlWorker.AddNewProxyListToFile(proxyList);
                 }
 
-                var avoidLoopHangingVar = 0;
+                var proxyAddress = ProxyXmlWorker.GetProxyAddress(purpose);
 
-                while (true)
+                if (proxyAddress == null)
                 {
-                    if (pointerToProxy == (proxies.Count)) pointerToProxy = 0;
+                    proxyList = ProxyFind();
+                    ProxyXmlWorker.AddNewProxyListToFile(proxyList);
 
-                    if (ProxyChecker(proxies[pointerToProxy]))
-                        return proxies[pointerToProxy++];
-
-                    //if address doesn't work
-                    proxies.RemoveAt(pointerToProxy);
-                    if (proxies.Count == 0)
-                    {
-                        if (avoidLoopHangingVar++ == 5) break;
-                        proxies = ProxyFind();
-                        WriteProxiesToFile(proxies);
-                    }
+                    return ProxyXmlWorker.GetProxyAddress(purpose);
                 }
-                return null;
+
+                return proxyAddress;
             }
         }
 
         public static void RefreshProxiesFromFile()
         {
-            proxies = File.ReadAllLines(FilePath).ToList();
+            proxyList = ProxyXmlWorker.GetProxyList();
         }
     }
 }
