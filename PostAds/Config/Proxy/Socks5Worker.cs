@@ -1,10 +1,12 @@
-﻿namespace Motorcycle.Config.Proxy
+﻿using System.Net;
+
+namespace Motorcycle.Config.Proxy
 {
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
 
-    class Socks5Worker
+    internal class Socks5Worker
     {
         private const string FilePath = "servers.txt";
 
@@ -25,13 +27,47 @@
             }
         }
 
+        private static bool ProxyChecker(string proxyAddress)
+        {
+            return true;
+        }
+
+        private static List<string> ProxyFind()
+        {
+            var proxyList = new List<string>();
+
+            for (var i = 0;; i++)
+            {
+                var downloadString =
+                    new WebClient().DownloadString(
+                        string.Format(
+                            "http://www.xroxy.com/proxylist.php?port=&type=Socks5&ssl=&country=&latency=&reliability=&sort=reliability&desc=true&pnum={0}#table",
+                            i));
+
+                if (!downloadString.Contains("View this Proxy details")) break;
+
+                var stop = 0;
+                while (true)
+                {
+                    var start = downloadString.IndexOf("host=", stop);
+                    if (start == -1)
+                        break;
+                    start += "host=".Length;
+                    stop = downloadString.IndexOf("&isSocks", start);
+                    proxyList.Add(downloadString.Substring(start, stop - start).Replace("&port=", ":"));
+                }
+            }
+
+            return proxyList.Distinct().ToList();
+        }
+
         public static string GetSocks5Proxy()
         {
             lock (Locking)
             {
                 if (proxies == null || proxies.Count == 0)
                 {
-                    proxies = Proxy.ProxyFind();
+                    proxies = ProxyFind();
                     WriteProxiesToFile(proxies);
                 }
 
@@ -41,7 +77,7 @@
                 {
                     if (pointerToProxy == (proxies.Count)) pointerToProxy = 0;
 
-                    if (Proxy.ProxyChecker(proxies[pointerToProxy]))
+                    if (ProxyChecker(proxies[pointerToProxy]))
                         return proxies[pointerToProxy++];
 
                     //if address doesn't work
@@ -49,7 +85,7 @@
                     if (proxies.Count == 0)
                     {
                         if (avoidLoopHangingVar++ == 5) break;
-                        proxies = Proxy.ProxyFind();
+                        proxies = ProxyFind();
                         WriteProxiesToFile(proxies);
                     }
                 }
