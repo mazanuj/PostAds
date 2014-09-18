@@ -1,0 +1,3 @@
+[submodule "xNet"]
+	path = xNet
+	url = https://github.com/mazanuj/xNet.git
