@@ -84,9 +84,6 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="xNet">
-      <HintPath>..\..\xNet\bin\Release\xNet.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -97,7 +94,6 @@
     <Compile Include="Config\Advertising.cs" />
     <Compile Include="Config\Confirm\PostConfirm.cs" />
     <Compile Include="Config\Data\InfoHolder.cs" />
-    <Compile Include="Config\Proxy\Proxy.cs" />
     <Compile Include="Config\Proxy\Socks5Worker.cs" />
     <Compile Include="Interfaces\ISiteData.cs" />
     <Compile Include="Factories\SiteDataFactory.cs" />
@@ -248,7 +244,6 @@
     </None>
     <AppDesigner Include="Properties\" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
   <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">
