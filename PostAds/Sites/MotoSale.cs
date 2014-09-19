@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Linq;
+using System.Net;
 using System.Threading;
 using Motorcycle.Config.Confirm;
 using Motorcycle.Config.Proxy;
@@ -66,7 +67,7 @@ namespace Motorcycle.Sites
 
                             foreach (var value in dataDictionary)
                                 requestXNET.AddField(value.Key, value.Value);
-                            foreach (var value in fileDictionary)
+                            foreach (var value in fileDictionary.Where(value => value.Value != string.Empty))
                                 requestXNET.AddFile(value.Key, value.Value);
 
                             var respString = requestXNET.Post("/").ToString();

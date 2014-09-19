@@ -6,7 +6,7 @@
     using System.Xml.Linq;
     using System.Xml.XPath;
 
-    internal class ProxyXmlWorker
+    internal static class ProxyXmlWorker
     {
         private const string XmlFilePath = "proxy.xml";
 
