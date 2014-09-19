@@ -1,6 +1,4 @@
-﻿using Motorcycle.Config.Confirm;
-
-namespace Motorcycle.Config
+﻿namespace Motorcycle.Config
 {
     using Data;
     using Sites;
@@ -13,8 +11,6 @@ namespace Motorcycle.Config
 
         internal static async Task Initialize(string motoFile, string spareFile, string equipFile, byte[] flag)
         {
-            //PostConfirm.ConfirmAdv("pop.mail.ru", 995, true, "mo-snikers@mail.ru", "Administr@t0r");
-            
             //List<InfoHolder>
             var returnDataHolders = await ReturnData.GetData(motoFile, spareFile, equipFile, flag);
 

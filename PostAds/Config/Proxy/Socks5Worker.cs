@@ -1,21 +1,21 @@
 ﻿namespace Motorcycle.Config.Proxy
 {
-    using Motorcycle.XmlWorker;
+    using XmlWorker;
     using System.Collections.Generic;
     using System.Linq;
     using System.Net;
 
-    internal class Socks5Worker
+    internal static class Socks5Worker
     {
-        private static List<string> proxyList = ProxyXmlWorker.GetProxyList();
+        private static List<string> proxyList = new List<string>(ProxyXmlWorker.GetProxyList());
 
         private static readonly object Locking = new object();
 
         private static List<string> ProxyFind()
         {
-            var proxyList = new List<string>();
+            var proxiesList = new List<string>();
 
-            for (var i = 0; ; i++)
+            for (var i = 0;; i++)
             {
                 var downloadString =
                     new WebClient().DownloadString(
@@ -33,11 +33,11 @@
                         break;
                     start += "host=".Length;
                     stop = downloadString.IndexOf("&isSocks", start);
-                    proxyList.Add(downloadString.Substring(start, stop - start).Replace("&port=", ":"));
+                    proxiesList.Add(downloadString.Substring(start, stop - start).Replace("&port=", ":"));
                 }
             }
 
-            return proxyList.Distinct().ToList();
+            return proxiesList.Distinct().ToList();
         }
 
         public static string GetSocks5Proxy(string purpose)
@@ -52,15 +52,11 @@
 
                 var proxyAddress = ProxyXmlWorker.GetProxyAddress(purpose);
 
-                if (proxyAddress == null)
-                {
-                    proxyList = ProxyFind();
-                    ProxyXmlWorker.AddNewProxyListToFile(proxyList);
+                if (proxyAddress != null) return proxyAddress;
+                proxyList = ProxyFind();
+                ProxyXmlWorker.AddNewProxyListToFile(proxyList);
 
-                    return ProxyXmlWorker.GetProxyAddress(purpose);
-                }
-
-                return proxyAddress;
+                return ProxyXmlWorker.GetProxyAddress(purpose);
             }
         }
 

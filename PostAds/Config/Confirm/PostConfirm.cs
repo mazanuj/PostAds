@@ -6,7 +6,7 @@ namespace Motorcycle.Config.Confirm
 {
     internal static class PostConfirm
     {
-        public static void ConfirmAdv(string hostname, int port, bool useSsl, string username, string password)
+        public static bool ConfirmAdv(string hostname, int port, bool useSsl, string username, string password)
         {
             // The client disconnects from the server when being disposed
             using (var client = new Pop3Client())
@@ -64,7 +64,9 @@ namespace Motorcycle.Config.Confirm
                     Log.Info(string.Format("Confirmation of {0} success", username));
 
                     client.DeleteMessage(i);
+                    return true;
                 }
+                return false;
             }
         }
     }
