@@ -50,55 +50,37 @@ namespace Motorcycle.Sites
                         dataDictionary["fConfirmationCode"] = captcha;
 
                         //TEST xNet
-                        using (var requestXNET = new HttpRequest("url"))
+                        string respString;
+                        var proxyAddress = string.Empty;
+                        while (true)
                         {
-                            var cookieDic = new CookieDictionary();
-                            var cookieColl = cookieContainer.GetCookies(new Uri("http://www.motosale.com.ua"));
-                            var cookieArray = new Cookie[cookieColl.Count];
-                            cookieColl.CopyTo(cookieArray, 0);
-                            foreach (var cookie in cookieArray)
+                            try
                             {
-                                cookieDic.Add(cookie.Name, cookie.Value);
+                                proxyAddress = Socks5Worker.GetSocks5Proxy("moto");
+                                respString = Response.GetResponseString(cookieContainer, dataDictionary, fileDictionary,
+                                    url, proxyAddress);
+                                break;
                             }
-
-                            requestXNET.UserAgent = HttpHelper.ChromeUserAgent();
-                            requestXNET.Cookies = cookieDic;
-                            requestXNET.Proxy = Socks5ProxyClient.Parse(Socks5Worker.GetSocks5Proxy("moto"));
-
-                            foreach (var value in dataDictionary)
-                                requestXNET.AddField(value.Key, value.Value);
-                            foreach (var value in fileDictionary.Where(value => value.Value != string.Empty))
-                                requestXNET.AddFile(value.Key, value.Value);
-
-                            var respString = requestXNET.Post("/").ToString();
-
-                            if (respString.Contains("На указанный вами E-mail отправлено письмо"))
+                            catch
                             {
-                                Log.Info(reply + " successfully posted on Motosale");
-
-                                while (
-                                    !PostConfirm.ConfirmAdv("pop.mail.ru", 995, true, "mo-snikers@mail.ru",
-                                        "Administr@t0r"))
-                                    Thread.Sleep(5000);
-
-                                return SitePoster.PostStatus.OK;
+                                ProxyXmlWorker.ChangeServerStatus(proxyAddress, "off");
                             }
                         }
+                        if (respString.Contains("На указанный вами E-mail отправлено письмо"))
+                        {
+                            Log.Info(reply + " successfully posted on Motosale");
+
+                            while (
+                                !PostConfirm.ConfirmAdv("pop.mail.ru", 995, true, "mo-snikers@mail.ru",
+                                    "Administr@t0r"))//TODO
+                                Thread.Sleep(5000);
+
+                            return SitePoster.PostStatus.OK;
+                        }
+
 
                         //=====================================================//
 
-
-
-
-                        //var request = Request.POSTRequest(url, cookieContainer, dataDictionary, fileDictionary, url);
-                        //var responseString = Response.GetResponseString(request);
-                        //request.Abort();
-
-                        //if (responseString.Contains("На указанный вами E-mail отправлено письмо"))
-                        //{
-                        //    Log.Info(reply + " successfully posted on Motosale");
-                        //    return SitePoster.PostStatus.OK;
-                        //}
                         Log.Warn(reply + " unsuccessfully posted on Motosale");
                         return SitePoster.PostStatus.ERROR;
                     }
@@ -155,13 +137,32 @@ namespace Motorcycle.Sites
 
                         //dataDictionary["insert"] = hash;
 
-                        var request = Request.POSTRequest(url, cookieContainer, dataDictionary, fileDictionary);
-                        var responseString = Response.GetResponseString(request);
-                        request.Abort();
-
-                        if (responseString.Contains("На указанный вами E-mail отправлено письмо"))
+                        //TEST xNet
+                        string respString;
+                        var proxyAddress = string.Empty;
+                        while (true)
+                        {
+                            try
+                            {
+                                proxyAddress = Socks5Worker.GetSocks5Proxy("spare");
+                                respString = Response.GetResponseString(cookieContainer, dataDictionary, fileDictionary,
+                                    url, proxyAddress);
+                                break;
+                            }
+                            catch
+                            {
+                                ProxyXmlWorker.ChangeServerStatus(proxyAddress, "off");
+                            }
+                        }
+                        if (respString.Contains("На указанный вами E-mail отправлено письмо"))
                         {
                             Log.Info(reply + " successfully posted on Motosale");
+
+                            while (
+                                !PostConfirm.ConfirmAdv("pop.mail.ru", 995, true, "mo-snikers@mail.ru",
+                                    "Administr@t0r"))//TODO
+                                Thread.Sleep(5000);
+
                             return SitePoster.PostStatus.OK;
                         }
                         Log.Warn(reply + " unsuccessfully posted on Motosale");
@@ -206,13 +207,32 @@ namespace Motorcycle.Sites
 
                         dataDictionary["fConfirmationCode"] = captcha;
 
-                        var request = Request.POSTRequest(url, cookieContainer, dataDictionary, fileDictionary);
-                        var responseString = Response.GetResponseString(request);
-                        request.Abort();
-
-                        if (responseString.Contains("На указанный вами E-mail отправлено письмо"))
+                        //TEST xNet
+                        string respString;
+                        var proxyAddress = string.Empty;
+                        while (true)
+                        {
+                            try
+                            {
+                                proxyAddress = Socks5Worker.GetSocks5Proxy("equip");
+                                respString = Response.GetResponseString(cookieContainer, dataDictionary, fileDictionary,
+                                    url, proxyAddress);
+                                break;
+                            }
+                            catch
+                            {
+                                ProxyXmlWorker.ChangeServerStatus(proxyAddress, "off");
+                            }
+                        }
+                        if (respString.Contains("На указанный вами E-mail отправлено письмо"))
                         {
                             Log.Info(reply + " successfully posted on Motosale");
+
+                            while (
+                                !PostConfirm.ConfirmAdv("pop.mail.ru", 995, true, "mo-snikers@mail.ru",
+                                    "Administr@t0r"))//TODO
+                                Thread.Sleep(5000);
+
                             return SitePoster.PostStatus.OK;
                         }
                         Log.Warn(reply + " unsuccessfully posted on Motosale");

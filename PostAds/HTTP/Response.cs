@@ -1,8 +1,12 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Net;
 using System.Text;
 using System.Windows.Media.Imaging;
 using Motorcycle.Captcha;
+using xNet.Net;
 
 namespace Motorcycle.HTTP
 {
@@ -26,6 +30,34 @@ namespace Motorcycle.HTTP
                 if (responseStream == null) return null;
                 using (var reader = new StreamReader(responseStream, Encoding.GetEncoding("Windows-1251")))
                     return reader.ReadToEnd();
+            }
+        }
+
+        internal static string GetResponseString(CookieContainer cookieContainer,
+            Dictionary<string, string> dataDictionary, Dictionary<string, string> fileDictionary, string url,
+            string proxyAddress)
+        {
+            using (var requestXNET = new HttpRequest("url"))
+            {
+                var cookieDic = new CookieDictionary();
+                var cookieColl = cookieContainer.GetCookies(new Uri("http://www.motosale.com.ua"));
+                var cookieArray = new Cookie[cookieColl.Count];
+                cookieColl.CopyTo(cookieArray, 0);
+                foreach (var cookie in cookieArray)
+                {
+                    cookieDic.Add(cookie.Name, cookie.Value);
+                }
+
+                requestXNET.UserAgent = HttpHelper.ChromeUserAgent();
+                requestXNET.Cookies = cookieDic;
+                requestXNET.Proxy = Socks5ProxyClient.Parse(proxyAddress);
+
+                foreach (var value in dataDictionary)
+                    requestXNET.AddField(value.Key, value.Value);
+                foreach (var value in fileDictionary.Where(value => value.Value != string.Empty))
+                    requestXNET.AddFile(value.Key, value.Value);
+
+                return requestXNET.Post(url).ToString();
             }
         }
 
