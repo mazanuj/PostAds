@@ -1,9 +1,6 @@
-﻿using System.Linq;
-using System.Net;
-using System.Threading;
+﻿using System.Threading;
 using Motorcycle.Config.Confirm;
 using Motorcycle.Config.Proxy;
-using xNet.Net;
 
 namespace Motorcycle.Sites
 {
@@ -49,14 +46,16 @@ namespace Motorcycle.Sites
 
                         dataDictionary["fConfirmationCode"] = captcha;
 
-                        //TEST xNet
+                        //Request
                         string respString;
                         var proxyAddress = string.Empty;
                         while (true)
                         {
                             try
                             {
+                                respString = string.Empty;
                                 proxyAddress = Socks5Worker.GetSocks5Proxy("moto");
+                                if (proxyAddress == null) break;
                                 respString = Response.GetResponseString(cookieContainer, dataDictionary, fileDictionary,
                                     url, proxyAddress);
                                 break;
@@ -66,19 +65,18 @@ namespace Motorcycle.Sites
                                 ProxyXmlWorker.ChangeServerStatus(proxyAddress, "off");
                             }
                         }
+                        if (respString == string.Empty) throw new Exception("Not valid socks5 addresses");
                         if (respString.Contains("На указанный вами E-mail отправлено письмо"))
                         {
                             Log.Info(reply + " successfully posted on Motosale");
 
                             while (
                                 !PostConfirm.ConfirmAdv("pop.mail.ru", 995, true, "mo-snikers@mail.ru",
-                                    "Administr@t0r"))//TODO
+                                    "Administr@t0r")) //TODO
                                 Thread.Sleep(5000);
 
                             return SitePoster.PostStatus.OK;
                         }
-
-
                         //=====================================================//
 
                         Log.Warn(reply + " unsuccessfully posted on Motosale");
@@ -137,14 +135,16 @@ namespace Motorcycle.Sites
 
                         //dataDictionary["insert"] = hash;
 
-                        //TEST xNet
+                        //xNet
                         string respString;
                         var proxyAddress = string.Empty;
                         while (true)
                         {
                             try
                             {
+                                respString = string.Empty;
                                 proxyAddress = Socks5Worker.GetSocks5Proxy("spare");
+                                if (proxyAddress == null) break;
                                 respString = Response.GetResponseString(cookieContainer, dataDictionary, fileDictionary,
                                     url, proxyAddress);
                                 break;
@@ -154,13 +154,14 @@ namespace Motorcycle.Sites
                                 ProxyXmlWorker.ChangeServerStatus(proxyAddress, "off");
                             }
                         }
+                        if (respString == string.Empty) throw new Exception("Not valid socks5 addresses");
                         if (respString.Contains("На указанный вами E-mail отправлено письмо"))
                         {
                             Log.Info(reply + " successfully posted on Motosale");
 
                             while (
                                 !PostConfirm.ConfirmAdv("pop.mail.ru", 995, true, "mo-snikers@mail.ru",
-                                    "Administr@t0r"))//TODO
+                                    "Administr@t0r")) //TODO
                                 Thread.Sleep(5000);
 
                             return SitePoster.PostStatus.OK;
@@ -207,14 +208,16 @@ namespace Motorcycle.Sites
 
                         dataDictionary["fConfirmationCode"] = captcha;
 
-                        //TEST xNet
+                        //xNet
                         string respString;
                         var proxyAddress = string.Empty;
                         while (true)
                         {
                             try
                             {
+                                respString = string.Empty;
                                 proxyAddress = Socks5Worker.GetSocks5Proxy("equip");
+                                if (proxyAddress == null) break;
                                 respString = Response.GetResponseString(cookieContainer, dataDictionary, fileDictionary,
                                     url, proxyAddress);
                                 break;
@@ -224,13 +227,14 @@ namespace Motorcycle.Sites
                                 ProxyXmlWorker.ChangeServerStatus(proxyAddress, "off");
                             }
                         }
+                        if (respString == string.Empty) throw new Exception("Not valid socks5 addresses");
                         if (respString.Contains("На указанный вами E-mail отправлено письмо"))
                         {
                             Log.Info(reply + " successfully posted on Motosale");
 
                             while (
                                 !PostConfirm.ConfirmAdv("pop.mail.ru", 995, true, "mo-snikers@mail.ru",
-                                    "Administr@t0r"))//TODO
+                                    "Administr@t0r")) //TODO
                                 Thread.Sleep(5000);
 
                             return SitePoster.PostStatus.OK;
