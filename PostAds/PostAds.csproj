@@ -94,6 +94,7 @@
     <Compile Include="Config\Advertising.cs" />
     <Compile Include="Config\Confirm\PostConfirm.cs" />
     <Compile Include="Config\Data\InfoHolder.cs" />
+    <Compile Include="Config\Proxy\ProxyData.cs" />
     <Compile Include="Config\Proxy\Socks5Worker.cs" />
     <Compile Include="Interfaces\ISiteData.cs" />
     <Compile Include="Factories\SiteDataFactory.cs" />
@@ -228,6 +229,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="app.config" />
+    <None Include="Config\Main.config" />
     <None Include="Main.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>

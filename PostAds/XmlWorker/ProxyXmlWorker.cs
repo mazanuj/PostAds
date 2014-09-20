@@ -44,6 +44,8 @@
 
             var servers = Doc.XPathSelectElement("//servers");
 
+            if (proxyList == null) return;
+
             foreach (var proxy in proxyList.Where(proxy => !existingList.Contains(proxy)))
             {
                 servers.Add(
@@ -56,7 +58,6 @@
                         new XAttribute("date", todayDate),
                         new XAttribute("status", "on")));
             }
-
             Doc.Save(XmlFilePath);
         }
 

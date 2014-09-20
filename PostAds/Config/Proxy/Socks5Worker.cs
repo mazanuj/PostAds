@@ -9,23 +9,28 @@
 
         private static readonly object Locking = new object();
 
+        private static void UpdateProxyListAndWriteToFile()
+        {
+            proxyList = ProxyData.GetProxyData();
+            ProxyXmlWorker.AddNewProxyListToFile(proxyList);
+        }
+
         public static string GetSocks5Proxy(string purpose)
         {
             lock (Locking)
             {
-                if (proxyList == null || proxyList.Count == 0)
+                if (proxyList == null || proxyList.Count == 0) UpdateProxyListAndWriteToFile();
+
+                for (var i = 0; i < ProxyData.CountOfProxySites; i++)
                 {
-                    proxyList = ProxyData.XroxyComData();//TODO
-                    ProxyXmlWorker.AddNewProxyListToFile(proxyList);
+                    var proxyAddress = ProxyXmlWorker.GetProxyAddress(purpose);
+
+                    if (proxyAddress != null) return proxyAddress;
+
+                    UpdateProxyListAndWriteToFile();
                 }
 
-                var proxyAddress = ProxyXmlWorker.GetProxyAddress(purpose);
-
-                if (proxyAddress != null) return proxyAddress;
-                proxyList = ProxyData.XroxyComData();//TODO
-                ProxyXmlWorker.AddNewProxyListToFile(proxyList);
-
-                return ProxyXmlWorker.GetProxyAddress(purpose);
+                return null;
             }
         }
 
