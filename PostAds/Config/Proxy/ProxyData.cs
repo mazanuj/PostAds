@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Net;
+using System.Text;
 
 namespace Motorcycle.Config.Proxy
 {
@@ -115,6 +117,52 @@ namespace Motorcycle.Config.Proxy
                 select ip).ToList();
 
             return proxiesList.Distinct().ToList();
+        }
+
+        internal static List<string> SpysRu()
+        {
+            var valueCol = new NameValueCollection
+            {
+                {"xpp", "3"},
+                {"xf1", "0"},
+                {"xf2", "0"},
+                {"xf3", "0"},
+                {"xf4", "0"}
+            };
+
+            var responseByte = new WebClient().UploadValues("http://spys.ru/en/socks-proxy-list/", "POST", valueCol);
+            var downloadString = Encoding.Default.GetString(responseByte);
+
+            var startShifr = downloadString.IndexOf("http://pagead2.googlesyndication.com/pagead/show_ads.js");
+            startShifr = downloadString.IndexOf("<script type=\"text/javascript\">", startShifr) +
+                         "<script type=\"text/javascript\">".Length;
+            var stopShifr = downloadString.IndexOf("</script>", startShifr);
+            var shifr = downloadString.Substring(startShifr, stopShifr - startShifr).Split(';');
+
+            var shifrDictionary =
+                (from s in shifr where s != string.Empty && s.Contains("^") select s.Remove(s.IndexOf("^")).Split('='))
+                    .ToDictionary(dic => dic[0], dic => dic[1]);
+
+
+            var startMatch = downloadString.IndexOf("<tr class=spy1x");
+            var stopMatch = downloadString.IndexOf("non anonymous proxy");
+            var array = downloadString.Substring(startMatch, stopMatch - startMatch);
+
+            var proxyArray = array.Replace("\n", "").Replace("<tr class=spy1x", "\n<tr class=spy1x").Split('\n');
+
+            return (from value in proxyArray
+                where value.Contains("SOCKS5")
+                let startIp = value.IndexOf("<font class=spy14>") + "<font class=spy14>".Length
+                let stopIp = value.IndexOf("<script", startIp)
+                let ip = value.Substring(startIp, stopIp - startIp)
+                let startPort =
+                    value.IndexOf("<font class=spy2>:<\\/font>\"+(", stopIp) + "<font class=spy2>:<\\/font>\"+(".Length
+                let stopPort = value.IndexOf("))</script>", startPort)
+                let portKeys = value.Substring(startPort, stopPort - startPort).Replace(")+(", "\n").Split('\n')
+                let port =
+                    portKeys.Aggregate(string.Empty,
+                        (current, portKey) => current + shifrDictionary[portKey.Remove(portKey.IndexOf("^"))])
+                select ip + ":" + port).Distinct().ToList();
         }
     }
 }
