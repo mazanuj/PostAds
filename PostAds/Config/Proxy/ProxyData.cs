@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 
@@ -90,6 +91,29 @@ namespace Motorcycle.Config.Proxy
                     proxiesList.Add(address.Replace("</a></td><td>", ":"));
                 }
             }
+            return proxiesList.Distinct().ToList();
+        }
+
+        internal static List<string> MyIpTestCom()
+        {
+            var downloadString =
+                new WebClient().DownloadString(
+                    "http://www.myiptest.com/staticpages/index.php/Free-SOCKS5-SOCKS4-Proxy-lists.html");
+
+
+            var startMatch = downloadString.IndexOf("<td style='width:3px;'>");
+            var stopMatch = downloadString.LastIndexOf("<td style='width:3px;'>", StringComparison.Ordinal);
+            var array = downloadString.Substring(startMatch, stopMatch - startMatch);
+
+            var proxyArray = downloadString.Replace("\n", "").Replace("<tr><td style='width:3px;'>", "^").Split('^');
+
+            var proxiesList = (from value in proxyArray
+                where value.Contains("Socks5")
+                let startIp = value.IndexOf("<td style='width:3px;'>") + "<td style='width:3px;'>".Length
+                let stopIp = value.IndexOf("</td><td style='width:3px;'>", startIp)
+                let ip = value.Substring(startIp, stopIp - startIp)
+                select ip).ToList();
+
             return proxiesList.Distinct().ToList();
         }
     }
