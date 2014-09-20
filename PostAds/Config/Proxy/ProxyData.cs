@@ -58,5 +58,39 @@ namespace Motorcycle.Config.Proxy
 
             return proxiesList.Distinct().ToList();
         }
+
+        internal static List<string> LetUsHideComData()
+        {
+            var proxiesList = new List<string>();
+            var matchString =
+                new WebClient().DownloadString(
+                    "http://letushide.com/filter/socks5,all,all/list_of_free_SOCKS5_proxy_servers");
+            var startMatch = matchString.IndexOf("<div class=\"count\">") + "<div class=\"count\">".Length;
+            var stopMatch = matchString.IndexOf(" ", startMatch);
+            var result = int.Parse(matchString.Substring(startMatch, stopMatch - startMatch));
+
+            for (var i = 0; proxiesList.Count() < result; i++)
+            {
+                var downloadString =
+                    new WebClient().DownloadString(
+                        string.Format(
+                            "http://letushide.com/filter/socks5,all,all/{0}/list_of_free_SOCKS5_proxy_servers", i));
+
+                var stopIp = 0;
+                while (true)
+                {
+                    var startIp = downloadString.IndexOf("<a href=\"/ip/", stopIp);
+                    if (startIp == -1)
+                        break;
+                    startIp = downloadString.IndexOf("\">", startIp) + "\">".Length;
+
+                    stopIp = downloadString.IndexOf("</td><td><a href=", startIp);
+
+                    var address = downloadString.Substring(startIp, stopIp - startIp);
+                    proxiesList.Add(address.Replace("</a></td><td>", ":"));
+                }
+            }
+            return proxiesList.Distinct().ToList();
+        }
     }
 }

@@ -15,14 +15,14 @@
             {
                 if (proxyList == null || proxyList.Count == 0)
                 {
-                    proxyList = ProxyData.XroxyData();
+                    proxyList = ProxyData.XroxyComData();//TODO
                     ProxyXmlWorker.AddNewProxyListToFile(proxyList);
                 }
 
                 var proxyAddress = ProxyXmlWorker.GetProxyAddress(purpose);
 
                 if (proxyAddress != null) return proxyAddress;
-                proxyList = ProxyData.XroxyData();
+                proxyList = ProxyData.XroxyComData();//TODO
                 ProxyXmlWorker.AddNewProxyListToFile(proxyList);
 
                 return ProxyXmlWorker.GetProxyAddress(purpose);
