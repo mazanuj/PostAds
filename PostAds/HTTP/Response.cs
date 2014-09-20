@@ -48,9 +48,11 @@ namespace Motorcycle.HTTP
                     cookieDic.Add(cookie.Name, cookie.Value);
                 }
 
+                requestXNET.ConnectTimeout = requestXNET.ReadWriteTimeout = 15000;
                 requestXNET.UserAgent = HttpHelper.ChromeUserAgent();
                 requestXNET.Cookies = cookieDic;
-                requestXNET.Proxy = Socks5ProxyClient.Parse(proxyAddress);
+                if (proxyAddress != "localhost")
+                    requestXNET.Proxy = Socks5ProxyClient.Parse(proxyAddress);
 
                 foreach (var value in dataDictionary)
                     requestXNET.AddField(value.Key, value.Value);

@@ -16,6 +16,8 @@ namespace Motorcycle.Sites
 
     internal class MotoSale : IPostOnSite
     {
+        private readonly Object locker = new object();
+
         public async Task<SitePoster.PostStatus> PostMoto(DicHolder data)
         {
             return await Task.Factory.StartNew(
@@ -62,17 +64,26 @@ namespace Motorcycle.Sites
                             }
                             catch
                             {
-                                ProxyXmlWorker.ChangeServerStatus(proxyAddress, "off");
+                                lock (locker)
+                                {
+                                    ProxyXmlWorker.ChangeServerStatus(proxyAddress, "off");
+                                }
                             }
                         }
                         if (respString == string.Empty) throw new Exception("Not valid socks5 addresses");
+                        if (respString.Contains("Вы исчерпали дневной лимит подачи объявлений"))
+                        {
+                            Log.Warn(reply + " unsuccessfully posted on Motosale || дневной лимит для " +
+                                     dataDictionary["mail"] + " или " + dataDictionary["phone"]);
+                            return SitePoster.PostStatus.ERROR;
+                        }
                         if (respString.Contains("На указанный вами E-mail отправлено письмо"))
                         {
                             Log.Info(reply + " successfully posted on Motosale");
 
                             while (
-                                !PostConfirm.ConfirmAdv("pop.mail.ru", 995, true, "mo-snikers@mail.ru",
-                                    "Administr@t0r")) //TODO
+                                !PostConfirm.ConfirmAdv("pop.mail.ru", 995, true, dataDictionary["mail"],
+                                    "Administr@t0r"))
                                 Thread.Sleep(5000);
 
                             return SitePoster.PostStatus.OK;
@@ -155,13 +166,19 @@ namespace Motorcycle.Sites
                             }
                         }
                         if (respString == string.Empty) throw new Exception("Not valid socks5 addresses");
+                        if (respString.Contains("Вы исчерпали дневной лимит подачи объявлений"))
+                        {
+                            Log.Warn(reply + " unsuccessfully posted on Motosale || дневной лимит для " +
+                                     dataDictionary["mail"] + " или " + dataDictionary["phone"]);
+                            return SitePoster.PostStatus.ERROR;
+                        }
                         if (respString.Contains("На указанный вами E-mail отправлено письмо"))
                         {
                             Log.Info(reply + " successfully posted on Motosale");
 
                             while (
                                 !PostConfirm.ConfirmAdv("pop.mail.ru", 995, true, "mo-snikers@mail.ru",
-                                    "Administr@t0r")) //TODO
+                                    "Administr@t0r"))
                                 Thread.Sleep(5000);
 
                             return SitePoster.PostStatus.OK;
@@ -228,13 +245,19 @@ namespace Motorcycle.Sites
                             }
                         }
                         if (respString == string.Empty) throw new Exception("Not valid socks5 addresses");
+                        if (respString.Contains("Вы исчерпали дневной лимит подачи объявлений"))
+                        {
+                            Log.Warn(reply + " unsuccessfully posted on Motosale || дневной лимит для " +
+                                     dataDictionary["mail"] + " или " + dataDictionary["phone"]);
+                            return SitePoster.PostStatus.ERROR;
+                        }
                         if (respString.Contains("На указанный вами E-mail отправлено письмо"))
                         {
                             Log.Info(reply + " successfully posted on Motosale");
 
                             while (
                                 !PostConfirm.ConfirmAdv("pop.mail.ru", 995, true, "mo-snikers@mail.ru",
-                                    "Administr@t0r")) //TODO
+                                    "Administr@t0r"))
                                 Thread.Sleep(5000);
 
                             return SitePoster.PostStatus.OK;

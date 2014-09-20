@@ -224,7 +224,7 @@
 ﻿            {
 ﻿                case 0:
 ﻿                    loopVar++;
-﻿                    return XroxyComData();
+﻿                    return MyIpTestCom();
 
 ﻿                case 1:
 ﻿                    loopVar++;
@@ -236,15 +236,15 @@
 
 ﻿                case 3:
 ﻿                    loopVar++;
-﻿                    return MyIpTestCom();
+﻿                    return SpysRu();
 
 ﻿                case 4:
 ﻿                    loopVar++;
-﻿                    return SpysRu();
+﻿                    return XroxyComData();
 
 ﻿                default:
 ﻿                    loopVar++;
-﻿                    return XroxyComData();
+﻿                    return SpysRu();
 ﻿            }
 
 ﻿        }
