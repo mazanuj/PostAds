@@ -52,7 +52,7 @@ namespace Motorcycle.HTTP
                 requestXNET.UserAgent = HttpHelper.ChromeUserAgent();
                 requestXNET.Cookies = cookieDic;
                 if (proxyAddress != "localhost")
-                    requestXNET.Proxy = Socks5ProxyClient.Parse(proxyAddress);
+                    requestXNET.Proxy = Socks5ProxyClient.Parse(proxyAddress);                
 
                 foreach (var value in dataDictionary)
                     requestXNET.AddField(value.Key, value.Value);

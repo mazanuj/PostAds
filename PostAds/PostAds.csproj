@@ -94,6 +94,8 @@
     <Compile Include="Config\Advertising.cs" />
     <Compile Include="Config\Confirm\PostConfirm.cs" />
     <Compile Include="Config\Data\InfoHolder.cs" />
+    <Compile Include="Config\Proxy\ProxyAddressStruct.cs" />
+    <Compile Include="Config\Proxy\ProxyChecker.cs" />
     <Compile Include="Config\Proxy\ProxyData.cs" />
     <Compile Include="Config\Proxy\Socks5Worker.cs" />
     <Compile Include="Interfaces\ISiteData.cs" />

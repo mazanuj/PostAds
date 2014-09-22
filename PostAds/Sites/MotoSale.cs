@@ -26,6 +26,13 @@ namespace Motorcycle.Sites
                     try
                     {
                         var Log = LogManager.GetCurrentClassLogger();
+
+                        if (!Socks5Worker.ProxyListState)
+                        {
+                            Log.Warn("Proxy list == null");
+                            return SitePoster.PostStatus.ERROR;
+                        }
+                        
                         var dataDictionary = data.DataDictionary;
                         var fileDictionary = data.FileDictionary;
                         var reply = string.Format("{0} {1}{2}",

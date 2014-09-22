@@ -1,5 +1,4 @@
-﻿
-namespace Motorcycle.Config.Data
+﻿namespace Motorcycle.Config.Data
 {
     using System.Collections.Generic;
 

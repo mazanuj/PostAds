@@ -5,9 +5,15 @@
 
     internal static class Socks5Worker
     {
-        private static List<string> proxyList = new List<string>(ProxyXmlWorker.GetProxyList());
+        static Socks5Worker()
+        {
+            ProxyListState = true;
+        }
 
-        private static readonly object Locking = new object();
+        private static List<string> proxyList = new List<string>(ProxyXmlWorker.GetProxyList());
+        public static bool ProxyListState { get; private set; }
+
+        private static readonly object Locking = new object();        
 
         private static void UpdateProxyListAndWriteToFile()
         {
@@ -30,6 +36,7 @@
                     UpdateProxyListAndWriteToFile();
                 }
 
+                ProxyListState = false;
                 return null;
             }
         }
