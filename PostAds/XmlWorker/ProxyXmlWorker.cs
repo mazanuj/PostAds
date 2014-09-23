@@ -1,5 +1,6 @@
 ﻿namespace Motorcycle.XmlWorker
 {
+    using Motorcycle.Config.Proxy;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -12,21 +13,51 @@
 
         private static readonly XDocument Doc = XDocument.Load(XmlFilePath);
 
-        public static List<string> GetProxyList()
+        private static void CheckDateAndResetValues()
+        {
+            var todayDate = GenerateValidDateFormat(DateTime.Now);
+            var proxyListToUpdate = Doc.XPathSelectElements(string.Format("//servers/server[@date < {0}]", todayDate));
+
+            foreach (var proxyElement in proxyListToUpdate)
+            {
+                proxyElement.Attribute("moto").Value = "0";
+                proxyElement.Attribute("equip").Value = "0";
+                proxyElement.Attribute("spare").Value = "0";
+                proxyElement.Attribute("date").Value = todayDate;
+            }
+
+            Doc.Save(XmlFilePath);
+        }
+
+        private static string GenerateValidDateFormat(DateTime date)
+        {
+            var month = date.Month < 10 ? string.Format("0{0}", date.Month) : date.Month.ToString();
+
+            var day = date.Day < 10 ? string.Format("0{0}", date.Day) : date.Day.ToString();
+
+            return string.Format("{0}{1}{2}", date.Year, month, day);
+        }
+
+        public static List<ProxyAddressStruct> GetProxyListFromFile()
         {
             var proxyList = Doc.XPathSelectElements("//servers/server");
 
-            return proxyList.Select(proxyElement => proxyElement.Attribute("address").Value).ToList();
+            return proxyList.Select(proxyElement => new ProxyAddressStruct
+            {
+                ProxyAddresses = proxyElement.Attribute("address").Value,
+                Type = ProxyAddressStruct.GetProxyTypeEnumFromString(proxyElement.Attribute("type").Value)
+            }).ToList();
         }
 
-        public static void AddNewProxy(string proxy)
+        public static void AddNewProxy(ProxyAddressStruct proxy)
         {
             var servers = Doc.XPathSelectElement("//servers");
 
             servers.Add(
                 new XElement(
                     "server",
-                    new XAttribute("address", proxy),
+                    new XAttribute("address", proxy.ProxyAddresses),
+                    new XAttribute("type", proxy.Type),
                     new XAttribute("moto", "0"),
                     new XAttribute("equip", "0"),
                     new XAttribute("spare", "0"),
@@ -36,9 +67,9 @@
             Doc.Save(XmlFilePath);
         }
 
-        public static void AddNewProxyListToFile(IEnumerable<string> proxyList)
+        public static void AddNewProxyListToFile(IEnumerable<ProxyAddressStruct> proxyList)
         {
-            var existingList = GetProxyListString();
+            var existingList = GetProxyListFromFile();
 
             var todayDate = GenerateValidDateFormat(DateTime.Now);
 
@@ -51,7 +82,8 @@
                 servers.Add(
                     new XElement(
                         "server",
-                        new XAttribute("address", proxy),
+                        new XAttribute("address", proxy.ProxyAddresses),
+                        new XAttribute("type", proxy.Type),
                         new XAttribute("moto", "0"),
                         new XAttribute("equip", "0"),
                         new XAttribute("spare", "0"),
@@ -70,7 +102,7 @@
             Doc.Save(XmlFilePath);
         }
 
-        public static string GetProxyAddress(string purpose)
+        public static ProxyAddressStruct GetProxyAddress(string purpose)
         {
             CheckDateAndResetValues();
 
@@ -108,7 +140,11 @@
                         break;
                 }
                 Doc.Save(XmlFilePath);
-                return proxyList[0].Attribute("address").Value;
+                return new ProxyAddressStruct
+                {
+                    ProxyAddresses = proxyList[0].Attribute("address").Value,
+                    Type = ProxyAddressStruct.GetProxyTypeEnumFromString(proxyList[0].Attribute("type").Value)
+                };
             }
             return null;
         }
@@ -118,38 +154,6 @@
             var server = Doc.XPathSelectElement(string.Format("//servers/server[@address='{0}']", proxyAddress));
             server.Attribute("status").Value = status;
             Doc.Save(XmlFilePath);
-        }
-
-        private static void CheckDateAndResetValues()
-        {
-            var todayDate = GenerateValidDateFormat(DateTime.Now);
-            var proxyListToUpdate = Doc.XPathSelectElements(string.Format("//servers/server[@date < {0}]", todayDate));
-
-            foreach (var proxyElement in proxyListToUpdate)
-            {
-                proxyElement.Attribute("moto").Value = "0";
-                proxyElement.Attribute("equip").Value = "0";
-                proxyElement.Attribute("spare").Value = "0";
-                proxyElement.Attribute("date").Value = todayDate;
-            }
-
-            Doc.Save(XmlFilePath);
-        }
-
-        private static string GenerateValidDateFormat(DateTime date)
-        {
-            var month = date.Month < 10 ? string.Format("0{0}", date.Month) : date.Month.ToString();
-
-            var day = date.Day < 10 ? string.Format("0{0}", date.Day) : date.Day.ToString();
-
-            return string.Format("{0}{1}{2}", date.Year, month, day);
-        }
-
-        private static List<string> GetProxyListString()
-        {
-            var proxyList = Doc.XPathSelectElements("//servers/server");
-
-            return proxyList.Select(proxyElement => proxyElement.Attribute("address").Value).ToList();
         }
     }
 }

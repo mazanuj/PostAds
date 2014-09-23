@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <servers>
-  <server address="124.42.127.221:1080" moto="0" equip="0" spare="0" date="20140918" status="on"/>
-  <server address="116.75.156.49:1080" moto="0" equip="0" spare="0" date="20140910" status="on"/>
-  <server address="91.215.221.66:1080" moto="0" equip="0" spare="0" date="20090918" status="on"/>
-  <server address="82.209.198.2:1080" moto="0" equip="0" spare="0" date="20141018" status="on"/>
+  <server address="124.42.127.221:1080" type ="Socks5" moto="0" equip="0" spare="0" date="20140918" status="on"/>
+  <server address="116.75.156.49:1080" type ="Socks5" moto="0" equip="0" spare="0" date="20140910" status="on"/>
+  <server address="91.215.221.66:1080" type ="Socks5" moto="0" equip="0" spare="0" date="20090918" status="on"/>
+  <server address="82.209.198.2:1080" type ="Socks5" moto="0" equip="0" spare="0" date="20141018" status="on"/>
 </servers>

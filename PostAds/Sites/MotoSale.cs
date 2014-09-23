@@ -27,7 +27,7 @@ namespace Motorcycle.Sites
                     {
                         var Log = LogManager.GetCurrentClassLogger();
 
-                        if (!Socks5Worker.ProxyListState)
+                        if (!ProxyAddressWorker.ProxyListState)
                         {
                             Log.Warn("Proxy list == null");
                             return SitePoster.PostStatus.ERROR;
@@ -63,7 +63,7 @@ namespace Motorcycle.Sites
                             try
                             {
                                 respString = string.Empty;
-                                proxyAddress = Socks5Worker.GetSocks5Proxy("moto");
+                                //proxyAddress = ProxyAddressWorker.GetValidProxyAddress("moto");
                                 if (proxyAddress == null) break;
                                 respString = Response.GetResponseString(cookieContainer, dataDictionary, fileDictionary,
                                     url, proxyAddress);
@@ -120,7 +120,7 @@ namespace Motorcycle.Sites
                     {
                         var Log = LogManager.GetCurrentClassLogger();
 
-                        if (!Socks5Worker.ProxyListState)
+                        if (!ProxyAddressWorker.ProxyListState)
                         {
                             Log.Warn("Proxy list == null");
                             return SitePoster.PostStatus.ERROR;
@@ -168,7 +168,7 @@ namespace Motorcycle.Sites
                             try
                             {
                                 respString = string.Empty;
-                                proxyAddress = Socks5Worker.GetSocks5Proxy("spare");
+                                // proxyAddress = ProxyAddressWorker.GetValidProxyAddress("spare");
                                 if (proxyAddress == null) break;
                                 respString = Response.GetResponseString(cookieContainer, dataDictionary, fileDictionary,
                                     url, proxyAddress);
@@ -220,7 +220,7 @@ namespace Motorcycle.Sites
                     {
                         var Log = LogManager.GetCurrentClassLogger();
 
-                        if (!Socks5Worker.ProxyListState)
+                        if (!ProxyAddressWorker.ProxyListState)
                         {
                             Log.Warn("Proxy list == null");
                             return SitePoster.PostStatus.ERROR;
@@ -254,7 +254,7 @@ namespace Motorcycle.Sites
                             try
                             {
                                 respString = string.Empty;
-                                proxyAddress = Socks5Worker.GetSocks5Proxy("equip");
+                                // proxyAddress = ProxyAddressWorker.GetValidProxyAddress("equip");
                                 if (proxyAddress == null) break;
                                 respString = Response.GetResponseString(cookieContainer, dataDictionary, fileDictionary,
                                     url, proxyAddress);

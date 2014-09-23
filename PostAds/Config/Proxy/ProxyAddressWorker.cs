@@ -3,17 +3,18 @@
     using XmlWorker;
     using System.Collections.Generic;
 
-    internal static class Socks5Worker
+    internal static class ProxyAddressWorker
     {
-        static Socks5Worker()
+        static ProxyAddressWorker()
         {
             ProxyListState = true;
         }
 
-        private static List<string> proxyList = new List<string>(ProxyXmlWorker.GetProxyList());
+        private static List<ProxyAddressStruct> proxyList = new List<ProxyAddressStruct>(ProxyXmlWorker.GetProxyListFromFile());
+
         public static bool ProxyListState { get; private set; }
 
-        private static readonly object Locking = new object();        
+        private static readonly object Locking = new object();
 
         private static void UpdateProxyListAndWriteToFile()
         {
@@ -21,7 +22,7 @@
             ProxyXmlWorker.AddNewProxyListToFile(proxyList);
         }
 
-        public static string GetSocks5Proxy(string purpose)
+        public static ProxyAddressStruct GetValidProxyAddress(string purpose)
         {
             lock (Locking)
             {
@@ -43,7 +44,7 @@
 
         public static void RefreshProxiesFromFile()
         {
-            proxyList = ProxyXmlWorker.GetProxyList();
+            proxyList = ProxyXmlWorker.GetProxyListFromFile();
         }
     }
 }
