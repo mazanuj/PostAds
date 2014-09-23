@@ -10,7 +10,8 @@
             ProxyListState = true;
         }
 
-        private static List<ProxyAddressStruct> proxyList = new List<ProxyAddressStruct>(ProxyXmlWorker.GetProxyListFromFile());
+        private static List<ProxyAddressStruct> proxyList =
+            new List<ProxyAddressStruct>(ProxyXmlWorker.GetProxyListFromFile());
 
         public static bool ProxyListState { get; private set; }
 

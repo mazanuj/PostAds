@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Text.RegularExpressions;
 using System.Threading;
 using Newtonsoft.Json;
 using xNet.Net;
@@ -8,8 +10,32 @@ namespace Motorcycle.Config.Proxy
 {
     internal static class ProxyChecker
     {
-        public static List<ProxyAddressStruct> ProxyAddresses(List<string> proxyAddresses)
+        internal static List<ProxyAddressStruct> ProxyAddresses(IEnumerable<string> _proxyAddresses)
         {
+            //Get ip from domain name
+            var proxyAddresses = new List<string>();
+            foreach (var address in _proxyAddresses)
+            {
+                if (!Regex.IsMatch(address, @"[a-zA-Z]"))
+                {
+                    proxyAddresses.Add(address);
+                    continue;
+                }
+
+                var ipPort = address.Split(':');
+                var ip = string.Empty;
+                try
+                {
+                    ip = Dns.GetHostAddresses(ipPort[0]).GetValue(0).ToString();
+                }
+                catch
+                {
+                }
+                proxyAddresses.Add(ip + ":" + ipPort[1]);
+            }
+            proxyAddresses = proxyAddresses.Where(t => !string.IsNullOrEmpty(t)).Distinct().ToList();
+            //==============================================//
+
             const string url =
                 "http://hideme.ru/api/checker.php?out=js&action=list_new&tasks=http,ssl,socks4,socks5&parser=lines";
             var proxyAddressesList = new List<ProxyAddressStruct>();
@@ -21,12 +47,12 @@ namespace Motorcycle.Config.Proxy
                 var count = 0;
                 var dicIp = new Dictionary<string, string>();
 
-                for (; count < 100 && proxyAddresses.Count > i; count++)
+                for (; count < 20 && proxyAddresses.Count > i; count++)
                 {
                     if (requestString != string.Empty) requestString += "\n";
                     requestString += proxyAddresses[i];
 
-                    dicIp.Add(proxyAddresses[i++].Remove(proxyAddresses[0].IndexOf(":")), "");
+                    dicIp.Add(proxyAddresses[i++], "");
                 }
 
                 using (var requestXNET = new HttpRequest(url))
@@ -34,13 +60,12 @@ namespace Motorcycle.Config.Proxy
                     requestXNET.AddParam("data", requestString);
                     dynamic responseJsone = JsonConvert.DeserializeObject(requestXNET.Post(url).ToString());
 
-                    var items = responseJsone.items;
-                    foreach (var item in items)
-                        dicIp[item.First.host.Value] = item.Name;
+                    foreach (var item in responseJsone.items)
+                        dicIp[item.Value.host.Value + ":" + item.Value.port.Value] = item.Name;
 
                     var group = responseJsone.group;
                     var checkUrl =
-                        "http://hideme.ru/api/checker.php?out=js&action=get&filters=progress!:queued;changed:1&fields=resolved_ip,progress,progress_http,progress_ssl,progress_socks4,progress_socks5,time_http,time_ssl,time_socks4,time_socks5,result_http,result_ssl,result_socks4,result_socks5&groups=" +
+                        "http://hideme.ru/api/checker.php?out=js&action=get&fields=resolved_ip,result_http,result_ssl,result_socks4,result_socks5&groups=" +
                         group;
 
                     dynamic responseJs;

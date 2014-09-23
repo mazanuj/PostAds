@@ -1,5 +1,4 @@
-﻿using System.Text;
-using Motorcycle.Factories;
+﻿using Motorcycle.Factories;
 
 namespace Motorcycle.Config.Data
 {
@@ -73,7 +72,7 @@ namespace Motorcycle.Config.Data
             await Task.Factory.StartNew(
                 () =>
                 {
-                    var listFile = new List<string>(File.ReadAllLines(textFile));//TODO ?? Encoding.Unicode
+                    var listFile = new List<string>(File.ReadAllLines(textFile)); //TODO ?? Encoding.Unicode
                     var infoHolder = new InfoHolder {Site = site, Type = product};
 
                     switch (product)
