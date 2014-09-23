@@ -1,4 +1,6 @@
-﻿namespace Motorcycle.Config
+﻿using Motorcycle.Config.Proxy;
+
+namespace Motorcycle.Config
 {
     using Data;
     using Sites;

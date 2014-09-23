@@ -6,6 +6,7 @@ using System.Net;
 using System.Text;
 using System.Windows.Media.Imaging;
 using Motorcycle.Captcha;
+using Motorcycle.Config.Proxy;
 using xNet.Net;
 
 namespace Motorcycle.HTTP
@@ -35,7 +36,7 @@ namespace Motorcycle.HTTP
 
         internal static string GetResponseString(CookieContainer cookieContainer,
             Dictionary<string, string> dataDictionary, Dictionary<string, string> fileDictionary, string url,
-            string proxyAddress)
+            ProxyAddressStruct proxyAddress)
         {
             using (var requestXNET = new HttpRequest(url))
             {
@@ -51,8 +52,22 @@ namespace Motorcycle.HTTP
                 requestXNET.ConnectTimeout = requestXNET.ReadWriteTimeout = 15000;
                 requestXNET.UserAgent = HttpHelper.ChromeUserAgent();
                 requestXNET.Cookies = cookieDic;
-                if (proxyAddress != "localhost")
-                    requestXNET.Proxy = Socks5ProxyClient.Parse(proxyAddress);                
+
+                if (proxyAddress.ProxyAddresses != "localhost")
+                {
+                    switch (proxyAddress.Type)
+                    {
+                        case ProxyType.Http:
+                            requestXNET.Proxy = HttpProxyClient.Parse(proxyAddress.ProxyAddresses);
+                            break;
+                        case ProxyType.Socks4:
+                            requestXNET.Proxy = Socks4ProxyClient.Parse(proxyAddress.ProxyAddresses);
+                            break;
+                        case ProxyType.Socks5:
+                            requestXNET.Proxy = Socks5ProxyClient.Parse(proxyAddress.ProxyAddresses);
+                            break;
+                    }
+                }
 
                 foreach (var value in dataDictionary)
                     requestXNET.AddField(value.Key, value.Value);

@@ -57,14 +57,16 @@ namespace Motorcycle.Sites
 
                         //Request
                         string respString;
-                        var proxyAddress = string.Empty;
+                        var proxyAddress = new ProxyAddressStruct {ProxyAddresses = "localhost"};
                         while (true)
                         {
                             try
                             {
                                 respString = string.Empty;
-                                //proxyAddress = ProxyAddressWorker.GetValidProxyAddress("moto");
-                                if (proxyAddress == null) break;
+                                proxyAddress = ProxyAddressWorker.GetValidProxyAddress("moto");
+
+                                if (!ProxyAddressWorker.ProxyListState) break;
+
                                 respString = Response.GetResponseString(cookieContainer, dataDictionary, fileDictionary,
                                     url, proxyAddress);
                                 break;
@@ -73,7 +75,7 @@ namespace Motorcycle.Sites
                             {
                                 lock (locker)
                                 {
-                                    ProxyXmlWorker.ChangeServerStatus(proxyAddress, "off");
+                                    ProxyXmlWorker.ChangeServerStatus(proxyAddress.ProxyAddresses, "off");
                                 }
                             }
                         }
@@ -160,23 +162,28 @@ namespace Motorcycle.Sites
 
                         //dataDictionary["insert"] = hash;
 
-                        //xNet
+                        //Request
                         string respString;
-                        var proxyAddress = string.Empty;
+                        var proxyAddress = new ProxyAddressStruct {ProxyAddresses = "localhost"};
                         while (true)
                         {
                             try
                             {
                                 respString = string.Empty;
-                                // proxyAddress = ProxyAddressWorker.GetValidProxyAddress("spare");
-                                if (proxyAddress == null) break;
+                                proxyAddress = ProxyAddressWorker.GetValidProxyAddress("post");
+
+                                if (!ProxyAddressWorker.ProxyListState) break;
+
                                 respString = Response.GetResponseString(cookieContainer, dataDictionary, fileDictionary,
                                     url, proxyAddress);
                                 break;
                             }
                             catch
                             {
-                                ProxyXmlWorker.ChangeServerStatus(proxyAddress, "off");
+                                lock (locker)
+                                {
+                                    ProxyXmlWorker.ChangeServerStatus(proxyAddress.ProxyAddresses, "off");
+                                }
                             }
                         }
                         if (respString == string.Empty) throw new Exception("Not valid socks5 addresses");
@@ -246,23 +253,28 @@ namespace Motorcycle.Sites
 
                         dataDictionary["fConfirmationCode"] = captcha;
 
-                        //xNet
+                        //Request
                         string respString;
-                        var proxyAddress = string.Empty;
+                        var proxyAddress = new ProxyAddressStruct {ProxyAddresses = "localhost"};
                         while (true)
                         {
                             try
                             {
                                 respString = string.Empty;
-                                // proxyAddress = ProxyAddressWorker.GetValidProxyAddress("equip");
-                                if (proxyAddress == null) break;
+                                proxyAddress = ProxyAddressWorker.GetValidProxyAddress("equip");
+
+                                if (!ProxyAddressWorker.ProxyListState) break;
+
                                 respString = Response.GetResponseString(cookieContainer, dataDictionary, fileDictionary,
                                     url, proxyAddress);
                                 break;
                             }
                             catch
                             {
-                                ProxyXmlWorker.ChangeServerStatus(proxyAddress, "off");
+                                lock (locker)
+                                {
+                                    ProxyXmlWorker.ChangeServerStatus(proxyAddress.ProxyAddresses, "off");
+                                }
                             }
                         }
                         if (respString == string.Empty) throw new Exception("Not valid socks5 addresses");

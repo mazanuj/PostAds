@@ -43,11 +43,11 @@ namespace Motorcycle.Config.Proxy
             var i = 0;
             while (proxyAddresses.Count > i)
             {
-                var requestString = string.Empty;
-                var count = 0;
                 var dicIp = new Dictionary<string, string>();
+                var requestString = string.Empty;
+                var count = 0;                
 
-                for (; count < 20 && proxyAddresses.Count > i; count++)
+                for (; count < 100 && proxyAddresses.Count > i; count++)
                 {
                     if (requestString != string.Empty) requestString += "\n";
                     requestString += proxyAddresses[i];
@@ -72,7 +72,7 @@ namespace Motorcycle.Config.Proxy
                     while (true)
                     {
                         var respJs = JsonConvert.DeserializeObject(new HttpRequest().Get(checkUrl).ToString());
-                        if (respJs.finished.Value != count)
+                        if (respJs.finished.Value != count - 1)
                         {
                             Thread.Sleep(2000);
                             continue;

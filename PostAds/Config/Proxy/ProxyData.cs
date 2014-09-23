@@ -18,39 +18,42 @@ namespace Motorcycle.Config.Proxy
         private static int loopVar;
         private const string ErrorMsg = "Error in getting proxy list from";
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
-        public const int CountOfProxySites = 5;
+        public const int CountOfProxySites = 6;
 
         public static List<ProxyAddressStruct> GetProxyData()
         {
             if (loopVar >= CountOfProxySites) return null; //loopVar = 0;
 
-            //switch (loopVar)
-            //{
-            //    case 0:
-            //        loopVar++;
-            //        return MyIpTestCom();
+            switch (loopVar)
+            {
+                case 0:
+                    loopVar++;
+                    return ProxyChecker.ProxyAddresses(RosinstrumentCom());
 
-            //    case 1:
-            //        loopVar++;
-            //        return SocksProxyNetData();
+                case 1:
+                    loopVar++;
+                    return ProxyChecker.ProxyAddresses(SocksProxyNetData());
 
-            //    case 2:
-            //        loopVar++;
-            //        return LetUsHideComData();
+                case 2:
+                    loopVar++;
+                    return ProxyChecker.ProxyAddresses(LetUsHideComData());
 
-            //    case 3:
-            //        loopVar++;
-            //        return SpysRu();
+                case 3:
+                    loopVar++;
+                    return ProxyChecker.ProxyAddresses(SpysRu());
 
-            //    case 4:
-            //        loopVar++;
-            //        return XroxyComData();
+                case 4:
+                    loopVar++;
+                    return ProxyChecker.ProxyAddresses(XroxyComData());
 
-            //    default:
-            //        loopVar++;
-            //        return SpysRu();
-            //}
-            return new List<ProxyAddressStruct>();
+                case 5:
+                    loopVar++;
+                    return ProxyChecker.ProxyAddresses(MyIpTestCom());
+
+                default:
+                    loopVar++;
+                    return ProxyChecker.ProxyAddresses(RosinstrumentCom());
+            }
         }
 
         private static IEnumerable<string> XroxyComData()
