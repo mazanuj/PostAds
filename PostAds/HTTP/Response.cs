@@ -37,7 +37,7 @@ namespace Motorcycle.HTTP
             Dictionary<string, string> dataDictionary, Dictionary<string, string> fileDictionary, string url,
             string proxyAddress)
         {
-            using (var requestXNET = new HttpRequest("url"))
+            using (var requestXNET = new HttpRequest(url))
             {
                 var cookieDic = new CookieDictionary();
                 var cookieColl = cookieContainer.GetCookies(new Uri("http://www.motosale.com.ua"));
