@@ -7,7 +7,7 @@ namespace Motorcycle.Config.Data
 
     internal class DvaKolesaData : ISiteData
     {
-        public DicHolder GetMoto(string row)
+        public DicHolder GetMoto(string row, int lineNum)
         {
             var data = row.Split('\t');
 
@@ -23,6 +23,7 @@ namespace Motorcycle.Config.Data
 
             return new DicHolder
             {
+                LineNum = lineNum,
                 DataDictionary = new Dictionary<string, string>
                 {
                     {"model", ManufactureXmlWorker.GetItemSiteValueUsingPlant(data[4], "p")}, //zavod BASA+
@@ -67,7 +68,7 @@ namespace Motorcycle.Config.Data
             };
         }
 
-        public DicHolder GetSpare(string row)
+        public DicHolder GetSpare(string row, int lineNum)
         {
             var data = row.Split('\t');
 
@@ -83,6 +84,7 @@ namespace Motorcycle.Config.Data
 
             return new DicHolder
             {
+                LineNum = lineNum,
                 DataDictionary = new Dictionary<string, string>
                 {
                     {"model", SpareEquipXmlWorker.GetItemSiteValueUsingPlant(data[4], "pz")},//zavod basa+
@@ -123,7 +125,7 @@ namespace Motorcycle.Config.Data
             };
         }
 
-        public DicHolder GetEquip(string row)
+        public DicHolder GetEquip(string row, int lineNum)
         {
             var data = row.Split('\t');
 
@@ -139,6 +141,7 @@ namespace Motorcycle.Config.Data
 
             return new DicHolder
             {
+                LineNum = lineNum,
                 DataDictionary = new Dictionary<string, string>
                 {
                     {"model", SpareEquipXmlWorker.GetItemSiteValueUsingPlant(data[5],"pe")},//+

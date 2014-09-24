@@ -20,6 +20,8 @@
         public Dictionary<string, string> DataDictionary { get; set; }
 
         public Dictionary<string, string> FileDictionary { get; set; }
+
+        public int LineNum { get; set; }
     }
 
     public enum ProductEnum

@@ -160,6 +160,7 @@
     <Compile Include="XmlWorker\CityItem.cs" />
     <Compile Include="XmlWorker\CityXmlWorker.cs" />
     <Compile Include="XmlWorker\DocsXmlWorker.cs" />
+    <Compile Include="XmlWorker\FilePathXmlWorker.cs" />
     <Compile Include="XmlWorker\ManufactureXmlWorker.cs" />
     <Compile Include="XmlWorker\ManufactureItem.cs" />
     <Compile Include="XmlWorker\ManufactureValue.cs" />

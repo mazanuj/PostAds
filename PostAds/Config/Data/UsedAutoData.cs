@@ -7,7 +7,7 @@ namespace Motorcycle.Config.Data
 
     internal class UsedAutoData : ISiteData
     {
-        public DicHolder GetMoto(string row)
+        public DicHolder GetMoto(string row, int lineNum)
         {
             var data = row.Split('\t');
 
@@ -55,6 +55,7 @@ namespace Motorcycle.Config.Data
 
             return new DicHolder
             {
+                LineNum = lineNum,
                 DataDictionary = new Dictionary<string, string>
                 {
                     {"cid", ManufactureXmlWorker.GetMotoType(data[10], "u")}, //+
@@ -92,7 +93,7 @@ namespace Motorcycle.Config.Data
             };
         }
 
-        public DicHolder GetSpare(string row)
+        public DicHolder GetSpare(string row, int lineNum)
         {
             var data = row.Split('\t');
 
@@ -100,6 +101,7 @@ namespace Motorcycle.Config.Data
 
             return new DicHolder
             {
+                LineNum = lineNum,
                 DataDictionary = new Dictionary<string, string>
                 {
                     {"hash", "d8d4c90043a5a7fc299fc47610c59184"},//+
@@ -125,12 +127,13 @@ namespace Motorcycle.Config.Data
             };
         }
 
-        public DicHolder GetEquip(string row)
+        public DicHolder GetEquip(string row, int lineNum)
         {
             var data = row.Split('\t');
 
             return new DicHolder
             {
+                LineNum = lineNum,
                 DataDictionary = new Dictionary<string, string>
                 {
                     {"", ""}

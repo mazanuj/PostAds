@@ -6,7 +6,7 @@
 
     internal class MotosaleData : ISiteData
     {
-        public DicHolder GetMoto(string row)
+        public DicHolder GetMoto(string row, int lineNum)
         {
             var data = row.Split('\t');
 
@@ -25,6 +25,7 @@
 
             return new DicHolder
             {
+                LineNum = lineNum,
                 DataDictionary = new Dictionary<string, string>
                 {
                     {"name", data[0]}, //+
@@ -60,7 +61,7 @@
             };
         }
 
-        public DicHolder GetSpare(string row)
+        public DicHolder GetSpare(string row, int lineNum)
         {
             var data = row.Split('\t');
 
@@ -76,6 +77,7 @@
 
             return new DicHolder
             {
+                LineNum = lineNum,
                 DataDictionary = new Dictionary<string, string>
                 {
                     {"name", data[0]}, //+
@@ -102,7 +104,7 @@
             };
         }
 
-        public DicHolder GetEquip(string row)
+        public DicHolder GetEquip(string row, int lineNum)
         {
             var data = row.Split('\t');
 
@@ -118,6 +120,7 @@
 
             return new DicHolder
             {
+                LineNum = lineNum,
                 DataDictionary = new Dictionary<string, string>
                 {
                     {"name", data[0]},//+

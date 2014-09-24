@@ -74,22 +74,23 @@ namespace Motorcycle.Config.Data
                 {
                     var listFile = new List<string>(File.ReadAllLines(textFile)); //TODO ?? Encoding.Unicode
                     var infoHolder = new InfoHolder {Site = site, Type = product};
+                    var lineNum = 0;
 
                     switch (product)
                     {
                         case ProductEnum.Motorcycle:
                             foreach (var row in listFile)
-                                infoHolder.Data.Add(siteData.GetMoto(row));
+                                infoHolder.Data.Add(siteData.GetMoto(row, lineNum++));
                             break;
 
                         case ProductEnum.Equip:
                             foreach (var row in listFile)
-                                infoHolder.Data.Add(siteData.GetEquip(row));
+                                infoHolder.Data.Add(siteData.GetEquip(row, lineNum++));
                             break;
 
                         case ProductEnum.Spare:
                             foreach (var row in listFile)
-                                infoHolder.Data.Add(siteData.GetSpare(row));
+                                infoHolder.Data.Add(siteData.GetSpare(row, lineNum++));
                             break;
                     }
 
