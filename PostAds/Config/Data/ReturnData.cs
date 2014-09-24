@@ -7,6 +7,8 @@ namespace Motorcycle.Config.Data
     using System.IO;
     using System.Threading.Tasks;
 
+    using Motorcycle.XmlWorker;
+
     internal static class ReturnData
     {
         private static readonly List<InfoHolder> ReturnDataHolders = new List<InfoHolder>();
@@ -15,12 +17,11 @@ namespace Motorcycle.Config.Data
         private static string spareFile;
         private static string equipFile;
 
-        internal static async Task<List<InfoHolder>> GetData(string motofile, string sparefile, string equipfile,
-            byte[] flag)
+        internal static async Task<List<InfoHolder>> GetData(byte[] flag)
         {
-            motoFile = motofile;
-            spareFile = sparefile;
-            equipFile = equipfile;
+            motoFile = FilePathXmlWorker.GetFilePath("moto");
+            spareFile = FilePathXmlWorker.GetFilePath("spare");
+            equipFile = FilePathXmlWorker.GetFilePath("equip");
 
             ReturnDataHolders.Clear();
             ////Проверка сайтов для постинга
@@ -50,17 +51,17 @@ namespace Motorcycle.Config.Data
         {
             var siteData = SiteDataFactory.GetSiteData(site);
 
-            if (motoFile != null)
+            if (!string.IsNullOrEmpty(motoFile))
             {
                 await FillReturnDataHoldersList(site, ProductEnum.Motorcycle, motoFile, siteData);
             }
 
-            if (spareFile != null)
+            if (!string.IsNullOrEmpty(spareFile))
             {
                 await FillReturnDataHoldersList(site, ProductEnum.Spare, spareFile, siteData);
             }
 
-            if (equipFile != null)
+            if (!string.IsNullOrEmpty(equipFile))
             {
                 await FillReturnDataHoldersList(site, ProductEnum.Equip, equipFile, siteData);
             }

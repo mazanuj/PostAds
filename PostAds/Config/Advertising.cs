@@ -11,10 +11,10 @@ namespace Motorcycle.Config
     {
         private static readonly Logger log = LogManager.GetCurrentClassLogger();
 
-        internal static async Task Initialize(string motoFile, string spareFile, string equipFile, byte[] flag)
+        internal static async Task Initialize(byte[] flag)
         {
             //List<InfoHolder>
-            var returnDataHolders = await ReturnData.GetData(motoFile, spareFile, equipFile, flag);
+            var returnDataHolders = await ReturnData.GetData(flag);
 
             await SitePoster.PostAdvertises(returnDataHolders);
         }

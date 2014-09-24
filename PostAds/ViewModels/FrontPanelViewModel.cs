@@ -8,17 +8,20 @@ using LogManager = NLog.LogManager;
 
 namespace Motorcycle.ViewModels
 {
-    [Export(typeof (FrontPanelViewModel))]
+    using Motorcycle.XmlWorker;
+
+    [Export(typeof(FrontPanelViewModel))]
     public class FrontPanelViewModel : PropertyChangedBase
     {
         private readonly Logger log = LogManager.GetCurrentClassLogger();
         public LoggingControlViewModel LoggingControl { get; private set; }
         private readonly OpenFileDialog dlg;
-        private string motoFile;
-        private string equipmentFile;
-        private string spareFile;
-        private byte[] flag = new byte[3];
+        private readonly byte[] flag = new byte[3];
 
+        private bool boxMoto;
+        private bool boxUsed;
+        private bool boxKol;
+        
         [ImportingConstructor]
         public FrontPanelViewModel(LoggingControlViewModel loggingControlModel)
         {
@@ -33,88 +36,105 @@ namespace Motorcycle.ViewModels
             };
         }
 
-        public async void ButtonStart()
+        private bool CheckIfAllFieldsAreFilled()
         {
-           await Advertising.Initialize(motoFile, spareFile, equipmentFile, flag);
+            return (this.MotoFileLabel || this.SpareFileLabel || this.EquipFileLabel) && (this.flag[0] + this.flag[1] + this.flag[2] != 0);
         }
-
-        public bool CanButtonStart
-        {
-            get { return (MotoFileLabel || SpareFileLabel || EquipFileLabel) && (flag[0] + flag[1] + flag[2] != 0); }
-        }
-
-        private bool _BoxMoto;
 
         public bool BoxMoto
         {
-            get { return _BoxMoto; }
+            get { return this.boxMoto; }
             set
             {
-                _BoxMoto = value;
-                flag[0] = _BoxMoto ? flag[0] += 1 : flag[0] -= 1;
+                this.boxMoto = value;
+                flag[0] = this.boxMoto ? flag[0] += 1 : flag[0] -= 1;
                 NotifyOfPropertyChange(() => BoxMoto);
+
+                CanButtonStart = this.CheckIfAllFieldsAreFilled();
                 NotifyOfPropertyChange(() => CanButtonStart);
             }
         }
 
-        private bool _BoxUsed;
         public bool BoxUsed
         {
-            get { return _BoxUsed; }
+            get { return this.boxUsed; }
             set
             {
-                _BoxUsed = value;
-                flag[1] = _BoxUsed ? flag[1] += 1 : flag[1] -= 1;
+                this.boxUsed = value;
+                flag[1] = this.boxUsed ? flag[1] += 1 : flag[1] -= 1;
                 NotifyOfPropertyChange(() => BoxUsed);
+
+                CanButtonStart = this.CheckIfAllFieldsAreFilled();
                 NotifyOfPropertyChange(() => CanButtonStart);
             }
         }
 
-        private bool _BoxKol;
         public bool BoxKol
         {
-            get { return _BoxKol; }
+            get { return this.boxKol; }
             set
             {
-                _BoxKol = value;
-                flag[2] = _BoxKol ? flag[2] += 1 : flag[2] -= 1;
+                this.boxKol = value;
+                flag[2] = this.boxKol ? flag[2] += 1 : flag[2] -= 1;
                 NotifyOfPropertyChange(() => BoxKol);
+
+                CanButtonStart = this.CheckIfAllFieldsAreFilled();
                 NotifyOfPropertyChange(() => CanButtonStart);
             }
         }
 
         public bool MotoFileLabel { get; set; }
 
-        public void ButtonMoto()
-        {
-            if (dlg.ShowDialog() == false) return;
-            motoFile = dlg.FileName;
+        public bool SpareFileLabel { get; set; }
 
-            MotoFileLabel = true;
-            NotifyOfPropertyChange(() => MotoFileLabel);
+        public bool EquipFileLabel { get; set; }
+
+        public bool CanButtonStart { get; set; }
+
+        public async void ButtonStart()
+        {
+            CanButtonStart = false;
+            NotifyOfPropertyChange(() => CanButtonStart);
+
+            await Advertising.Initialize(flag);
+
+            CanButtonStart = true;
             NotifyOfPropertyChange(() => CanButtonStart);
         }
 
-        public bool SpareFileLabel { get; set; }
+        public void ButtonMoto()
+        {
+            if (dlg.ShowDialog() == false) return;
+            FilePathXmlWorker.SetFilePath("moto", dlg.FileName);
+
+            MotoFileLabel = true;
+            NotifyOfPropertyChange(() => MotoFileLabel);
+
+            CanButtonStart = this.CheckIfAllFieldsAreFilled();
+            NotifyOfPropertyChange(() => CanButtonStart);
+        }
 
         public void ButtonSpare()
         {
             if (dlg.ShowDialog() == false) return;
-            spareFile = dlg.FileName;
+            FilePathXmlWorker.SetFilePath("spare", dlg.FileName);
 
             SpareFileLabel = true;
             NotifyOfPropertyChange(() => SpareFileLabel);
+
+            CanButtonStart = this.CheckIfAllFieldsAreFilled();
             NotifyOfPropertyChange(() => CanButtonStart);
         }
-        public bool EquipFileLabel { get; set; }
 
         public void ButtonEquip()
         {
             if (dlg.ShowDialog() == false) return;
-            equipmentFile = dlg.FileName;
+            FilePathXmlWorker.SetFilePath("equip", dlg.FileName);
 
             EquipFileLabel = true;
             NotifyOfPropertyChange(() => EquipFileLabel);
+
+            CanButtonStart = this.CheckIfAllFieldsAreFilled();
             NotifyOfPropertyChange(() => CanButtonStart);
         }
     }

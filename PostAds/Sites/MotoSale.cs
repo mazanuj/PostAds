@@ -57,7 +57,7 @@ namespace Motorcycle.Sites
 
                         //Request
                         string respString;
-                        var proxyAddress = new ProxyAddressStruct {ProxyAddresses = "localhost"};
+                        var proxyAddress = new ProxyAddressStruct { ProxyAddresses = "localhost" };
                         while (true)
                         {
                             try
