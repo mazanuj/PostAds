@@ -6,6 +6,7 @@ namespace Motorcycle.Config.Confirm
 {
     internal static class PostConfirm
     {
+        static readonly Logger Log = LogManager.GetCurrentClassLogger();
         public static bool ConfirmAdv(string hostname, int port, bool useSsl, string username, string password)
         {
             // The client disconnects from the server when being disposed
@@ -50,9 +51,7 @@ namespace Motorcycle.Config.Confirm
                     var stop = text.IndexOf("' target=", start);
 
                     var url = text.Substring(start, stop - start);
-                    var req = Request.GETRequest(url);
-
-                    var Log = LogManager.GetCurrentClassLogger();
+                    var req = Request.GETRequest(url);                    
 
                     var respString = Response.GetResponseString(req);
 

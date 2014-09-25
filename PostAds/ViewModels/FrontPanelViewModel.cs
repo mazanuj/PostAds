@@ -8,7 +8,7 @@ using LogManager = NLog.LogManager;
 
 namespace Motorcycle.ViewModels
 {
-    using Motorcycle.XmlWorker;
+    using XmlWorker;
 
     [Export(typeof(FrontPanelViewModel))]
     public class FrontPanelViewModel : PropertyChangedBase
@@ -38,47 +38,47 @@ namespace Motorcycle.ViewModels
 
         private bool CheckIfAllFieldsAreFilled()
         {
-            return (this.MotoFileLabel || this.SpareFileLabel || this.EquipFileLabel) && (this.flag[0] + this.flag[1] + this.flag[2] != 0);
+            return (MotoFileLabel || SpareFileLabel || EquipFileLabel) && (flag[0] + flag[1] + flag[2] != 0);
         }
 
         public bool BoxMoto
         {
-            get { return this.boxMoto; }
+            get { return boxMoto; }
             set
             {
-                this.boxMoto = value;
-                flag[0] = this.boxMoto ? flag[0] += 1 : flag[0] -= 1;
+                boxMoto = value;
+                flag[0] = boxMoto ? flag[0] += 1 : flag[0] -= 1;
                 NotifyOfPropertyChange(() => BoxMoto);
 
-                CanButtonStart = this.CheckIfAllFieldsAreFilled();
+                CanButtonStart = CheckIfAllFieldsAreFilled();
                 NotifyOfPropertyChange(() => CanButtonStart);
             }
         }
 
         public bool BoxUsed
         {
-            get { return this.boxUsed; }
+            get { return boxUsed; }
             set
             {
-                this.boxUsed = value;
-                flag[1] = this.boxUsed ? flag[1] += 1 : flag[1] -= 1;
+                boxUsed = value;
+                flag[1] = boxUsed ? flag[1] += 1 : flag[1] -= 1;
                 NotifyOfPropertyChange(() => BoxUsed);
 
-                CanButtonStart = this.CheckIfAllFieldsAreFilled();
+                CanButtonStart = CheckIfAllFieldsAreFilled();
                 NotifyOfPropertyChange(() => CanButtonStart);
             }
         }
 
         public bool BoxKol
         {
-            get { return this.boxKol; }
+            get { return boxKol; }
             set
             {
-                this.boxKol = value;
-                flag[2] = this.boxKol ? flag[2] += 1 : flag[2] -= 1;
+                boxKol = value;
+                flag[2] = boxKol ? flag[2] += 1 : flag[2] -= 1;
                 NotifyOfPropertyChange(() => BoxKol);
 
-                CanButtonStart = this.CheckIfAllFieldsAreFilled();
+                CanButtonStart = CheckIfAllFieldsAreFilled();
                 NotifyOfPropertyChange(() => CanButtonStart);
             }
         }
@@ -110,7 +110,7 @@ namespace Motorcycle.ViewModels
             MotoFileLabel = true;
             NotifyOfPropertyChange(() => MotoFileLabel);
 
-            CanButtonStart = this.CheckIfAllFieldsAreFilled();
+            CanButtonStart = CheckIfAllFieldsAreFilled();
             NotifyOfPropertyChange(() => CanButtonStart);
         }
 
@@ -122,7 +122,7 @@ namespace Motorcycle.ViewModels
             SpareFileLabel = true;
             NotifyOfPropertyChange(() => SpareFileLabel);
 
-            CanButtonStart = this.CheckIfAllFieldsAreFilled();
+            CanButtonStart = CheckIfAllFieldsAreFilled();
             NotifyOfPropertyChange(() => CanButtonStart);
         }
 
@@ -134,7 +134,7 @@ namespace Motorcycle.ViewModels
             EquipFileLabel = true;
             NotifyOfPropertyChange(() => EquipFileLabel);
 
-            CanButtonStart = this.CheckIfAllFieldsAreFilled();
+            CanButtonStart = CheckIfAllFieldsAreFilled();
             NotifyOfPropertyChange(() => CanButtonStart);
         }
     }

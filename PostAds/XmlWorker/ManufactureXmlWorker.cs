@@ -153,6 +153,18 @@
             return firstOrDefault != null ? firstOrDefault.Value : string.Empty;
         }
 
+        public static string GetItemNameUsingValue(string site, string siteValue, string value)
+        {
+            var att =
+                (IEnumerable)
+                    Doc.XPathEvaluate(string.Format("//moto/manufacture/item[@{0}='{1}']/value[text() = '{2}']/@name",
+                        site.ToLower(), siteValue.ToLower(), value.ToLower()));
+
+            var firstOrDefault = att.Cast<XAttribute>().FirstOrDefault();
+
+            return firstOrDefault != null ? firstOrDefault.Value : string.Empty;
+        }
+
         #endregion
 
         #region Work with Value node

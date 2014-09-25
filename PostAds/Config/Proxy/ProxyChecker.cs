@@ -72,7 +72,7 @@ namespace Motorcycle.Config.Proxy
                     while (true)
                     {
                         var respJs = JsonConvert.DeserializeObject(new HttpRequest().Get(checkUrl).ToString());
-                        if (respJs.finished.Value != count - 1)
+                        if (respJs.finished.Value != count)
                         {
                             Thread.Sleep(2000);
                             continue;

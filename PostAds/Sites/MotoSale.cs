@@ -37,7 +37,7 @@ namespace Motorcycle.Sites
                         var fileDictionary = data.FileDictionary;
                         var reply = string.Format("{0} {1}{2}",
                             ManufactureXmlWorker.GetItemSiteIdUsingPlant("m", dataDictionary["model"]),
-                            dataDictionary["manufactured_model"], dataDictionary["custom_model"]);
+                            ManufactureXmlWorker.GetItemNameUsingValue("m",dataDictionary["model"],dataDictionary["manufactured_model"]), dataDictionary["custom_model"]);
 
                         const string url = "http://www.motosale.com.ua/?add=moto";
                         var cookieContainer = Cookies.GetCookiesContainer(url);
@@ -79,7 +79,7 @@ namespace Motorcycle.Sites
                                 }
                             }
                         }
-                        if (respString == string.Empty) throw new Exception("Not valid socks5 addresses");
+                        if (respString == string.Empty) throw new Exception("Not valid proxy addresses");
                         if (respString.Contains("Вы исчерпали дневной лимит подачи объявлений"))
                         {
                             Log.Warn(reply + " unsuccessfully posted on Motosale || дневной лимит для " +
@@ -187,7 +187,7 @@ namespace Motorcycle.Sites
                                 }
                             }
                         }
-                        if (respString == string.Empty) throw new Exception("Not valid socks5 addresses");
+                        if (respString == string.Empty) throw new Exception("Not valid proxy addresses");
                         if (respString.Contains("Вы исчерпали дневной лимит подачи объявлений"))
                         {
                             Log.Warn(reply + " unsuccessfully posted on Motosale || дневной лимит для " +
@@ -279,7 +279,7 @@ namespace Motorcycle.Sites
                                 }
                             }
                         }
-                        if (respString == string.Empty) throw new Exception("Not valid socks5 addresses");
+                        if (respString == string.Empty) throw new Exception("Not valid proxy addresses");
                         if (respString.Contains("Вы исчерпали дневной лимит подачи объявлений"))
                         {
                             Log.Warn(reply + " unsuccessfully posted on Motosale || дневной лимит для " +
