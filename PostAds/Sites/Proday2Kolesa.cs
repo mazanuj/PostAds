@@ -109,6 +109,8 @@
                         if (Response.GetResponse(request).StatusCode == HttpStatusCode.OK)
                         {
                             Log.Info(reply + " successfully posted on Proday2kolesa");
+                            if (RemoveEntries.Remove(data, ProductEnum.Motorcycle))
+                                Log.Info(reply + " removed from list");
                             return SitePoster.PostStatus.OK;
                         }
                         Log.Warn(reply + " unsuccessfully posted on Proday2kolesa");
@@ -222,6 +224,8 @@
                         if (Response.GetResponse(request).StatusCode == HttpStatusCode.OK)
                         {
                             Log.Info(reply + " successfully posted on Proday2kolesa");
+                            if (RemoveEntries.Remove(data, ProductEnum.Spare))
+                                Log.Info(reply + " removed from list");
                             return SitePoster.PostStatus.OK;
                         }
                         Log.Warn(reply + " unsuccessfully posted on Proday2kolesa");
@@ -335,6 +339,8 @@
                         if (Response.GetResponse(request).StatusCode == HttpStatusCode.OK)
                         {
                             Log.Info(reply + " successfully posted on Proday2kolesa");
+                            if (RemoveEntries.Remove(data, ProductEnum.Equip))
+                                Log.Info(reply + " removed from list");
                             return SitePoster.PostStatus.OK;
                         }
                         Log.Warn(reply + " unsuccessfully posted on Proday2kolesa");

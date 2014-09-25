@@ -77,6 +77,8 @@ namespace Motorcycle.Sites
                         if (responseString.Contains("redirect"))
                         {
                             Log.Info(reply + " successfully posted on UsedAuto");
+                            if (RemoveEntries.Remove(data, ProductEnum.Motorcycle))
+                                Log.Info(reply + " removed from list");
                             return SitePoster.PostStatus.OK;
                         }
                         Log.Warn(reply + " unsuccessfully posted on UsedAuto");
@@ -115,6 +117,8 @@ namespace Motorcycle.Sites
                         if (Response.GetResponseString(request).Contains("success"))
                         {
                             Log.Info(reply + " successfully posted on UsedAuto");
+                            if (RemoveEntries.Remove(data, ProductEnum.Spare))
+                                Log.Info(reply + " removed from list");
                             return SitePoster.PostStatus.OK;
                         }
                         Log.Warn(reply + " unsuccessfully posted on UsedAuto");
@@ -136,32 +140,7 @@ namespace Motorcycle.Sites
         public async Task<SitePoster.PostStatus> PostEquip(DicHolder data)
         {
             return await Task.Factory.StartNew(
-                () =>
-                {
-                    try
-                    {
-                        var Log = LogManager.GetCurrentClassLogger();
-                        var dataDictionary = data.DataDictionary;
-                        var fileDictionary = data.FileDictionary;
-                        var reply = string.Empty; //TODO
-
-                        if (true) //TODO
-                        {
-                            Log.Info(reply + " successfully posted on UsedAuto");
-                            return SitePoster.PostStatus.OK;
-                        }
-                        Log.Warn(reply + " unsuccessfully posted on UsedAuto");
-                        return SitePoster.PostStatus.ERROR;
-                    }
-                    catch (Exception ex)
-                    {
-                        LogManager.GetCurrentClassLogger()
-                            .Error(string.Format("{0} {1} unsuccessfully posted on UsedAuto",
-                                ManufactureXmlWorker.GetItemSiteIdUsingPlant("u", data.DataDictionary["input[1]"]),
-                                data.DataDictionary["input[153]"]), ex);
-                        return SitePoster.PostStatus.ERROR;
-                    }
-                });
+                () => SitePoster.PostStatus.OK);
         }
     }
 }

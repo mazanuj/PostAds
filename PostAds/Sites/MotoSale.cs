@@ -94,7 +94,8 @@ namespace Motorcycle.Sites
                                 !PostConfirm.ConfirmAdv("pop.mail.ru", 995, true, dataDictionary["mail"],
                                     "Administr@t0r"))
                                 Thread.Sleep(5000);
-
+                            if (RemoveEntries.Remove(data, ProductEnum.Motorcycle))
+                                Log.Info(reply + " removed from list");
                             return SitePoster.PostStatus.OK;
                         }
                         //=====================================================//
@@ -201,7 +202,8 @@ namespace Motorcycle.Sites
                                 !PostConfirm.ConfirmAdv("pop.mail.ru", 995, true, "mo-snikers@mail.ru",
                                     "Administr@t0r"))
                                 Thread.Sleep(5000);
-
+                            if (RemoveEntries.Remove(data, ProductEnum.Spare))
+                                Log.Info(reply + " removed from list");
                             return SitePoster.PostStatus.OK;
                         }
                         Log.Warn(reply + " unsuccessfully posted on Motosale");
@@ -292,7 +294,8 @@ namespace Motorcycle.Sites
                                 !PostConfirm.ConfirmAdv("pop.mail.ru", 995, true, "mo-snikers@mail.ru",
                                     "Administr@t0r"))
                                 Thread.Sleep(5000);
-
+                            if (RemoveEntries.Remove(data, ProductEnum.Equip))
+                                Log.Info(reply + " removed from list");
                             return SitePoster.PostStatus.OK;
                         }
                         Log.Warn(reply + " unsuccessfully posted on Motosale");
