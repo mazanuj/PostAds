@@ -61,8 +61,7 @@
                     new XAttribute("moto", "0"),
                     new XAttribute("equip", "0"),
                     new XAttribute("spare", "0"),
-                    new XAttribute("date", GenerateValidDateFormat(DateTime.Now)),
-                    new XAttribute("status", "on")));
+                    new XAttribute("date", GenerateValidDateFormat(DateTime.Now))));
 
             Doc.Save(XmlFilePath);
         }
@@ -87,8 +86,7 @@
                         new XAttribute("moto", "0"),
                         new XAttribute("equip", "0"),
                         new XAttribute("spare", "0"),
-                        new XAttribute("date", todayDate),
-                        new XAttribute("status", "on")));
+                        new XAttribute("date", todayDate)));
             }
             Doc.Save(XmlFilePath);
         }
@@ -110,13 +108,13 @@
             switch (purpose)
             {
                 case "moto":
-                    xpath = "//servers/server[@moto = 0 and @status = 'on']";
+                    xpath = "//servers/server[@moto = 0]";
                     break;
                 case "equip":
-                    xpath = "//servers/server[@equip <= 2 and @status = 'on']";
+                    xpath = "//servers/server[@equip <= 2]";
                     break;
                 case "spare":
-                    xpath = "//servers/server[@spare <= 2 and @status = 'on']";
+                    xpath = "//servers/server[@spare <= 2]";
                     break;
             }
 
@@ -140,6 +138,7 @@
                         break;
                 }
                 Doc.Save(XmlFilePath);
+
                 return new ProxyAddressStruct
                 {
                     ProxyAddresses = proxyList[0].Attribute("address").Value,
@@ -149,10 +148,10 @@
             return null;
         }
 
-        public static void ChangeServerStatus(string proxyAddress, string status)
+        public static void RemoveProxyAddressFromFile(string proxyAddress)
         {
             var server = Doc.XPathSelectElement(string.Format("//servers/server[@address='{0}']", proxyAddress));
-            server.Attribute("status").Value = status;
+            server.Remove();
             Doc.Save(XmlFilePath);
         }
     }
