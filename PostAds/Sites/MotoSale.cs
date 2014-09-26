@@ -56,19 +56,18 @@ namespace Motorcycle.Sites
                         dataDictionary["fConfirmationCode"] = captcha;
 
                         //Request
-                        string respString;
+                        var respString = string.Empty;
                         var proxyAddress = new ProxyAddressStruct { ProxyAddresses = "localhost" };
-                        while (true)
+                        while (ProxyAddressWorker.ProxyListState)
                         {
                             try
                             {
-                                respString = string.Empty;
                                 proxyAddress = ProxyAddressWorker.GetValidProxyAddress("moto");
-
-                                if (!ProxyAddressWorker.ProxyListState) break;
-
                                 respString = Response.GetResponseString(cookieContainer, dataDictionary, fileDictionary,
                                     url, proxyAddress);
+                                if (respString == string.Empty)
+                                    respString = "Response string empty";
+
                                 break;
                             }
                             catch
@@ -80,6 +79,7 @@ namespace Motorcycle.Sites
                             }
                         }
                         if (respString == string.Empty) throw new Exception("Not valid proxy addresses");
+                        if (respString == "Response string empty") throw new Exception("Response string empty");
                         if (respString.Contains("Вы исчерпали дневной лимит подачи объявлений"))
                         {
                             Log.Warn(reply + " unsuccessfully posted on Motosale || дневной лимит для " +
@@ -164,19 +164,18 @@ namespace Motorcycle.Sites
                         //dataDictionary["insert"] = hash;
 
                         //Request
-                        string respString;
-                        var proxyAddress = new ProxyAddressStruct {ProxyAddresses = "localhost"};
-                        while (true)
+                        var respString = string.Empty;
+                        var proxyAddress = new ProxyAddressStruct { ProxyAddresses = "localhost" };
+                        while (ProxyAddressWorker.ProxyListState)
                         {
                             try
                             {
-                                respString = string.Empty;
-                                proxyAddress = ProxyAddressWorker.GetValidProxyAddress("post");
-
-                                if (!ProxyAddressWorker.ProxyListState) break;
-
+                                proxyAddress = ProxyAddressWorker.GetValidProxyAddress("spare");
                                 respString = Response.GetResponseString(cookieContainer, dataDictionary, fileDictionary,
                                     url, proxyAddress);
+                                if (respString == string.Empty)
+                                    respString = "Response string empty";
+
                                 break;
                             }
                             catch
@@ -188,6 +187,7 @@ namespace Motorcycle.Sites
                             }
                         }
                         if (respString == string.Empty) throw new Exception("Not valid proxy addresses");
+                        if (respString == "Response string empty") throw new Exception("Response string empty");
                         if (respString.Contains("Вы исчерпали дневной лимит подачи объявлений"))
                         {
                             Log.Warn(reply + " unsuccessfully posted on Motosale || дневной лимит для " +
@@ -256,19 +256,18 @@ namespace Motorcycle.Sites
                         dataDictionary["fConfirmationCode"] = captcha;
 
                         //Request
-                        string respString;
-                        var proxyAddress = new ProxyAddressStruct {ProxyAddresses = "localhost"};
-                        while (true)
+                        var respString = string.Empty;
+                        var proxyAddress = new ProxyAddressStruct { ProxyAddresses = "localhost" };
+                        while (ProxyAddressWorker.ProxyListState)
                         {
                             try
                             {
-                                respString = string.Empty;
                                 proxyAddress = ProxyAddressWorker.GetValidProxyAddress("equip");
-
-                                if (!ProxyAddressWorker.ProxyListState) break;
-
                                 respString = Response.GetResponseString(cookieContainer, dataDictionary, fileDictionary,
                                     url, proxyAddress);
+                                if (respString == string.Empty)
+                                    respString = "Response string empty";
+
                                 break;
                             }
                             catch
@@ -280,6 +279,7 @@ namespace Motorcycle.Sites
                             }
                         }
                         if (respString == string.Empty) throw new Exception("Not valid proxy addresses");
+                        if (respString == "Response string empty") throw new Exception("Response string empty");
                         if (respString.Contains("Вы исчерпали дневной лимит подачи объявлений"))
                         {
                             Log.Warn(reply + " unsuccessfully posted on Motosale || дневной лимит для " +
