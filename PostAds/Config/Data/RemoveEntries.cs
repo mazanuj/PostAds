@@ -1,15 +1,16 @@
-﻿using System;
+﻿using Motorcycle.XmlWorker;
 using System.IO;
 using System.Linq;
-using Motorcycle.XmlWorker;
 
 namespace Motorcycle.Config.Data
 {
     internal class RemoveEntries
     {
+        private static object locker = new object();
+
         public static bool Remove(DicHolder dicHol, ProductEnum product)
         {
-            var locker = new Object();
+            
             var direction = string.Empty;
 
             switch (product)
