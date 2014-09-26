@@ -74,7 +74,7 @@ namespace Motorcycle.Sites
                             {
                                 lock (locker)
                                 {
-                                    ProxyXmlWorker.ChangeServerStatus(proxyAddress.ProxyAddresses, "off");
+                                    ProxyXmlWorker.RemoveProxyAddressFromFile(proxyAddress.ProxyAddresses);
                                 }
                             }
                         }
@@ -182,7 +182,7 @@ namespace Motorcycle.Sites
                             {
                                 lock (locker)
                                 {
-                                    ProxyXmlWorker.ChangeServerStatus(proxyAddress.ProxyAddresses, "off");
+                                    ProxyXmlWorker.RemoveProxyAddressFromFile(proxyAddress.ProxyAddresses);
                                 }
                             }
                         }
@@ -274,7 +274,7 @@ namespace Motorcycle.Sites
                             {
                                 lock (locker)
                                 {
-                                    ProxyXmlWorker.ChangeServerStatus(proxyAddress.ProxyAddresses, "off");
+                                    ProxyXmlWorker.RemoveProxyAddressFromFile(proxyAddress.ProxyAddresses);
                                 }
                             }
                         }
