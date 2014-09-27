@@ -1,14 +1,15 @@
-﻿using System;
-using System.ComponentModel.Composition;
-using Caliburn.Micro;
-using Microsoft.Win32;
-using Motorcycle.Config;
-using NLog;
-using LogManager = NLog.LogManager;
-
-namespace Motorcycle.ViewModels
+﻿namespace Motorcycle.ViewModels
 {
+    using Caliburn.Micro;
+    using Microsoft.Win32;
+    using Motorcycle.Config;
+    using Motorcycle.Utils;
+    using NLog;
+    using System;
+    using System.ComponentModel.Composition;
     using XmlWorker;
+    using LogManager = NLog.LogManager;
+
 
     [Export(typeof(FrontPanelViewModel))]
     public class FrontPanelViewModel : PropertyChangedBase
@@ -21,7 +22,7 @@ namespace Motorcycle.ViewModels
         private bool boxMoto;
         private bool boxUsed;
         private bool boxKol;
-        
+
         [ImportingConstructor]
         public FrontPanelViewModel(LoggingControlViewModel loggingControlModel)
         {
@@ -34,12 +35,13 @@ namespace Motorcycle.ViewModels
                 Filter = "Text documents (.txt)|*.txt",
                 InitialDirectory = AppDomain.CurrentDomain.BaseDirectory
             };
+
+            PostResultInformer.InformPostResultEvent += this.ChangePostResults;
         }
 
-        private bool CheckIfAllFieldsAreFilled()
-        {
-            return (MotoFileLabel || SpareFileLabel || EquipFileLabel) && (flag[0] + flag[1] + flag[2] != 0);
-        }
+        public int CountSuccess { get; set; }
+
+        public int CountFailure { get; set; }
 
         public bool BoxMoto
         {
@@ -91,8 +93,36 @@ namespace Motorcycle.ViewModels
 
         public bool CanButtonStart { get; set; }
 
+        private void ChangePostResults(bool postResult)
+        {
+            if (postResult)
+            {
+                CountSuccess++;
+                NotifyOfPropertyChange(() => CountSuccess);
+            }
+            else
+            {
+                CountFailure++;
+                NotifyOfPropertyChange(() => CountFailure);
+            }
+        }
+
+        private bool CheckIfAllFieldsAreFilled()
+        {
+            return (MotoFileLabel || SpareFileLabel || EquipFileLabel) && (flag[0] + flag[1] + flag[2] != 0);
+        }
+
+        private void ResetPostResultStatistic()
+        {
+            CountSuccess = CountFailure = 0;
+            NotifyOfPropertyChange(() => CountSuccess);
+            NotifyOfPropertyChange(() => CountFailure);
+        }
+
         public async void ButtonStart()
         {
+            this.ResetPostResultStatistic();
+
             CanButtonStart = false;
             NotifyOfPropertyChange(() => CanButtonStart);
 

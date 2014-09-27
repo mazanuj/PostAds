@@ -1,13 +1,12 @@
-﻿using Motorcycle.Factories;
-
-namespace Motorcycle.Sites
+﻿namespace Motorcycle.Sites
 {
-    using System;
     using Config.Data;
+    using Motorcycle.Factories;
+    using Motorcycle.Utils;
+    using NLog;
+    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-
-    using NLog;
 
     public static class SitePoster
     {
@@ -68,7 +67,8 @@ namespace Motorcycle.Sites
             {
                 try
                 {
-                    var res = await task;
+                    var result = await task;
+                    PostResultInformer.RaiseEvent(result == PostStatus.OK);
                 }
                 catch (Exception ex)
                 {
