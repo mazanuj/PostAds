@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:converters="clr-namespace:Motorcycle.Controls.Converters"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="500" d:DesignWidth="300">
     <UserControl.Resources>
         <converters:BoolToColorConverter x:Key="BoolToColorConverter"/>
     </UserControl.Resources>
@@ -17,6 +17,7 @@
         <Border BorderThickness="0,0,1,0" BorderBrush="DarkGray">
             <Grid>
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
@@ -43,6 +44,26 @@
                         <CheckBox x:Name="BoxKol" Content="Proday2Kolesa" Grid.Row="2"/>
                     </Grid>
                 </GroupBox>
+
+                <GroupBox Grid.Row="5" Margin="10,20,10,10" Padding="10">
+                    <GroupBox.Header>Результат</GroupBox.Header>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Column="0" Grid.Row="0" Text="Успешно:"/>
+                        <TextBlock Grid.Column="0" Grid.Row="1" Text="Неуспешно:"/>
+
+                        <TextBlock Grid.Column="1" Grid.Row="0" x:Name="CountSuccess" Margin="5,0,0,0"/>
+                        <TextBlock Grid.Column="1" Grid.Row="1" x:Name="CountFailure" Margin="5,0,0,0"/>
+                    </Grid>
+                </GroupBox>
+
             </Grid>
         </Border>
             <ContentControl x:Name="LoggingControl" Grid.Column="1" Margin="20"/>

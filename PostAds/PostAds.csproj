@@ -33,6 +33,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>motorcycle.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Caliburn.Micro">
       <HintPath>..\packages\Caliburn.Micro.Core.2.0.0\lib\net40\Caliburn.Micro.dll</HintPath>
@@ -111,6 +114,7 @@
     <Compile Include="Captcha\CaptchaFileNameGenerator.cs" />
     <Compile Include="Factories\PostOnSiteFactory.cs" />
     <Compile Include="Sites\SitePoster.cs" />
+    <Compile Include="Utils\PostResultInformer.cs" />
     <Compile Include="ViewModels\AddChangeCityViewModel.cs" />
     <Compile Include="ViewModels\ChangeBaseViewModel.cs" />
     <Compile Include="ViewModels\ConfirmationValueViewModel.cs" />
@@ -243,6 +247,8 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </None>
+    <Resource Include="bike.ico" />
+    <Resource Include="motorcycle.ico" />
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

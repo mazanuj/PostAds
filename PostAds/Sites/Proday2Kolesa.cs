@@ -1,16 +1,16 @@
 ﻿namespace Motorcycle.Sites
 {
-    using System;
-    using System.Net;
-    using NLog;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
     using Captcha;
     using Config.Data;
     using HTTP;
-    using POST;
-    using XmlWorker;
     using Interfaces;
+    using NLog;
+    using POST;
+    using System;
+    using System.Collections.Generic;
+    using System.Net;
+    using System.Threading.Tasks;
+    using XmlWorker;
 
     internal class Proday2Kolesa : IPostOnSite
     {
