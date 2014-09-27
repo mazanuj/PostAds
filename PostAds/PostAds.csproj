@@ -99,6 +99,7 @@
     <Compile Include="Config\Confirm\PostConfirm.cs" />
     <Compile Include="Config\Data\InfoHolder.cs" />
     <Compile Include="Config\Data\RemoveEntries.cs" />
+    <Compile Include="Config\FileCleaner.cs" />
     <Compile Include="Config\Proxy\ProxyAddressStruct.cs" />
     <Compile Include="Config\Proxy\ProxyChecker.cs" />
     <Compile Include="Config\Proxy\ProxyData.cs" />

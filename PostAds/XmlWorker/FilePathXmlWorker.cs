@@ -31,7 +31,13 @@
                 firstOrDefault.Value = path;
                 Doc.Save(XmlFilePath);
             }
+        }
 
+        public static void ResetFilePaths()
+        {
+            SetFilePath("moto", "");
+            SetFilePath("spare", "");
+            SetFilePath("equip", "");
         }
     }
 }
