@@ -5,7 +5,7 @@ using Motorcycle.XmlWorker;
 
 namespace Motorcycle.Config.Data
 {
-    internal class RemoveEntries
+    internal static class RemoveEntries
     {
         public static bool Remove(DicHolder dicHol, ProductEnum product)
         {
