@@ -68,7 +68,7 @@
                 try
                 {
                     var result = await task;
-                    PostResultInformer.RaiseEvent(result == PostStatus.OK);
+                    Informer.RaiseOnPostResultChangedEvent(result == PostStatus.OK);
                 }
                 catch (Exception ex)
                 {

@@ -4,23 +4,12 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:cal="http://www.caliburnproject.org"
-             mc:Ignorable="d">
-    <!--<Grid>
-    <GroupBox>
-        <GroupBox.Header>
-            <Label Content="Captcha"/>
-        </GroupBox.Header>
-            <Grid VerticalAlignment="Top" HorizontalAlignment="Left" Width="308" Height="70">
-                <TextBox Foreground="BlueViolet" x:Name="CaptchaDomain" TextWrapping="Wrap" FontSize="14" Margin="10,10,210,40"/>
-                <TextBox Foreground="BlueViolet" x:Name="CaptchaKey" TextWrapping="Wrap" Margin="110,10,10,40" FontSize="14"/>
-                <Button x:Name="ChangeCaptcha"  Content="Изменить" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="68,35,0,0" />
-        </Grid>
-    </GroupBox>
-    </Grid>-->
+             mc:Ignorable="d"
+			 d:DesignHeight="600" d:DesignWidth="800">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
             
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -32,14 +21,14 @@
             <GroupBox.Header>
                 <Label Content="Captcha"/>
             </GroupBox.Header>
-            <Grid VerticalAlignment="Top" HorizontalAlignment="Left" Width="308" Height="70">
-                <TextBox Foreground="BlueViolet" x:Name="CaptchaDomain" TextWrapping="Wrap" FontSize="14" Margin="10,10,210,40"/>
-                <TextBox Foreground="BlueViolet" x:Name="CaptchaKey" TextWrapping="Wrap" Margin="110,10,10,40" FontSize="14"/>
-                <Button x:Name="ChangeCaptcha"  Content="Изменить" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="68,35,0,0" />
-            </Grid>
+            <StackPanel>
+        		<TextBox x:Name="CaptchaDomain" Foreground="BlueViolet"  TextWrapping="NoWrap" Width="300" FontSize="14" Margin="5"/>
+        		<TextBox x:Name="CaptchaKey" Foreground="BlueViolet" TextWrapping="Wrap"  Width="300" FontSize="14" Margin="5"/>
+        		<Button x:Name="ChangeCaptcha"  Content="Изменить" Width="75" HorizontalAlignment="Left" Margin="5"/>
+        	</StackPanel>
         </GroupBox>
 
-        <ListView  Grid.Row="1" Grid.Column="0" Name="ItemCollection"  Height="300" SelectionMode="Single">
+        <ListView  Grid.Row="1" Grid.Column="0" Name="ItemCollection"   SelectionMode="Single" Margin="0,10,0,0">
             <ListView.ItemContainerStyle >
                 <Style TargetType="ListBoxItem" >
                     <Setter Property="Tag" Value="{Binding Path=DataContext, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListView}}"/>
@@ -91,6 +80,76 @@
 
         </ListView>
 
+        <GroupBox Grid.Row="0" Grid.Column="1" Margin="10,0,0,0">
+            <GroupBox.Header>
+                <Label Content="Proxy"/>
+            </GroupBox.Header>
+            <StackPanel Margin="10,0,0,0">
+				<StackPanel Orientation="Horizontal">
+					<TextBlock Text="Количество прокси серверов в файле:"/>
+					<TextBlock x:Name="CountOfProxyAddressInFile" Margin="5,0,0,0"/>
+				</StackPanel>
+        		
+        		<Button  x:Name="RefreshProxyListFromInternet" Content="Загрузить" Width="100" HorizontalAlignment="Left" Margin="5"/>
+                
+                <Button  x:Name="ClearProxyFile" Content="Очистить файл" Width="100" HorizontalAlignment="Left" Margin="5"/>
+
+				<StackPanel Orientation="Horizontal">
+					<TextBlock Text="В процессе:"/>
+					<TextBlock x:Name="RefreshProxyListStatus" Margin="5,0,0,0"/>
+				</StackPanel>
+        	</StackPanel>
+        </GroupBox>
+
+        <ListView  Grid.Row="1" Grid.Column="1" Name="ProxyAddressCollection" SelectionMode="Single" Margin="10,10,0,0">
+            <ListView.ItemContainerStyle >
+                <Style TargetType="ListBoxItem" >
+                    <Setter Property="Tag" Value="{Binding Path=DataContext, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListView}}"/>
+                    <Setter Property="ContextMenu">
+                        <Setter.Value>
+
+                            <ContextMenu Name="cm" cal:Action.TargetWithoutContext="{Binding Path=PlacementTarget.Tag, RelativeSource={RelativeSource Self}}">
+
+                                <MenuItem Header="Add new item" 
+                               cal:Message.Attach="[Event Click] = [Action AddNewProxyAddressItem()]">
+                                </MenuItem>
+
+                                <MenuItem Header="Change" 
+                               cal:Message.Attach="[Event Click] = [Action ChangeProxyAddressItem($dataContext)]">
+                                </MenuItem>
+
+                                <MenuItem Header="Remove" 
+                               cal:Message.Attach="[Event Click] = [Action RemoveProxyAddressItem($dataContext)]">
+                                </MenuItem>
+
+                                <MenuItem Header="Copy" 
+                               cal:Message.Attach="[Event Click] = [Action CopyProxyAddress($dataContext)]">
+                                </MenuItem>
+
+                            </ContextMenu>
+
+                        </Setter.Value>
+                    </Setter>
+
+                </Style>
+            </ListView.ItemContainerStyle>
+
+            <ListView.View >
+                <GridView  >
+                    <GridViewColumn Header="Server" DisplayMemberBinding="{Binding ProxyAddress}" Width="105"/>
+                    <GridViewColumn Header="Type" DisplayMemberBinding="{Binding Type}" Width="65"/>
+                </GridView>
+            </ListView.View>
+
+            <ListView.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Add new item" 
+                               cal:Message.Attach="[Event Click] = [Action AddNewProxyAddressItem()]">
+                    </MenuItem>
+                </ContextMenu>
+            </ListView.ContextMenu>
+
+        </ListView>
     </Grid>
 
 </UserControl>

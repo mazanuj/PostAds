@@ -154,5 +154,34 @@
             server.Remove();
             Doc.Save(XmlFilePath);
         }
+
+        public static void RemoveAllProxyAddressesFromFile()
+        {
+            var servers = Doc.XPathSelectElements("//servers/server[@address!='localhost']");
+            servers.Remove();
+            Doc.Save(XmlFilePath);
+        }
+
+        public static IEnumerable<ProxyAddressItem> GetProxyAddressItemsListFromFile()
+        {
+            var proxyList = Doc.XPathSelectElements("//servers/server");
+
+            return proxyList.Select(proxyElement => new ProxyAddressItem
+            {
+                ProxyAddress = proxyElement.Attribute("address").Value,
+                Type = proxyElement.Attribute("type").Value
+            }).ToList();
+        }
+
+        public static void ChangeProxyAddress(string oldProxyAddress, string newProxyAddress, string newType)
+        {
+            var item = Doc.XPathSelectElement(string.Format("//servers/server[@address='{0}']", oldProxyAddress));
+            if (item == null) return;
+
+            item.Attribute("address").Value = newProxyAddress;
+            item.Attribute("type").Value = newType;
+
+            Doc.Save(XmlFilePath);
+        }
     }
 }

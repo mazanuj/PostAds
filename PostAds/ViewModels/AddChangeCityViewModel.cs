@@ -8,7 +8,7 @@ namespace Motorcycle.ViewModels
 
     using XmlWorker;
 
-    [Export(typeof(ConfirmationViewModel))]
+    [Export(typeof(AddChangeCityViewModel))]
     public class AddChangeCityViewModel : Screen
     {
         private readonly bool _isInEditMode;
