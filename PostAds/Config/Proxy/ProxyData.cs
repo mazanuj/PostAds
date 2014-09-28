@@ -56,6 +56,19 @@ namespace Motorcycle.Config.Proxy
             }
         }
 
+        public static List<ProxyAddressStruct> GetProxyDataAllAtOnce()
+        {
+            var proxyList = new List<ProxyAddressStruct>();
+            proxyList.AddRange(ProxyChecker.ProxyAddresses(RosinstrumentCom()));
+            //proxyList.AddRange(ProxyChecker.ProxyAddresses(SocksProxyNetData()));
+            //proxyList.AddRange(ProxyChecker.ProxyAddresses(LetUsHideComData()));
+            //proxyList.AddRange(ProxyChecker.ProxyAddresses(SpysRu()));
+            //proxyList.AddRange(ProxyChecker.ProxyAddresses(XroxyComData()));
+            //proxyList.AddRange(ProxyChecker.ProxyAddresses(MyIpTestCom()));
+
+            return proxyList;
+        }
+
         private static IEnumerable<string> XroxyComData()
         {
             try

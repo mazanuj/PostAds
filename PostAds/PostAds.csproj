@@ -114,8 +114,9 @@
     <Compile Include="Captcha\CaptchaFileNameGenerator.cs" />
     <Compile Include="Factories\PostOnSiteFactory.cs" />
     <Compile Include="Sites\SitePoster.cs" />
-    <Compile Include="Utils\PostResultInformer.cs" />
+    <Compile Include="Utils\Informer.cs" />
     <Compile Include="ViewModels\AddChangeCityViewModel.cs" />
+    <Compile Include="ViewModels\AddChangeProxyAddressViewModel.cs" />
     <Compile Include="ViewModels\ChangeBaseViewModel.cs" />
     <Compile Include="ViewModels\ConfirmationValueViewModel.cs" />
     <Compile Include="ViewModels\ConfirmationViewModel.cs" />
@@ -137,6 +138,9 @@
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="Views\AddChangeCityView.xaml.cs">
       <DependentUpon>AddChangeCityView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AddChangeProxyAddressView.xaml.cs">
+      <DependentUpon>AddChangeProxyAddressView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ChangeBaseView.xaml.cs">
       <DependentUpon>ChangeBaseView.xaml</DependentUpon>
@@ -170,9 +174,14 @@
     <Compile Include="XmlWorker\ManufactureXmlWorker.cs" />
     <Compile Include="XmlWorker\ManufactureItem.cs" />
     <Compile Include="XmlWorker\ManufactureValue.cs" />
+    <Compile Include="XmlWorker\ProxyAddressItem.cs" />
     <Compile Include="XmlWorker\ProxyXmlWorker.cs" />
     <Compile Include="XmlWorker\SpareEquipXmlWorker.cs" />
     <Page Include="Views\AddChangeCityView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AddChangeProxyAddressView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -234,9 +243,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Resource Include="proxy.xml">
+    <None Include="proxy.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
+    </None>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

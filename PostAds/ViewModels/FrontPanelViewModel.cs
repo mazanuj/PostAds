@@ -36,7 +36,8 @@
                 InitialDirectory = AppDomain.CurrentDomain.BaseDirectory
             };
 
-            PostResultInformer.InformPostResultEvent += this.ChangePostResults;
+            Informer.OnPostResultChanged += this.ChangePostResults;
+            Informer.OnProxyListFromInternetUpdated += this.ChangeStartButtonStatus;
         }
 
         public int CountSuccess { get; set; }
@@ -105,6 +106,12 @@
                 CountFailure++;
                 NotifyOfPropertyChange(() => CountFailure);
             }
+        }
+
+        private void ChangeStartButtonStatus(bool result)
+        {
+            CanButtonStart = result;
+            NotifyOfPropertyChange(() => CanButtonStart);
         }
 
         private bool CheckIfAllFieldsAreFilled()

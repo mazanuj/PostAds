@@ -1,38 +1,93 @@
-﻿using System.ComponentModel.Composition;
-using System.Windows.Data;
-using System.Xml;
-using Caliburn.Micro;
-using NLog;
-using LogManager = NLog.LogManager;
-
-namespace Motorcycle.ViewModels
+﻿namespace Motorcycle.ViewModels
 {
+    using Caliburn.Micro;
+    using Motorcycle.Config.Proxy;
+    using Motorcycle.Utils;
+    using NLog;
     using System.Collections.ObjectModel;
+    using System.ComponentModel.Composition;
+    using System.Threading.Tasks;
     using System.Windows;
-
+    using System.Windows.Data;
+    using System.Xml;
     using XmlWorker;
+    using LogManager = NLog.LogManager;
+
 
     [Export(typeof(GeneralSettingsViewModel))]
     public class GeneralSettingsViewModel : PropertyChangedBase
     {
         private static XmlDataProvider xml;
-        private const string dbPath = "Main.config";
+        private const string DbPath = "Main.config";
         private readonly Logger log = LogManager.GetCurrentClassLogger();
-
         private readonly IWindowManager _windowManager;
+        private int countOfProxyAddressInFile;
 
+        public int CountOfProxyAddressInFile
+        {
+            get
+            {
+                countOfProxyAddressInFile = ProxyXmlWorker.GetProxyListFromFile().Count;
+                return countOfProxyAddressInFile;
+            }
+            set
+            {
+                countOfProxyAddressInFile = value;
+            }
+        }
+        public bool CanRefreshProxyListFromInternet { get; set; }
+        public bool RefreshProxyListStatus { get; set; }
         public ObservableCollection<CityItem> ItemCollection { get; private set; }
+        public ObservableCollection<ProxyAddressItem> ProxyAddressCollection { get; private set; }
 
         [ImportingConstructor]
         public GeneralSettingsViewModel(IWindowManager windowManager)
         {
             xml = new XmlDataProvider { Document = new XmlDocument() };
-            xml.Document.Load(dbPath);
+            xml.Document.Load(DbPath);
 
             _windowManager = windowManager;
 
             ItemCollection = new ObservableCollection<CityItem>();
-            GetItemsFromXmlFile();
+            GetItemsFromFile();
+
+            ProxyAddressCollection = new ObservableCollection<ProxyAddressItem>();
+            GetProxyAddressItemsFromFile();
+
+            CanRefreshProxyListFromInternet = true;
+        }
+
+        public async void RefreshProxyListFromInternet()
+        {
+            RefreshProxyListStatus = true;
+            NotifyOfPropertyChange(() => RefreshProxyListStatus);
+
+            CanRefreshProxyListFromInternet = false;
+            NotifyOfPropertyChange(() => CanRefreshProxyListFromInternet);
+
+            Informer.RaiseOnProxyListFromInternetUpdatedEvent(false); //disable StartButton
+
+            await TaskEx.Run(
+                () => ProxyXmlWorker.AddNewProxyListToFile(ProxyData.GetProxyDataAllAtOnce()));
+
+            RefreshProxyListStatus = false;
+            NotifyOfPropertyChange(() => RefreshProxyListStatus);
+
+            CanRefreshProxyListFromInternet = true;
+            NotifyOfPropertyChange(() => CanRefreshProxyListFromInternet);
+
+            NotifyOfPropertyChange(() => CountOfProxyAddressInFile);
+            Informer.RaiseOnProxyListFromInternetUpdatedEvent(true); //enable StartButton
+
+            RefreshProxyAddressItemList();
+        }
+
+        public void ClearProxyFile()
+        {
+            ProxyXmlWorker.RemoveAllProxyAddressesFromFile();
+
+            NotifyOfPropertyChange(() => CountOfProxyAddressInFile);
+            RefreshProxyAddressItemList();
         }
 
         public string CaptchaKey
@@ -69,7 +124,7 @@ namespace Motorcycle.ViewModels
 
         public void ChangeCaptcha()
         {
-            xml.Document.Save(dbPath);
+            xml.Document.Save(DbPath);
         }
 
         #region CityXml
@@ -100,7 +155,7 @@ namespace Motorcycle.ViewModels
         {
             ItemCollection.Clear();
 
-            GetItemsFromXmlFile();
+            this.GetItemsFromFile();
         }
 
         private void ShowConfirmationItemDialog(CityItem currentItem)
@@ -116,11 +171,63 @@ namespace Motorcycle.ViewModels
         }
 
 
-        private void GetItemsFromXmlFile()
+        private void GetItemsFromFile()
         {
             foreach (var item in CityXmlWorker.GetItems())
             {
                 ItemCollection.Add(item);
+            }
+        }
+
+        #endregion
+
+        #region ProxyXml
+
+        public void RemoveProxyAddressItem(ProxyAddressItem item)
+        {
+            ProxyXmlWorker.RemoveProxyAddressFromFile(item.ProxyAddress);
+            RefreshProxyAddressItemList();
+        }
+
+        public void AddNewProxyAddressItem()
+        {
+            this.ShowConfirmationProxyAddressItemDialog(null);
+        }
+
+        public void ChangeProxyAddressItem(ProxyAddressItem item)
+        {
+            this.ShowConfirmationProxyAddressItemDialog(item);
+        }
+
+        public void CopyProxyAddress(ProxyAddressItem item)
+        {
+            Clipboard.SetText(item.ProxyAddress);
+        }
+
+        private void RefreshProxyAddressItemList()
+        {
+            ProxyAddressCollection.Clear();
+
+            GetProxyAddressItemsFromFile();
+        }
+
+        private void ShowConfirmationProxyAddressItemDialog(ProxyAddressItem currentItem)
+        {
+            var addChangeProxyAddressViewModel = new AddChangeProxyAddressViewModel(currentItem);
+
+            _windowManager.ShowDialog(addChangeProxyAddressViewModel);
+
+            if (addChangeProxyAddressViewModel.IsOkay)
+            {
+                RefreshProxyAddressItemList();
+            }
+        }
+
+        private void GetProxyAddressItemsFromFile()
+        {
+            foreach (var item in ProxyXmlWorker.GetProxyAddressItemsListFromFile())
+            {
+                ProxyAddressCollection.Add(item);
             }
         }
 
