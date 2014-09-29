@@ -95,7 +95,7 @@ namespace Motorcycle.Sites
                                     "Administr@t0r"))
                                 Thread.Sleep(5000);
                             if (RemoveEntries.Remove(data, ProductEnum.Motorcycle))
-                                Log.Info(reply + " removed from list");
+                                Log.Info(reply + " removed from list (Motosale)");
                             return SitePoster.PostStatus.OK;
                         }
                         //=====================================================//
@@ -199,11 +199,11 @@ namespace Motorcycle.Sites
                             Log.Info(reply + " successfully posted on Motosale");
 
                             while (
-                                !PostConfirm.ConfirmAdv("pop.mail.ru", 995, true, "mo-snikers@mail.ru",
+                                !PostConfirm.ConfirmAdv("pop.mail.ru", 995, true, dataDictionary["mail"],
                                     "Administr@t0r"))
                                 Thread.Sleep(5000);
-                            if (RemoveEntries.Remove(data, ProductEnum.Spare))
-                                Log.Info(reply + " removed from list");
+                            if (RemoveEntries.Remove(data, ProductEnum.Motorcycle))
+                                Log.Info(reply + " removed from list (Motosale)");
                             return SitePoster.PostStatus.OK;
                         }
                         Log.Warn(reply + " unsuccessfully posted on Motosale");
@@ -291,11 +291,11 @@ namespace Motorcycle.Sites
                             Log.Info(reply + " successfully posted on Motosale");
 
                             while (
-                                !PostConfirm.ConfirmAdv("pop.mail.ru", 995, true, "mo-snikers@mail.ru",
+                                !PostConfirm.ConfirmAdv("pop.mail.ru", 995, true, dataDictionary["mail"],
                                     "Administr@t0r"))
                                 Thread.Sleep(5000);
-                            if (RemoveEntries.Remove(data, ProductEnum.Equip))
-                                Log.Info(reply + " removed from list");
+                            if (RemoveEntries.Remove(data, ProductEnum.Motorcycle))
+                                Log.Info(reply + " removed from list (Motosale)");
                             return SitePoster.PostStatus.OK;
                         }
                         Log.Warn(reply + " unsuccessfully posted on Motosale");

@@ -110,7 +110,7 @@
                         {
                             Log.Info(reply + " successfully posted on Proday2kolesa");
                             if (RemoveEntries.Remove(data, ProductEnum.Motorcycle))
-                                Log.Info(reply + " removed from list");
+                                Log.Info(reply + " removed from list (Proday2Kolesa)");
                             return SitePoster.PostStatus.OK;
                         }
                         Log.Warn(reply + " unsuccessfully posted on Proday2kolesa");
@@ -225,7 +225,7 @@
                         {
                             Log.Info(reply + " successfully posted on Proday2kolesa");
                             if (RemoveEntries.Remove(data, ProductEnum.Spare))
-                                Log.Info(reply + " removed from list");
+                                Log.Info(reply + " removed from list (Proday2kolesa)");
                             return SitePoster.PostStatus.OK;
                         }
                         Log.Warn(reply + " unsuccessfully posted on Proday2kolesa");
@@ -340,7 +340,7 @@
                         {
                             Log.Info(reply + " successfully posted on Proday2kolesa");
                             if (RemoveEntries.Remove(data, ProductEnum.Equip))
-                                Log.Info(reply + " removed from list");
+                                Log.Info(reply + " removed from list (Proday2kolesa)");
                             return SitePoster.PostStatus.OK;
                         }
                         Log.Warn(reply + " unsuccessfully posted on Proday2kolesa");
