@@ -1,9 +1,7 @@
 ﻿namespace Motorcycle.Config
 {
     using Data;
-
-    using Motorcycle.XmlWorker;
-
+    using XmlWorker;
     using NLog;
     using Sites;
     using System.Threading.Tasks;
@@ -20,7 +18,6 @@
             await SitePoster.PostAdvertises(returnDataHolders);
 
             FileCleaner.RemoveEmptyLinesFromAllFiles();
-
             FilePathXmlWorker.ResetFilePaths();
         }
     }

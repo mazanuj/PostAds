@@ -25,6 +25,7 @@
 
             return new DicHolder
             {
+                Row = row,
                 LineNum = lineNum,
                 DataDictionary = new Dictionary<string, string>
                 {
@@ -77,6 +78,7 @@
 
             return new DicHolder
             {
+                Row = row,
                 LineNum = lineNum,
                 DataDictionary = new Dictionary<string, string>
                 {
@@ -120,6 +122,7 @@
 
             return new DicHolder
             {
+                Row = row,
                 LineNum = lineNum,
                 DataDictionary = new Dictionary<string, string>
                 {

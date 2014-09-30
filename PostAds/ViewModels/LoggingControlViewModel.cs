@@ -42,10 +42,10 @@ namespace Motorcycle.ViewModels
                 DispatcherPriority.Background,
                 new Action(
                     () =>
-                        {
-                            if (LogCollection.Count >= 50) LogCollection.RemoveAt(0);
-                            LogCollection.Add(message);
-                        }));
+                    {
+                        //if (LogCollection.Count >= 50) LogCollection.RemoveAt(0);
+                        LogCollection.Add(message);
+                    }));
         }
 
         public void SendLog()

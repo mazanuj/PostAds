@@ -6,12 +6,11 @@ namespace Motorcycle.Config.Data
 {
     internal static class RemoveEntries
     {
-        private static object locker = new object();
+        private static readonly object locker = new object();
 
         public static bool Remove(DicHolder dicHol, ProductEnum product)
         {
-            
-            var direction = string.Empty;
+            string direction;
 
             switch (product)
             {
@@ -24,8 +23,9 @@ namespace Motorcycle.Config.Data
                 case ProductEnum.Equip:
                     direction = "equip";
                     break;
+                default:
+                    return false;
             }
-            if (direction == string.Empty) return false;
 
             lock (locker)
             {
@@ -35,6 +35,18 @@ namespace Motorcycle.Config.Data
             }
 
             return true;
+        }
+
+        public static void Unposted(DicHolder dicHol, ProductEnum product, SiteEnum site)
+        {
+            lock (locker)
+            {
+                if (!Directory.Exists("Unposted"))
+                    Directory.CreateDirectory("Unposted");
+
+                using (var sw = new StreamWriter(string.Format("Unposted\\{0}{1}Unposted.txt", site, product), true))
+                    sw.WriteLine(dicHol.Row);
+            }
         }
     }
 }

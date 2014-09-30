@@ -17,11 +17,14 @@
 
     public class DicHolder
     {        
+
         public Dictionary<string, string> DataDictionary { get; set; }
 
         public Dictionary<string, string> FileDictionary { get; set; }
 
         public int LineNum { get; set; }
+
+        public string Row { get; set; }
     }
 
     public enum ProductEnum

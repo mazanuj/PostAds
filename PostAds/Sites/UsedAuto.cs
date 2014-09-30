@@ -82,6 +82,7 @@ namespace Motorcycle.Sites
                             return SitePoster.PostStatus.OK;
                         }
                         Log.Warn(reply + " unsuccessfully posted on UsedAuto");
+                        RemoveEntries.Unposted(data, ProductEnum.Motorcycle, SiteEnum.UsedAuto);
                         return SitePoster.PostStatus.ERROR;
                     }
                     catch (Exception ex)
@@ -90,6 +91,7 @@ namespace Motorcycle.Sites
                             .Error(string.Format("{0} {1} unsuccessfully posted on UsedAuto",
                                 ManufactureXmlWorker.GetItemSiteIdUsingPlant("u", data.DataDictionary["input[1]"]),
                                 data.DataDictionary["input[153]"]), ex);
+                        RemoveEntries.Unposted(data, ProductEnum.Motorcycle, SiteEnum.UsedAuto);
                         return SitePoster.PostStatus.ERROR;
                     }
                 });
@@ -123,7 +125,7 @@ namespace Motorcycle.Sites
                         }
                         Log.Warn(reply + " unsuccessfully posted on UsedAuto");
                         request.Abort();
-
+                        RemoveEntries.Unposted(data, ProductEnum.Spare, SiteEnum.UsedAuto);
                         return SitePoster.PostStatus.ERROR;
                     }
                     catch (Exception ex)
@@ -132,6 +134,7 @@ namespace Motorcycle.Sites
                             .Error(string.Format("{0} {1} unsuccessfully posted on UsedAuto",
                                 ManufactureXmlWorker.GetItemSiteIdUsingPlant("u", data.DataDictionary["make"]),
                                 data.DataDictionary["model"]), ex);
+                        RemoveEntries.Unposted(data, ProductEnum.Spare, SiteEnum.UsedAuto);
                         return SitePoster.PostStatus.ERROR;
                     }
                 });

@@ -1,8 +1,8 @@
 ﻿namespace Motorcycle.Sites
 {
     using Config.Data;
-    using Motorcycle.Factories;
-    using Motorcycle.Utils;
+    using Factories;
+    using Utils;
     using NLog;
     using System;
     using System.Collections.Generic;

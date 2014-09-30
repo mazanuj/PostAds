@@ -1,10 +1,10 @@
-﻿namespace Motorcycle.Config
-{
-    using Motorcycle.XmlWorker;
-    using System.IO;
-    using System.Linq;
+﻿using System.IO;
+using System.Linq;
+using Motorcycle.XmlWorker;
 
-    internal class FileCleaner
+namespace Motorcycle.Config.Data
+{
+    internal static class FileCleaner
     {
         private static void RemoveEmptyLinesInFile(string purpose)
         {

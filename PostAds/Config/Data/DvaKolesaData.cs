@@ -23,6 +23,7 @@ namespace Motorcycle.Config.Data
 
             return new DicHolder
             {
+                Row = row,
                 LineNum = lineNum,
                 DataDictionary = new Dictionary<string, string>
                 {
@@ -84,6 +85,7 @@ namespace Motorcycle.Config.Data
 
             return new DicHolder
             {
+                Row = row,
                 LineNum = lineNum,
                 DataDictionary = new Dictionary<string, string>
                 {
@@ -141,6 +143,7 @@ namespace Motorcycle.Config.Data
 
             return new DicHolder
             {
+                Row = row,
                 LineNum = lineNum,
                 DataDictionary = new Dictionary<string, string>
                 {

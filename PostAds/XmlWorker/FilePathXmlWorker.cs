@@ -5,7 +5,7 @@
     using System.Xml.Linq;
     using System.Xml.XPath;
 
-    internal class FilePathXmlWorker
+    internal static class FilePathXmlWorker
     {
         private const string XmlFilePath = "Main.config";
 
