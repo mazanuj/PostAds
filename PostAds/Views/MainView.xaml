@@ -1,4 +1,5 @@
-﻿<Window
+﻿<Controls:MetroWindow
+    xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -9,7 +10,7 @@
         <TabControl Grid.Row="0">
             <TabItem>
                 <TabItem.Header>
-                    <TextBlock Text="Подача объявлений"/>
+                    <Label Content="Подача объявлений"/>
                 </TabItem.Header>
                 <ContentControl x:Name="FrontPanel"/>
             </TabItem>
@@ -21,4 +22,4 @@
             </TabItem>
         </TabControl>
     </Grid>
-</Window>
+</Controls:MetroWindow>

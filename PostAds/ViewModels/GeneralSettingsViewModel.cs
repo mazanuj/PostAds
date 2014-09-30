@@ -1,5 +1,7 @@
 ﻿namespace Motorcycle.ViewModels
 {
+    using System.Windows.Media.Animation;
+
     using Caliburn.Micro;
     using Motorcycle.Config.Proxy;
     using Motorcycle.Utils;
@@ -36,7 +38,7 @@
             }
         }
         public bool CanRefreshProxyListFromInternet { get; set; }
-        public bool RefreshProxyListStatus { get; set; }
+        //public bool RefreshProxyListStatus { get; set; }
         public ObservableCollection<CityItem> ItemCollection { get; private set; }
         public ObservableCollection<ProxyAddressItem> ProxyAddressCollection { get; private set; }
 
@@ -59,29 +61,37 @@
 
         public async void RefreshProxyListFromInternet()
         {
-            RefreshProxyListStatus = true;
-            NotifyOfPropertyChange(() => RefreshProxyListStatus);
+            IsLoadingAnimationVisible = true;
+            NotifyOfPropertyChange(() => IsLoadingAnimationVisible);//start animation
+
+            //RefreshProxyListStatus = true;
+            //NotifyOfPropertyChange(() => RefreshProxyListStatus);
 
             CanRefreshProxyListFromInternet = false;
             NotifyOfPropertyChange(() => CanRefreshProxyListFromInternet);
 
-            Informer.RaiseOnProxyListFromInternetUpdatedEvent(false); //disable StartButton
+            Informer.RaiseOnProxyListFromInternetUpdatedEvent(false); //disable FrontPanel
 
             await TaskEx.Run(
                 () => ProxyXmlWorker.AddNewProxyListToFile(ProxyData.GetProxyDataAllAtOnce()));
 
-            RefreshProxyListStatus = false;
-            NotifyOfPropertyChange(() => RefreshProxyListStatus);
+            //RefreshProxyListStatus = false;
+            //NotifyOfPropertyChange(() => RefreshProxyListStatus);
 
             CanRefreshProxyListFromInternet = true;
             NotifyOfPropertyChange(() => CanRefreshProxyListFromInternet);
 
             NotifyOfPropertyChange(() => CountOfProxyAddressInFile);
-            Informer.RaiseOnProxyListFromInternetUpdatedEvent(true); //enable StartButton
+            Informer.RaiseOnProxyListFromInternetUpdatedEvent(true); //enable FrontPanel
 
             RefreshProxyAddressItemList();
+
+            IsLoadingAnimationVisible = false;
+            NotifyOfPropertyChange(() => IsLoadingAnimationVisible);//end animation
         }
 
+
+        public bool IsLoadingAnimationVisible { get; set; }
         public void ClearProxyFile()
         {
             ProxyXmlWorker.RemoveAllProxyAddressesFromFile();

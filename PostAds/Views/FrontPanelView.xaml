@@ -5,7 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:converters="clr-namespace:Motorcycle.Controls.Converters"
              mc:Ignorable="d" 
-             d:DesignHeight="500" d:DesignWidth="300">
+             d:DesignHeight="500" d:DesignWidth="300"
+			 IsEnabled= "{Binding CanEditFrontPanel}">
     <UserControl.Resources>
         <converters:BoolToColorConverter x:Key="BoolToColorConverter"/>
     </UserControl.Resources>
@@ -14,7 +15,7 @@
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Border BorderThickness="0,0,1,0" BorderBrush="DarkGray">
+        <Border x:Name="PropertyGrid" BorderThickness="0,0,1,0" BorderBrush="DarkGray">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -32,7 +33,7 @@
                 <Button Content="Экипировка" x:Name="ButtonEquip" Grid.Row="3" Width="100" Height="25" HorizontalAlignment="Left" Margin="10"/>
                 <Label Background="{Binding EquipFileLabel, Converter={StaticResource BoolToColorConverter}}" Grid.Row="3" Width="20" Height="25" HorizontalAlignment="Left" Margin="120,10,10,10"/>
                 <GroupBox Grid.Row="4" Margin="10,20,10,10" Padding="10">
-                    <GroupBox.Header>С какими сайтами работать?</GroupBox.Header>    
+                    <GroupBox.Header>С какими сайтами работать?</GroupBox.Header>
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>

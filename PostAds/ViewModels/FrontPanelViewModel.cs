@@ -28,6 +28,7 @@
         {
             LoggingControl = loggingControlModel;
 
+            CanEditFrontPanel = true;
             // Create OpenFileDialog
             dlg = new OpenFileDialog
             {
@@ -37,7 +38,7 @@
             };
 
             Informer.OnPostResultChanged += this.ChangePostResults;
-            Informer.OnProxyListFromInternetUpdated += this.ChangeStartButtonStatus;
+            Informer.OnProxyListFromInternetUpdated += this.ChangeFrontPanelIsEnabledStatus;
         }
 
         public int CountSuccess { get; set; }
@@ -94,6 +95,8 @@
 
         public bool CanButtonStart { get; set; }
 
+        public bool CanEditFrontPanel { get; set; }
+
         private void ChangePostResults(bool postResult)
         {
             if (postResult)
@@ -108,10 +111,10 @@
             }
         }
 
-        private void ChangeStartButtonStatus(bool result)
+        private void ChangeFrontPanelIsEnabledStatus(bool result)
         {
-            CanButtonStart = result;
-            NotifyOfPropertyChange(() => CanButtonStart);
+            CanEditFrontPanel = result;
+            NotifyOfPropertyChange(() => CanEditFrontPanel);
         }
 
         private bool CheckIfAllFieldsAreFilled()
