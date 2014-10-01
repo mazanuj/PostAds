@@ -5,21 +5,15 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
     x:Class="Motorcycle.Views.MainView"
-    Title="PostAds" Height="553.947" Width="842.105">
-    <Grid>
-        <TabControl Grid.Row="0">
-            <TabItem>
-                <TabItem.Header>
-                    <Label Content="Подача объявлений"/>
-                </TabItem.Header>
-                <ContentControl x:Name="FrontPanel"/>
-            </TabItem>
-            <TabItem>
-                <TabItem.Header>
-                    <Label Content="Настройки"/>
-                </TabItem.Header>
-                <ContentControl x:Name="Settings"/>                
-            </TabItem>
-        </TabControl>
-    </Grid>
+    Title="PostAds" Height="600" Width="850">
+    
+    <TabControl>
+        <TabItem Header="Подача объявлений">
+            <ContentControl x:Name="FrontPanel"/>
+        </TabItem>
+
+        <TabItem Header="Настройки">
+            <ContentControl x:Name="Settings"/>
+        </TabItem>
+    </TabControl>
 </Controls:MetroWindow>
