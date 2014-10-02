@@ -4,13 +4,18 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d">
-    <TabControl>
-        <TabItem Header="Общие настройки">
-            <ContentControl x:Name="GeneralSettings"/>
-        </TabItem>
-        <TabItem Header="Добавить элементы">
-            <ContentControl x:Name="ChangeBase"/>
-        </TabItem>
-
-    </TabControl>
+    <Border Background="LightBlue" 
+        BorderBrush="LightGreen" 
+        BorderThickness="2" 
+        CornerRadius="45" 
+        Padding="25">
+        <TabControl>
+            <TabItem Header="Общие настройки">
+                <ContentControl x:Name="GeneralSettings"/>
+            </TabItem>
+            <TabItem Header="Добавить элементы">
+                <ContentControl x:Name="ChangeBase"/>
+            </TabItem>
+        </TabControl>
+    </Border>
 </UserControl>
