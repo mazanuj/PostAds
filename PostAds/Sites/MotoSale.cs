@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Text;
+using System.Threading;
 using Motorcycle.Config.Confirm;
 using Motorcycle.Config.Proxy;
 
@@ -24,7 +25,7 @@ namespace Motorcycle.Sites
                 () =>
                 {
                     try
-                    {                        
+                    {
                         var Log = LogManager.GetCurrentClassLogger();
 
                         if (!ProxyAddressWorker.ProxyListState)
@@ -38,7 +39,8 @@ namespace Motorcycle.Sites
                         var fileDictionary = data.FileDictionary;
                         var reply = string.Format("{0} {1}{2}",
                             ManufactureXmlWorker.GetItemSiteIdUsingPlant("m", dataDictionary["model"]),
-                            ManufactureXmlWorker.GetItemNameUsingValue("m",dataDictionary["model"],dataDictionary["manufactured_model"]), dataDictionary["custom_model"]);
+                            ManufactureXmlWorker.GetItemNameUsingValue("m", dataDictionary["model"],
+                                dataDictionary["manufactured_model"]), dataDictionary["custom_model"]);
 
                         const string url = "http://www.motosale.com.ua/?add=moto";
                         var cookieContainer = Cookies.GetCookiesContainer(url);
@@ -58,14 +60,14 @@ namespace Motorcycle.Sites
 
                         //Request
                         var respString = string.Empty;
-                        var proxyAddress = new ProxyAddressStruct { ProxyAddresses = "localhost" };
+                        var proxyAddress = new ProxyAddressStruct {ProxyAddresses = "localhost"};
                         while (ProxyAddressWorker.ProxyListState)
                         {
                             try
                             {
                                 proxyAddress = ProxyAddressWorker.GetValidProxyAddress("moto");
                                 respString = Response.GetResponseString(cookieContainer, dataDictionary, fileDictionary,
-                                    url, proxyAddress);
+                                    url, proxyAddress, Encoding.GetEncoding("windows-1251"));
                                 if (respString == string.Empty)
                                     respString = "Response string empty";
                                 break;
@@ -79,6 +81,8 @@ namespace Motorcycle.Sites
                             }
                         }
                         if (respString == string.Empty) throw new Exception("Not valid proxy addresses");
+                        if (respString.Contains("Ошибка при добавлении объявления. Не нарушайте правила добавления."))
+                            throw new Exception("Нарушение правил добавления");
                         if (respString == "Response string empty") throw new Exception("Response string empty");
                         if (respString.Contains("Вы исчерпали дневной лимит подачи объявлений"))
                         {
@@ -169,14 +173,14 @@ namespace Motorcycle.Sites
 
                         //Request
                         var respString = string.Empty;
-                        var proxyAddress = new ProxyAddressStruct { ProxyAddresses = "localhost" };
+                        var proxyAddress = new ProxyAddressStruct {ProxyAddresses = "localhost"};
                         while (ProxyAddressWorker.ProxyListState)
                         {
                             try
                             {
                                 proxyAddress = ProxyAddressWorker.GetValidProxyAddress("spare");
                                 respString = Response.GetResponseString(cookieContainer, dataDictionary, fileDictionary,
-                                    url, proxyAddress);
+                                    url, proxyAddress, Encoding.GetEncoding("windows-1251"));
                                 if (respString == string.Empty)
                                     respString = "Response string empty";
 
@@ -191,6 +195,8 @@ namespace Motorcycle.Sites
                             }
                         }
                         if (respString == string.Empty) throw new Exception("Not valid proxy addresses");
+                        if (respString.Contains("Ошибка при добавлении объявления. Не нарушайте правила добавления."))
+                            throw new Exception("Нарушение правил добавления");
                         if (respString == "Response string empty") throw new Exception("Response string empty");
                         if (respString.Contains("Вы исчерпали дневной лимит подачи объявлений"))
                         {
@@ -265,14 +271,14 @@ namespace Motorcycle.Sites
 
                         //Request
                         var respString = string.Empty;
-                        var proxyAddress = new ProxyAddressStruct { ProxyAddresses = "localhost" };
+                        var proxyAddress = new ProxyAddressStruct {ProxyAddresses = "localhost"};
                         while (ProxyAddressWorker.ProxyListState)
                         {
                             try
                             {
                                 proxyAddress = ProxyAddressWorker.GetValidProxyAddress("equip");
                                 respString = Response.GetResponseString(cookieContainer, dataDictionary, fileDictionary,
-                                    url, proxyAddress);
+                                    url, proxyAddress, Encoding.GetEncoding("windows-1251"));
                                 if (respString == string.Empty)
                                     respString = "Response string empty";
 
@@ -287,6 +293,8 @@ namespace Motorcycle.Sites
                             }
                         }
                         if (respString == string.Empty) throw new Exception("Not valid proxy addresses");
+                        if (respString.Contains("Ошибка при добавлении объявления. Не нарушайте правила добавления."))
+                            throw new Exception("Нарушение правил добавления");
                         if (respString == "Response string empty") throw new Exception("Response string empty");
                         if (respString.Contains("Вы исчерпали дневной лимит подачи объявлений"))
                         {

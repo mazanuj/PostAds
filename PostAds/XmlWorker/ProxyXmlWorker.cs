@@ -1,6 +1,6 @@
 ﻿namespace Motorcycle.XmlWorker
 {
-    using Motorcycle.Config.Proxy;
+    using Config.Proxy;
     using System;
     using System.Collections.Generic;
     using System.Linq;

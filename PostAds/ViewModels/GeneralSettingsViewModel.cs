@@ -1,10 +1,12 @@
-﻿namespace Motorcycle.ViewModels
+﻿using LogManager = NLog.LogManager;
+
+namespace Motorcycle.ViewModels
 {
     using System.Windows.Media.Animation;
 
     using Caliburn.Micro;
-    using Motorcycle.Config.Proxy;
-    using Motorcycle.Utils;
+    using Config.Proxy;
+    using Utils;
     using NLog;
     using System.Collections.ObjectModel;
     using System.ComponentModel.Composition;
@@ -13,7 +15,7 @@
     using System.Windows.Data;
     using System.Xml;
     using XmlWorker;
-    using LogManager = NLog.LogManager;
+    using LogManager = LogManager;
 
 
     [Export(typeof(GeneralSettingsViewModel))]
@@ -165,7 +167,7 @@
         {
             ItemCollection.Clear();
 
-            this.GetItemsFromFile();
+            GetItemsFromFile();
         }
 
         private void ShowConfirmationItemDialog(CityItem currentItem)
@@ -201,12 +203,12 @@
 
         public void AddNewProxyAddressItem()
         {
-            this.ShowConfirmationProxyAddressItemDialog(null);
+            ShowConfirmationProxyAddressItemDialog(null);
         }
 
         public void ChangeProxyAddressItem(ProxyAddressItem item)
         {
-            this.ShowConfirmationProxyAddressItemDialog(item);
+            ShowConfirmationProxyAddressItemDialog(item);
         }
 
         public void CopyProxyAddress(ProxyAddressItem item)

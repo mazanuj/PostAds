@@ -1,14 +1,16 @@
-﻿namespace Motorcycle.ViewModels
+﻿using LogManager = NLog.LogManager;
+
+namespace Motorcycle.ViewModels
 {
     using Caliburn.Micro;
     using Microsoft.Win32;
-    using Motorcycle.Config;
-    using Motorcycle.Utils;
+    using Config;
+    using Utils;
     using NLog;
     using System;
     using System.ComponentModel.Composition;
     using XmlWorker;
-    using LogManager = NLog.LogManager;
+    using LogManager = LogManager;
 
 
     [Export(typeof(FrontPanelViewModel))]
@@ -37,8 +39,8 @@
                 InitialDirectory = AppDomain.CurrentDomain.BaseDirectory
             };
 
-            Informer.OnPostResultChanged += this.ChangePostResults;
-            Informer.OnProxyListFromInternetUpdated += this.ChangeFrontPanelIsEnabledStatus;
+            Informer.OnPostResultChanged += ChangePostResults;
+            Informer.OnProxyListFromInternetUpdated += ChangeFrontPanelIsEnabledStatus;
         }
 
         public int CountSuccess { get; set; }
@@ -131,7 +133,7 @@
 
         public async void ButtonStart()
         {
-            this.ResetPostResultStatistic();
+            ResetPostResultStatistic();
 
             CanButtonStart = false;
             NotifyOfPropertyChange(() => CanButtonStart);

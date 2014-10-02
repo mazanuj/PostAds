@@ -1,5 +1,4 @@
-﻿using System.Text;
-using Motorcycle.Factories;
+﻿using Motorcycle.Factories;
 
 namespace Motorcycle.Config.Data
 {
@@ -10,7 +9,7 @@ namespace Motorcycle.Config.Data
     using System.IO;
     using System.Threading.Tasks;
 
-    using Motorcycle.XmlWorker;
+    using XmlWorker;
 
     internal static class ReturnData
     {

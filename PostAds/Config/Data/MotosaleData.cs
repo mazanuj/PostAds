@@ -1,4 +1,6 @@
-﻿namespace Motorcycle.Config.Data
+﻿using System.Text;
+
+namespace Motorcycle.Config.Data
 {
     using System.Collections.Generic;
     using XmlWorker;

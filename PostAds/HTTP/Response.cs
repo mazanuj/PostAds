@@ -36,7 +36,7 @@ namespace Motorcycle.HTTP
 
         internal static string GetResponseString(CookieContainer cookieContainer,
             Dictionary<string, string> dataDictionary, Dictionary<string, string> fileDictionary, string url,
-            ProxyAddressStruct proxyAddress)
+            ProxyAddressStruct proxyAddress, Encoding encoding = null)
         {
             using (var requestXNET = new HttpRequest(url))
             {
@@ -52,6 +52,8 @@ namespace Motorcycle.HTTP
                 requestXNET.ConnectTimeout = requestXNET.ReadWriteTimeout = 15000;
                 requestXNET.UserAgent = HttpHelper.ChromeUserAgent();
                 requestXNET.Cookies = cookieDic;
+                if (encoding != null)
+                    requestXNET.CharacterSet = encoding;
 
                 if (proxyAddress.ProxyAddresses != "localhost")
                 {

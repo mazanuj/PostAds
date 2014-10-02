@@ -2,8 +2,8 @@
 {
     using Caliburn.Micro;
 
-    using Motorcycle.Config.Proxy;
-    using Motorcycle.XmlWorker;
+    using Config.Proxy;
+    using XmlWorker;
     using System.ComponentModel.Composition;
     using System.Windows;
 
@@ -27,8 +27,8 @@
 
             _currentItem = currentItem;
 
-            this.ProxyAddress = currentItem.ProxyAddress;
-            this.Type = currentItem.Type;
+            ProxyAddress = currentItem.ProxyAddress;
+            Type = currentItem.Type;
         }
 
         public void Save()
@@ -47,8 +47,8 @@
             {
                 ProxyXmlWorker.AddNewProxy(new ProxyAddressStruct
                 {
-                    ProxyAddresses = this.ProxyAddress,
-                    Type = ProxyAddressStruct.GetProxyTypeEnumFromString(this.Type)
+                    ProxyAddresses = ProxyAddress,
+                    Type = ProxyAddressStruct.GetProxyTypeEnumFromString(Type)
                 });
             }
 
@@ -64,7 +64,7 @@
 
         private bool CheckIfFieldsAreFilled()
         {
-            return !string.IsNullOrEmpty(this.ProxyAddress) && !string.IsNullOrEmpty(this.Type);
+            return !string.IsNullOrEmpty(ProxyAddress) && !string.IsNullOrEmpty(Type);
         }
 
         private void ChangeCurrentItemNode()
