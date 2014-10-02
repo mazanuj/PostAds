@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-namespace Motorcycle.Config.Data
+﻿namespace Motorcycle.Config.Data
 {
     using System.Collections.Generic;
     using XmlWorker;
@@ -49,6 +47,7 @@ namespace Motorcycle.Config.Data
                     {"param[transnision]", data[19]}, //+
                     {"city", CityXmlWorker.GetItemSiteValueUsingCity(data[12], "m")}, //+
                     {"youtube", data[15]}, //+
+                    {"text",data[14]},//+
                     {"date_delete", "60"}, //+
                     {"fConfirmationCode", ""}, //captcha+
                     {"insert", ""} //+
@@ -133,7 +132,7 @@ namespace Motorcycle.Config.Data
                     {"phone", data[2]},//+
                     {"type_obj", "1"},//+
                     {"type", SpareEquipXmlWorker.GetEquipType(data[4],"m")},//vid+
-                    {"brand", data[5]},//proizvoditel'+
+                    {"brand", data[5].ToUpper()},//proizvoditel'+
                     {"header", data[3]},//+
                     {"text", data[9]},//+
                     {"price", data[6]},//+

@@ -50,7 +50,7 @@ namespace Motorcycle.Config.Data
 
             //Transmition type
             var transType = string.Empty;
-            if (data[18].ToLower().StartsWith("мех"))
+            if (data[18].ToLower().StartsWith("Мех"))
                 transType = "3";
 
             return new DicHolder

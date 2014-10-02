@@ -27,6 +27,12 @@ namespace Motorcycle.Sites
                     try
                     {
                         var Log = LogManager.GetCurrentClassLogger();
+                        var dataDictionary = data.DataDictionary;
+                        var fileDictionary = data.FileDictionary;
+                        var reply = string.Format("{0} {1}{2}",
+                            ManufactureXmlWorker.GetItemSiteIdUsingPlant("m", dataDictionary["model"]),
+                            ManufactureXmlWorker.GetItemNameUsingValue("m", dataDictionary["model"],
+                                dataDictionary["manufactured_model"]), dataDictionary["custom_model"]);
 
                         if (!ProxyAddressWorker.ProxyListState)
                         {
@@ -34,13 +40,6 @@ namespace Motorcycle.Sites
                             RemoveEntries.Unposted(data, ProductEnum.Motorcycle, SiteEnum.MotoSale);
                             return SitePoster.PostStatus.ERROR;
                         }
-
-                        var dataDictionary = data.DataDictionary;
-                        var fileDictionary = data.FileDictionary;
-                        var reply = string.Format("{0} {1}{2}",
-                            ManufactureXmlWorker.GetItemSiteIdUsingPlant("m", dataDictionary["model"]),
-                            ManufactureXmlWorker.GetItemNameUsingValue("m", dataDictionary["model"],
-                                dataDictionary["manufactured_model"]), dataDictionary["custom_model"]);
 
                         const string url = "http://www.motosale.com.ua/?add=moto";
                         var cookieContainer = Cookies.GetCookiesContainer(url);
@@ -88,7 +87,11 @@ namespace Motorcycle.Sites
                         {
                             Log.Warn(reply + " unsuccessfully posted on Motosale || дневной лимит для " +
                                      dataDictionary["mail"] + " или " + dataDictionary["phone"]);
+
                             RemoveEntries.Unposted(data, ProductEnum.Motorcycle, SiteEnum.MotoSale);
+                            if (RemoveEntries.Remove(data, ProductEnum.Motorcycle))
+                                Log.Info(reply + " removed from list (Motosale)");
+
                             return SitePoster.PostStatus.ERROR;
                         }
                         if (respString.Contains("На указанный вами E-mail отправлено письмо"))
@@ -99,14 +102,18 @@ namespace Motorcycle.Sites
                                 !PostConfirm.ConfirmAdv("pop.mail.ru", 995, true, dataDictionary["mail"],
                                     "Administr@t0r"))
                                 Thread.Sleep(5000);
+
                             if (RemoveEntries.Remove(data, ProductEnum.Motorcycle))
                                 Log.Info(reply + " removed from list (Motosale)");
+
                             return SitePoster.PostStatus.OK;
                         }
                         //=====================================================//
 
                         Log.Warn(reply + " unsuccessfully posted on Motosale");
                         RemoveEntries.Unposted(data, ProductEnum.Motorcycle, SiteEnum.MotoSale);
+                        if (RemoveEntries.Remove(data, ProductEnum.Motorcycle))
+                            Log.Info(reply + " removed from list (Motosale)");
                         return SitePoster.PostStatus.ERROR;
                     }
                     catch (Exception ex)
@@ -115,7 +122,14 @@ namespace Motorcycle.Sites
                             .Error(string.Format("{0} {1}{2} unsuccessfully posted on Motosale",
                                 ManufactureXmlWorker.GetItemSiteIdUsingPlant("m", data.DataDictionary["model"]),
                                 data.DataDictionary["manufactured_model"], data.DataDictionary["custom_model"]), ex);
+
                         RemoveEntries.Unposted(data, ProductEnum.Motorcycle, SiteEnum.MotoSale);
+
+                        if (RemoveEntries.Remove(data, ProductEnum.Motorcycle))
+                            LogManager.GetCurrentClassLogger().Info("{0} {1}{2} removed from list (Motosale)",
+                                ManufactureXmlWorker.GetItemSiteIdUsingPlant("m", data.DataDictionary["model"]),
+                                data.DataDictionary["manufactured_model"], data.DataDictionary["custom_model"]);
+
                         return SitePoster.PostStatus.ERROR;
                     }
                 });
@@ -129,19 +143,20 @@ namespace Motorcycle.Sites
                     try
                     {
                         var Log = LogManager.GetCurrentClassLogger();
-
-                        if (!ProxyAddressWorker.ProxyListState)
-                        {
-                            Log.Warn("Proxy list == null");
-                            RemoveEntries.Unposted(data, ProductEnum.Spare, SiteEnum.MotoSale);
-                            return SitePoster.PostStatus.ERROR;
-                        }
-
                         var dataDictionary = data.DataDictionary;
                         var fileDictionary = data.FileDictionary;
                         var reply = string.Format("{0} {1}",
                             ManufactureXmlWorker.GetItemSiteIdUsingPlant("m", dataDictionary["model_zap"]),
                             dataDictionary["type"]);
+
+                        if (!ProxyAddressWorker.ProxyListState)
+                        {
+                            Log.Warn("Proxy list == null");
+                            RemoveEntries.Unposted(data, ProductEnum.Spare, SiteEnum.MotoSale);
+                            if (RemoveEntries.Remove(data, ProductEnum.Spare))
+                                Log.Info(reply + " removed from list (Motosale)");
+                            return SitePoster.PostStatus.ERROR;
+                        }
 
                         const string url = "http://www.motosale.com.ua/?add=zap";
                         var cookieContainer = Cookies.GetCookiesContainer(url);
@@ -203,6 +218,8 @@ namespace Motorcycle.Sites
                             Log.Warn(reply + " unsuccessfully posted on Motosale || дневной лимит для " +
                                      dataDictionary["mail"] + " или " + dataDictionary["phone"]);
                             RemoveEntries.Unposted(data, ProductEnum.Spare, SiteEnum.MotoSale);
+                            if (RemoveEntries.Remove(data, ProductEnum.Spare))
+                                Log.Info(reply + " removed from list (Motosale)");
                             return SitePoster.PostStatus.ERROR;
                         }
                         if (respString.Contains("На указанный вами E-mail отправлено письмо"))
@@ -213,12 +230,14 @@ namespace Motorcycle.Sites
                                 !PostConfirm.ConfirmAdv("pop.mail.ru", 995, true, dataDictionary["mail"],
                                     "Administr@t0r"))
                                 Thread.Sleep(5000);
-                            if (RemoveEntries.Remove(data, ProductEnum.Motorcycle))
+                            if (RemoveEntries.Remove(data, ProductEnum.Spare))
                                 Log.Info(reply + " removed from list (Motosale)");
                             return SitePoster.PostStatus.OK;
                         }
                         Log.Warn(reply + " unsuccessfully posted on Motosale");
                         RemoveEntries.Unposted(data, ProductEnum.Spare, SiteEnum.MotoSale);
+                        if (RemoveEntries.Remove(data, ProductEnum.Spare))
+                            Log.Info(reply + " removed from list (Motosale)");
                         return SitePoster.PostStatus.ERROR;
                     }
                     catch (Exception ex)
@@ -228,6 +247,11 @@ namespace Motorcycle.Sites
                                 ManufactureXmlWorker.GetItemSiteIdUsingPlant("m", data.DataDictionary["model_zap"]),
                                 data.DataDictionary["type"]), ex);
                         RemoveEntries.Unposted(data, ProductEnum.Spare, SiteEnum.MotoSale);
+                        if (RemoveEntries.Remove(data, ProductEnum.Spare))
+                            LogManager.GetCurrentClassLogger()
+                                .Info("{0} {1} removed from list (Motosale)",
+                                    ManufactureXmlWorker.GetItemSiteIdUsingPlant("m", data.DataDictionary["model_zap"]),
+                                    data.DataDictionary["type"]);
                         return SitePoster.PostStatus.ERROR;
                     }
                 });
@@ -241,17 +265,18 @@ namespace Motorcycle.Sites
                     try
                     {
                         var Log = LogManager.GetCurrentClassLogger();
+                        var dataDictionary = data.DataDictionary;
+                        var fileDictionary = data.FileDictionary;
+                        var reply = string.Format("{0} {1}", dataDictionary["brand"], dataDictionary["type"]);
 
                         if (!ProxyAddressWorker.ProxyListState)
                         {
                             Log.Warn("Proxy list == null");
                             RemoveEntries.Unposted(data, ProductEnum.Equip, SiteEnum.MotoSale);
+                            if (RemoveEntries.Remove(data, ProductEnum.Equip))
+                                Log.Info(reply + " removed from list (Motosale)");
                             return SitePoster.PostStatus.ERROR;
                         }
-
-                        var dataDictionary = data.DataDictionary;
-                        var fileDictionary = data.FileDictionary;
-                        var reply = string.Format("{0} {1}", dataDictionary["brand"], dataDictionary["type"]);
 
                         const string url = "http://www.motosale.com.ua/?add=equ";
                         var cookieContainer = Cookies.GetCookiesContainer(url);
@@ -301,6 +326,8 @@ namespace Motorcycle.Sites
                             Log.Warn(reply + " unsuccessfully posted on Motosale || дневной лимит для " +
                                      dataDictionary["mail"] + " или " + dataDictionary["phone"]);
                             RemoveEntries.Unposted(data, ProductEnum.Equip, SiteEnum.MotoSale);
+                            if (RemoveEntries.Remove(data, ProductEnum.Equip))
+                                Log.Info(reply + " removed from list (Motosale)");
                             return SitePoster.PostStatus.ERROR;
                         }
                         if (respString.Contains("На указанный вами E-mail отправлено письмо"))
@@ -311,7 +338,7 @@ namespace Motorcycle.Sites
                                 !PostConfirm.ConfirmAdv("pop.mail.ru", 995, true, dataDictionary["mail"],
                                     "Administr@t0r"))
                                 Thread.Sleep(5000);
-                            if (RemoveEntries.Remove(data, ProductEnum.Motorcycle))
+                            if (RemoveEntries.Remove(data, ProductEnum.Equip))
                                 Log.Info(reply + " removed from list (Motosale)");
                             return SitePoster.PostStatus.OK;
                         }
@@ -325,7 +352,14 @@ namespace Motorcycle.Sites
                             .Error(
                                 string.Format("{0} {1} unsuccessfully posted on Motosale", data.DataDictionary["brand"],
                                     data.DataDictionary["type"]), ex);
+
                         RemoveEntries.Unposted(data, ProductEnum.Equip, SiteEnum.MotoSale);
+
+                        if (RemoveEntries.Remove(data, ProductEnum.Equip))
+                            LogManager.GetCurrentClassLogger()
+                                .Info("{0} {1} removed from list (Motosale)", data.DataDictionary["brand"],
+                                    data.DataDictionary["type"]);
+
                         return SitePoster.PostStatus.ERROR;
                     }
                 });

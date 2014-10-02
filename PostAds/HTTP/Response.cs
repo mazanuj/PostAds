@@ -41,13 +41,13 @@ namespace Motorcycle.HTTP
             using (var requestXNET = new HttpRequest(url))
             {
                 var cookieDic = new CookieDictionary();
-                var cookieColl = cookieContainer.GetCookies(new Uri("http://www.motosale.com.ua"));
+                var cookUrl = new Uri(url);
+                var cookieColl =
+                    cookieContainer.GetCookies(new Uri(string.Format("{0}://{1}/", cookUrl.Scheme, cookUrl.DnsSafeHost)));
                 var cookieArray = new Cookie[cookieColl.Count];
                 cookieColl.CopyTo(cookieArray, 0);
                 foreach (var cookie in cookieArray)
-                {
                     cookieDic.Add(cookie.Name, cookie.Value);
-                }
 
                 requestXNET.ConnectTimeout = requestXNET.ReadWriteTimeout = 15000;
                 requestXNET.UserAgent = HttpHelper.ChromeUserAgent();
