@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="600">
     <Grid>
-        <ListView Grid.Column="0" x:Name="ItemCollection" SelectionMode="Single" Margin="0, 0, 5, 0">
+        <ListView Grid.Column="0" x:Name="ItemCollection" SelectionMode="Single">
             <ListView.ItemContainerStyle >
                 <Style TargetType="{x:Type ListBoxItem}" >
                     <Setter Property="Tag" Value="{Binding DataContext, RelativeSource={RelativeSource AncestorType={x:Type ListView}, Mode=FindAncestor}}"/>
@@ -39,8 +39,8 @@
             <ListView.View>
                 <GridView  >
                     <GridViewColumn Header="Завод" DisplayMemberBinding="{Binding Id}" Width="150"/>
-                    <GridViewColumn Header="Запчасти" DisplayMemberBinding="{Binding S}" Width="90"/>
-                    <GridViewColumn Header="Екипировка" DisplayMemberBinding="{Binding E}" Width="90"/>
+                    <GridViewColumn Header="Запчасти" DisplayMemberBinding="{Binding Pz}" Width="90"/>
+                    <GridViewColumn Header="Екипировка" DisplayMemberBinding="{Binding Pe}" Width="90"/>
                 </GridView>
             </ListView.View>
 

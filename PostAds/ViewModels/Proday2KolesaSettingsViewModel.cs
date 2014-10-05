@@ -11,23 +11,23 @@
     {
         private readonly IWindowManager _windowManager;
 
-        private Proday2KolesaItem _selectedItemCollection;
+        private SpareEquipItem _selectedItemCollection;
 
-        public ObservableCollection<Proday2KolesaItem> ItemCollection { get; private set; }
+        public ObservableCollection<SpareEquipItem> ItemCollection { get; private set; }
 
         [ImportingConstructor]
         public Proday2KolesaSettingsViewModel(IWindowManager windowManager)
         {
             _windowManager = windowManager;
 
-            ItemCollection = new ObservableCollection<Proday2KolesaItem>();
+            ItemCollection = new ObservableCollection<SpareEquipItem>();
 
             GetItemsFromXmlFile();
         }
 
-        public void RemoveItem(Proday2KolesaItem item)
+        public void RemoveItem(SpareEquipItem item)
         {
-            Proday2KolesaXmlWorker.RemoveItemNode(item);
+            SpareEquipXmlWorker.RemoveItemNode(item);
 
             RefreshItemList();
         }
@@ -37,12 +37,12 @@
             ShowConfirmationItemDialog(null);
         }
 
-        public void ChangeItem(Proday2KolesaItem item)
+        public void ChangeItem(SpareEquipItem item)
         {
             ShowConfirmationItemDialog(item);
         }
 
-        public void CopyItemId(Proday2KolesaItem item)
+        public void CopyItemId(SpareEquipItem item)
         {
             Clipboard.SetText(item.Id);
         }
@@ -54,7 +54,7 @@
             GetItemsFromXmlFile();
         }
 
-        private void ShowConfirmationItemDialog(Proday2KolesaItem currentItem)
+        private void ShowConfirmationItemDialog(SpareEquipItem currentItem)
         {
             var proday2KolesaViewModel = new AddChangeProday2KolesaItemViewModel(currentItem);
 
@@ -68,7 +68,7 @@
 
         private void GetItemsFromXmlFile()
         {
-            foreach (var item in Proday2KolesaXmlWorker.GetItems())
+            foreach (var item in SpareEquipXmlWorker.GetAllItems())
             {
                 ItemCollection.Add(item);
             }

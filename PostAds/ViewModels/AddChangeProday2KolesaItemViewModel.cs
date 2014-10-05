@@ -11,16 +11,16 @@ namespace Motorcycle.ViewModels
     {
         private readonly bool _isInEditMode;
 
-        private readonly Proday2KolesaItem _currentItem;
+        private readonly SpareEquipItem _currentItem;
 
         public string Id { get; set; }
-        public string S { get; set; }
-        public string E { get; set; }
+        public string Pz { get; set; }
+        public string Pe { get; set; }
         
         public bool IsOkay { get; set; }
 
         [ImportingConstructor]
-        public AddChangeProday2KolesaItemViewModel(Proday2KolesaItem currentItem)
+        public AddChangeProday2KolesaItemViewModel(SpareEquipItem currentItem)
         {
             if (currentItem == null) return;
             _isInEditMode = true;
@@ -28,8 +28,8 @@ namespace Motorcycle.ViewModels
             _currentItem = currentItem;
 
             Id = currentItem.Id;
-            S = currentItem.S;
-            E = currentItem.E;
+            Pz = currentItem.Pz;
+            Pe = currentItem.Pe;
         }
 
         public void Save()
@@ -46,7 +46,7 @@ namespace Motorcycle.ViewModels
             }
             else
             {
-                Proday2KolesaXmlWorker.AddNewItemNode(Id, S, E);
+                SpareEquipXmlWorker.AddNewItemNode(Id, Pz, Pe);
             }
 
             IsOkay = true;
@@ -60,13 +60,13 @@ namespace Motorcycle.ViewModels
 
         private bool CheckIfFieldsAreFilled()
         {
-            return !string.IsNullOrEmpty(Id) && !string.IsNullOrEmpty(S) && !string.IsNullOrEmpty(E);
+            return !string.IsNullOrEmpty(Id) && !string.IsNullOrEmpty(Pz) && !string.IsNullOrEmpty(Pe);
         }
 
         private void ChangeCurrentItemNode()
         {
-            var newItem = new Proday2KolesaItem(Id, S, E);
-            Proday2KolesaXmlWorker.ChangeItemNode(_currentItem, newItem);
+            var newItem = new SpareEquipItem(Id, Pz, Pe);
+            SpareEquipXmlWorker.ChangeItemNode(_currentItem, newItem);
         }
     }
 }

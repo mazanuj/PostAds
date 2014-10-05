@@ -24,8 +24,8 @@
         <TextBlock Grid.Column="2"  Grid.Row="0" Text="Екипировка" Margin="10, 0, 0, 0"/>
 
         <TextBox Grid.Column="0"  Grid.Row="1" Name="Id"  Height="30" MinWidth="150" Margin="10"/>
-        <TextBox Grid.Column="1"  Grid.Row="1" Name="S"  Height="30" MinWidth="60" Margin="10"/>
-        <TextBox Grid.Column="2"  Grid.Row="1" Name="E"  Height="30" MinWidth="60" Margin="10"/>
+        <TextBox Grid.Column="1"  Grid.Row="1" Name="Pz"  Height="30" MinWidth="60" Margin="10"/>
+        <TextBox Grid.Column="2"  Grid.Row="1" Name="Pe"  Height="30" MinWidth="60" Margin="10"/>
         
 
         <Button Grid.Column="1"  Grid.Row="2"  x:Name="Save" Content="Save" Height="30" MinWidth="60" Margin="10"/>
