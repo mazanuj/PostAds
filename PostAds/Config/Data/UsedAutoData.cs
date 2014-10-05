@@ -114,7 +114,7 @@ namespace Motorcycle.Config.Data
                     {"year", ""},//+
                     {"part_category_id[]", SpareEquipXmlWorker.GetSpareType(data[5],"u")},//create basa+
                     {"part_description[]", data[3]},//+
-                    {"part_condition[]", condition},//+`
+                    {"part_condition[]", condition},//+
                     {"part_price[]", data[6]},//+
                     {"part_currency[]", "1"},//$+
                     {"description", data[9]},//+

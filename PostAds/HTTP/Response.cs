@@ -35,8 +35,8 @@ namespace Motorcycle.HTTP
         }
 
         internal static string GetResponseString(CookieContainer cookieContainer,
-            Dictionary<string, string> dataDictionary, Dictionary<string, string> fileDictionary, string url,
-            ProxyAddressStruct proxyAddress, Encoding encoding = null)
+            Dictionary<string, string> dataDictionary, Dictionary<string, string> fileDictionary, string url, Encoding encoding = null,
+            ProxyAddressStruct proxyAddress = null)
         {
             using (var requestXNET = new HttpRequest(url))
             {
@@ -55,7 +55,7 @@ namespace Motorcycle.HTTP
                 if (encoding != null)
                     requestXNET.CharacterSet = encoding;
 
-                if (proxyAddress.ProxyAddresses != "localhost")
+                if (proxyAddress != null && proxyAddress.ProxyAddresses != "localhost")
                 {
                     switch (proxyAddress.Type)
                     {

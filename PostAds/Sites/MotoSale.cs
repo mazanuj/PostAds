@@ -18,6 +18,7 @@ namespace Motorcycle.Sites
     internal class MotoSale : IPostOnSite
     {
         private readonly Object locker = new object();
+        private const string pass = "1358888t";
 
         public async Task<SitePoster.PostStatus> PostMoto(DicHolder data)
         {
@@ -66,7 +67,7 @@ namespace Motorcycle.Sites
                             {
                                 proxyAddress = ProxyAddressWorker.GetValidProxyAddress("moto");
                                 respString = Response.GetResponseString(cookieContainer, dataDictionary, fileDictionary,
-                                    url, proxyAddress, Encoding.GetEncoding("windows-1251"));
+                                    url, Encoding.GetEncoding("windows-1251"), proxyAddress);
                                 if (respString == string.Empty)
                                     respString = "Response string empty";
                                 break;
@@ -100,7 +101,7 @@ namespace Motorcycle.Sites
 
                             while (
                                 !PostConfirm.ConfirmAdv("pop.mail.ru", 995, true, dataDictionary["mail"],
-                                    "Administr@t0r"))
+                                    pass))
                                 Thread.Sleep(5000);
 
                             if (RemoveEntries.Remove(data, ProductEnum.Motorcycle))
@@ -195,7 +196,7 @@ namespace Motorcycle.Sites
                             {
                                 proxyAddress = ProxyAddressWorker.GetValidProxyAddress("spare");
                                 respString = Response.GetResponseString(cookieContainer, dataDictionary, fileDictionary,
-                                    url, proxyAddress, Encoding.GetEncoding("windows-1251"));
+                                    url, Encoding.GetEncoding("windows-1251"), proxyAddress);
                                 if (respString == string.Empty)
                                     respString = "Response string empty";
 
@@ -228,7 +229,7 @@ namespace Motorcycle.Sites
 
                             while (
                                 !PostConfirm.ConfirmAdv("pop.mail.ru", 995, true, dataDictionary["mail"],
-                                    "Administr@t0r"))
+                                    pass))
                                 Thread.Sleep(5000);
                             if (RemoveEntries.Remove(data, ProductEnum.Spare))
                                 Log.Info(reply + " removed from list (Motosale)");
@@ -303,7 +304,7 @@ namespace Motorcycle.Sites
                             {
                                 proxyAddress = ProxyAddressWorker.GetValidProxyAddress("equip");
                                 respString = Response.GetResponseString(cookieContainer, dataDictionary, fileDictionary,
-                                    url, proxyAddress, Encoding.GetEncoding("windows-1251"));
+                                    url, Encoding.GetEncoding("windows-1251"), proxyAddress);
                                 if (respString == string.Empty)
                                     respString = "Response string empty";
 
@@ -336,7 +337,7 @@ namespace Motorcycle.Sites
 
                             while (
                                 !PostConfirm.ConfirmAdv("pop.mail.ru", 995, true, dataDictionary["mail"],
-                                    "Administr@t0r"))
+                                    pass))
                                 Thread.Sleep(5000);
                             if (RemoveEntries.Remove(data, ProductEnum.Equip))
                                 Log.Info(reply + " removed from list (Motosale)");

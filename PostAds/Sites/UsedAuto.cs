@@ -120,9 +120,11 @@ namespace Motorcycle.Sites
                         const string url = "http://usedauto.com.ua/add/zapchasti.php";
 
                         var cookieContainer = Cookies.GetCookiesContainer(url);
-                        var request = Request.POSTRequest(url, cookieContainer, dataDictionary, fileDictionary, url);
+                        //var request = Request.POSTRequest(url, cookieContainer, dataDictionary, fileDictionary, url);
+                        var respString = Response.GetResponseString(cookieContainer, dataDictionary, fileDictionary,
+                            url, Encoding.UTF8);
 
-                        if (Response.GetResponseString(request).Contains("success"))
+                        if (respString.Contains("success"))
                         {
                             Log.Info(reply + " successfully posted on UsedAuto");
                             if (RemoveEntries.Remove(data, ProductEnum.Spare))
@@ -130,7 +132,7 @@ namespace Motorcycle.Sites
                             return SitePoster.PostStatus.OK;
                         }
                         Log.Warn(reply + " unsuccessfully posted on UsedAuto");
-                        request.Abort();
+
                         RemoveEntries.Unposted(data, ProductEnum.Spare, SiteEnum.UsedAuto);
                         if (RemoveEntries.Remove(data, ProductEnum.Spare))
                             Log.Info(reply + " removed from list");
