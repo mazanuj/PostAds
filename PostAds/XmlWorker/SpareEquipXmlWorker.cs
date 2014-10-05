@@ -1,6 +1,7 @@
 ﻿namespace Motorcycle.XmlWorker
 {
     using System.Collections;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Xml.Linq;
     using System.Xml.XPath;
@@ -21,42 +22,40 @@
             Doc.Save(XmlFilePath);
         }
 
-        public static void ChangeItemNode(string oldId, string oldPz, string oldPe,
-            string newId, string newPz, string newPe)
+        public static void ChangeItemNode(SpareEquipItem oldItem, SpareEquipItem newItem)
         {
-            var item = Doc.XPathSelectElement(string.Format(ItemXPath, oldId.ToLower(), oldPz, oldPe));
+            var item = Doc.XPathSelectElement(string.Format(ItemXPath, oldItem.Id.ToLower(), oldItem.Pz, oldItem.Pe));
 
             if (item == null) return;
 
-            item.Attribute("id").Value = newId.ToLower();
-            item.Attribute("pz").Value = newPz;
-            item.Attribute("pe").Value = newPe;
+            item.Attribute("id").Value = newItem.Id.ToLower();
+            item.Attribute("pz").Value = newItem.Pz;
+            item.Attribute("pe").Value = newItem.Pe;
 
             Doc.Save(XmlFilePath);
         }
 
-        public static void RemoveItemNode(string id, string pz, string pe)
+        public static void RemoveItemNode(SpareEquipItem item)
         {
-            var item = Doc.XPathSelectElement(string.Format(ItemXPath, id.ToLower(), pz, pe));
+            var currentItem = Doc.XPathSelectElement(string.Format(ItemXPath, item.Id.ToLower(),
+                item.Pz, item.Pe));
 
-            if (item == null) return;
+            if (currentItem == null) return;
 
-            item.Remove();
+            currentItem.Remove();
 
             Doc.Save(XmlFilePath);
         }
 
-        public static IEnumerable GetAllItems()
+        public static IEnumerable<SpareEquipItem> GetAllItems()
         {
-            var items = (from e in Doc.Descendants("production").Descendants("item")
-                select new
-                {
-                    Id = (string) e.Attribute("id"),
-                    Pz = (string) e.Attribute("pz"),
-                    Pe = (string) e.Attribute("pe")
-                }).ToList();
+            var itemXElements = Doc.XPathSelectElements("//equip/production/item");
 
-            return items;
+            return
+                itemXElements.Select(
+                    e => new SpareEquipItem(e.Attribute("id").Value,
+                        e.Attribute("pz").Value, e.Attribute("pe").Value))
+                    .ToList();
         }
 
         public static string GetItemSiteValueUsingPlant(string itemId, string site)

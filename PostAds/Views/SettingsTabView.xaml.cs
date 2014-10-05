@@ -1,13 +1,12 @@
-﻿using System.Windows.Controls;
-
-namespace Motorcycle.Views
+﻿namespace Motorcycle.Views
 {
+    using System.Windows.Controls;
     /// <summary>
     /// Interaction logic for SettingsView.xaml
     /// </summary>
-    public partial class SettingsView : UserControl
+    public partial class SettingsTabView : UserControl
     {
-        public SettingsView()
+        public SettingsTabView()
         {
             InitializeComponent();
         }

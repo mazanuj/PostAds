@@ -4,11 +4,11 @@ namespace Motorcycle.Views
     using MahApps.Metro.Controls;
 
     /// <summary>
-    /// Interaction logic for ConfirmationView.xaml
+    /// Interaction logic for ConfirmationValueView.xaml
     /// </summary>
-    public partial class ConfirmationView : MetroWindow
+    public partial class AddChangeMotosaleValueView : MetroWindow
     {
-        public ConfirmationView()
+        public AddChangeMotosaleValueView()
         {
             InitializeComponent();
         }

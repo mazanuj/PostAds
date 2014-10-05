@@ -1,0 +1,55 @@
+﻿<UserControl x:Class="Motorcycle.Views.Proday2KolesaSettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:cal="http://www.caliburnproject.org"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="600">
+    <Grid>
+        <ListView Grid.Column="0" x:Name="ItemCollection" SelectionMode="Single">
+            <ListView.ItemContainerStyle >
+                <Style TargetType="{x:Type ListBoxItem}" >
+                    <Setter Property="Tag" Value="{Binding DataContext, RelativeSource={RelativeSource AncestorType={x:Type ListView}, Mode=FindAncestor}}"/>
+                    <Setter Property="ContextMenu">
+                        <Setter.Value>
+
+                            <ContextMenu x:Name="cm" cal:Action.TargetWithoutContext="{Binding PlacementTarget.Tag, RelativeSource={RelativeSource Self}}">
+
+                                <MenuItem Header="Add new item" 
+									cal:Message.Attach="[Event Click] = [Action AddNewItem()]"/>
+
+                                <MenuItem Header="Change" 
+									cal:Message.Attach="[Event Click] = [Action ChangeItem($dataContext)]"/>
+
+                                <MenuItem Header="Remove" 
+									cal:Message.Attach="[Event Click] = [Action RemoveItem($dataContext)]"/>
+
+                                <MenuItem Header="Copy" 
+									cal:Message.Attach="[Event Click] = [Action CopyItemId($dataContext)]"/>
+
+                            </ContextMenu>
+
+                        </Setter.Value>
+                    </Setter>
+
+                </Style>
+            </ListView.ItemContainerStyle>
+
+            <ListView.View>
+                <GridView  >
+                    <GridViewColumn Header="Завод" DisplayMemberBinding="{Binding Id}" Width="150"/>
+                    <GridViewColumn Header="Запчасти" DisplayMemberBinding="{Binding Pz}" Width="90"/>
+                    <GridViewColumn Header="Екипировка" DisplayMemberBinding="{Binding Pe}" Width="90"/>
+                </GridView>
+            </ListView.View>
+
+            <ListView.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Add new item" 
+						cal:Message.Attach="[Event Click] = [Action AddNewItem()]"/>
+                </ContextMenu>
+            </ListView.ContextMenu>
+        </ListView>
+    </Grid>
+</UserControl>

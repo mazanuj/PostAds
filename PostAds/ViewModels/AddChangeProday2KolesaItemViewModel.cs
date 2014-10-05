@@ -1,30 +1,26 @@
 ﻿
-
 namespace Motorcycle.ViewModels
 {
+    using Caliburn.Micro;
+    using Motorcycle.XmlWorker;
     using System.ComponentModel.Composition;
     using System.Windows;
 
-    using Caliburn.Micro;
-
-    using XmlWorker;
-
-    [Export(typeof(ConfirmationViewModel))]
-    public class ConfirmationViewModel : Screen
+    [Export(typeof(AddChangeProday2KolesaItemViewModel))]
+    public class AddChangeProday2KolesaItemViewModel : Screen
     {
         private readonly bool _isInEditMode;
 
-        private readonly ManufactureItem _currentItem;
+        private readonly SpareEquipItem _currentItem;
 
         public string Id { get; set; }
-        public string M { get; set; }
-        public string P { get; set; }
-        public string U { get; set; }
-
+        public string Pz { get; set; }
+        public string Pe { get; set; }
+        
         public bool IsOkay { get; set; }
 
         [ImportingConstructor]
-        public ConfirmationViewModel(ManufactureItem currentItem)
+        public AddChangeProday2KolesaItemViewModel(SpareEquipItem currentItem)
         {
             if (currentItem == null) return;
             _isInEditMode = true;
@@ -32,9 +28,8 @@ namespace Motorcycle.ViewModels
             _currentItem = currentItem;
 
             Id = currentItem.Id;
-            M = currentItem.M;
-            P = currentItem.P;
-            U = currentItem.U;
+            Pz = currentItem.Pz;
+            Pe = currentItem.Pe;
         }
 
         public void Save()
@@ -51,12 +46,11 @@ namespace Motorcycle.ViewModels
             }
             else
             {
-                ManufactureXmlWorker.AddNewItemNode(Id, M, P, U);    
+                SpareEquipXmlWorker.AddNewItemNode(Id, Pz, Pe);
             }
-            
+
             IsOkay = true;
             TryClose();
-
         }
 
         public void Cancel()
@@ -66,13 +60,13 @@ namespace Motorcycle.ViewModels
 
         private bool CheckIfFieldsAreFilled()
         {
-            return !string.IsNullOrEmpty(Id) && !string.IsNullOrEmpty(M) && !string.IsNullOrEmpty(P) && !string.IsNullOrEmpty(U);
+            return !string.IsNullOrEmpty(Id) && !string.IsNullOrEmpty(Pz) && !string.IsNullOrEmpty(Pe);
         }
 
         private void ChangeCurrentItemNode()
         {
-            var newItem = new ManufactureItem(Id, M, P, U);
-            ManufactureXmlWorker.ChangeItemNode(_currentItem, newItem);
+            var newItem = new SpareEquipItem(Id, Pz, Pe);
+            SpareEquipXmlWorker.ChangeItemNode(_currentItem, newItem);
         }
     }
 }
