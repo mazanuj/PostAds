@@ -6,8 +6,8 @@ namespace Motorcycle.ViewModels
     using System.ComponentModel.Composition;
     using System.Windows;
 
-    [Export(typeof(ConfirmationValueViewModel))]
-    public class ConfirmationValueViewModel : Screen
+    [Export(typeof(AddChangeMotosaleValueViewModel))]
+    public class AddChangeMotosaleValueViewModel : Screen
     {
         private readonly bool _isInEditMode;
 
@@ -20,7 +20,7 @@ namespace Motorcycle.ViewModels
         public bool IsOkay { get; set; }
 
         [ImportingConstructor]
-        public ConfirmationValueViewModel(ManufactureItem currentItem, ManufactureValue currentValue)
+        public AddChangeMotosaleValueViewModel(ManufactureItem currentItem, ManufactureValue currentValue)
         {
             _currentItem = currentItem;
 

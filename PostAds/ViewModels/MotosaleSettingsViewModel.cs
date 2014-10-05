@@ -7,8 +7,8 @@
     using System.Collections.ObjectModel;
     using System.ComponentModel.Composition;
 
-    [Export(typeof (ChangeBaseViewModel))]
-    public class ChangeBaseViewModel : PropertyChangedBase
+    [Export(typeof (MotosaleSettingsViewModel))]
+    public class MotosaleSettingsViewModel : PropertyChangedBase
     {
         private readonly IWindowManager _windowManager;
 
@@ -19,7 +19,7 @@
         public ObservableCollection<ManufactureValue> ValueCollection { get; private set; }
 
         [ImportingConstructor]
-        public ChangeBaseViewModel(IWindowManager windowManager)
+        public MotosaleSettingsViewModel(IWindowManager windowManager)
         {
             _windowManager = windowManager;
 
@@ -107,7 +107,7 @@
 
         private void ShowConfirmationItemDialog(ManufactureItem currentItem)
         {
-            var confirmationViewModel = new ConfirmationViewModel(currentItem);
+            var confirmationViewModel = new AddChangeMotosaleItemViewModel(currentItem);
 
             _windowManager.ShowDialog(confirmationViewModel);
 
@@ -119,7 +119,7 @@
 
         private void ShowConfirmationValueDialog(ManufactureItem currentItem, ManufactureValue currentValue)
         {
-            var confirmationValueViewModel = new ConfirmationValueViewModel(currentItem, currentValue);
+            var confirmationValueViewModel = new AddChangeMotosaleValueViewModel(currentItem, currentValue);
 
             _windowManager.ShowDialog(confirmationValueViewModel);
 

@@ -1,12 +1,8 @@
 ﻿using LogManager = NLog.LogManager;
-
 namespace Motorcycle.ViewModels
 {
-    using System.Windows.Media.Animation;
-
     using Caliburn.Micro;
     using Config.Proxy;
-    using Utils;
     using NLog;
     using System.Collections.ObjectModel;
     using System.ComponentModel.Composition;
@@ -14,6 +10,7 @@ namespace Motorcycle.ViewModels
     using System.Windows;
     using System.Windows.Data;
     using System.Xml;
+    using Utils;
     using XmlWorker;
     using LogManager = LogManager;
 
@@ -26,6 +23,7 @@ namespace Motorcycle.ViewModels
         private readonly Logger log = LogManager.GetCurrentClassLogger();
         private readonly IWindowManager _windowManager;
         private int countOfProxyAddressInFile;
+        private string password = "";
 
         public int CountOfProxyAddressInFile
         {
@@ -40,7 +38,7 @@ namespace Motorcycle.ViewModels
             }
         }
         public bool CanRefreshProxyListFromInternet { get; set; }
-        //public bool RefreshProxyListStatus { get; set; }
+
         public ObservableCollection<CityItem> ItemCollection { get; private set; }
         public ObservableCollection<ProxyAddressItem> ProxyAddressCollection { get; private set; }
 
@@ -138,6 +136,25 @@ namespace Motorcycle.ViewModels
         {
             xml.Document.Save(DbPath);
         }
+
+        #region Password
+        public string Password
+        {
+            get
+            {
+                return PasswordXmlWorker.GetPasswordValue();
+            }
+            set
+            {
+                password = value;
+            }
+        }
+
+        public void ChangePassword()
+        {
+            PasswordXmlWorker.ChangePasswordNode(password);
+        }
+        #endregion
 
         #region CityXml
 

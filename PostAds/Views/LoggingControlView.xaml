@@ -38,7 +38,6 @@
             </ListView.ItemContainerStyle>
             <ListView.View>
                 <GridView>
-                    <!--<GridViewColumn DisplayMemberBinding="{Binding LoggerName}" Header="Logger"/>-->
                     <GridViewColumn DisplayMemberBinding="{Binding Level}" Header="Level" Width="70"/>
                     <GridViewColumn DisplayMemberBinding="{Binding FormattedMessage}" Header="Message" Width="400"/>
                 </GridView>

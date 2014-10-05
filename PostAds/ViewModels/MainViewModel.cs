@@ -10,10 +10,10 @@ namespace Motorcycle.ViewModels
     {
         private readonly Logger log = LogManager.GetCurrentClassLogger();
         public FrontPanelViewModel FrontPanel { get; private set; }
-        public SettingsViewModel Settings { get; private set; }
+        public SettingsTabViewModel Settings { get; private set; }
 
         [ImportingConstructor]
-        public MainViewModel(FrontPanelViewModel frontPanelModel, SettingsViewModel settingsModel)
+        public MainViewModel(FrontPanelViewModel frontPanelModel, SettingsTabViewModel settingsModel)
         {
             FrontPanel = frontPanelModel;
             Settings = settingsModel;

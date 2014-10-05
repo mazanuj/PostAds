@@ -3,11 +3,11 @@
 namespace Motorcycle.Views
 {
     /// <summary>
-    /// Interaction logic for ChangeBaseView.xaml
+    /// Interaction logic for MotosaleSettingsView.xaml
     /// </summary>
-    public partial class ChangeBaseView : UserControl
+    public partial class MotosaleSettingsView : UserControl
     {
-        public ChangeBaseView()
+        public MotosaleSettingsView()
         {
             InitializeComponent();
         }

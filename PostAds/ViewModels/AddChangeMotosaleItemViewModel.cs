@@ -1,16 +1,12 @@
-﻿
-
-namespace Motorcycle.ViewModels
+﻿namespace Motorcycle.ViewModels
 {
+    using Caliburn.Micro;
     using System.ComponentModel.Composition;
     using System.Windows;
-
-    using Caliburn.Micro;
-
     using XmlWorker;
 
-    [Export(typeof(ConfirmationViewModel))]
-    public class ConfirmationViewModel : Screen
+    [Export(typeof(AddChangeMotosaleItemViewModel))]
+    public class AddChangeMotosaleItemViewModel : Screen
     {
         private readonly bool _isInEditMode;
 
@@ -24,7 +20,7 @@ namespace Motorcycle.ViewModels
         public bool IsOkay { get; set; }
 
         [ImportingConstructor]
-        public ConfirmationViewModel(ManufactureItem currentItem)
+        public AddChangeMotosaleItemViewModel(ManufactureItem currentItem)
         {
             if (currentItem == null) return;
             _isInEditMode = true;

@@ -1,6 +1,6 @@
 ﻿<Controls:MetroWindow
              xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro" 
-             x:Class="Motorcycle.Views.ConfirmationView"
+             x:Class="Motorcycle.Views.AddChangeMotosaleItemView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              Title="Add/change item" Height="150" Width="500" WindowStartupLocation="CenterOwner" ResizeMode="NoResize">
