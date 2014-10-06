@@ -5,6 +5,8 @@
     using System.Xml.Linq;
     using System.Xml.XPath;
 
+    using Motorcycle.Utils;
+
     internal static class FilePathXmlWorker
     {
         private const string XmlFilePath = "Main.config";
@@ -38,6 +40,9 @@
             SetFilePath("moto", "");
             SetFilePath("spare", "");
             SetFilePath("equip", "");
+            SetFilePath("photo", "");
+
+            Informer.RaiseOnFilePathsClearedEvent();
         }
     }
 }

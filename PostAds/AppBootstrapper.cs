@@ -1,15 +1,16 @@
-﻿﻿using System;
-﻿using System.Collections.Generic;
-﻿using System.ComponentModel.Composition;
-﻿using System.ComponentModel.Composition.Hosting;
-﻿using System.ComponentModel.Composition.Primitives;
-﻿using System.Linq;
-﻿using System.Windows;
-﻿using Caliburn.Micro;
-﻿using Motorcycle.ViewModels;
-
-namespace Motorcycle
+﻿namespace Motorcycle
 {
+    ﻿using Caliburn.Micro;
+    using Motorcycle.ViewModels;
+    using Motorcycle.XmlWorker;
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.Composition;
+    using System.ComponentModel.Composition.Hosting;
+    using System.ComponentModel.Composition.Primitives;
+    using System.Linq;
+    using System.Windows;
+
     public class AppBootstrapper : BootstrapperBase
     {
         private CompositionContainer _container;
@@ -58,5 +59,9 @@ namespace Motorcycle
             DisplayRootViewFor<MainViewModel>();
         }
 
+        protected override void OnExit(object sender, EventArgs e)
+        {
+            FilePathXmlWorker.ResetFilePaths();
+        }
     }
 }

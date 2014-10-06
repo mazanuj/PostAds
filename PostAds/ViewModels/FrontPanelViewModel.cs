@@ -24,6 +24,7 @@ namespace Motorcycle.ViewModels
         private bool boxMoto;
         private bool boxUsed;
         private bool boxKol;
+        private bool boxPhoto;
 
         [ImportingConstructor]
         public FrontPanelViewModel(LoggingControlViewModel loggingControlModel)
@@ -41,6 +42,7 @@ namespace Motorcycle.ViewModels
 
             Informer.OnPostResultChanged += ChangePostResults;
             Informer.OnProxyListFromInternetUpdated += ChangeFrontPanelIsEnabledStatus;
+            Informer.OnFilePathsCleared += ResetFileLabels;
         }
 
         public int CountSuccess { get; set; }
@@ -89,11 +91,26 @@ namespace Motorcycle.ViewModels
             }
         }
 
+        public bool BoxPhoto
+        {
+            get { return boxPhoto; }
+            set
+            {
+                boxPhoto = value;
+                NotifyOfPropertyChange(() => BoxPhoto);
+
+                CanButtonStart = CheckIfAllFieldsAreFilled();
+                NotifyOfPropertyChange(() => CanButtonStart);
+            }
+        }
+
         public bool MotoFileLabel { get; set; }
 
         public bool SpareFileLabel { get; set; }
 
         public bool EquipFileLabel { get; set; }
+
+        public bool PhotoDirLabel { get; set; }
 
         public bool CanButtonStart { get; set; }
 
@@ -117,6 +134,17 @@ namespace Motorcycle.ViewModels
         {
             CanEditFrontPanel = result;
             NotifyOfPropertyChange(() => CanEditFrontPanel);
+        }
+
+        private void ResetFileLabels()
+        {
+            MotoFileLabel = false;
+            SpareFileLabel = false;
+            EquipFileLabel = false;
+
+            NotifyOfPropertyChange(() => MotoFileLabel);
+            NotifyOfPropertyChange(() => SpareFileLabel);
+            NotifyOfPropertyChange(() => EquipFileLabel);
         }
 
         private bool CheckIfAllFieldsAreFilled()
@@ -175,6 +203,18 @@ namespace Motorcycle.ViewModels
 
             EquipFileLabel = true;
             NotifyOfPropertyChange(() => EquipFileLabel);
+
+            CanButtonStart = CheckIfAllFieldsAreFilled();
+            NotifyOfPropertyChange(() => CanButtonStart);
+        }
+
+        public void ButtonPhotoDir()
+        {
+            if (dlg.ShowDialog() == false) return;
+            FilePathXmlWorker.SetFilePath("photo", dlg.FileName);
+
+            PhotoDirLabel = true;
+            NotifyOfPropertyChange(() => PhotoDirLabel);
 
             CanButtonStart = CheckIfAllFieldsAreFilled();
             NotifyOfPropertyChange(() => CanButtonStart);
