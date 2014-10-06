@@ -14,15 +14,15 @@ namespace Motorcycle.Controls.Converters
             switch (value.ToString())
             {
                 case "Debug":
-                    return Brushes.White;
+                    return Brushes.Plum;
                 case "Warn":
                     return Brushes.Yellow;
                 case "Error":
                     return Brushes.Tomato;
                 case "Info":
-                    return Brushes.Purple;
+                    return Brushes.White;
                 default:
-                    return Brushes.Plum;
+                    return Brushes.White;
             }
         }
 

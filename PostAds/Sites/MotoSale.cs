@@ -17,8 +17,7 @@ namespace Motorcycle.Sites
 
     internal class MotoSale : IPostOnSite
     {
-        private readonly Object locker = new object();
-        private const string pass = "1358888t";
+        private readonly Object locker = new object();        
 
         public async Task<SitePoster.PostStatus> PostMoto(DicHolder data)
         {
@@ -65,7 +64,11 @@ namespace Motorcycle.Sites
                         {
                             try
                             {
-                                proxyAddress = ProxyAddressWorker.GetValidProxyAddress("moto");
+                                lock (locker)
+                                {
+                                    proxyAddress = ProxyAddressWorker.GetValidProxyAddress("moto");    
+                                }
+                                
                                 respString = Response.GetResponseString(cookieContainer, dataDictionary, fileDictionary,
                                     url, Encoding.GetEncoding("windows-1251"), proxyAddress);
                                 if (respString == string.Empty)
@@ -91,21 +94,26 @@ namespace Motorcycle.Sites
 
                             RemoveEntries.Unposted(data, ProductEnum.Motorcycle, SiteEnum.MotoSale);
                             if (RemoveEntries.Remove(data, ProductEnum.Motorcycle))
-                                Log.Info(reply + " removed from list (Motosale)");
+                                Log.Debug(reply + " removed from list (Motosale)");
 
                             return SitePoster.PostStatus.ERROR;
                         }
                         if (respString.Contains("На указанный вами E-mail отправлено письмо"))
                         {
                             Log.Info(reply + " successfully posted on Motosale");
-
-                            while (
-                                !PostConfirm.ConfirmAdv("pop.mail.ru", 995, true, dataDictionary["mail"],
-                                    pass))
-                                Thread.Sleep(5000);
+                            try
+                            {
+                                while (!PostConfirm.ConfirmAdv("pop.mail.ru", 995, true, dataDictionary["mail"], PasswordXmlWorker.GetPasswordValue()))
+                                    Thread.Sleep(5000);
+                            }
+                            catch (Exception ex)
+                            {
+                                Log.Warn(dataDictionary["mail"] + " not confirmed", ex);
+                            }
+                            
 
                             if (RemoveEntries.Remove(data, ProductEnum.Motorcycle))
-                                Log.Info(reply + " removed from list (Motosale)");
+                                Log.Debug(reply + " removed from list (Motosale)");
 
                             return SitePoster.PostStatus.OK;
                         }
@@ -114,7 +122,7 @@ namespace Motorcycle.Sites
                         Log.Warn(reply + " unsuccessfully posted on Motosale");
                         RemoveEntries.Unposted(data, ProductEnum.Motorcycle, SiteEnum.MotoSale);
                         if (RemoveEntries.Remove(data, ProductEnum.Motorcycle))
-                            Log.Info(reply + " removed from list (Motosale)");
+                            Log.Debug(reply + " removed from list (Motosale)");
                         return SitePoster.PostStatus.ERROR;
                     }
                     catch (Exception ex)
@@ -127,7 +135,7 @@ namespace Motorcycle.Sites
                         RemoveEntries.Unposted(data, ProductEnum.Motorcycle, SiteEnum.MotoSale);
 
                         if (RemoveEntries.Remove(data, ProductEnum.Motorcycle))
-                            LogManager.GetCurrentClassLogger().Info("{0} {1}{2} removed from list (Motosale)",
+                            LogManager.GetCurrentClassLogger().Debug("{0} {1}{2} removed from list (Motosale)",
                                 ManufactureXmlWorker.GetItemSiteIdUsingPlant("m", data.DataDictionary["model"]),
                                 data.DataDictionary["manufactured_model"], data.DataDictionary["custom_model"]);
 
@@ -155,7 +163,7 @@ namespace Motorcycle.Sites
                             Log.Warn("Proxy list == null");
                             RemoveEntries.Unposted(data, ProductEnum.Spare, SiteEnum.MotoSale);
                             if (RemoveEntries.Remove(data, ProductEnum.Spare))
-                                Log.Info(reply + " removed from list (Motosale)");
+                                Log.Debug(reply + " removed from list (Motosale)");
                             return SitePoster.PostStatus.ERROR;
                         }
 
@@ -194,7 +202,11 @@ namespace Motorcycle.Sites
                         {
                             try
                             {
-                                proxyAddress = ProxyAddressWorker.GetValidProxyAddress("spare");
+                                lock (locker)
+                                {
+                                    proxyAddress = ProxyAddressWorker.GetValidProxyAddress("spare");
+                                }
+
                                 respString = Response.GetResponseString(cookieContainer, dataDictionary, fileDictionary,
                                     url, Encoding.GetEncoding("windows-1251"), proxyAddress);
                                 if (respString == string.Empty)
@@ -220,25 +232,31 @@ namespace Motorcycle.Sites
                                      dataDictionary["mail"] + " или " + dataDictionary["phone"]);
                             RemoveEntries.Unposted(data, ProductEnum.Spare, SiteEnum.MotoSale);
                             if (RemoveEntries.Remove(data, ProductEnum.Spare))
-                                Log.Info(reply + " removed from list (Motosale)");
+                                Log.Debug(reply + " removed from list (Motosale)");
                             return SitePoster.PostStatus.ERROR;
                         }
                         if (respString.Contains("На указанный вами E-mail отправлено письмо"))
                         {
                             Log.Info(reply + " successfully posted on Motosale");
 
-                            while (
-                                !PostConfirm.ConfirmAdv("pop.mail.ru", 995, true, dataDictionary["mail"],
-                                    pass))
-                                Thread.Sleep(5000);
+                            try
+                            {
+                                while (!PostConfirm.ConfirmAdv("pop.mail.ru", 995, true, dataDictionary["mail"], PasswordXmlWorker.GetPasswordValue()))
+                                    Thread.Sleep(5000);
+                            }
+                            catch (Exception ex)
+                            {
+                                Log.Warn(dataDictionary["mail"] + " not confirmed", ex);
+                            }
+
                             if (RemoveEntries.Remove(data, ProductEnum.Spare))
-                                Log.Info(reply + " removed from list (Motosale)");
+                                Log.Debug(reply + " removed from list (Motosale)");
                             return SitePoster.PostStatus.OK;
                         }
                         Log.Warn(reply + " unsuccessfully posted on Motosale");
                         RemoveEntries.Unposted(data, ProductEnum.Spare, SiteEnum.MotoSale);
                         if (RemoveEntries.Remove(data, ProductEnum.Spare))
-                            Log.Info(reply + " removed from list (Motosale)");
+                            Log.Debug(reply + " removed from list (Motosale)");
                         return SitePoster.PostStatus.ERROR;
                     }
                     catch (Exception ex)
@@ -250,7 +268,7 @@ namespace Motorcycle.Sites
                         RemoveEntries.Unposted(data, ProductEnum.Spare, SiteEnum.MotoSale);
                         if (RemoveEntries.Remove(data, ProductEnum.Spare))
                             LogManager.GetCurrentClassLogger()
-                                .Info("{0} {1} removed from list (Motosale)",
+                                .Debug("{0} {1} removed from list (Motosale)",
                                     ManufactureXmlWorker.GetItemSiteIdUsingPlant("m", data.DataDictionary["model_zap"]),
                                     data.DataDictionary["type"]);
                         return SitePoster.PostStatus.ERROR;
@@ -275,7 +293,7 @@ namespace Motorcycle.Sites
                             Log.Warn("Proxy list == null");
                             RemoveEntries.Unposted(data, ProductEnum.Equip, SiteEnum.MotoSale);
                             if (RemoveEntries.Remove(data, ProductEnum.Equip))
-                                Log.Info(reply + " removed from list (Motosale)");
+                                Log.Debug(reply + " removed from list (Motosale)");
                             return SitePoster.PostStatus.ERROR;
                         }
 
@@ -302,7 +320,11 @@ namespace Motorcycle.Sites
                         {
                             try
                             {
-                                proxyAddress = ProxyAddressWorker.GetValidProxyAddress("equip");
+                                lock (locker)
+                                {
+                                    proxyAddress = ProxyAddressWorker.GetValidProxyAddress("equip");
+                                }
+
                                 respString = Response.GetResponseString(cookieContainer, dataDictionary, fileDictionary,
                                     url, Encoding.GetEncoding("windows-1251"), proxyAddress);
                                 if (respString == string.Empty)
@@ -328,19 +350,25 @@ namespace Motorcycle.Sites
                                      dataDictionary["mail"] + " или " + dataDictionary["phone"]);
                             RemoveEntries.Unposted(data, ProductEnum.Equip, SiteEnum.MotoSale);
                             if (RemoveEntries.Remove(data, ProductEnum.Equip))
-                                Log.Info(reply + " removed from list (Motosale)");
+                                Log.Debug(reply + " removed from list (Motosale)");
                             return SitePoster.PostStatus.ERROR;
                         }
                         if (respString.Contains("На указанный вами E-mail отправлено письмо"))
                         {
                             Log.Info(reply + " successfully posted on Motosale");
 
-                            while (
-                                !PostConfirm.ConfirmAdv("pop.mail.ru", 995, true, dataDictionary["mail"],
-                                    pass))
-                                Thread.Sleep(5000);
+                            try
+                            {
+                                while (!PostConfirm.ConfirmAdv("pop.mail.ru", 995, true, dataDictionary["mail"], PasswordXmlWorker.GetPasswordValue()))
+                                    Thread.Sleep(5000);
+                            }
+                            catch (Exception ex)
+                            {
+                                Log.Warn(dataDictionary["mail"] + " not confirmed", ex);
+                            }
+
                             if (RemoveEntries.Remove(data, ProductEnum.Equip))
-                                Log.Info(reply + " removed from list (Motosale)");
+                                Log.Debug(reply + " removed from list (Motosale)");
                             return SitePoster.PostStatus.OK;
                         }
                         Log.Warn(reply + " unsuccessfully posted on Motosale");
@@ -358,7 +386,7 @@ namespace Motorcycle.Sites
 
                         if (RemoveEntries.Remove(data, ProductEnum.Equip))
                             LogManager.GetCurrentClassLogger()
-                                .Info("{0} {1} removed from list (Motosale)", data.DataDictionary["brand"],
+                                .Debug("{0} {1} removed from list (Motosale)", data.DataDictionary["brand"],
                                     data.DataDictionary["type"]);
 
                         return SitePoster.PostStatus.ERROR;

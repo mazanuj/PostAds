@@ -1,4 +1,5 @@
-﻿using Motorcycle.HTTP;
+﻿using System;
+using Motorcycle.HTTP;
 using NLog;
 using OpenPop.Pop3;
 
@@ -12,11 +13,19 @@ namespace Motorcycle.Config.Confirm
             // The client disconnects from the server when being disposed
             using (var client = new Pop3Client())
             {
-                // Connect to the server
-                client.Connect(hostname, port, useSsl);
+                while (true)
+                {
+                    try
+                    {
+                        // Connect to the server
+                        client.Connect(hostname, port, useSsl);
 
-                // Authenticate ourselves towards the server
-                client.Authenticate(username, password);
+                        // Authenticate ourselves towards the server
+                        client.Authenticate(username, password);
+                        break;
+                    }
+                    catch { }
+                }
 
                 // Get the number of messages in the inbox
                 var messageCount = client.GetMessageCount();

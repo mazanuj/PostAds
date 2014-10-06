@@ -46,7 +46,7 @@ namespace Motorcycle.Config.Data
                     {"since1", "10"}, //s 10+
                     {"till1", "21"}, //do 21+
                     {"wrangle", "0"}, //torg+
-                    {"MAX_FILE_SIZE", "6144000"}, //+
+                    {"MAX_FILE_SIZE", "614400"}, //+
                     {"since2", "10"}, //+
                     {"till2", "21"}, //+
                     {"city", CityXmlWorker.GetItemSiteValueUsingCity(data[12], "p")}, //gorod basa+

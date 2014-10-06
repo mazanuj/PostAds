@@ -31,8 +31,8 @@ namespace Motorcycle.ViewModels
             logTarget.EventReceived += EventReceived;
 
             config.AddTarget("memoryevent", logTarget);
-            config.LoggingRules.Add(new LoggingRule("*", LogLevel.Debug, logTarget));
-            SimpleConfigurator.ConfigureForTargetLogging(logTarget, LogLevel.Debug);
+            config.LoggingRules.Add(new LoggingRule("*", LogLevel.Info, logTarget));
+            SimpleConfigurator.ConfigureForTargetLogging(logTarget, LogLevel.Info);
             LogManager.Configuration = config;
         }
 

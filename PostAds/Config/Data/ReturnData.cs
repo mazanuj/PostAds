@@ -1,4 +1,6 @@
-﻿using Motorcycle.Factories;
+﻿using System.Text;
+using Motorcycle.Factories;
+using NLog;
 
 namespace Motorcycle.Config.Data
 {
@@ -14,7 +16,7 @@ namespace Motorcycle.Config.Data
     internal static class ReturnData
     {
         private static readonly List<InfoHolder> ReturnDataHolders = new List<InfoHolder>();
-
+        private static readonly Logger Log = LogManager.GetCurrentClassLogger();
         private static string motoFile;
         private static string spareFile;
         private static string equipFile;
@@ -75,8 +77,14 @@ namespace Motorcycle.Config.Data
             await Task.Factory.StartNew(
                 () =>
                 {
-                    var listFile = new List<string>(File.ReadAllLines(textFile)); //TODO ?? Encoding.Unicode
-                    var infoHolder = new InfoHolder { Site = site, Type = product };
+                    var listFile = new List<string>(File.ReadAllLines(textFile, Encoding.GetEncoding(Ude(textFile))));
+                    if (listFile.Count == 0)
+                    {
+                        Log.Warn(textFile.Substring(textFile.LastIndexOf(@"\", System.StringComparison.Ordinal) + 1) +
+                                 " is empty");
+                        return;
+                    }
+                    var infoHolder = new InfoHolder {Site = site, Type = product};
                     var lineNum = 0;
 
                     switch (product)
@@ -99,6 +107,18 @@ namespace Motorcycle.Config.Data
 
                     ReturnDataHolders.Add(infoHolder);
                 });
+        }
+
+        private static string Ude(string filename)
+        {
+            using (var fs = File.OpenRead(filename))
+            {
+                var cdet = new Ude.CharsetDetector();
+                cdet.Feed(fs);
+                cdet.DataEnd();
+
+                return cdet.Charset ?? "windows-1251";
+            }
         }
     }
 }

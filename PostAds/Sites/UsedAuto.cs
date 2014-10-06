@@ -78,13 +78,13 @@ namespace Motorcycle.Sites
                         {
                             Log.Info(reply + " successfully posted on UsedAuto");
                             if (RemoveEntries.Remove(data, ProductEnum.Motorcycle))
-                                Log.Info(reply + " removed from list");
+                                Log.Debug(reply + " removed from list");
                             return SitePoster.PostStatus.OK;
                         }
                         Log.Warn(reply + " unsuccessfully posted on UsedAuto");
                         RemoveEntries.Unposted(data, ProductEnum.Motorcycle, SiteEnum.UsedAuto);
                         if (RemoveEntries.Remove(data, ProductEnum.Motorcycle))
-                            Log.Info(reply + " removed from list");
+                            Log.Debug(reply + " removed from list");
                         return SitePoster.PostStatus.ERROR;
                     }
                     catch (Exception ex)
@@ -95,7 +95,7 @@ namespace Motorcycle.Sites
                                 data.DataDictionary["input[153]"]), ex);
                         RemoveEntries.Unposted(data, ProductEnum.Motorcycle, SiteEnum.UsedAuto);
                         if (RemoveEntries.Remove(data, ProductEnum.Motorcycle))
-                            LogManager.GetCurrentClassLogger().Info("{0} {1} removed from list (UsedAuto)",
+                            LogManager.GetCurrentClassLogger().Debug("{0} {1} removed from list (UsedAuto)",
                                 ManufactureXmlWorker.GetItemSiteIdUsingPlant("u", data.DataDictionary["input[1]"]),
                                 data.DataDictionary["input[153]"]);
                         return SitePoster.PostStatus.ERROR;
@@ -128,14 +128,14 @@ namespace Motorcycle.Sites
                         {
                             Log.Info(reply + " successfully posted on UsedAuto");
                             if (RemoveEntries.Remove(data, ProductEnum.Spare))
-                                Log.Info(reply + " removed from list");
+                                Log.Debug(reply + " removed from list");
                             return SitePoster.PostStatus.OK;
                         }
                         Log.Warn(reply + " unsuccessfully posted on UsedAuto");
 
                         RemoveEntries.Unposted(data, ProductEnum.Spare, SiteEnum.UsedAuto);
                         if (RemoveEntries.Remove(data, ProductEnum.Spare))
-                            Log.Info(reply + " removed from list");
+                            Log.Debug(reply + " removed from list");
                         return SitePoster.PostStatus.ERROR;
                     }
                     catch (Exception ex)
@@ -146,7 +146,7 @@ namespace Motorcycle.Sites
                                 data.DataDictionary["model"]), ex);
                         RemoveEntries.Unposted(data, ProductEnum.Spare, SiteEnum.UsedAuto);
                         if (RemoveEntries.Remove(data, ProductEnum.Spare))
-                            LogManager.GetCurrentClassLogger().Info("{0} {1} removed from list (UsedAuto)",
+                            LogManager.GetCurrentClassLogger().Debug("{0} {1} removed from list (UsedAuto)",
                                 ManufactureXmlWorker.GetItemSiteIdUsingPlant("u", data.DataDictionary["make"]),
                                 data.DataDictionary["model"]);
                         return SitePoster.PostStatus.ERROR;

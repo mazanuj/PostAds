@@ -1,14 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Text;
-using System.Threading;
-using Motorcycle.Config.Confirm;
-using Motorcycle.Config.Proxy;
 using Motorcycle.POST;
-using Motorcycle.Sites;
-using xNet.Net;
 
 namespace Motorcycle.HTTP
 {
