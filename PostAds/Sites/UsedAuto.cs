@@ -65,14 +65,15 @@ namespace Motorcycle.Sites
                         dataDictionary["photos"] = photoId;
                         //==============End upload fotos==============//
 
-                        //Dictionary to NameValueCollection
-                        var valueCollection = new NameValueCollection();
-                        foreach (var value in dataDictionary)
-                            valueCollection.Add(value.Key, value.Value);
+                        ////Dictionary to NameValueCollection
+                        //var valueCollection = new NameValueCollection();
+                        //foreach (var value in dataDictionary)
+                        //    valueCollection.Add(value.Key, value.Value);
 
-                        //Post advert's data            
-                        var responseByte = new WebClient().UploadValues(url, "POST", valueCollection);
-                        var responseString = Encoding.Default.GetString(responseByte);
+                        ////Post advert's data            
+                        //var responseByte = new WebClient().UploadValues(url, "POST", valueCollection);
+                        //var responseString = Encoding.Default.GetString(responseByte);
+                        var responseString = Response.GetResponseString(cookieContainer, dataDictionary, null, url, Encoding.UTF8);
 
                         if (responseString.Contains("redirect"))
                         {
@@ -120,9 +121,7 @@ namespace Motorcycle.Sites
                         const string url = "http://usedauto.com.ua/add/zapchasti.php";
 
                         var cookieContainer = Cookies.GetCookiesContainer(url);
-                        //var request = Request.POSTRequest(url, cookieContainer, dataDictionary, fileDictionary, url);
-                        var respString = Response.GetResponseString(cookieContainer, dataDictionary, fileDictionary,
-                            url, Encoding.UTF8);
+                        var respString = Response.GetResponseString(cookieContainer, dataDictionary, fileDictionary, url, Encoding.UTF8);
 
                         if (respString.Contains("success"))
                         {

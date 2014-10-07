@@ -73,8 +73,9 @@ namespace Motorcycle.HTTP
 
                 foreach (var value in dataDictionary)
                     requestXNET.AddField(value.Key, value.Value);
-                foreach (var value in fileDictionary.Where(value => value.Value != string.Empty))
-                    requestXNET.AddFile(value.Key, value.Value);
+                if (fileDictionary != null)
+                    foreach (var value in fileDictionary.Where(value => value.Value != string.Empty))
+                        requestXNET.AddFile(value.Key, value.Value);
 
                 return requestXNET.Post(url).ToString();
             }

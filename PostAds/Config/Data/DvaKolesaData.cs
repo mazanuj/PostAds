@@ -53,6 +53,7 @@ namespace Motorcycle.Config.Data
                     {"during", "360"}, //publikovat' god+
                     {"vendor", ManufactureXmlWorker.GetItemSiteValueUsingPlant(data[4], "p")}, //zavod basa+
                     {"category", "1"}, //+
+                    {"additional",data[14]},
                     {"ip", "127.0.0.1"}, //+
                     {"Itemid", "2"}, //+
                     {"option", "com_autobb"}, //+

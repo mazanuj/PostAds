@@ -64,7 +64,7 @@ namespace Motorcycle.Config.Data
                     {"rid", CityXmlWorker.GetItemSiteValueUsingCity(data[12], "u")}, //city+
                     {"input[1]", ManufactureXmlWorker.GetItemSiteValueUsingPlant(data[4], "u")}, //Zavod+
                     {"input[153]", data[5]}, //Model вводится с файла+
-                    {"input[3]", ManufactureXmlWorker.GetMadeYear(data[9],"u")}, //Year+
+                    {"input[3]", ManufactureXmlWorker.GetMadeYear(data[9], "u")}, //Year+
                     {"price", data[7]}, //Cena+
                     {"currency", "1"}, //$+
                     {"input[4]", data[8]}, //Probeg+
@@ -73,12 +73,16 @@ namespace Motorcycle.Config.Data
                     {"input[61]", cooling}, //ohlazhdenie+
                     {"input[6]", transType}, //tip transmissii+
                     {"input[5]", data[16]}, //color+
-                    {"input[194]", ManufactureXmlWorker.GetConditionState(data[17],"u")}, //sostoyanie+
+                    {"input[194]", ManufactureXmlWorker.GetConditionState(data[17], "u")}, //sostoyanie+
                     {"description", data[14]}, //message+
                     {"photos", ""}, //+
                     {"main_photo", ""}, //+
                     {"user[0]", data[0]}, //name+
-                    {"user[1]", data[2]} //phone+
+                    {"user[1]", data[2]}, //phone+
+                    {"user[2]", ""},
+                    {"user[3]", ""},
+                    {"user[4]", ""},
+                    {"user[5]", data[1]}
                 },
                 FileDictionary = new Dictionary<string, string>
                 {
@@ -106,25 +110,25 @@ namespace Motorcycle.Config.Data
                 LineNum = lineNum,
                 DataDictionary = new Dictionary<string, string>
                 {
-                    {"hash", "d8d4c90043a5a7fc299fc47610c59184"},//+
-                    {"category_id", "80"},//+
-                    {"parentId", "27"},//+
-                    {"make", ManufactureXmlWorker.GetItemSiteValueUsingPlant(data[4],"u")},//zavod+
-                    {"model", data[3]},//+
-                    {"year", ""},//+
-                    {"part_category_id[]", SpareEquipXmlWorker.GetSpareType(data[5],"u")},//create basa+
-                    {"part_description[]", data[3]},//+
-                    {"part_condition[]", condition},//+
-                    {"part_price[]", data[6]},//+
-                    {"part_currency[]", "1"},//$+
-                    {"description", data[9]},//+
-                    {"region_id", CityXmlWorker.GetItemSiteValueUsingCity(data[7],"u")},//+
-                    {"phone1", data[2]},//+
-                    {"fio", data[0]}//+
+                    {"hash", "d8d4c90043a5a7fc299fc47610c59184"}, //+
+                    {"category_id", "80"}, //+
+                    {"parentId", "27"}, //+
+                    {"make", ManufactureXmlWorker.GetItemSiteValueUsingPlant(data[4], "u")}, //zavod+
+                    {"model", data[3]}, //+
+                    {"year", ""}, //+
+                    {"part_category_id[]", SpareEquipXmlWorker.GetSpareType(data[5], "u")}, //create basa+
+                    {"part_description[]", data[3]}, //+
+                    {"part_condition[]", condition}, //+
+                    {"part_price[]", data[6]}, //+
+                    {"part_currency[]", "1"}, //$+
+                    {"description", data[9]}, //+
+                    {"region_id", CityXmlWorker.GetItemSiteValueUsingCity(data[7], "u")}, //+
+                    {"phone1", data[2]}, //+
+                    {"fio", data[0]} //+
                 },
                 FileDictionary = new Dictionary<string, string>
                 {
-                    {"part_photo[]", data[8].Split(',')[0]}//+
+                    {"part_photo[]", data[8].Split(',')[0]} //+
                 }
             };
         }

@@ -25,7 +25,7 @@
                         var dataDictionary = data.DataDictionary;
                         var fileDictionary = data.FileDictionary;
                         var reply = string.Format("{0} {1}",
-                            SpareEquipXmlWorker.GetItemSiteIdUsingPlant("p", dataDictionary["model"]),
+                            ManufactureXmlWorker.GetItemSiteIdUsingPlant("p", dataDictionary["model"]),
                             dataDictionary["modification"]);
 
                         const string url = "http://proday2kolesa.com.ua/index.php";
@@ -126,7 +126,7 @@
                     {
                         LogManager.GetCurrentClassLogger()
                             .Error(string.Format("{0} {1} unsuccessfully posted on Proday2kolesa",
-                                SpareEquipXmlWorker.GetItemSiteIdUsingPlant("p", data.DataDictionary["model"]),
+                                ManufactureXmlWorker.GetItemSiteIdUsingPlant("p", data.DataDictionary["model"]),
                                 data.DataDictionary["modification"]), ex);
 
                         RemoveEntries.Unposted(data, ProductEnum.Motorcycle, SiteEnum.Proday2Kolesa);
