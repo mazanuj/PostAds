@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Specialized;
-using System.Net;
 using Motorcycle.XmlWorker;
+using xNet.Net;
 
 namespace Motorcycle.Sites
 {
@@ -65,35 +64,58 @@ namespace Motorcycle.Sites
                         dataDictionary["photos"] = photoId;
                         //==============End upload fotos==============//
 
-                        //Dictionary to NameValueCollection
-                        var valueCollection = new NameValueCollection();
-                        foreach (var value in dataDictionary)
-                            valueCollection.Add(value.Key, value.Value);
+                        ////Dictionary to NameValueCollection
+                        //var valueCollection = new NameValueCollection();
+                        //foreach (var value in dataDictionary)
+                        //    valueCollection.Add(value.Key, value.Value);
 
-                        //Post advert's data            
-                        var responseByte = new WebClient().UploadValues(url, "POST", valueCollection);
-                        var responseString = Encoding.Default.GetString(responseByte);
+                        ////Post advert's data            
+                        //var responseByte = new WebClient().UploadValues(url, "POST", valueCollection);
+                        //var responseString = Encoding.Default.GetString(responseByte);
+
+                        using (var req = new HttpRequest())
+                        {
+                            req.IgnoreProtocolErrors = true;
+                            foreach (var value in dataDictionary)
+                                req.AddField(value.Key, value.Value);
+                            var resp = req.Post(url);
+
+                            if (resp.StatusCode == HttpStatusCode.OK ||
+                                resp.StatusCode == HttpStatusCode.InternalServerError)
+                            {
+                                Log.Info(reply + " successfully posted on UsedAuto");
+                                if (RemoveEntries.Remove(data, ProductEnum.Motorcycle))
+                                    Log.Debug(reply + " removed from list");
+                                return SitePoster.PostStatus.OK;
+                            }
+                            Log.Warn("{0} unsuccessfully posted on UsedAuto ({1})", reply, resp.StatusCode);
+                            RemoveEntries.Unposted(data, ProductEnum.Motorcycle, SiteEnum.UsedAuto);
+                            if (RemoveEntries.Remove(data, ProductEnum.Motorcycle))
+                                Log.Debug(reply + " removed from list");
+                            return SitePoster.PostStatus.ERROR;
+                        }
 
                         //var responseString = Response.GetResponseString(cookieContainer, dataDictionary, null, url, Encoding.UTF8);
 
-                        if (responseString.Contains("redirect"))
-                        {
-                            //var start = responseString.IndexOf("value=\"") + "value=\"".Length;
-                            //var stop = responseString.IndexOf("\">") + "\">".Length;
-                            //var redirectUrl = responseString.Substring(start, stop - start).Replace("&amp;", "&");
+                        //if (responseString.Contains("redirect"))
+                        //{
+                        //    //var start = responseString.IndexOf("value=\"") + "value=\"".Length;
+                        //    //var stop = responseString.IndexOf("\">") + "\">".Length;
+                        //    //var redirectUrl = responseString.Substring(start, stop - start).Replace("&amp;", "&");
 
-                            //responseString = Response.GetResponseString(Request.GETRequest(redirectUrl, cookieContainer));
+                        //    //responseString = Response.GetResponseString(Request.GETRequest(redirectUrl, cookieContainer));
 
-                            Log.Info(reply + " successfully posted on UsedAuto");
-                            if (RemoveEntries.Remove(data, ProductEnum.Motorcycle))
-                                Log.Debug(reply + " removed from list");
-                            return SitePoster.PostStatus.OK;
-                        }
-                        Log.Warn(reply + " unsuccessfully posted on UsedAuto");
-                        RemoveEntries.Unposted(data, ProductEnum.Motorcycle, SiteEnum.UsedAuto);
-                        if (RemoveEntries.Remove(data, ProductEnum.Motorcycle))
-                            Log.Debug(reply + " removed from list");
-                        return SitePoster.PostStatus.ERROR;
+                        //    Log.Info(reply + " successfully posted on UsedAuto");
+                        //    if (RemoveEntries.Remove(data, ProductEnum.Motorcycle))
+                        //        Log.Debug(reply + " removed from list");
+                        //    return SitePoster.PostStatus.OK;
+                        //}
+
+                        //Log.Warn(string.Format("{0} unsuccessfully posted on UsedAuto ({1})"),reply,);
+                        //RemoveEntries.Unposted(data, ProductEnum.Motorcycle, SiteEnum.UsedAuto);
+                        //if (RemoveEntries.Remove(data, ProductEnum.Motorcycle))
+                        //    Log.Debug(reply + " removed from list");
+                        //return SitePoster.PostStatus.ERROR;
                     }
                     catch (Exception ex)
                     {
@@ -128,7 +150,8 @@ namespace Motorcycle.Sites
                         const string url = "http://usedauto.com.ua/add/zapchasti.php";
 
                         var cookieContainer = Cookies.GetCookiesContainer(url);
-                        var respString = Response.GetResponseString(cookieContainer, dataDictionary, fileDictionary, url, Encoding.UTF8);
+                        var respString = Response.GetResponseString(cookieContainer, dataDictionary, fileDictionary, url,
+                            Encoding.UTF8);
 
                         if (respString.Contains("success"))
                         {

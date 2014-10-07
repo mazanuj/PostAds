@@ -47,7 +47,7 @@ namespace Motorcycle.HTTP
             return request;
         }
 
-        internal static HttpWebRequest GETRequest(string uri, CookieContainer cookieContainer=null)
+        internal static HttpWebRequest GETRequest(string uri)
         {
             var request = (HttpWebRequest) WebRequest.Create(uri);
 
@@ -59,7 +59,6 @@ namespace Motorcycle.HTTP
             request.AllowAutoRedirect = false;
             request.Method = "GET";
             request.AllowAutoRedirect = true;
-            request.CookieContainer = cookieContainer;
 
             return request;
         }        

@@ -52,7 +52,6 @@ namespace Motorcycle.HTTP
                 requestXNET.ConnectTimeout = requestXNET.ReadWriteTimeout = 15000;
                 requestXNET.UserAgent = HttpHelper.ChromeUserAgent();
                 requestXNET.Cookies = cookieDic;
-                //requestXNET.AllowAutoRedirect = true;
                 requestXNET.IgnoreProtocolErrors = true;
 
                 if (encoding != null)

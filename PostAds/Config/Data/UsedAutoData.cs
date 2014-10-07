@@ -135,8 +135,6 @@ namespace Motorcycle.Config.Data
 
         public DicHolder GetEquip(string row, int lineNum)
         {
-            var data = row.Split('\t');
-
             return new DicHolder
             {
                 Row = row,
