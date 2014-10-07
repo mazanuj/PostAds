@@ -17,7 +17,7 @@ namespace Motorcycle.Config.Data
             for (var i = 0; i < 5; i++)
             {
                 if (i < d.Length)
-                    files[i] = d[i];
+                    files[i] = FilePathXmlWorker.GetFilePath("photo") + d[i];
                 else files[i] = string.Empty;
             }
 
@@ -80,7 +80,7 @@ namespace Motorcycle.Config.Data
             for (var i = 0; i < 5; i++)
             {
                 if (i < d.Length)
-                    files[i] = d[i];
+                    files[i] = FilePathXmlWorker.GetFilePath("photo") + d[i];
                 else files[i] = string.Empty;
             }
 
@@ -138,7 +138,7 @@ namespace Motorcycle.Config.Data
             for (var i = 0; i < 5; i++)
             {
                 if (i < d.Length)
-                    files[i] = d[i];
+                    files[i] = FilePathXmlWorker.GetFilePath("photo") + d[i];
                 else files[i] = string.Empty;
             }
 

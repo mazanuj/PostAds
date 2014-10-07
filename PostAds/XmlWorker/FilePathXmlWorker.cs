@@ -28,11 +28,9 @@
 
             var firstOrDefault = att.Cast<XAttribute>().FirstOrDefault();
 
-            if (firstOrDefault != null)
-            {
-                firstOrDefault.Value = path;
-                Doc.Save(XmlFilePath);
-            }
+            if (firstOrDefault == null) return;
+            firstOrDefault.Value = path;
+            Doc.Save(XmlFilePath);
         }
 
         public static void ResetFilePaths()

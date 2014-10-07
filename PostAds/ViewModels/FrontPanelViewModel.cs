@@ -1,4 +1,5 @@
-﻿using LogManager = NLog.LogManager;
+﻿using System.Windows.Forms;
+using LogManager = NLog.LogManager;
 
 namespace Motorcycle.ViewModels
 {
@@ -19,6 +20,7 @@ namespace Motorcycle.ViewModels
         private readonly Logger log = LogManager.GetCurrentClassLogger();
         public LoggingControlViewModel LoggingControl { get; private set; }
         private readonly OpenFileDialog dlg;
+        private readonly FolderBrowserDialog fbd;
         private readonly byte[] flag = new byte[3];
 
         private bool boxMoto;
@@ -38,6 +40,12 @@ namespace Motorcycle.ViewModels
                 DefaultExt = ".txt",
                 Filter = "Text documents (.txt)|*.txt",
                 InitialDirectory = AppDomain.CurrentDomain.BaseDirectory
+            };
+
+            fbd = new FolderBrowserDialog
+            {
+                ShowNewFolderButton = false,
+                SelectedPath = AppDomain.CurrentDomain.BaseDirectory
             };
 
             Informer.OnPostResultChanged += ChangePostResults;
@@ -210,8 +218,8 @@ namespace Motorcycle.ViewModels
 
         public void ButtonPhotoDir()
         {
-            if (dlg.ShowDialog() == false) return;
-            FilePathXmlWorker.SetFilePath("photo", dlg.FileName);
+            if (fbd.ShowDialog() != DialogResult.OK && fbd.SelectedPath == string.Empty) return;
+            FilePathXmlWorker.SetFilePath("photo", fbd.SelectedPath + @"\");
 
             PhotoDirLabel = true;
             NotifyOfPropertyChange(() => PhotoDirLabel);

@@ -77,7 +77,7 @@ namespace Motorcycle.Config.Data
             await Task.Factory.StartNew(
                 () =>
                 {
-                    var listFile = new List<string>(File.ReadAllLines(textFile, Encoding.GetEncoding(Ude(textFile))));
+                    var listFile = File.ReadAllLines(textFile, Encoding.GetEncoding(Ude(textFile))).Distinct().ToList();
                     if (listFile.Count == 0)
                     {
                         Log.Warn(textFile.Substring(textFile.LastIndexOf(@"\", System.StringComparison.Ordinal) + 1) +

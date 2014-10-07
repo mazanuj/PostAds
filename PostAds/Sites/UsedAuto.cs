@@ -1,12 +1,12 @@
 ﻿using System;
+using System.Collections.Specialized;
+using System.Net;
 using Motorcycle.XmlWorker;
 
 namespace Motorcycle.Sites
 {
     using System.Collections.Generic;
-    using System.Collections.Specialized;
     using System.Linq;
-    using System.Net;
     using System.Text;
     using System.Threading.Tasks;
     using Config.Data;
@@ -65,18 +65,25 @@ namespace Motorcycle.Sites
                         dataDictionary["photos"] = photoId;
                         //==============End upload fotos==============//
 
-                        ////Dictionary to NameValueCollection
-                        //var valueCollection = new NameValueCollection();
-                        //foreach (var value in dataDictionary)
-                        //    valueCollection.Add(value.Key, value.Value);
+                        //Dictionary to NameValueCollection
+                        var valueCollection = new NameValueCollection();
+                        foreach (var value in dataDictionary)
+                            valueCollection.Add(value.Key, value.Value);
 
-                        ////Post advert's data            
-                        //var responseByte = new WebClient().UploadValues(url, "POST", valueCollection);
-                        //var responseString = Encoding.Default.GetString(responseByte);
-                        var responseString = Response.GetResponseString(cookieContainer, dataDictionary, null, url, Encoding.UTF8);
+                        //Post advert's data            
+                        var responseByte = new WebClient().UploadValues(url, "POST", valueCollection);
+                        var responseString = Encoding.Default.GetString(responseByte);
+
+                        //var responseString = Response.GetResponseString(cookieContainer, dataDictionary, null, url, Encoding.UTF8);
 
                         if (responseString.Contains("redirect"))
                         {
+                            //var start = responseString.IndexOf("value=\"") + "value=\"".Length;
+                            //var stop = responseString.IndexOf("\">") + "\">".Length;
+                            //var redirectUrl = responseString.Substring(start, stop - start).Replace("&amp;", "&");
+
+                            //responseString = Response.GetResponseString(Request.GETRequest(redirectUrl, cookieContainer));
+
                             Log.Info(reply + " successfully posted on UsedAuto");
                             if (RemoveEntries.Remove(data, ProductEnum.Motorcycle))
                                 Log.Debug(reply + " removed from list");
