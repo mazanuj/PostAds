@@ -41,11 +41,7 @@ namespace Motorcycle.ViewModels
             Application.Current.Dispatcher.BeginInvoke(
                 DispatcherPriority.Background,
                 new Action(
-                    () =>
-                    {
-                        //if (LogCollection.Count >= 50) LogCollection.RemoveAt(0);
-                        LogCollection.Add(message);
-                    }));
+                    () => LogCollection.Insert(0, message)));
         }
 
         public void SendLog()
