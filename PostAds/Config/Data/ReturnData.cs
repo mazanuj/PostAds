@@ -1,16 +1,13 @@
-﻿using System.Text;
-using Motorcycle.Factories;
-using NLog;
-
-namespace Motorcycle.Config.Data
+﻿namespace Motorcycle.Config.Data
 {
-    using System.Linq;
-
     using Interfaces;
+    using Motorcycle.Factories;
+    using NLog;
     using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
+    using System.Text;
     using System.Threading.Tasks;
-
     using XmlWorker;
 
     internal static class ReturnData

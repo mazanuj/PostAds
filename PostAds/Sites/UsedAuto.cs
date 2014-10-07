@@ -8,6 +8,7 @@ namespace Motorcycle.Sites
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+    using System.Threading;
     using System.Threading.Tasks;
     using Config.Data;
     using HTTP;
@@ -45,8 +46,8 @@ namespace Motorcycle.Sites
                                 fileDictionary
                                     .Where(fotoPath => fotoPath.Value != string.Empty)
                                     .Select(fotoPath => Request.POSTRequest(urlFile, cookieContainer,
-                                        new Dictionary<string, string> {{"photos", ""}},
-                                        new Dictionary<string, string> {{"file", fotoPath.Value}})))
+                                        new Dictionary<string, string> { { "photos", "" } },
+                                        new Dictionary<string, string> { { "file", fotoPath.Value } })))
                         {
                             requestFile.Referer = referer;
                             var responseFileString = Response.GetResponseString(requestFile);

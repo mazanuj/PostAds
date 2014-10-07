@@ -20,13 +20,11 @@ namespace Motorcycle.ViewModels
         private readonly Logger log = LogManager.GetCurrentClassLogger();
         public LoggingControlViewModel LoggingControl { get; private set; }
         private readonly OpenFileDialog dlg;
-        private readonly FolderBrowserDialog fbd;
         private readonly byte[] flag = new byte[3];
 
         private bool boxMoto;
         private bool boxUsed;
         private bool boxKol;
-        private bool boxPhoto;
 
         [ImportingConstructor]
         public FrontPanelViewModel(LoggingControlViewModel loggingControlModel)
@@ -42,15 +40,9 @@ namespace Motorcycle.ViewModels
                 InitialDirectory = AppDomain.CurrentDomain.BaseDirectory
             };
 
-            fbd = new FolderBrowserDialog
-            {
-                ShowNewFolderButton = false,
-                SelectedPath = AppDomain.CurrentDomain.BaseDirectory
-            };
-
             Informer.OnPostResultChanged += ChangePostResults;
             Informer.OnProxyListFromInternetUpdated += ChangeFrontPanelIsEnabledStatus;
-            Informer.OnFilePathsCleared += ResetFileLabels;
+            Informer.OnFilePathsCleared += this.ResetUiControls;
         }
 
         public int CountSuccess { get; set; }
@@ -99,19 +91,6 @@ namespace Motorcycle.ViewModels
             }
         }
 
-        public bool BoxPhoto
-        {
-            get { return boxPhoto; }
-            set
-            {
-                boxPhoto = value;
-                NotifyOfPropertyChange(() => BoxPhoto);
-
-                CanButtonStart = CheckIfAllFieldsAreFilled();
-                NotifyOfPropertyChange(() => CanButtonStart);
-            }
-        }
-
         public bool MotoFileLabel { get; set; }
 
         public bool SpareFileLabel { get; set; }
@@ -144,15 +123,25 @@ namespace Motorcycle.ViewModels
             NotifyOfPropertyChange(() => CanEditFrontPanel);
         }
 
-        private void ResetFileLabels()
+        private void ResetUiControls()
         {
             MotoFileLabel = false;
             SpareFileLabel = false;
             EquipFileLabel = false;
+            PhotoDirLabel = false;
+            CanButtonStart = false;
+            BoxKol = false;
+            BoxMoto = false;
+            BoxUsed = false;
 
             NotifyOfPropertyChange(() => MotoFileLabel);
             NotifyOfPropertyChange(() => SpareFileLabel);
             NotifyOfPropertyChange(() => EquipFileLabel);
+            NotifyOfPropertyChange(() => PhotoDirLabel);
+            NotifyOfPropertyChange(() => CanButtonStart);
+            NotifyOfPropertyChange(() => BoxKol);
+            NotifyOfPropertyChange(() => BoxMoto);
+            NotifyOfPropertyChange(() => BoxUsed);
         }
 
         private bool CheckIfAllFieldsAreFilled()
@@ -175,9 +164,6 @@ namespace Motorcycle.ViewModels
             NotifyOfPropertyChange(() => CanButtonStart);
 
             await Advertising.Initialize(flag);
-
-            CanButtonStart = true;
-            NotifyOfPropertyChange(() => CanButtonStart);
         }
 
         public void ButtonMoto()
@@ -218,6 +204,12 @@ namespace Motorcycle.ViewModels
 
         public void ButtonPhotoDir()
         {
+            var fbd = new FolderBrowserDialog
+            {
+                ShowNewFolderButton = false,
+                SelectedPath = AppDomain.CurrentDomain.BaseDirectory
+            };
+
             if (fbd.ShowDialog() != DialogResult.OK && fbd.SelectedPath == string.Empty) return;
             FilePathXmlWorker.SetFilePath("photo", fbd.SelectedPath + @"\");
 
