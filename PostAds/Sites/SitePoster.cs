@@ -1,4 +1,6 @@
-﻿namespace Motorcycle.Sites
+﻿using System.Linq;
+
+namespace Motorcycle.Sites
 {
     using Config.Data;
     using Factories;
@@ -44,7 +46,7 @@
             {
                 var poster = PostOnSiteFactory.GetPostOnSite(infoHolder.Site);
 
-                foreach (var dataDic in infoHolder.Data)
+                foreach (var dataDic in infoHolder.Data.Where(dataDic => !dataDic.IsError))
                 {
                     switch (infoHolder.Type)
                     {

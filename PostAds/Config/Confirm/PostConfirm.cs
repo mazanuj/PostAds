@@ -7,7 +7,8 @@ namespace Motorcycle.Config.Confirm
 {
     internal static class PostConfirm
     {
-        static readonly Logger Log = LogManager.GetCurrentClassLogger();
+        private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+
         public static bool ConfirmAdv(string hostname, int port, bool useSsl, string username, string password)
         {
             // The client disconnects from the server when being disposed
@@ -24,7 +25,9 @@ namespace Motorcycle.Config.Confirm
                         client.Authenticate(username, password);
                         break;
                     }
-                    catch { }
+                    catch
+                    {
+                    }
                 }
 
                 // Get the number of messages in the inbox
@@ -42,8 +45,17 @@ namespace Motorcycle.Config.Confirm
                     // Only want to download message if:
                     //  - is from test@xample.com
                     //  - has subject "Some subject"
-                    if (!@from.HasValidMailAddress || !@from.Address.Equals("admin@motosale.com.ua") ||
-                        !subject.Contains("Активируйте свое объявление")) continue;
+                    try
+                    {
+                        if (!@from.HasValidMailAddress || !@from.Address.Equals("admin@motosale.com.ua") ||
+                            !subject.Contains("Активируйте свое объявление"))
+                            continue;
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.Debug(ex.Message, ex);
+                        continue;
+                    }
 
                     // Download the full message
                     var message = client.GetMessage(i);
@@ -60,7 +72,7 @@ namespace Motorcycle.Config.Confirm
                     var stop = text.IndexOf("' target=", start);
 
                     var url = text.Substring(start, stop - start);
-                    var req = Request.GETRequest(url);                    
+                    var req = Request.GETRequest(url);
 
                     var respString = Response.GetResponseString(req);
 
@@ -69,7 +81,7 @@ namespace Motorcycle.Config.Confirm
                         Log.Warn(string.Format("Confirmation of {0} failed", username));
                         continue;
                     }
-                    Log.Info(string.Format("Confirmation of {0} success", username));
+                    Log.Debug(string.Format("Confirmation of {0} success", username));
 
                     client.DeleteMessage(i);
                     return true;

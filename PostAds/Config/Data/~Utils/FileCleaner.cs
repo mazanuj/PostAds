@@ -10,14 +10,16 @@ namespace Motorcycle.Config.Data
         {
             var filePath = FilePathXmlWorker.GetFilePath(purpose);
 
-            if (!string.IsNullOrEmpty(filePath))
-            {
-                File.WriteAllLines(
-                    filePath,
-                    File.ReadAllLines(filePath)
-                        .Where(x => !string.IsNullOrEmpty(x))
-                        .Distinct());
-            }
+            if (string.IsNullOrEmpty(filePath)) return;
+
+            var array = File.ReadAllLines(filePath)
+                .Where(x => !string.IsNullOrEmpty(x))
+                .Distinct().ToList();
+
+            if (array.Count() != 0)
+                File.WriteAllLines(filePath, array);
+            else if (filePath.Contains("Unposted"))
+                File.Delete(filePath);
         }
 
         public static void RemoveEmptyLinesFromAllFiles()

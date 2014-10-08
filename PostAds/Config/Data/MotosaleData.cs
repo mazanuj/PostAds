@@ -10,6 +10,16 @@
         {
             var data = row.Split('\t');
 
+            //Check
+            if (RemoveEntries.DataError("type", ManufactureXmlWorker.GetMotoType(data[10], "m"), row, lineNum,
+                    SiteEnum.MotoSale, ProductEnum.Motorcycle) ||
+                RemoveEntries.DataError("city", CityXmlWorker.GetItemSiteValueUsingCity(data[12], "m"), row, lineNum,
+                    SiteEnum.MotoSale, ProductEnum.Motorcycle) ||
+                RemoveEntries.DataError("manufacture", ManufactureXmlWorker.GetItemSiteValueUsingPlant(data[4], "m"),
+                    row, lineNum, SiteEnum.MotoSale, ProductEnum.Motorcycle))
+                return new DicHolder {IsError = true};
+            //==========================================================================================//
+
             //Photos
             var d = data[13].Split(',');
             var files = new string[5];
@@ -47,7 +57,7 @@
                     {"param[transnision]", data[19]}, //+
                     {"city", CityXmlWorker.GetItemSiteValueUsingCity(data[12], "m")}, //+
                     {"youtube", data[15]}, //+
-                    {"text",data[14]},//+
+                    {"text", data[14]}, //+
                     {"date_delete", "60"}, //+
                     {"fConfirmationCode", ""}, //captcha+
                     {"insert", ""} //+
@@ -66,6 +76,17 @@
         public DicHolder GetSpare(string row, int lineNum)
         {
             var data = row.Split('\t');
+
+            //Check
+            if (
+                RemoveEntries.DataError("manufacture", ManufactureXmlWorker.GetItemSiteValueUsingPlant(data[4], "m"),
+                    row, lineNum, SiteEnum.MotoSale, ProductEnum.Spare) ||
+                RemoveEntries.DataError("type", SpareEquipXmlWorker.GetSpareType(data[5], "m"), row, lineNum,
+                    SiteEnum.MotoSale, ProductEnum.Spare) ||
+                RemoveEntries.DataError("city", CityXmlWorker.GetItemSiteValueUsingCity(data[7], "m"), row, lineNum,
+                    SiteEnum.MotoSale, ProductEnum.Spare))
+                return new DicHolder {IsError = true};
+            //====================================================================================//
 
             //Photos
             var d = data[8].Split(',');
@@ -88,7 +109,7 @@
                     {"phone", data[2]}, //+
                     {"type_obj", "1"}, //+
                     {"model_zap", ManufactureXmlWorker.GetItemSiteValueUsingPlant(data[4], "m")}, //+
-                    {"type", SpareEquipXmlWorker.GetSpareType(data[5],"m")}, //+
+                    {"type", SpareEquipXmlWorker.GetSpareType(data[5], "m")}, //+
                     {"header", data[3]}, //+
                     {"text", data[9]}, //+
                     {"price", data[6]}, //+
@@ -111,6 +132,14 @@
         {
             var data = row.Split('\t');
 
+            //Check
+            if (RemoveEntries.DataError("type", SpareEquipXmlWorker.GetEquipType(data[4], "m"), row, lineNum,
+                    SiteEnum.MotoSale, ProductEnum.Equip) ||
+                RemoveEntries.DataError("city", CityXmlWorker.GetItemSiteValueUsingCity(data[7], "m"), row, lineNum,
+                    SiteEnum.MotoSale, ProductEnum.Equip))
+                return new DicHolder {IsError = true};
+            //====================================================================================//
+
             //Photos
             var d = data[8].Split(',');
             var files = new string[3];
@@ -127,25 +156,25 @@
                 LineNum = lineNum,
                 DataDictionary = new Dictionary<string, string>
                 {
-                    {"name", data[0]},//+
-                    {"mail", data[1]},//+
-                    {"phone", data[2]},//+
-                    {"type_obj", "1"},//+
-                    {"type", SpareEquipXmlWorker.GetEquipType(data[4],"m")},//vid+
-                    {"brand", data[5].ToUpper()},//proizvoditel'+
-                    {"header", data[3]},//+
-                    {"text", data[9]},//+
-                    {"price", data[6]},//+
-                    {"city", CityXmlWorker.GetItemSiteValueUsingCity(data[7], "m")},//+
-                    {"date_delete", "60"},//+
-                    {"fConfirmationCode", ""},//+
-                    {"insert", ""}//+
+                    {"name", data[0]}, //+
+                    {"mail", data[1]}, //+
+                    {"phone", data[2]}, //+
+                    {"type_obj", "1"}, //+
+                    {"type", SpareEquipXmlWorker.GetEquipType(data[4], "m")}, //vid+
+                    {"brand", data[5].ToUpper()}, //proizvoditel'+
+                    {"header", data[3]}, //+
+                    {"text", data[9]}, //+
+                    {"price", data[6]}, //+
+                    {"city", CityXmlWorker.GetItemSiteValueUsingCity(data[7], "m")}, //+
+                    {"date_delete", "60"}, //+
+                    {"fConfirmationCode", ""}, //+
+                    {"insert", ""} //+
                 },
                 FileDictionary = new Dictionary<string, string>
                 {
                     {"myfile", files[0]},
-                    {"myfile2",files[1]},
-                    {"myfile3",files[2]}
+                    {"myfile2", files[1]},
+                    {"myfile3", files[2]}
                 }
             };
         }

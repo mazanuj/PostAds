@@ -11,6 +11,20 @@ namespace Motorcycle.Config.Data
         {
             var data = row.Split('\t');
 
+            //Check
+            if (RemoveEntries.DataError("type", ManufactureXmlWorker.GetMotoType(data[10], "p"), row, lineNum,
+                    SiteEnum.Proday2Kolesa, ProductEnum.Motorcycle) ||
+                RemoveEntries.DataError("city", CityXmlWorker.GetItemSiteValueUsingCity(data[12], "p"), row, lineNum,
+                    SiteEnum.Proday2Kolesa, ProductEnum.Motorcycle) ||
+                RemoveEntries.DataError("manufacture", ManufactureXmlWorker.GetItemSiteValueUsingPlant(data[4], "p"),
+                    row, lineNum, SiteEnum.Proday2Kolesa, ProductEnum.Motorcycle) ||
+                RemoveEntries.DataError("color", ManufactureXmlWorker.GetMotoColor(data[16], "p"),
+                    row, lineNum, SiteEnum.Proday2Kolesa, ProductEnum.Motorcycle) ||
+                RemoveEntries.DataError("color", ManufactureXmlWorker.GetConditionState(data[17], "p"),
+                    row, lineNum, SiteEnum.Proday2Kolesa, ProductEnum.Motorcycle))
+                return new DicHolder {IsError = true};
+            //==========================================================================================//
+
             //Photos
             var d = data[13].Split(',');
             var files = new string[5];
@@ -53,7 +67,7 @@ namespace Motorcycle.Config.Data
                     {"during", "360"}, //publikovat' god+
                     {"vendor", ManufactureXmlWorker.GetItemSiteValueUsingPlant(data[4], "p")}, //zavod basa+
                     {"category", "1"}, //+
-                    {"additional",data[14]},
+                    {"additional", data[14]},
                     {"ip", "127.0.0.1"}, //+
                     {"Itemid", "2"}, //+
                     {"option", "com_autobb"}, //+
@@ -74,6 +88,19 @@ namespace Motorcycle.Config.Data
         {
             var data = row.Split('\t');
 
+            //Check
+            if (
+                RemoveEntries.DataError("manufacture", SpareEquipXmlWorker.GetItemSiteValueUsingPlant(data[4], "pz"),
+                    row, lineNum, SiteEnum.Proday2Kolesa, ProductEnum.Spare) ||
+                RemoveEntries.DataError("type", SpareEquipXmlWorker.GetSpareType(data[5], "p"), row, lineNum,
+                    SiteEnum.Proday2Kolesa, ProductEnum.Spare) ||
+                RemoveEntries.DataError("condition", ManufactureXmlWorker.GetConditionState(data[10], "p"), row, lineNum,
+                    SiteEnum.Proday2Kolesa, ProductEnum.Spare) ||
+                RemoveEntries.DataError("city", CityXmlWorker.GetItemSiteValueUsingCity(data[7], "p"), row, lineNum,
+                    SiteEnum.Proday2Kolesa, ProductEnum.Spare))
+                return new DicHolder {IsError = true};
+            //====================================================================================//
+
             //Photos
             var d = data[8].Split(',');
             var files = new string[5];
@@ -90,32 +117,32 @@ namespace Motorcycle.Config.Data
                 LineNum = lineNum,
                 DataDictionary = new Dictionary<string, string>
                 {
-                    {"model", SpareEquipXmlWorker.GetItemSiteValueUsingPlant(data[4], "pz")},//zavod basa+
-                    {"modification",data[3]},//model vvod+
-                    {"color","0"},//+
-                    {"price",data[6]},//cena vvod+
-                    {"currency","2"},//$+
-                    {"year","-----"},//+
-                    {"bodytype",SpareEquipXmlWorker.GetSpareType(data[5],"p")},//tip basa+
-                    {"state",ManufactureXmlWorker.GetConditionState(data[10], "p")},//sostoyanie basa+
-                    {"choosen","no"},//+
-                    {"vin",""},//+
-                    {"wrangle","0"},//+
-                    {"MAX_FILE_SIZE","614400"},//+
-                    {"additional",data[9]},//message vvod+
-                    {"name",data[0]},//vvod+
-                    {"phone1",data[2]},//vvod+
-                    {"since1","10"},//+
-                    {"till1","21"},//+
-                    {"city",CityXmlWorker.GetItemSiteValueUsingCity(data[7], "p")},//gorod basa+
-                    {"during","360"},//+
-                    {"id",""},//+
-                    {"vendor",SpareEquipXmlWorker.GetItemSiteValueUsingPlant(data[4], "pz")},//zavod basa+
-                    {"category","5"},//+
-                    {"ip","127.0.0.1"},//+
-                    {"Itemid","6"},//+
-                    {"option","com_autobb"},//+
-                    {"task","save"}//+
+                    {"model", SpareEquipXmlWorker.GetItemSiteValueUsingPlant(data[4], "pz")}, //zavod basa+
+                    {"modification", data[3]}, //model vvod+
+                    {"color", "0"}, //+
+                    {"price", data[6]}, //cena vvod+
+                    {"currency", "2"}, //$+
+                    {"year", "-----"}, //+
+                    {"bodytype", SpareEquipXmlWorker.GetSpareType(data[5], "p")}, //tip basa+
+                    {"state", ManufactureXmlWorker.GetConditionState(data[10], "p")}, //sostoyanie basa+
+                    {"choosen", "no"}, //+
+                    {"vin", ""}, //+
+                    {"wrangle", "0"}, //+
+                    {"MAX_FILE_SIZE", "614400"}, //+
+                    {"additional", data[9]}, //message vvod+
+                    {"name", data[0]}, //vvod+
+                    {"phone1", data[2]}, //vvod+
+                    {"since1", "10"}, //+
+                    {"till1", "21"}, //+
+                    {"city", CityXmlWorker.GetItemSiteValueUsingCity(data[7], "p")}, //gorod basa+
+                    {"during", "360"}, //+
+                    {"id", ""}, //+
+                    {"vendor", SpareEquipXmlWorker.GetItemSiteValueUsingPlant(data[4], "pz")}, //zavod basa+
+                    {"category", "5"}, //+
+                    {"ip", "127.0.0.1"}, //+
+                    {"Itemid", "6"}, //+
+                    {"option", "com_autobb"}, //+
+                    {"task", "save"} //+
                 },
                 FileDictionary = new Dictionary<string, string>
                 {
@@ -132,6 +159,18 @@ namespace Motorcycle.Config.Data
         {
             var data = row.Split('\t');
 
+            //Check
+            if (RemoveEntries.DataError("type", SpareEquipXmlWorker.GetEquipType(data[4], "p"), row, lineNum,
+                SiteEnum.Proday2Kolesa, ProductEnum.Equip) ||
+                RemoveEntries.DataError("city", CityXmlWorker.GetItemSiteValueUsingCity(data[7], "p"), row, lineNum,
+                    SiteEnum.Proday2Kolesa, ProductEnum.Equip) ||
+                RemoveEntries.DataError("manufacture", SpareEquipXmlWorker.GetItemSiteValueUsingPlant(data[5], "pe"),
+                    row, lineNum, SiteEnum.Proday2Kolesa, ProductEnum.Equip) ||
+                RemoveEntries.DataError("condition", ManufactureXmlWorker.GetConditionState(data[11], "p"), row, lineNum,
+                    SiteEnum.Proday2Kolesa, ProductEnum.Equip))
+                return new DicHolder {IsError = true};
+            //====================================================================================//
+
             //Photos
             var d = data[8].Split(',');
             var files = new string[5];
@@ -148,32 +187,32 @@ namespace Motorcycle.Config.Data
                 LineNum = lineNum,
                 DataDictionary = new Dictionary<string, string>
                 {
-                    {"model", SpareEquipXmlWorker.GetItemSiteValueUsingPlant(data[5],"pe")},//+
-                    {"modification", data[3]},//+
-                    {"color", "0"},//+
-                    {"price", data[6]},//+
-                    {"currency", "2"},//$+
-                    {"year", data[10]},//+
-                    {"bodytype", SpareEquipXmlWorker.GetEquipType(data[4],"p")},//+
-                    {"state", ManufactureXmlWorker.GetConditionState(data[11],"p")},//+
-                    {"choosen", "no"},//+
-                    {"vin", ""},//+
-                    {"wrangle", "0"},//+
-                    {"MAX_FILE_SIZE", "614400"},//+
-                    {"additional", data[9]},//+
-                    {"name", data[0]},//+
-                    {"phone1", data[2]},//+
-                    {"since1", "10"},//+
-                    {"till1", "21"},//+
-                    {"city", CityXmlWorker.GetItemSiteValueUsingCity(data[7],"p")},//+
-                    {"during", "360"},//+
-                    {"id", ""},//+
-                    {"vendor", SpareEquipXmlWorker.GetItemSiteValueUsingPlant(data[5],"pe")},//+
-                    {"category", "4"},//+
-                    {"ip", "127.0.0.1"},//+
-                    {"Itemid", "5"},//+
-                    {"option", "com_autobb"},//+
-                    {"task", "save"}//+
+                    {"model", SpareEquipXmlWorker.GetItemSiteValueUsingPlant(data[5], "pe")}, //+
+                    {"modification", data[3]}, //+
+                    {"color", "0"}, //+
+                    {"price", data[6]}, //+
+                    {"currency", "2"}, //$+
+                    {"year", data[10]}, //+
+                    {"bodytype", SpareEquipXmlWorker.GetEquipType(data[4], "p")}, //+
+                    {"state", ManufactureXmlWorker.GetConditionState(data[11], "p")}, //+
+                    {"choosen", "no"}, //+
+                    {"vin", ""}, //+
+                    {"wrangle", "0"}, //+
+                    {"MAX_FILE_SIZE", "614400"}, //+
+                    {"additional", data[9]}, //+
+                    {"name", data[0]}, //+
+                    {"phone1", data[2]}, //+
+                    {"since1", "10"}, //+
+                    {"till1", "21"}, //+
+                    {"city", CityXmlWorker.GetItemSiteValueUsingCity(data[7], "p")}, //+
+                    {"during", "360"}, //+
+                    {"id", ""}, //+
+                    {"vendor", SpareEquipXmlWorker.GetItemSiteValueUsingPlant(data[5], "pe")}, //+
+                    {"category", "4"}, //+
+                    {"ip", "127.0.0.1"}, //+
+                    {"Itemid", "5"}, //+
+                    {"option", "com_autobb"}, //+
+                    {"task", "save"} //+
                 },
                 FileDictionary = new Dictionary<string, string>
                 {

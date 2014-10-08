@@ -109,15 +109,15 @@
                         if (Response.GetResponse(request).StatusCode == HttpStatusCode.OK)
                         {
                             Log.Info(reply + " successfully posted on Proday2kolesa");
-                            if (RemoveEntries.Remove(data, ProductEnum.Motorcycle))
+                            if (RemoveEntries.Remove(data.LineNum, ProductEnum.Motorcycle))
                                 Log.Debug(reply + " removed from list (Proday2Kolesa)");
                             return SitePoster.PostStatus.OK;
                         }
                         Log.Warn(reply + " unsuccessfully posted on Proday2kolesa");
                         request.Abort();
-                        RemoveEntries.Unposted(data, ProductEnum.Motorcycle, SiteEnum.Proday2Kolesa);
+                        RemoveEntries.Unposted(data.Row, ProductEnum.Motorcycle, SiteEnum.Proday2Kolesa);
 
-                        if (RemoveEntries.Remove(data, ProductEnum.Motorcycle))
+                        if (RemoveEntries.Remove(data.LineNum, ProductEnum.Motorcycle))
                             Log.Debug(reply + " removed from list (Proday2Kolesa)");
 
                         return SitePoster.PostStatus.ERROR;
@@ -129,9 +129,9 @@
                                 ManufactureXmlWorker.GetItemSiteIdUsingPlant("p", data.DataDictionary["model"]),
                                 data.DataDictionary["modification"]), ex);
 
-                        RemoveEntries.Unposted(data, ProductEnum.Motorcycle, SiteEnum.Proday2Kolesa);
+                        RemoveEntries.Unposted(data.Row, ProductEnum.Motorcycle, SiteEnum.Proday2Kolesa);
 
-                        if (RemoveEntries.Remove(data, ProductEnum.Motorcycle))
+                        if (RemoveEntries.Remove(data.LineNum, ProductEnum.Motorcycle))
                             LogManager.GetCurrentClassLogger().Debug("{0} {1} removed from list (Proday2Kolesa)",
                                 SpareEquipXmlWorker.GetItemSiteIdUsingPlant("p", data.DataDictionary["model"]),
                                 data.DataDictionary["modification"]);
@@ -234,19 +234,21 @@
                             dataDictionary["option"], id, Itemid);
                         request = Request.POSTRequest(url, cookieContainer, captchaDictionary, null, referer);
 
+                        //var respString = Response.GetResponseString(request);
+
                         if (Response.GetResponse(request).StatusCode == HttpStatusCode.OK)
                         {
                             Log.Info(reply + " successfully posted on Proday2kolesa");
-                            if (RemoveEntries.Remove(data, ProductEnum.Spare))
+                            if (RemoveEntries.Remove(data.LineNum, ProductEnum.Spare))
                                 Log.Debug(reply + " removed from list (Proday2kolesa)");
                             return SitePoster.PostStatus.OK;
                         }
                         Log.Warn(reply + " unsuccessfully posted on Proday2kolesa");
                         request.Abort();
 
-                        RemoveEntries.Unposted(data, ProductEnum.Spare, SiteEnum.Proday2Kolesa);
+                        RemoveEntries.Unposted(data.Row, ProductEnum.Spare, SiteEnum.Proday2Kolesa);
 
-                        if (RemoveEntries.Remove(data, ProductEnum.Spare))
+                        if (RemoveEntries.Remove(data.LineNum, ProductEnum.Spare))
                             Log.Debug(reply + " removed from list (Proday2kolesa)");
 
                         return SitePoster.PostStatus.ERROR;
@@ -258,9 +260,9 @@
                                 SpareEquipXmlWorker.GetItemSiteIdUsingPlant("pz", data.DataDictionary["model"]),
                                 data.DataDictionary["modification"]), ex);
 
-                        RemoveEntries.Unposted(data, ProductEnum.Spare, SiteEnum.Proday2Kolesa);
+                        RemoveEntries.Unposted(data.Row, ProductEnum.Spare, SiteEnum.Proday2Kolesa);
 
-                        if (RemoveEntries.Remove(data, ProductEnum.Spare))
+                        if (RemoveEntries.Remove(data.LineNum, ProductEnum.Spare))
                             LogManager.GetCurrentClassLogger().Debug("{0} {1} removed from list (Proday2kolesa)",
                                 SpareEquipXmlWorker.GetItemSiteIdUsingPlant("pz", data.DataDictionary["model"]));
                         return SitePoster.PostStatus.ERROR;
@@ -363,14 +365,14 @@
                         if (Response.GetResponse(request).StatusCode == HttpStatusCode.OK)
                         {
                             Log.Info(reply + " successfully posted on Proday2kolesa");
-                            if (RemoveEntries.Remove(data, ProductEnum.Equip))
+                            if (RemoveEntries.Remove(data.LineNum, ProductEnum.Equip))
                                 Log.Debug(reply + " removed from list (Proday2kolesa)");
                             return SitePoster.PostStatus.OK;
                         }
                         Log.Warn(reply + " unsuccessfully posted on Proday2kolesa");
                         request.Abort();
-                        RemoveEntries.Unposted(data, ProductEnum.Equip, SiteEnum.Proday2Kolesa);
-                        if (RemoveEntries.Remove(data, ProductEnum.Equip))
+                        RemoveEntries.Unposted(data.Row, ProductEnum.Equip, SiteEnum.Proday2Kolesa);
+                        if (RemoveEntries.Remove(data.LineNum, ProductEnum.Equip))
                             Log.Debug(reply + " removed from list (Proday2kolesa)");
                         return SitePoster.PostStatus.ERROR;
                     }
@@ -380,8 +382,8 @@
                             .Error(string.Format("{0} {1} unsuccessfully posted on Proday2kolesa",
                                 SpareEquipXmlWorker.GetItemSiteIdUsingPlant("pe", data.DataDictionary["model"]),
                                 data.DataDictionary["modification"]), ex);
-                        RemoveEntries.Unposted(data, ProductEnum.Equip, SiteEnum.Proday2Kolesa);
-                        if (RemoveEntries.Remove(data, ProductEnum.Equip))
+                        RemoveEntries.Unposted(data.Row, ProductEnum.Equip, SiteEnum.Proday2Kolesa);
+                        if (RemoveEntries.Remove(data.LineNum, ProductEnum.Equip))
                             LogManager.GetCurrentClassLogger().Debug("{0} {1} removed from list (Proday2kolesa)",
                                 SpareEquipXmlWorker.GetItemSiteIdUsingPlant("pe", data.DataDictionary["model"]),
                                 data.DataDictionary["modification"]);

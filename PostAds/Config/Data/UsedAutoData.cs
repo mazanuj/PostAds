@@ -1,4 +1,5 @@
 ﻿using Motorcycle.XmlWorker;
+using NLog;
 
 namespace Motorcycle.Config.Data
 {
@@ -7,9 +8,23 @@ namespace Motorcycle.Config.Data
 
     internal class UsedAutoData : ISiteData
     {
+        private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+
         public DicHolder GetMoto(string row, int lineNum)
         {
             var data = row.Split('\t');
+
+            //Check
+            if (RemoveEntries.DataError("type", ManufactureXmlWorker.GetMotoType(data[10], "u"), row, lineNum,
+                SiteEnum.UsedAuto, ProductEnum.Motorcycle) ||
+                RemoveEntries.DataError("city", CityXmlWorker.GetItemSiteValueUsingCity(data[12], "u"), row, lineNum,
+                    SiteEnum.UsedAuto, ProductEnum.Motorcycle) ||
+                RemoveEntries.DataError("manufacture", ManufactureXmlWorker.GetItemSiteValueUsingPlant(data[4], "u"),
+                    row, lineNum, SiteEnum.UsedAuto, ProductEnum.Motorcycle) ||
+                RemoveEntries.DataError("condition", ManufactureXmlWorker.GetConditionState(data[17], "u"), row, lineNum,
+                    SiteEnum.UsedAuto, ProductEnum.Motorcycle))
+                return new DicHolder {IsError = true};
+            //==========================================================================================//
 
             //Photos
             var d = data[13].Split(',');
@@ -101,6 +116,17 @@ namespace Motorcycle.Config.Data
         public DicHolder GetSpare(string row, int lineNum)
         {
             var data = row.Split('\t');
+
+            //Check
+            if (
+                RemoveEntries.DataError("manufacture", ManufactureXmlWorker.GetItemSiteValueUsingPlant(data[4], "u"),
+                    row, lineNum, SiteEnum.UsedAuto, ProductEnum.Spare) ||
+                RemoveEntries.DataError("type", SpareEquipXmlWorker.GetSpareType(data[5], "u"), row, lineNum,
+                    SiteEnum.UsedAuto, ProductEnum.Spare) ||
+                RemoveEntries.DataError("city", CityXmlWorker.GetItemSiteValueUsingCity(data[7], "u"), row, lineNum,
+                    SiteEnum.UsedAuto, ProductEnum.Spare))
+                return new DicHolder {IsError = true};
+            //====================================================================================//
 
             var condition = data[10].ToLower() == "новый" ? "new" : "used";
 

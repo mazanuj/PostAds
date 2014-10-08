@@ -106,9 +106,9 @@
     <Compile Include="AppBootstrapper.cs" />
     <Compile Include="Config\Advertising.cs" />
     <Compile Include="Config\Confirm\PostConfirm.cs" />
-    <Compile Include="Config\Data\InfoHolder.cs" />
-    <Compile Include="Config\Data\RemoveEntries.cs" />
-    <Compile Include="Config\Data\FileCleaner.cs" />
+    <Compile Include="Config\Data\~Utils\InfoHolder.cs" />
+    <Compile Include="Config\Data\~Utils\RemoveEntries.cs" />
+    <Compile Include="Config\Data\~Utils\FileCleaner.cs" />
     <Compile Include="Config\Proxy\ProxyAddressStruct.cs" />
     <Compile Include="Config\Proxy\ProxyChecker.cs" />
     <Compile Include="Config\Proxy\ProxyData.cs" />

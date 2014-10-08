@@ -79,7 +79,7 @@
 
             var firstOrDefault = att.Cast<XAttribute>().FirstOrDefault();
 
-            return firstOrDefault != null ? firstOrDefault.Value : "36";
+            return firstOrDefault != null ? firstOrDefault.Value : string.Empty;
         }
 
         public static string GetEquipType(string itemId, string site)
@@ -91,7 +91,7 @@
 
             var firstOrDefault = att.Cast<XAttribute>().FirstOrDefault();
 
-            return firstOrDefault != null ? firstOrDefault.Value : "36";
+            return firstOrDefault != null ? firstOrDefault.Value : string.Empty;
         }
 
         public static string GetItemSiteIdUsingPlant(string site, string value)

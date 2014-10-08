@@ -19,19 +19,7 @@
 
             var firstOrDefault = att.Cast<XAttribute>().FirstOrDefault();
 
-            if (firstOrDefault != null) return firstOrDefault.Value;
-
-            switch (site)
-            {
-                case "m":
-                    return "1";
-
-                case "p":
-                    return "0";
-
-                default:
-                    return "";
-            }
+            return firstOrDefault != null ? firstOrDefault.Value : "1";
         }
     }
 }
