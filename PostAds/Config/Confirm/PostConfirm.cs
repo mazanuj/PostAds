@@ -25,8 +25,9 @@ namespace Motorcycle.Config.Confirm
                         client.Authenticate(username, password);
                         break;
                     }
-                    catch
+                    catch(Exception ex)
                     {
+                        Log.Debug(ex.Message, ex);                        
                     }
                 }
 

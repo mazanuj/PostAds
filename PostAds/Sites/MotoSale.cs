@@ -41,48 +41,53 @@ namespace Motorcycle.Sites
                             return SitePoster.PostStatus.ERROR;
                         }
 
+                        string respString;
                         const string url = "http://www.motosale.com.ua/?add=moto";
-                        var cookieContainer = Cookies.GetCookiesContainer(url);
-
-                        var requestImage = Request.GETRequest("http://www.motosale.com.ua/capcha/capcha.php");
-                        requestImage.CookieContainer = cookieContainer;
-
-                        var captchaFileName = Response.GetImageFromResponse(requestImage);
-
-                        //Get captcha result
-                        var captcha = CaptchaString.GetCaptchaString(
-                            CaptchaXmlWorker.GetCaptchaValues("key"),
-                            captchaFileName,
-                            CaptchaXmlWorker.GetCaptchaValues("domain"));
-
-                        dataDictionary["fConfirmationCode"] = captcha;
-
-                        //Request
-                        var respString = string.Empty;
-                        var proxyAddress = new ProxyAddressStruct {ProxyAddresses = "localhost"};
-                        while (ProxyAddressWorker.ProxyListState)
+                        do
                         {
-                            try
-                            {
-                                lock (locker)
-                                {
-                                    proxyAddress = ProxyAddressWorker.GetValidProxyAddress("moto");
-                                }
+                            var cookieContainer = Cookies.GetCookiesContainer(url);
 
-                                respString = Response.GetResponseString(cookieContainer, dataDictionary, fileDictionary,
-                                    url, Encoding.GetEncoding("windows-1251"), proxyAddress);
-                                if (respString == string.Empty)
-                                    respString = "Response string empty";
-                                break;
-                            }
-                            catch
+                            var requestImage = Request.GETRequest("http://www.motosale.com.ua/capcha/capcha.php");
+                            requestImage.CookieContainer = cookieContainer;
+
+                            var captchaFileName = Response.GetImageFromResponse(requestImage);
+
+                            //Get captcha result
+                            var captcha = CaptchaString.GetCaptchaString(
+                                CaptchaXmlWorker.GetCaptchaValues("key"),
+                                captchaFileName,
+                                CaptchaXmlWorker.GetCaptchaValues("domain"));
+
+                            dataDictionary["fConfirmationCode"] = captcha;
+
+                            //Request
+                            respString = string.Empty;
+                            var proxyAddress = new ProxyAddressStruct {ProxyAddresses = "localhost"};
+                            while (ProxyAddressWorker.ProxyListState)
                             {
-                                lock (locker)
+                                try
                                 {
-                                    ProxyXmlWorker.RemoveProxyAddressFromFile(proxyAddress.ProxyAddresses);
+                                    lock (locker)
+                                    {
+                                        proxyAddress = ProxyAddressWorker.GetValidProxyAddress("moto");
+                                    }
+
+                                    respString = Response.GetResponseString(cookieContainer, dataDictionary,
+                                        fileDictionary,
+                                        url, Encoding.GetEncoding("windows-1251"), proxyAddress);
+                                    if (respString == string.Empty)
+                                        respString = "Response string empty";
+                                    break;
+                                }
+                                catch
+                                {
+                                    lock (locker)
+                                    {
+                                        ProxyXmlWorker.RemoveProxyAddressFromFile(proxyAddress.ProxyAddresses);
+                                    }
                                 }
                             }
-                        }
+                        } while (respString.Contains("Введите код подтверждения:"));
                         if (respString == string.Empty) throw new Exception("Not valid proxy addresses");
                         if (respString.Contains("Ошибка при добавлении объявления. Не нарушайте правила добавления."))
                             throw new Exception("Нарушение правил добавления");
@@ -169,61 +174,53 @@ namespace Motorcycle.Sites
                             return SitePoster.PostStatus.ERROR;
                         }
 
+                        string respString;
                         const string url = "http://www.motosale.com.ua/?add=zap";
-                        var cookieContainer = Cookies.GetCookiesContainer(url);
-
-                        //Get captcha result
-                        var requestImage = Request.GETRequest("http://www.motosale.com.ua/capcha/capcha.php");
-                        requestImage.CookieContainer = cookieContainer;
-
-                        var captchaFileName = Response.GetImageFromResponse(requestImage);
-
-                        var captcha = CaptchaString.GetCaptchaString(
-                            CaptchaXmlWorker.GetCaptchaValues("key"),
-                            captchaFileName,
-                            CaptchaXmlWorker.GetCaptchaValues("domain"));
-
-                        dataDictionary["fConfirmationCode"] = captcha;
-
-
-                        //Get hash result
-                        //var requestHash = Request.GETRequest(url);
-                        //requestHash.CookieContainer = cookieContainer;
-                        //var responseHash = Response.GetResponseString(requestHash);
-
-                        //var start = responseHash.IndexOf("name=\"insert\" value=\"") + "name=\"insert\" value=\"".Length;
-                        //var stop = responseHash.IndexOf("\"", start);
-                        //var hash = responseHash.Substring(start, stop - start);
-
-                        //dataDictionary["insert"] = hash;
-
-                        //Request
-                        var respString = string.Empty;
-                        var proxyAddress = new ProxyAddressStruct {ProxyAddresses = "localhost"};
-                        while (ProxyAddressWorker.ProxyListState)
+                        do
                         {
-                            try
-                            {
-                                lock (locker)
-                                {
-                                    proxyAddress = ProxyAddressWorker.GetValidProxyAddress("spare");
-                                }
+                            var cookieContainer = Cookies.GetCookiesContainer(url);
 
-                                respString = Response.GetResponseString(cookieContainer, dataDictionary, fileDictionary,
-                                    url, Encoding.GetEncoding("windows-1251"), proxyAddress);
-                                if (respString == string.Empty)
-                                    respString = "Response string empty";
+                            var requestImage = Request.GETRequest("http://www.motosale.com.ua/capcha/capcha.php");
+                            requestImage.CookieContainer = cookieContainer;
 
-                                break;
-                            }
-                            catch
+                            var captchaFileName = Response.GetImageFromResponse(requestImage);
+
+                            //Get captcha result
+                            var captcha = CaptchaString.GetCaptchaString(
+                                CaptchaXmlWorker.GetCaptchaValues("key"),
+                                captchaFileName,
+                                CaptchaXmlWorker.GetCaptchaValues("domain"));
+
+                            dataDictionary["fConfirmationCode"] = captcha;
+
+                            //Request
+                            respString = string.Empty;
+                            var proxyAddress = new ProxyAddressStruct {ProxyAddresses = "localhost"};
+                            while (ProxyAddressWorker.ProxyListState)
                             {
-                                lock (locker)
+                                try
                                 {
-                                    ProxyXmlWorker.RemoveProxyAddressFromFile(proxyAddress.ProxyAddresses);
+                                    lock (locker)
+                                    {
+                                        proxyAddress = ProxyAddressWorker.GetValidProxyAddress("spare");
+                                    }
+
+                                    respString = Response.GetResponseString(cookieContainer, dataDictionary,
+                                        fileDictionary,
+                                        url, Encoding.GetEncoding("windows-1251"), proxyAddress);
+                                    if (respString == string.Empty)
+                                        respString = "Response string empty";
+                                    break;
+                                }
+                                catch
+                                {
+                                    lock (locker)
+                                    {
+                                        ProxyXmlWorker.RemoveProxyAddressFromFile(proxyAddress.ProxyAddresses);
+                                    }
                                 }
                             }
-                        }
+                        } while (respString.Contains("Введите код подтверждения:"));
                         if (respString == string.Empty) throw new Exception("Not valid proxy addresses");
                         if (respString.Contains("Ошибка при добавлении объявления. Не нарушайте правила добавления."))
                             throw new Exception("Нарушение правил добавления");
@@ -301,49 +298,53 @@ namespace Motorcycle.Sites
                             return SitePoster.PostStatus.ERROR;
                         }
 
+                        string respString;
                         const string url = "http://www.motosale.com.ua/?add=equ";
-                        var cookieContainer = Cookies.GetCookiesContainer(url);
-
-                        //Get captcha result
-                        var requestImage = Request.GETRequest("http://www.motosale.com.ua/capcha/capcha.php");
-                        requestImage.CookieContainer = cookieContainer;
-
-                        var captchaFileName = Response.GetImageFromResponse(requestImage);
-
-                        var captcha = CaptchaString.GetCaptchaString(
-                            CaptchaXmlWorker.GetCaptchaValues("key"),
-                            captchaFileName,
-                            CaptchaXmlWorker.GetCaptchaValues("domain"));
-
-                        dataDictionary["fConfirmationCode"] = captcha;
-
-                        //Request
-                        var respString = string.Empty;
-                        var proxyAddress = new ProxyAddressStruct {ProxyAddresses = "localhost"};
-                        while (ProxyAddressWorker.ProxyListState)
+                        do
                         {
-                            try
-                            {
-                                lock (locker)
-                                {
-                                    proxyAddress = ProxyAddressWorker.GetValidProxyAddress("equip");
-                                }
+                            var cookieContainer = Cookies.GetCookiesContainer(url);
 
-                                respString = Response.GetResponseString(cookieContainer, dataDictionary, fileDictionary,
-                                    url, Encoding.GetEncoding("windows-1251"), proxyAddress);
-                                if (respString == string.Empty)
-                                    respString = "Response string empty";
+                            var requestImage = Request.GETRequest("http://www.motosale.com.ua/capcha/capcha.php");
+                            requestImage.CookieContainer = cookieContainer;
 
-                                break;
-                            }
-                            catch
+                            var captchaFileName = Response.GetImageFromResponse(requestImage);
+
+                            //Get captcha result
+                            var captcha = CaptchaString.GetCaptchaString(
+                                CaptchaXmlWorker.GetCaptchaValues("key"),
+                                captchaFileName,
+                                CaptchaXmlWorker.GetCaptchaValues("domain"));
+
+                            dataDictionary["fConfirmationCode"] = captcha;
+
+                            //Request
+                            respString = string.Empty;
+                            var proxyAddress = new ProxyAddressStruct {ProxyAddresses = "localhost"};
+                            while (ProxyAddressWorker.ProxyListState)
                             {
-                                lock (locker)
+                                try
                                 {
-                                    ProxyXmlWorker.RemoveProxyAddressFromFile(proxyAddress.ProxyAddresses);
+                                    lock (locker)
+                                    {
+                                        proxyAddress = ProxyAddressWorker.GetValidProxyAddress("equip");
+                                    }
+
+                                    respString = Response.GetResponseString(cookieContainer, dataDictionary,
+                                        fileDictionary,
+                                        url, Encoding.GetEncoding("windows-1251"), proxyAddress);
+                                    if (respString == string.Empty)
+                                        respString = "Response string empty";
+                                    break;
+                                }
+                                catch
+                                {
+                                    lock (locker)
+                                    {
+                                        ProxyXmlWorker.RemoveProxyAddressFromFile(proxyAddress.ProxyAddresses);
+                                    }
                                 }
                             }
-                        }
+                        } while (respString.Contains("Введите код подтверждения:"));
                         if (respString == string.Empty) throw new Exception("Not valid proxy addresses");
                         if (respString.Contains("Ошибка при добавлении объявления. Не нарушайте правила добавления."))
                             throw new Exception("Нарушение правил добавления");

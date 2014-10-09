@@ -1,7 +1,7 @@
 ﻿namespace Motorcycle.Config.Data
 {
     using Interfaces;
-    using Motorcycle.Factories;
+    using Factories;
     using NLog;
     using System.Collections.Generic;
     using System.IO;
@@ -74,7 +74,10 @@
             await Task.Factory.StartNew(
                 () =>
                 {
-                    var listFile = File.ReadAllLines(textFile, Encoding.GetEncoding(Ude(textFile))).Distinct().ToList();
+                    var listFile = File.ReadAllLines(textFile, Encoding.GetEncoding(Ude(textFile)))
+                        .Where(x=>!string.IsNullOrEmpty(x))
+                        .Distinct()
+                        .ToList();
                     if (listFile.Count == 0)
                     {
                         Log.Warn(textFile.Substring(textFile.LastIndexOf(@"\", System.StringComparison.Ordinal) + 1) +

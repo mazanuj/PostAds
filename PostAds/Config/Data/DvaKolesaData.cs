@@ -89,8 +89,7 @@ namespace Motorcycle.Config.Data
             var data = row.Split('\t');
 
             //Check
-            if (
-                RemoveEntries.DataError("manufacture", SpareEquipXmlWorker.GetItemSiteValueUsingPlant(data[4], "pz"),
+            if (RemoveEntries.DataError("manufacture", SpareEquipXmlWorker.GetItemSiteValueUsingPlant(data[4], "pz"),
                     row, lineNum, SiteEnum.Proday2Kolesa, ProductEnum.Spare) ||
                 RemoveEntries.DataError("type", SpareEquipXmlWorker.GetSpareType(data[5], "p"), row, lineNum,
                     SiteEnum.Proday2Kolesa, ProductEnum.Spare) ||

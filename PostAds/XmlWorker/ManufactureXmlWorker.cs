@@ -112,7 +112,7 @@
         {
             var att =
                 (IEnumerable)
-                    Doc.XPathEvaluate(string.Format("//type/color[@id='{0}']/@{1}", itemId.ToLower(), site.ToLower()));
+                    Doc.XPathEvaluate(string.Format("//color/item[@id='{0}']/@{1}", itemId.ToLower(), site.ToLower()));
 
             var firstOrDefault = att.Cast<XAttribute>().FirstOrDefault();
 

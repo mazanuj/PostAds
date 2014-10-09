@@ -46,81 +46,78 @@
                         request.Abort();
                         response.Close();
 
-                        #region Find
-
-                        //Find captcha's link
-                        var start = responseString.IndexOf("index2.php?option=com_autobb");
-                        var end = responseString.IndexOf("\"", start);
-                        var captchaUrl = "http://proday2kolesa.com.ua/" + responseString.Substring(start, end - start);
-
-                        //Find id
-                        start = responseString.IndexOf("name=\"id\" value=\"", start) + "name=\"id\" value=\"".Length;
-                        end = responseString.IndexOf("\"", start);
-                        var id = responseString.Substring(start, end - start);
-
-                        //Find Itemid
-                        start = responseString.IndexOf("name=\"Itemid\" value=\"", start) +
-                                "name=\"Itemid\" value=\"".Length;
-                        end = responseString.IndexOf("\"", start);
-                        var Itemid = responseString.Substring(start, end - start);
-
-                        //Find option
-                        start = responseString.IndexOf("name=\"option\" value=\"", start) +
-                                "name=\"option\" value=\"".Length;
-                        end = responseString.IndexOf("\"", start);
-                        var option = responseString.Substring(start, end - start);
-
-                        //Find task
-                        start = responseString.IndexOf("name=\"task\" value=\"", start) +
-                                "name=\"task\" value=\"".Length;
-                        end = responseString.IndexOf("\"", start);
-                        var task = responseString.Substring(start, end - start);
-
-                        //Find simage_id
-                        start = responseString.IndexOf("name=\"simage_id\" value=\"", start) +
-                                "name=\"simage_id\" value=\"".Length;
-                        end = responseString.IndexOf("\"", start);
-                        var simage_id = responseString.Substring(start, end - start);
-
-                        #endregion
-
-                        //Get captcha result
-                        var captchaFileName = CaptchaString.GetCaptchaImage(captchaUrl);
-                        var captcha = CaptchaString.GetCaptchaString(CaptchaXmlWorker.GetCaptchaValues("key"),
-                            captchaFileName,
-                            CaptchaXmlWorker.GetCaptchaValues("domain"));
-
-                        //Send captcha request
-                        var captchaDictionary = new Dictionary<string, string>
+                        do
                         {
-                            {"secure_code", captcha},
-                            {"id", id},
-                            {"Itemid", Itemid},
-                            {"option", option},
-                            {"task", task},
-                            {"simage_id", simage_id}
-                        };
+                            #region Find
 
-                        referer = string.Format(
-                            "http://proday2kolesa.com.ua/component/option,{0}/task,publish/id,{1}/error,0/Itemid,{2}/",
-                            dataDictionary["option"], id, Itemid);
-                        request = Request.POSTRequest(url, cookieContainer, captchaDictionary, null, referer);
+                            //Find captcha's link
+                            var start = responseString.IndexOf("index2.php?option=com_autobb");
+                            var end = responseString.IndexOf("\"", start);
+                            var captchaUrl = "http://proday2kolesa.com.ua/" +
+                                             responseString.Substring(start, end - start);
 
-                        if (Response.GetResponse(request).StatusCode == HttpStatusCode.OK)
-                        {
-                            Log.Info(reply + " successfully posted on Proday2kolesa");
-                            if (RemoveEntries.Remove(data.LineNum, ProductEnum.Motorcycle))
-                                Log.Debug(reply + " removed from list (Proday2Kolesa)");
-                            return SitePoster.PostStatus.OK;
-                        }
-                        Log.Warn(reply + " unsuccessfully posted on Proday2kolesa");
-                        request.Abort();
-                        RemoveEntries.Unposted(data.Row, ProductEnum.Motorcycle, SiteEnum.Proday2Kolesa);
+                            //Find id
+                            start = responseString.IndexOf("name=\"id\" value=\"", start) +
+                                    "name=\"id\" value=\"".Length;
+                            end = responseString.IndexOf("\"", start);
+                            var id = responseString.Substring(start, end - start);
 
+                            //Find Itemid
+                            start = responseString.IndexOf("name=\"Itemid\" value=\"", start) +
+                                    "name=\"Itemid\" value=\"".Length;
+                            end = responseString.IndexOf("\"", start);
+                            var Itemid = responseString.Substring(start, end - start);
+
+                            //Find option
+                            start = responseString.IndexOf("name=\"option\" value=\"", start) +
+                                    "name=\"option\" value=\"".Length;
+                            end = responseString.IndexOf("\"", start);
+                            var option = responseString.Substring(start, end - start);
+
+                            //Find task
+                            start = responseString.IndexOf("name=\"task\" value=\"", start) +
+                                    "name=\"task\" value=\"".Length;
+                            end = responseString.IndexOf("\"", start);
+                            var task = responseString.Substring(start, end - start);
+
+                            //Find simage_id
+                            start = responseString.IndexOf("name=\"simage_id\" value=\"", start) +
+                                    "name=\"simage_id\" value=\"".Length;
+                            end = responseString.IndexOf("\"", start);
+                            var simage_id = responseString.Substring(start, end - start);
+
+                            #endregion
+
+                            //Get captcha result
+                            var captchaFileName = CaptchaString.GetCaptchaImage(captchaUrl);
+                            var captcha = CaptchaString.GetCaptchaString(CaptchaXmlWorker.GetCaptchaValues("key"),
+                                captchaFileName,
+                                CaptchaXmlWorker.GetCaptchaValues("domain"));
+
+                            //Send captcha request
+                            var captchaDictionary = new Dictionary<string, string>
+                            {
+                                {"secure_code", captcha},
+                                {"id", id},
+                                {"Itemid", Itemid},
+                                {"option", option},
+                                {"task", task},
+                                {"simage_id", simage_id}
+                            };
+
+                            referer = string.Format(
+                                "http://proday2kolesa.com.ua/component/option,{0}/task,publish/id,{1}/error,0/Itemid,{2}/",
+                                dataDictionary["option"], id, Itemid);
+
+                            var req = Request.POSTRequest(url, cookieContainer, captchaDictionary, null, referer);
+                            responseString = Response.GetResponseString(req);
+                            req.Abort();
+                        } while (responseString.Contains("Введите секретный код:"));
+
+                        Log.Info(reply + " successfully posted on Proday2kolesa");
                         if (RemoveEntries.Remove(data.LineNum, ProductEnum.Motorcycle))
                             Log.Debug(reply + " removed from list (Proday2Kolesa)");
-
-                        return SitePoster.PostStatus.ERROR;
+                        return SitePoster.PostStatus.OK;
                     }
                     catch (Exception ex)
                     {
@@ -139,7 +136,6 @@
                         return SitePoster.PostStatus.ERROR;
                     }
                 });
-
         }
 
         public async Task<SitePoster.PostStatus> PostSpare(DicHolder data)
@@ -174,84 +170,77 @@
                         request.Abort();
                         response.Close();
 
-                        #region Find
-
-                        //Find captcha's link
-                        var start = responseString.IndexOf("index2.php?option=com_autobb");
-                        var end = responseString.IndexOf("\"", start);
-                        var captchaUrl = "http://proday2kolesa.com.ua/" + responseString.Substring(start, end - start);
-
-                        //Find id
-                        start = responseString.IndexOf("name=\"id\" value=\"", start) + "name=\"id\" value=\"".Length;
-                        end = responseString.IndexOf("\"", start);
-                        var id = responseString.Substring(start, end - start);
-
-                        //Find Itemid
-                        start = responseString.IndexOf("name=\"Itemid\" value=\"", start) +
-                                "name=\"Itemid\" value=\"".Length;
-                        end = responseString.IndexOf("\"", start);
-                        var Itemid = responseString.Substring(start, end - start);
-
-                        //Find option
-                        start = responseString.IndexOf("name=\"option\" value=\"", start) +
-                                "name=\"option\" value=\"".Length;
-                        end = responseString.IndexOf("\"", start);
-                        var option = responseString.Substring(start, end - start);
-
-                        //Find task
-                        start = responseString.IndexOf("name=\"task\" value=\"", start) +
-                                "name=\"task\" value=\"".Length;
-                        end = responseString.IndexOf("\"", start);
-                        var task = responseString.Substring(start, end - start);
-
-                        //Find simage_id
-                        start = responseString.IndexOf("name=\"simage_id\" value=\"", start) +
-                                "name=\"simage_id\" value=\"".Length;
-                        end = responseString.IndexOf("\"", start);
-                        var simage_id = responseString.Substring(start, end - start);
-
-                        #endregion
-
-                        //Get captcha result
-                        var captchaFileName = CaptchaString.GetCaptchaImage(captchaUrl);
-                        var captcha = CaptchaString.GetCaptchaString(CaptchaXmlWorker.GetCaptchaValues("key"),
-                            captchaFileName,
-                            CaptchaXmlWorker.GetCaptchaValues("domain"));
-
-                        //Send captcha request
-                        var captchaDictionary = new Dictionary<string, string>
+                        do
                         {
-                            {"secure_code", captcha},
-                            {"id", id},
-                            {"Itemid", Itemid},
-                            {"option", option},
-                            {"task", task},
-                            {"simage_id", simage_id}
-                        };
+                            #region Find
 
-                        referer = string.Format(
-                            "http://proday2kolesa.com.ua/component/option,{0}/task,publish/id,{1}/error,0/Itemid,{2}/",
-                            dataDictionary["option"], id, Itemid);
-                        request = Request.POSTRequest(url, cookieContainer, captchaDictionary, null, referer);
+                            //Find captcha's link
+                            var start = responseString.IndexOf("index2.php?option=com_autobb");
+                            var end = responseString.IndexOf("\"", start);
+                            var captchaUrl = "http://proday2kolesa.com.ua/" +
+                                             responseString.Substring(start, end - start);
 
-                        //var respString = Response.GetResponseString(request);
+                            //Find id
+                            start = responseString.IndexOf("name=\"id\" value=\"", start) +
+                                    "name=\"id\" value=\"".Length;
+                            end = responseString.IndexOf("\"", start);
+                            var id = responseString.Substring(start, end - start);
 
-                        if (Response.GetResponse(request).StatusCode == HttpStatusCode.OK)
-                        {
-                            Log.Info(reply + " successfully posted on Proday2kolesa");
-                            if (RemoveEntries.Remove(data.LineNum, ProductEnum.Spare))
-                                Log.Debug(reply + " removed from list (Proday2kolesa)");
-                            return SitePoster.PostStatus.OK;
-                        }
-                        Log.Warn(reply + " unsuccessfully posted on Proday2kolesa");
-                        request.Abort();
+                            //Find Itemid
+                            start = responseString.IndexOf("name=\"Itemid\" value=\"", start) +
+                                    "name=\"Itemid\" value=\"".Length;
+                            end = responseString.IndexOf("\"", start);
+                            var Itemid = responseString.Substring(start, end - start);
 
-                        RemoveEntries.Unposted(data.Row, ProductEnum.Spare, SiteEnum.Proday2Kolesa);
+                            //Find option
+                            start = responseString.IndexOf("name=\"option\" value=\"", start) +
+                                    "name=\"option\" value=\"".Length;
+                            end = responseString.IndexOf("\"", start);
+                            var option = responseString.Substring(start, end - start);
 
+                            //Find task
+                            start = responseString.IndexOf("name=\"task\" value=\"", start) +
+                                    "name=\"task\" value=\"".Length;
+                            end = responseString.IndexOf("\"", start);
+                            var task = responseString.Substring(start, end - start);
+
+                            //Find simage_id
+                            start = responseString.IndexOf("name=\"simage_id\" value=\"", start) +
+                                    "name=\"simage_id\" value=\"".Length;
+                            end = responseString.IndexOf("\"", start);
+                            var simage_id = responseString.Substring(start, end - start);
+
+                            #endregion
+
+                            //Get captcha result
+                            var captchaFileName = CaptchaString.GetCaptchaImage(captchaUrl);
+                            var captcha = CaptchaString.GetCaptchaString(CaptchaXmlWorker.GetCaptchaValues("key"),
+                                captchaFileName,
+                                CaptchaXmlWorker.GetCaptchaValues("domain"));
+
+                            //Send captcha request
+                            var captchaDictionary = new Dictionary<string, string>
+                            {
+                                {"secure_code", captcha},
+                                {"id", id},
+                                {"Itemid", Itemid},
+                                {"option", option},
+                                {"task", task},
+                                {"simage_id", simage_id}
+                            };
+
+                            referer = string.Format(
+                                "http://proday2kolesa.com.ua/component/option,{0}/task,publish/id,{1}/error,0/Itemid,{2}/",
+                                dataDictionary["option"], id, Itemid);
+
+                            var req = Request.POSTRequest(url, cookieContainer, captchaDictionary, null, referer);
+                            responseString = Response.GetResponseString(req);
+                        } while (responseString.Contains("Введите секретный код:"));
+
+                        Log.Info(reply + " successfully posted on Proday2kolesa");
                         if (RemoveEntries.Remove(data.LineNum, ProductEnum.Spare))
                             Log.Debug(reply + " removed from list (Proday2kolesa)");
-
-                        return SitePoster.PostStatus.ERROR;
+                        return SitePoster.PostStatus.OK;
                     }
                     catch (Exception ex)
                     {
@@ -302,79 +291,77 @@
                         request.Abort();
                         response.Close();
 
-                        #region Find
-
-                        //Find captcha's link
-                        var start = responseString.IndexOf("index2.php?option=com_autobb");
-                        var end = responseString.IndexOf("\"", start);
-                        var captchaUrl = "http://proday2kolesa.com.ua/" + responseString.Substring(start, end - start);
-
-                        //Find id
-                        start = responseString.IndexOf("name=\"id\" value=\"", start) + "name=\"id\" value=\"".Length;
-                        end = responseString.IndexOf("\"", start);
-                        var id = responseString.Substring(start, end - start);
-
-                        //Find Itemid
-                        start = responseString.IndexOf("name=\"Itemid\" value=\"", start) +
-                                "name=\"Itemid\" value=\"".Length;
-                        end = responseString.IndexOf("\"", start);
-                        var Itemid = responseString.Substring(start, end - start);
-
-                        //Find option
-                        start = responseString.IndexOf("name=\"option\" value=\"", start) +
-                                "name=\"option\" value=\"".Length;
-                        end = responseString.IndexOf("\"", start);
-                        var option = responseString.Substring(start, end - start);
-
-                        //Find task
-                        start = responseString.IndexOf("name=\"task\" value=\"", start) +
-                                "name=\"task\" value=\"".Length;
-                        end = responseString.IndexOf("\"", start);
-                        var task = responseString.Substring(start, end - start);
-
-                        //Find simage_id
-                        start = responseString.IndexOf("name=\"simage_id\" value=\"", start) +
-                                "name=\"simage_id\" value=\"".Length;
-                        end = responseString.IndexOf("\"", start);
-                        var simage_id = responseString.Substring(start, end - start);
-
-                        #endregion
-
-                        //Get captcha result
-                        var captchaFileName = CaptchaString.GetCaptchaImage(captchaUrl);
-                        var captcha = CaptchaString.GetCaptchaString(CaptchaXmlWorker.GetCaptchaValues("key"),
-                            captchaFileName,
-                            CaptchaXmlWorker.GetCaptchaValues("domain"));
-
-                        //Send captcha request
-                        var captchaDictionary = new Dictionary<string, string>
+                        do
                         {
-                            {"secure_code", captcha},
-                            {"id", id},
-                            {"Itemid", Itemid},
-                            {"option", option},
-                            {"task", task},
-                            {"simage_id", simage_id}
-                        };
+                            #region Find
 
-                        referer = string.Format(
-                            "http://proday2kolesa.com.ua/component/option,{0}/task,publish/id,{1}/error,0/Itemid,{2}/",
-                            dataDictionary["option"], id, Itemid);
-                        request = Request.POSTRequest(url, cookieContainer, captchaDictionary, null, referer);
+                            //Find captcha's link
+                            var start = responseString.IndexOf("index2.php?option=com_autobb");
+                            var end = responseString.IndexOf("\"", start);
+                            var captchaUrl = "http://proday2kolesa.com.ua/" +
+                                             responseString.Substring(start, end - start);
 
-                        if (Response.GetResponse(request).StatusCode == HttpStatusCode.OK)
-                        {
-                            Log.Info(reply + " successfully posted on Proday2kolesa");
-                            if (RemoveEntries.Remove(data.LineNum, ProductEnum.Equip))
-                                Log.Debug(reply + " removed from list (Proday2kolesa)");
-                            return SitePoster.PostStatus.OK;
-                        }
-                        Log.Warn(reply + " unsuccessfully posted on Proday2kolesa");
-                        request.Abort();
-                        RemoveEntries.Unposted(data.Row, ProductEnum.Equip, SiteEnum.Proday2Kolesa);
+                            //Find id
+                            start = responseString.IndexOf("name=\"id\" value=\"", start) +
+                                    "name=\"id\" value=\"".Length;
+                            end = responseString.IndexOf("\"", start);
+                            var id = responseString.Substring(start, end - start);
+
+                            //Find Itemid
+                            start = responseString.IndexOf("name=\"Itemid\" value=\"", start) +
+                                    "name=\"Itemid\" value=\"".Length;
+                            end = responseString.IndexOf("\"", start);
+                            var Itemid = responseString.Substring(start, end - start);
+
+                            //Find option
+                            start = responseString.IndexOf("name=\"option\" value=\"", start) +
+                                    "name=\"option\" value=\"".Length;
+                            end = responseString.IndexOf("\"", start);
+                            var option = responseString.Substring(start, end - start);
+
+                            //Find task
+                            start = responseString.IndexOf("name=\"task\" value=\"", start) +
+                                    "name=\"task\" value=\"".Length;
+                            end = responseString.IndexOf("\"", start);
+                            var task = responseString.Substring(start, end - start);
+
+                            //Find simage_id
+                            start = responseString.IndexOf("name=\"simage_id\" value=\"", start) +
+                                    "name=\"simage_id\" value=\"".Length;
+                            end = responseString.IndexOf("\"", start);
+                            var simage_id = responseString.Substring(start, end - start);
+
+                            #endregion
+
+                            //Get captcha result
+                            var captchaFileName = CaptchaString.GetCaptchaImage(captchaUrl);
+                            var captcha = CaptchaString.GetCaptchaString(CaptchaXmlWorker.GetCaptchaValues("key"),
+                                captchaFileName,
+                                CaptchaXmlWorker.GetCaptchaValues("domain"));
+
+                            //Send captcha request
+                            var captchaDictionary = new Dictionary<string, string>
+                            {
+                                {"secure_code", captcha},
+                                {"id", id},
+                                {"Itemid", Itemid},
+                                {"option", option},
+                                {"task", task},
+                                {"simage_id", simage_id}
+                            };
+
+                            referer = string.Format(
+                                "http://proday2kolesa.com.ua/component/option,{0}/task,publish/id,{1}/error,0/Itemid,{2}/",
+                                dataDictionary["option"], id, Itemid);
+
+                            var req = Request.POSTRequest(url, cookieContainer, captchaDictionary, null, referer);
+                            responseString = Response.GetResponseString(req);
+                        } while (responseString.Contains("Введите секретный код:"));
+
+                        Log.Info(reply + " successfully posted on Proday2kolesa");
                         if (RemoveEntries.Remove(data.LineNum, ProductEnum.Equip))
                             Log.Debug(reply + " removed from list (Proday2kolesa)");
-                        return SitePoster.PostStatus.ERROR;
+                        return SitePoster.PostStatus.OK;
                     }
                     catch (Exception ex)
                     {

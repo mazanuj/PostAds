@@ -1,10 +1,9 @@
 ﻿namespace Motorcycle.Utils
 {
-    internal class Informer
+    internal static class Informer
     {
         public delegate void InformMethod(bool result);
         public delegate void ParameterlessInformMethod();
-
         public static event InformMethod OnPostResultChanged;
         public static event InformMethod OnProxyListFromInternetUpdated;
         public static event ParameterlessInformMethod OnFilePathsCleared;
