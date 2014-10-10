@@ -70,6 +70,8 @@ namespace Motorcycle.Config.Data
 
             return new DicHolder
             {
+                Site = SiteEnum.UsedAuto,
+                Type = ProductEnum.Motorcycle,
                 Row = row,
                 LineNum = lineNum,
                 DataDictionary = new Dictionary<string, string>
@@ -132,6 +134,8 @@ namespace Motorcycle.Config.Data
 
             return new DicHolder
             {
+                Site = SiteEnum.UsedAuto,
+                Type = ProductEnum.Spare,
                 Row = row,
                 LineNum = lineNum,
                 DataDictionary = new Dictionary<string, string>
@@ -163,6 +167,8 @@ namespace Motorcycle.Config.Data
         {
             return new DicHolder
             {
+                Site = SiteEnum.UsedAuto,
+                Type = ProductEnum.Equip,
                 Row = row,
                 LineNum = lineNum,
                 DataDictionary = new Dictionary<string, string>

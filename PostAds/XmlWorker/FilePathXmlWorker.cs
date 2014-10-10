@@ -10,6 +10,7 @@
     internal static class FilePathXmlWorker
     {
         private const string XmlFilePath = "Main.config";
+        private static readonly object Locker = new object();
 
         private static readonly XDocument Doc = XDocument.Load(XmlFilePath);
 
@@ -30,7 +31,10 @@
 
             if (firstOrDefault == null) return;
             firstOrDefault.Value = path;
-            Doc.Save(XmlFilePath);
+            lock (Locker)
+            {
+                Doc.Save(XmlFilePath);
+            }
         }
 
         public static void ResetFilePaths()
@@ -39,8 +43,6 @@
             SetFilePath("spare", "");
             SetFilePath("equip", "");
             SetFilePath("photo", "");
-
-            Informer.RaiseOnFilePathsClearedEvent();
         }
     }
 }

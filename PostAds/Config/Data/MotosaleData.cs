@@ -35,6 +35,8 @@
 
             return new DicHolder
             {
+                Site = SiteEnum.MotoSale,
+                Type = ProductEnum.Motorcycle,
                 Row = row,
                 LineNum = lineNum,
                 DataDictionary = new Dictionary<string, string>
@@ -100,6 +102,8 @@
 
             return new DicHolder
             {
+                Site = SiteEnum.MotoSale,
+                Type = ProductEnum.Spare,
                 Row = row,
                 LineNum = lineNum,
                 DataDictionary = new Dictionary<string, string>
@@ -152,6 +156,8 @@
 
             return new DicHolder
             {
+                Site = SiteEnum.MotoSale,
+                Type = ProductEnum.Equip,
                 Row = row,
                 LineNum = lineNum,
                 DataDictionary = new Dictionary<string, string>

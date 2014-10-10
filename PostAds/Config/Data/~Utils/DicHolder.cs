@@ -2,22 +2,12 @@
 {
     using System.Collections.Generic;
 
-    public class InfoHolder
+    public class DicHolder
     {
-        public InfoHolder()
-        {
-            Data = new List<DicHolder>();
-        }
-
         public SiteEnum Site { get; set; }
 
         public ProductEnum Type { get; set; }
 
-        public List<DicHolder> Data { get; set; }
-    }
-
-    public class DicHolder
-    {
         public Dictionary<string, string> DataDictionary { get; set; }
 
         public Dictionary<string, string> FileDictionary { get; set; }

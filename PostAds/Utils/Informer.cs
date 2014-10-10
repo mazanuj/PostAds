@@ -6,7 +6,7 @@
         public delegate void ParameterlessInformMethod();
         public static event InformMethod OnPostResultChanged;
         public static event InformMethod OnProxyListFromInternetUpdated;
-        public static event ParameterlessInformMethod OnFilePathsCleared;
+        public static event ParameterlessInformMethod OnAllPostsAreCompleted;
 
         public static void RaiseOnPostResultChangedEvent(bool post)
         {
@@ -22,9 +22,9 @@
                 handler(result);
         }
 
-        public static void RaiseOnFilePathsClearedEvent()
+        public static void RaiseOnAllPostsAreCompletedEvent()
         {
-            var handler = OnFilePathsCleared;
+            var handler = OnAllPostsAreCompleted;
             if (handler != null)
                 handler();
         }

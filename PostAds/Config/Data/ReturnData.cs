@@ -12,13 +12,13 @@
 
     internal static class ReturnData
     {
-        private static readonly List<InfoHolder> ReturnDataHolders = new List<InfoHolder>();
+        private static readonly List<DicHolder> ReturnDataHolders = new List<DicHolder>();
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
         private static string motoFile;
         private static string spareFile;
         private static string equipFile;
 
-        internal static async Task<List<InfoHolder>> GetData(byte[] flag)
+        internal static async Task<List<DicHolder>> GetData(byte[] flag)
         {
             motoFile = FilePathXmlWorker.GetFilePath("moto");
             spareFile = FilePathXmlWorker.GetFilePath("spare");
@@ -84,28 +84,26 @@
                                  " is empty");
                         return;
                     }
-                    var infoHolder = new InfoHolder {Site = site, Type = product};
+                  
                     var lineNum = 0;
 
                     switch (product)
                     {
                         case ProductEnum.Motorcycle:
                             foreach (var row in listFile.Where(row => !string.IsNullOrEmpty(row)))
-                                infoHolder.Data.Add(siteData.GetMoto(row, lineNum++));
+                                ReturnDataHolders.Add(siteData.GetMoto(row, lineNum++));
                             break;
 
                         case ProductEnum.Equip:
                             foreach (var row in listFile.Where(row => !string.IsNullOrEmpty(row)))
-                                infoHolder.Data.Add(siteData.GetEquip(row, lineNum++));
+                                ReturnDataHolders.Add(siteData.GetEquip(row, lineNum++));
                             break;
 
                         case ProductEnum.Spare:
                             foreach (var row in listFile.Where(row => !string.IsNullOrEmpty(row)))
-                                infoHolder.Data.Add(siteData.GetSpare(row, lineNum++));
+                                ReturnDataHolders.Add(siteData.GetSpare(row, lineNum++));
                             break;
                     }
-
-                    ReturnDataHolders.Add(infoHolder);
                 });
         }
 

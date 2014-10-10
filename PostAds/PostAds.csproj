@@ -106,7 +106,7 @@
     <Compile Include="AppBootstrapper.cs" />
     <Compile Include="Config\Advertising.cs" />
     <Compile Include="Config\Confirm\PostConfirm.cs" />
-    <Compile Include="Config\Data\~Utils\InfoHolder.cs" />
+    <Compile Include="Config\Data\~Utils\DicHolder.cs" />
     <Compile Include="Config\Data\~Utils\RemoveEntries.cs" />
     <Compile Include="Config\Data\~Utils\FileCleaner.cs" />
     <Compile Include="Config\Proxy\ProxyAddressStruct.cs" />
@@ -116,11 +116,15 @@
     <Compile Include="Interfaces\ISiteData.cs" />
     <Compile Include="Factories\SiteDataFactory.cs" />
     <Compile Include="Controls\Converters\BoolToColorConverter.cs" />
-    <Compile Include="Interfaces\IPostOnSite.cs" />
     <Compile Include="Captcha\CaptchaFileNameGenerator.cs" />
-    <Compile Include="Factories\PostOnSiteFactory.cs" />
-    <Compile Include="Sites\SitePoster.cs" />
+    <Compile Include="Sites\PostStatus.cs" />
+    <Compile Include="TimerScheduler\FinishPosting.cs" />
+    <Compile Include="TimerScheduler\MotosalePostScheduler.cs" />
+    <Compile Include="TimerScheduler\ProdayPostScheduler.cs" />
+    <Compile Include="TimerScheduler\TimerSchedulerParams.cs" />
+    <Compile Include="TimerScheduler\UsedAutoPostScheduler.cs" />
     <Compile Include="Utils\Informer.cs" />
+    <Compile Include="Utils\ListMixer.cs" />
     <Compile Include="ViewModels\AddChangeCityViewModel.cs" />
     <Compile Include="ViewModels\AddChangeProday2KolesaItemViewModel.cs" />
     <Compile Include="ViewModels\AddChangeProxyAddressViewModel.cs" />

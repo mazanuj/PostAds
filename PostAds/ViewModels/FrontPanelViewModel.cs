@@ -4,15 +4,16 @@ using LogManager = NLog.LogManager;
 namespace Motorcycle.ViewModels
 {
     using Caliburn.Micro;
-    using Microsoft.Win32;
     using Config;
-    using Utils;
+    using Microsoft.Win32;
+    using Motorcycle.Config.Data;
+    using Motorcycle.TimerScheduler;
     using NLog;
     using System;
     using System.ComponentModel.Composition;
+    using Utils;
     using XmlWorker;
     using LogManager = LogManager;
-
 
     [Export(typeof(FrontPanelViewModel))]
     public class FrontPanelViewModel : PropertyChangedBase
@@ -26,12 +27,25 @@ namespace Motorcycle.ViewModels
         private bool boxUsed;
         private bool boxKol;
 
+        private byte motosaleFrom;
+        private byte usedAutoFrom;
+        private byte prodayFrom;
+
+        private byte motosaleTo;
+        private byte usedAutoTo;
+        private byte prodayTo;
+
+        private int motosaleInterval;
+        private int usedAutoInterval;
+        private int prodayInterval;
+
         [ImportingConstructor]
         public FrontPanelViewModel(LoggingControlViewModel loggingControlModel)
         {
             LoggingControl = loggingControlModel;
 
             CanEditFrontPanel = true;
+            CanEditMainSettings = true;
             // Create OpenFileDialog
             dlg = new OpenFileDialog
             {
@@ -42,7 +56,14 @@ namespace Motorcycle.ViewModels
 
             Informer.OnPostResultChanged += ChangePostResults;
             Informer.OnProxyListFromInternetUpdated += ChangeFrontPanelIsEnabledStatus;
-            Informer.OnFilePathsCleared += this.ResetUiControls;
+            Informer.OnAllPostsAreCompleted += ResetUiControlsAndCleatFiles;
+
+            MotosaleInterval = 1;
+            UsedAutoInterval = 1;
+            ProdayInterval = 1;
+            NotifyOfPropertyChange(() => MotosaleInterval);
+            NotifyOfPropertyChange(() => UsedAutoInterval);
+            NotifyOfPropertyChange(() => ProdayInterval);
         }
 
         public int CountSuccess { get; set; }
@@ -91,6 +112,161 @@ namespace Motorcycle.ViewModels
             }
         }
 
+        public byte MotosaleFrom
+        {
+            get
+            {
+                return motosaleFrom;
+            }
+            set
+            {
+                motosaleFrom = value;
+                MotosaleFromLabel = value;
+                NotifyOfPropertyChange(() => MotosaleFromLabel);
+
+                CanButtonStart = CheckIfAllFieldsAreFilled();
+                NotifyOfPropertyChange(() => CanButtonStart);
+            }
+        }
+
+        public byte UsedAutoFrom
+        {
+            get
+            {
+                return usedAutoFrom;
+            }
+            set
+            {
+                usedAutoFrom = value;
+                UsedAutoFromLabel = value;
+                NotifyOfPropertyChange(() => UsedAutoFromLabel);
+
+                CanButtonStart = CheckIfAllFieldsAreFilled();
+                NotifyOfPropertyChange(() => CanButtonStart);
+            }
+        }
+
+        public byte ProdayFrom
+        {
+            get
+            {
+                return prodayFrom;
+            }
+            set
+            {
+                prodayFrom = value;
+                ProdayFromLabel = value;
+                NotifyOfPropertyChange(() => ProdayFromLabel);
+
+                CanButtonStart = CheckIfAllFieldsAreFilled();
+                NotifyOfPropertyChange(() => CanButtonStart);
+            }
+        }
+
+        public byte MotosaleTo
+        {
+            get
+            {
+                return motosaleTo;
+            }
+            set
+            {
+                motosaleTo = value;
+                MotosaleToLabel = value;
+                NotifyOfPropertyChange(() => MotosaleToLabel);
+
+                CanButtonStart = CheckIfAllFieldsAreFilled();
+                NotifyOfPropertyChange(() => CanButtonStart);
+            }
+        }
+
+        public byte UsedAutoTo
+        {
+            get
+            {
+                return usedAutoTo;
+            }
+            set
+            {
+                usedAutoTo = value;
+                UsedAutoToLabel = value;
+                NotifyOfPropertyChange(() => UsedAutoToLabel);
+
+                CanButtonStart = CheckIfAllFieldsAreFilled();
+                NotifyOfPropertyChange(() => CanButtonStart);
+            }
+        }
+
+        public byte ProdayTo
+        {
+            get
+            {
+                return prodayTo;
+            }
+            set
+            {
+                prodayTo = value;
+                ProdayToLabel = value;
+                NotifyOfPropertyChange(() => ProdayToLabel);
+
+                CanButtonStart = CheckIfAllFieldsAreFilled();
+                NotifyOfPropertyChange(() => CanButtonStart);
+            }
+        }
+
+        public int MotosaleInterval
+        {
+            get
+            {
+                return motosaleInterval;
+            }
+            set
+            {
+                motosaleInterval = value;
+                MotosaleIntervalLabel = value;
+                NotifyOfPropertyChange(() => MotosaleIntervalLabel);
+            }
+        }
+
+        public int UsedAutoInterval
+        {
+            get
+            {
+                return usedAutoInterval;
+            }
+            set
+            {
+                usedAutoInterval = value;
+                UsedAutoIntervalLabel = value;
+                NotifyOfPropertyChange(() => UsedAutoIntervalLabel);
+            }
+        }
+
+        public int ProdayInterval
+        {
+            get
+            {
+                return prodayInterval;
+            }
+            set
+            {
+                prodayInterval = value;
+                ProdayIntervalLabel = value;
+                NotifyOfPropertyChange(() => ProdayIntervalLabel);
+            }
+        }
+
+        public int MotosaleFromLabel { get; set; }
+        public int UsedAutoFromLabel { get; set; }
+        public int ProdayFromLabel { get; set; }
+
+        public int MotosaleToLabel { get; set; }
+        public int UsedAutoToLabel { get; set; }
+        public int ProdayToLabel { get; set; }
+
+        public int MotosaleIntervalLabel { get; set; }
+        public int UsedAutoIntervalLabel { get; set; }
+        public int ProdayIntervalLabel { get; set; }
         public bool MotoFileLabel { get; set; }
 
         public bool SpareFileLabel { get; set; }
@@ -101,7 +277,11 @@ namespace Motorcycle.ViewModels
 
         public bool CanButtonStart { get; set; }
 
+        public bool CanButtonStop { get; set; }
+
         public bool CanEditFrontPanel { get; set; }
+
+        public bool CanEditMainSettings { get; set; }
 
         private void ChangePostResults(bool postResult)
         {
@@ -123,8 +303,11 @@ namespace Motorcycle.ViewModels
             NotifyOfPropertyChange(() => CanEditFrontPanel);
         }
 
-        private void ResetUiControls()
+        private void ResetUiControlsAndCleatFiles()
         {
+            FileCleaner.RemoveEmptyLinesFromAllFiles();
+            FilePathXmlWorker.ResetFilePaths();
+
             MotoFileLabel = false;
             SpareFileLabel = false;
             EquipFileLabel = false;
@@ -133,6 +316,8 @@ namespace Motorcycle.ViewModels
             BoxKol = false;
             BoxMoto = false;
             BoxUsed = false;
+            CanEditMainSettings = true;
+            CanButtonStop = false;
 
             NotifyOfPropertyChange(() => MotoFileLabel);
             NotifyOfPropertyChange(() => SpareFileLabel);
@@ -142,11 +327,22 @@ namespace Motorcycle.ViewModels
             NotifyOfPropertyChange(() => BoxKol);
             NotifyOfPropertyChange(() => BoxMoto);
             NotifyOfPropertyChange(() => BoxUsed);
+            NotifyOfPropertyChange(() => CanEditMainSettings);
+            NotifyOfPropertyChange(() => CanButtonStop);
         }
 
         private bool CheckIfAllFieldsAreFilled()
         {
-            return (MotoFileLabel || SpareFileLabel || EquipFileLabel) && (flag[0] + flag[1] + flag[2] != 0);
+            var motosaleCorrect = true;
+            var usedautoCorrect = true;
+            var prodayCorrect = true;
+
+            if (flag[0] > 0) motosaleCorrect = MotosaleFrom != MotosaleTo;
+            if (flag[1] > 0) usedautoCorrect = UsedAutoFrom != UsedAutoTo;
+            if (flag[2] > 0) prodayCorrect = ProdayFrom != ProdayTo;
+
+            return (MotoFileLabel || SpareFileLabel || EquipFileLabel) && (flag[0] + flag[1] + flag[2] != 0)
+                && motosaleCorrect && usedautoCorrect && prodayCorrect;
         }
 
         private void ResetPostResultStatistic()
@@ -162,8 +358,41 @@ namespace Motorcycle.ViewModels
 
             CanButtonStart = false;
             NotifyOfPropertyChange(() => CanButtonStart);
+            CanButtonStop = true;
+            NotifyOfPropertyChange(() => CanButtonStop);
+            CanEditMainSettings = false;
+            NotifyOfPropertyChange(() => CanEditMainSettings);
 
-            await Advertising.Initialize(flag);
+            var timerParams = new TimerSchedulerParams
+            {
+                MotosaleFrom = this.MotosaleFrom,
+                MotosaleInterval = this.MotosaleInterval,
+                MotosaleTo = this.MotosaleTo,
+                ProdayFrom = this.ProdayFrom,
+                ProdayInterval = this.ProdayInterval,
+                ProdayTo = this.ProdayTo,
+                UsedAutoFrom = this.UsedAutoFrom,
+                UsedAutoInterval = this.UsedAutoInterval,
+                UsedAutoTo = this.UsedAutoTo
+            };
+
+            await Advertising.Initialize(flag, timerParams);
+        }
+
+        public void ButtonStop()
+        {
+            MotosalePostScheduler.StopPostMsgWithTimer();
+            UsedAutoPostScheduler.StopPostMsgWithTimer();
+            ProdayPostScheduler.StopPostMsgWithTimer();
+
+            CanButtonStart = true;
+            NotifyOfPropertyChange(() => CanButtonStart);
+            CanButtonStop = false;
+            NotifyOfPropertyChange(() => CanButtonStop);
+            CanEditMainSettings = true;
+            NotifyOfPropertyChange(() => CanEditMainSettings);
+
+            ResetUiControlsAndCleatFiles();
         }
 
         public void ButtonMoto()
