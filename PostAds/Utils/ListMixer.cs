@@ -1,9 +1,9 @@
 ﻿namespace Motorcycle.Utils
 {
-    using Motorcycle.Config.Data;
+    using Config.Data;
     using System.Collections.Generic;
 
-    public class ListMixer
+    public static class ListMixer
     {
         public static List<DicHolder> MixTwoLists(List<DicHolder> fList, List<DicHolder> sList)
         {

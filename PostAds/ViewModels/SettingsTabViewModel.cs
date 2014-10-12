@@ -1,9 +1,11 @@
-﻿namespace Motorcycle.ViewModels
+﻿using LogManager = NLog.LogManager;
+
+namespace Motorcycle.ViewModels
 {
     using System.ComponentModel.Composition;
     using Caliburn.Micro;
     using NLog;
-    using LogManager = NLog.LogManager;
+    using LogManager = LogManager;
 
     [Export(typeof (SettingsTabViewModel))]
     public class SettingsTabViewModel : PropertyChangedBase

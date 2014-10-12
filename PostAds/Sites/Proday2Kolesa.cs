@@ -9,7 +9,7 @@
     using System.Collections.Generic;
     using XmlWorker;
     
-    public class Proday2Kolesa
+    public static class Proday2Kolesa
     {
         public static PostStatus PostMoto(DicHolder data)
         {

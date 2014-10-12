@@ -1,8 +1,8 @@
 ﻿namespace Motorcycle
 {
     ﻿using Caliburn.Micro;
-    using Motorcycle.ViewModels;
-    using Motorcycle.XmlWorker;
+    using ViewModels;
+    using XmlWorker;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.Composition;

@@ -1,8 +1,8 @@
 ﻿namespace Motorcycle.Config
 {
     using Data;
-    using Motorcycle.TimerScheduler;
-    using Motorcycle.Utils;
+    using TimerScheduler;
+    using Utils;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -16,6 +16,7 @@
             FinishPosting.ResetValues();
 
             #region Post on Motosale
+
             if (flag[0] > 0)
             {
                 var motoList =
@@ -23,10 +24,10 @@
                         holder => holder.Site == SiteEnum.MotoSale && holder.Type == ProductEnum.Motorcycle).ToList();
 
                 var spareList = returnDataHolders.Where(
-                        holder => holder.Site == SiteEnum.MotoSale && holder.Type == ProductEnum.Spare).ToList();
+                    holder => holder.Site == SiteEnum.MotoSale && holder.Type == ProductEnum.Spare).ToList();
 
                 var equipList = returnDataHolders.Where(
-                        holder => holder.Site == SiteEnum.MotoSale && holder.Type == ProductEnum.Equip).ToList();
+                    holder => holder.Site == SiteEnum.MotoSale && holder.Type == ProductEnum.Equip).ToList();
 
                 var resultList = ListMixer.MixThreeLists(motoList, spareList, equipList);
 
@@ -41,9 +42,11 @@
 
                 }
             }
+
             #endregion
 
             #region Post on UsedAuto
+
             if (flag[1] > 0)
             {
                 var motoList =
@@ -51,7 +54,7 @@
                         holder => holder.Site == SiteEnum.UsedAuto && holder.Type == ProductEnum.Motorcycle).ToList();
 
                 var spareList = returnDataHolders.Where(
-                        holder => holder.Site == SiteEnum.UsedAuto && holder.Type == ProductEnum.Spare).ToList();
+                    holder => holder.Site == SiteEnum.UsedAuto && holder.Type == ProductEnum.Spare).ToList();
 
                 var resultList = ListMixer.MixTwoLists(motoList, spareList);
 
@@ -65,20 +68,23 @@
                         timerParams.UsedAutoInterval);
                 }
             }
+
             #endregion
 
             #region Post on Proday2Kolesa
+
             if (flag[2] > 0)
             {
                 var motoList =
                     returnDataHolders.Where(
-                        holder => holder.Site == SiteEnum.Proday2Kolesa && holder.Type == ProductEnum.Motorcycle).ToList();
+                        holder => holder.Site == SiteEnum.Proday2Kolesa && holder.Type == ProductEnum.Motorcycle)
+                        .ToList();
 
                 var spareList = returnDataHolders.Where(
-                        holder => holder.Site == SiteEnum.Proday2Kolesa && holder.Type == ProductEnum.Spare).ToList();
+                    holder => holder.Site == SiteEnum.Proday2Kolesa && holder.Type == ProductEnum.Spare).ToList();
 
                 var equipList = returnDataHolders.Where(
-                        holder => holder.Site == SiteEnum.Proday2Kolesa && holder.Type == ProductEnum.Equip).ToList();
+                    holder => holder.Site == SiteEnum.Proday2Kolesa && holder.Type == ProductEnum.Equip).ToList();
 
                 var resultList = ListMixer.MixThreeLists(motoList, spareList, equipList);
 
@@ -92,6 +98,7 @@
                         timerParams.ProdayInterval);
                 }
             }
+
             #endregion
         }
     }

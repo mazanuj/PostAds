@@ -1,9 +1,12 @@
-﻿namespace Motorcycle.Config.Data
+﻿using System;
+using Ude;
+
+namespace Motorcycle.Config.Data
 {
     using Interfaces;
     using Factories;
 
-    using Motorcycle.Utils;
+    using Utils;
 
     using NLog;
     using System.Collections.Generic;
@@ -57,39 +60,39 @@
 
             if (!string.IsNullOrEmpty(motoFile))
             {
-                await FillReturnDataHoldersList(site, ProductEnum.Motorcycle, motoFile, siteData);
+                await FillReturnDataHoldersList(ProductEnum.Motorcycle, motoFile, siteData);
             }
 
             if (!string.IsNullOrEmpty(spareFile))
             {
-                await FillReturnDataHoldersList(site, ProductEnum.Spare, spareFile, siteData);
+                await FillReturnDataHoldersList(ProductEnum.Spare, spareFile, siteData);
             }
 
             if (!string.IsNullOrEmpty(equipFile))
             {
-                await FillReturnDataHoldersList(site, ProductEnum.Equip, equipFile, siteData);
+                await FillReturnDataHoldersList(ProductEnum.Equip, equipFile, siteData);
             }
         }
 
-        private static async Task FillReturnDataHoldersList(SiteEnum site, ProductEnum product, string textFile,
+        private static async Task FillReturnDataHoldersList(ProductEnum product, string textFile,
             ISiteData siteData)
         {
             await Task.Factory.StartNew(
                 () =>
                 {
                     var listFile = File.ReadAllLines(textFile, Encoding.GetEncoding(Ude(textFile)))
-                        .Where(x=>!string.IsNullOrEmpty(x))
+                        .Where(x => !string.IsNullOrEmpty(x))
                         .Distinct()
                         .ToList();
                     if (listFile.Count == 0)
                     {
-                        Log.Warn(textFile.Substring(textFile.LastIndexOf(@"\", System.StringComparison.Ordinal) + 1) +
+                        Log.Warn(textFile.Substring(textFile.LastIndexOf(@"\", StringComparison.Ordinal) + 1) +
                                  " is empty");
 
                         Informer.RaiseOnAllPostsAreCompletedEvent();
                         return;
                     }
-                  
+
                     var lineNum = 0;
 
                     switch (product)
@@ -116,7 +119,7 @@
         {
             using (var fs = File.OpenRead(filename))
             {
-                var cdet = new Ude.CharsetDetector();
+                var cdet = new CharsetDetector();
                 cdet.Feed(fs);
                 cdet.DataEnd();
 

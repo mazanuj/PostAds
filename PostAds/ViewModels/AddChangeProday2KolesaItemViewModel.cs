@@ -1,8 +1,7 @@
-﻿
-namespace Motorcycle.ViewModels
+﻿namespace Motorcycle.ViewModels
 {
     using Caliburn.Micro;
-    using Motorcycle.XmlWorker;
+    using XmlWorker;
     using System.ComponentModel.Composition;
     using System.Windows;
 

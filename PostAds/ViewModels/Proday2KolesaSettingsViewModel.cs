@@ -1,12 +1,12 @@
 ﻿namespace Motorcycle.ViewModels
 {
     using Caliburn.Micro;
-    using Motorcycle.XmlWorker;
+    using XmlWorker;
     using System.Collections.ObjectModel;
     using System.ComponentModel.Composition;
     using System.Windows;
 
-    [Export(typeof(Proday2KolesaSettingsViewModel))]
+    [Export(typeof (Proday2KolesaSettingsViewModel))]
     public class Proday2KolesaSettingsViewModel : PropertyChangedBase
     {
         private readonly IWindowManager _windowManager;
@@ -19,7 +19,6 @@
         public Proday2KolesaSettingsViewModel(IWindowManager windowManager)
         {
             _windowManager = windowManager;
-
             ItemCollection = new ObservableCollection<SpareEquipItem>();
 
             GetItemsFromXmlFile();
@@ -28,7 +27,6 @@
         public void RemoveItem(SpareEquipItem item)
         {
             SpareEquipXmlWorker.RemoveItemNode(item);
-
             RefreshItemList();
         }
 
@@ -50,28 +48,22 @@
         private void RefreshItemList()
         {
             ItemCollection.Clear();
-
             GetItemsFromXmlFile();
         }
 
         private void ShowConfirmationItemDialog(SpareEquipItem currentItem)
         {
             var proday2KolesaViewModel = new AddChangeProday2KolesaItemViewModel(currentItem);
-
             _windowManager.ShowDialog(proday2KolesaViewModel);
 
             if (proday2KolesaViewModel.IsOkay)
-            {
                 RefreshItemList();
-            }
         }
 
         private void GetItemsFromXmlFile()
         {
             foreach (var item in SpareEquipXmlWorker.GetAllItems())
-            {
                 ItemCollection.Add(item);
-            }
         }
     }
 }

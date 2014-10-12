@@ -56,7 +56,7 @@ namespace Motorcycle.Config.Proxy
             }
         }
 
-        public static List<ProxyAddressStruct> GetProxyDataAllAtOnce()
+        public static IEnumerable<ProxyAddressStruct> GetProxyDataAllAtOnce()
         {
             var proxyList = new List<ProxyAddressStruct>();
             proxyList.AddRange(ProxyChecker.ProxyAddresses(RosinstrumentCom()));

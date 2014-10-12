@@ -2,7 +2,7 @@
 {
     using Config.Data;
     using HTTP;
-    using Motorcycle.XmlWorker;
+    using XmlWorker;
     using NLog;
     using POST;
     using System;
@@ -11,7 +11,7 @@
     using System.Text;
     using xNet.Net;
 
-    public class UsedAuto
+    public static class UsedAuto
     {
         public static PostStatus PostMoto(DicHolder data)
         {

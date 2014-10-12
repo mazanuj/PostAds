@@ -1,14 +1,14 @@
 ﻿namespace Motorcycle.TimerScheduler
 {
-    using Motorcycle.Config.Data;
-    using Motorcycle.Sites;
-    using Motorcycle.Utils;
+    using Config.Data;
+    using Sites;
+    using Utils;
     using NLog;
     using System;
     using System.Collections.Generic;
     using System.Timers;
 
-    class ProdayPostScheduler
+    static class ProdayPostScheduler
     {
         //don't forget FinishPosting.ResetValues() higher!!!
         private static Timer timer = new Timer();

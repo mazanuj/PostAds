@@ -2,10 +2,6 @@
 {
     public class SpareEquipItem
     {
-        public SpareEquipItem()
-        {
-        }
-
         public SpareEquipItem(string id, string pz, string pe)
         {
             Id = id;

@@ -5,7 +5,7 @@
     using System.Xml.Linq;
     using System.Xml.XPath;
 
-    internal class PasswordXmlWorker
+    internal static class PasswordXmlWorker
     {
         private const string XmlFilePath = "Main.config";
 
@@ -36,7 +36,7 @@
         public static string GetPasswordValue()
         {
             var doc = XDocument.Load(XmlFilePath);
-            var att = (IEnumerable)doc.XPathEvaluate("//passwordConfig/password");
+            var att = (IEnumerable) doc.XPathEvaluate("//passwordConfig/password");
             var firstOrDefault = att.Cast<XElement>().FirstOrDefault();
 
             return firstOrDefault != null ? firstOrDefault.Value : "";

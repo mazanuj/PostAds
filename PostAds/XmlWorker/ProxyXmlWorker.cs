@@ -1,4 +1,6 @@
-﻿namespace Motorcycle.XmlWorker
+﻿using System.Globalization;
+
+namespace Motorcycle.XmlWorker
 {
     using Config.Proxy;
     using System;
@@ -30,9 +32,11 @@
 
         private static string GenerateValidDateFormat(DateTime date)
         {
-            var month = date.Month < 10 ? string.Format("0{0}", date.Month) : date.Month.ToString();
+            var month = date.Month < 10
+                ? string.Format("0{0}", date.Month)
+                : date.Month.ToString(CultureInfo.InvariantCulture);
 
-            var day = date.Day < 10 ? string.Format("0{0}", date.Day) : date.Day.ToString();
+            var day = date.Day < 10 ? string.Format("0{0}", date.Day) : date.Day.ToString(CultureInfo.InvariantCulture);
 
             return string.Format("{0}{1}{2}", date.Year, month, day);
         }
@@ -124,32 +128,29 @@
 
             var proxyList = doc.XPathSelectElements(xpath).ToList();
 
-            if (proxyList.Any())
+            if (!proxyList.Any()) return null;
+            switch (purpose)
             {
-                switch (purpose)
-                {
-                    case "moto":
-                        proxyList[0].Attribute("moto").Value =
-                            (int.Parse(proxyList[0].Attribute("moto").Value) + 1).ToString();
-                        break;
-                    case "equip":
-                        proxyList[0].Attribute("equip").Value =
-                            (int.Parse(proxyList[0].Attribute("equip").Value) + 1).ToString();
-                        break;
-                    case "spare":
-                        proxyList[0].Attribute("spare").Value =
-                            (int.Parse(proxyList[0].Attribute("spare").Value) + 1).ToString();
-                        break;
-                }
-                doc.Save(XmlFilePath);
-
-                return new ProxyAddressStruct
-                {
-                    ProxyAddresses = proxyList[0].Attribute("address").Value,
-                    Type = ProxyAddressStruct.GetProxyTypeEnumFromString(proxyList[0].Attribute("type").Value)
-                };
+                case "moto":
+                    proxyList[0].Attribute("moto").Value =
+                        (int.Parse(proxyList[0].Attribute("moto").Value) + 1).ToString(CultureInfo.InvariantCulture);
+                    break;
+                case "equip":
+                    proxyList[0].Attribute("equip").Value =
+                        (int.Parse(proxyList[0].Attribute("equip").Value) + 1).ToString(CultureInfo.InvariantCulture);
+                    break;
+                case "spare":
+                    proxyList[0].Attribute("spare").Value =
+                        (int.Parse(proxyList[0].Attribute("spare").Value) + 1).ToString(CultureInfo.InvariantCulture);
+                    break;
             }
-            return null;
+            doc.Save(XmlFilePath);
+
+            return new ProxyAddressStruct
+            {
+                ProxyAddresses = proxyList[0].Attribute("address").Value,
+                Type = ProxyAddressStruct.GetProxyTypeEnumFromString(proxyList[0].Attribute("type").Value)
+            };
         }
 
         public static void RemoveProxyAddressFromFile(string proxyAddress)

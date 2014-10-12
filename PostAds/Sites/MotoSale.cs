@@ -6,16 +6,14 @@ using Motorcycle.Config.Proxy;
 namespace Motorcycle.Sites
 {
     using System;
-    using System.Threading.Tasks;
     using Captcha;
     using Config.Data;
     using HTTP;
     using NLog;
     using POST;
     using XmlWorker;
-    using Interfaces;
 
-    public class MotoSale
+    public static class MotoSale
     {
         private static readonly Object Locker = new object();
 

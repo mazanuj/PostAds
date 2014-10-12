@@ -130,9 +130,6 @@
 
             </Grid>
         </GroupBox>
-
-
-
         <ListView  Grid.Row="1" Grid.Column="1" Name="ProxyAddressCollection" SelectionMode="Single" Margin="10,10,0,0">
             <ListView.ItemContainerStyle >
                 <Style TargetType="ListBoxItem" >

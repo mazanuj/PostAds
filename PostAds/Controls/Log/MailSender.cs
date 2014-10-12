@@ -6,7 +6,7 @@ using System.Net.Mail;
 using System.Net.Mime;
 using NLog;
 
-namespace Motorcycle.Controls
+namespace Motorcycle.Controls.Log
 {
     internal static class MailSender
     {

@@ -1,6 +1,6 @@
 ﻿namespace Motorcycle.TimerScheduler
 {
-    public class FinishPosting
+    public static class FinishPosting
     {
         public static bool MotosaleFinished { get; set; }
         public static bool UsedAutoFinished { get; set; }

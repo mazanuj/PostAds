@@ -3,13 +3,11 @@ using LogManager = NLog.LogManager;
 
 namespace Motorcycle.ViewModels
 {
-    using System.Windows;
-
     using Caliburn.Micro;
     using Config;
     using Microsoft.Win32;
-    using Motorcycle.Config.Data;
-    using Motorcycle.TimerScheduler;
+    using Config.Data;
+    using TimerScheduler;
     using NLog;
     using System;
     using System.ComponentModel.Composition;
@@ -17,11 +15,11 @@ namespace Motorcycle.ViewModels
     using XmlWorker;
     using LogManager = LogManager;
 
-    [Export(typeof(FrontPanelViewModel))]
+    [Export(typeof (FrontPanelViewModel))]
     public class FrontPanelViewModel : PropertyChangedBase
     {
         private readonly Logger log = LogManager.GetCurrentClassLogger();
-        public LoggingControlViewModel LoggingControl { get; private set; }
+        public LoggingControlViewModel LoggingControl { get; set; }
         private readonly OpenFileDialog dlg;
         private readonly byte[] flag = new byte[3];
 
@@ -59,9 +57,21 @@ namespace Motorcycle.ViewModels
             Informer.OnPostResultChanged += ChangePostResults;
             Informer.OnProxyListFromInternetUpdated += ChangeFrontPanelIsEnabledStatus;
             Informer.OnAllPostsAreCompleted += ResetUiControlsAndClearFiles;
-            Informer.OnMotosalePostsAreCompleted += () => { IsMotosaleFinishStatusVisible = true; NotifyOfPropertyChange(() => IsMotosaleFinishStatusVisible); };
-            Informer.OnProdayPostsAreCompleted += () => { IsProdayFinishStatusVisible = true; NotifyOfPropertyChange(() => IsProdayFinishStatusVisible); };
-            Informer.OnUsedAutoPostsAreCompleted += () => { IsUsedautoFinishStatusVisible = true; NotifyOfPropertyChange(() => IsUsedautoFinishStatusVisible); };
+            Informer.OnMotosalePostsAreCompleted += () =>
+            {
+                IsMotosaleFinishStatusVisible = true;
+                NotifyOfPropertyChange(() => IsMotosaleFinishStatusVisible);
+            };
+            Informer.OnProdayPostsAreCompleted += () =>
+            {
+                IsProdayFinishStatusVisible = true;
+                NotifyOfPropertyChange(() => IsProdayFinishStatusVisible);
+            };
+            Informer.OnUsedAutoPostsAreCompleted += () =>
+            {
+                IsUsedautoFinishStatusVisible = true;
+                NotifyOfPropertyChange(() => IsUsedautoFinishStatusVisible);
+            };
 
             LoadTimersValuesFromXml();
         }
@@ -118,10 +128,7 @@ namespace Motorcycle.ViewModels
 
         public byte MotosaleFrom
         {
-            get
-            {
-                return motosaleFrom;
-            }
+            get { return motosaleFrom; }
             set
             {
                 motosaleFrom = value;
@@ -135,10 +142,7 @@ namespace Motorcycle.ViewModels
 
         public byte UsedAutoFrom
         {
-            get
-            {
-                return usedAutoFrom;
-            }
+            get { return usedAutoFrom; }
             set
             {
                 usedAutoFrom = value;
@@ -152,10 +156,7 @@ namespace Motorcycle.ViewModels
 
         public byte ProdayFrom
         {
-            get
-            {
-                return prodayFrom;
-            }
+            get { return prodayFrom; }
             set
             {
                 prodayFrom = value;
@@ -169,10 +170,7 @@ namespace Motorcycle.ViewModels
 
         public byte MotosaleTo
         {
-            get
-            {
-                return motosaleTo;
-            }
+            get { return motosaleTo; }
             set
             {
                 motosaleTo = value;
@@ -186,10 +184,7 @@ namespace Motorcycle.ViewModels
 
         public byte UsedAutoTo
         {
-            get
-            {
-                return usedAutoTo;
-            }
+            get { return usedAutoTo; }
             set
             {
                 usedAutoTo = value;
@@ -203,10 +198,7 @@ namespace Motorcycle.ViewModels
 
         public byte ProdayTo
         {
-            get
-            {
-                return prodayTo;
-            }
+            get { return prodayTo; }
             set
             {
                 prodayTo = value;
@@ -220,10 +212,7 @@ namespace Motorcycle.ViewModels
 
         public int MotosaleInterval
         {
-            get
-            {
-                return motosaleInterval;
-            }
+            get { return motosaleInterval; }
             set
             {
                 motosaleInterval = value;
@@ -234,10 +223,7 @@ namespace Motorcycle.ViewModels
 
         public int UsedAutoInterval
         {
-            get
-            {
-                return usedAutoInterval;
-            }
+            get { return usedAutoInterval; }
             set
             {
                 usedAutoInterval = value;
@@ -248,10 +234,7 @@ namespace Motorcycle.ViewModels
 
         public int ProdayInterval
         {
-            get
-            {
-                return prodayInterval;
-            }
+            get { return prodayInterval; }
             set
             {
                 prodayInterval = value;
@@ -338,12 +321,12 @@ namespace Motorcycle.ViewModels
 
         private void ResetFinishStatusValues()
         {
-            this.IsProdayFinishStatusVisible = false;
-            this.IsMotosaleFinishStatusVisible = false;
-            this.IsUsedautoFinishStatusVisible = false;
-            this.NotifyOfPropertyChange(() => this.IsProdayFinishStatusVisible);
-            this.NotifyOfPropertyChange(() => this.IsMotosaleFinishStatusVisible);
-            this.NotifyOfPropertyChange(() => this.IsUsedautoFinishStatusVisible);
+            IsProdayFinishStatusVisible = false;
+            IsMotosaleFinishStatusVisible = false;
+            IsUsedautoFinishStatusVisible = false;
+            NotifyOfPropertyChange(() => IsProdayFinishStatusVisible);
+            NotifyOfPropertyChange(() => IsMotosaleFinishStatusVisible);
+            NotifyOfPropertyChange(() => IsUsedautoFinishStatusVisible);
         }
 
         private bool CheckIfAllFieldsAreFilled()
@@ -369,38 +352,38 @@ namespace Motorcycle.ViewModels
             UsedAutoInterval = TimerXmlWorker.GetTimerValue("usedauto", "interval");
             ProdayInterval = TimerXmlWorker.GetTimerValue("proday", "interval");
 
-            MotosaleFrom = (byte)TimerXmlWorker.GetTimerValue("motosale", "from");
-            UsedAutoFrom = (byte)TimerXmlWorker.GetTimerValue("usedauto", "from");
-            ProdayFrom = (byte)TimerXmlWorker.GetTimerValue("proday", "from");
+            MotosaleFrom = (byte) TimerXmlWorker.GetTimerValue("motosale", "from");
+            UsedAutoFrom = (byte) TimerXmlWorker.GetTimerValue("usedauto", "from");
+            ProdayFrom = (byte) TimerXmlWorker.GetTimerValue("proday", "from");
 
-            MotosaleTo = (byte)TimerXmlWorker.GetTimerValue("motosale", "to");
-            UsedAutoTo = (byte)TimerXmlWorker.GetTimerValue("usedauto", "to");
-            ProdayTo = (byte)TimerXmlWorker.GetTimerValue("proday", "to");
+            MotosaleTo = (byte) TimerXmlWorker.GetTimerValue("motosale", "to");
+            UsedAutoTo = (byte) TimerXmlWorker.GetTimerValue("usedauto", "to");
+            ProdayTo = (byte) TimerXmlWorker.GetTimerValue("proday", "to");
 
-            NotifyOfPropertyChange(() => this.MotosaleInterval);
-            NotifyOfPropertyChange(() => this.UsedAutoInterval);
-            NotifyOfPropertyChange(() => this.ProdayInterval);
+            NotifyOfPropertyChange(() => MotosaleInterval);
+            NotifyOfPropertyChange(() => UsedAutoInterval);
+            NotifyOfPropertyChange(() => ProdayInterval);
 
-            NotifyOfPropertyChange(() => this.MotosaleFrom);
-            NotifyOfPropertyChange(() => this.UsedAutoFrom);
-            NotifyOfPropertyChange(() => this.ProdayFrom);
+            NotifyOfPropertyChange(() => MotosaleFrom);
+            NotifyOfPropertyChange(() => UsedAutoFrom);
+            NotifyOfPropertyChange(() => ProdayFrom);
 
-            NotifyOfPropertyChange(() => this.MotosaleTo);
-            NotifyOfPropertyChange(() => this.UsedAutoTo);
-            NotifyOfPropertyChange(() => this.ProdayTo);
+            NotifyOfPropertyChange(() => MotosaleTo);
+            NotifyOfPropertyChange(() => UsedAutoTo);
+            NotifyOfPropertyChange(() => ProdayTo);
         }
 
         private void SaveTimersValuesToXml()
         {
-            TimerXmlWorker.SetTimerValue("motosale", "interval", (byte)MotosaleInterval);
+            TimerXmlWorker.SetTimerValue("motosale", "interval", (byte) MotosaleInterval);
             TimerXmlWorker.SetTimerValue("motosale", "from", MotosaleFrom);
             TimerXmlWorker.SetTimerValue("motosale", "to", MotosaleTo);
 
-            TimerXmlWorker.SetTimerValue("usedauto", "interval", (byte)UsedAutoInterval);
+            TimerXmlWorker.SetTimerValue("usedauto", "interval", (byte) UsedAutoInterval);
             TimerXmlWorker.SetTimerValue("usedauto", "from", UsedAutoFrom);
             TimerXmlWorker.SetTimerValue("usedauto", "to", UsedAutoTo);
 
-            TimerXmlWorker.SetTimerValue("proday", "interval", (byte)ProdayInterval);
+            TimerXmlWorker.SetTimerValue("proday", "interval", (byte) ProdayInterval);
             TimerXmlWorker.SetTimerValue("proday", "from", ProdayFrom);
             TimerXmlWorker.SetTimerValue("proday", "to", ProdayTo);
         }
@@ -420,15 +403,15 @@ namespace Motorcycle.ViewModels
 
             var timerParams = new TimerSchedulerParams
             {
-                MotosaleFrom = this.MotosaleFrom,
-                MotosaleInterval = this.MotosaleInterval,
-                MotosaleTo = this.MotosaleTo,
-                ProdayFrom = this.ProdayFrom,
-                ProdayInterval = this.ProdayInterval,
-                ProdayTo = this.ProdayTo,
-                UsedAutoFrom = this.UsedAutoFrom,
-                UsedAutoInterval = this.UsedAutoInterval,
-                UsedAutoTo = this.UsedAutoTo
+                MotosaleFrom = MotosaleFrom,
+                MotosaleInterval = MotosaleInterval,
+                MotosaleTo = MotosaleTo,
+                ProdayFrom = ProdayFrom,
+                ProdayInterval = ProdayInterval,
+                ProdayTo = ProdayTo,
+                UsedAutoFrom = UsedAutoFrom,
+                UsedAutoInterval = UsedAutoInterval,
+                UsedAutoTo = UsedAutoTo
             };
 
             await Advertising.Initialize(flag, timerParams);
@@ -447,7 +430,7 @@ namespace Motorcycle.ViewModels
             CanEditMainSettings = true;
             NotifyOfPropertyChange(() => CanEditMainSettings);
 
-            this.ResetUiControlsAndClearFiles();
+            ResetUiControlsAndClearFiles();
         }
 
         public void ButtonMoto()
