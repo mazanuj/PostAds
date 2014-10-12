@@ -9,11 +9,10 @@
     {
         private const string XmlFilePath = "Main.config";
 
-        private static readonly XDocument Doc = XDocument.Load(XmlFilePath);
-
         public static void ChangePasswordNode(string newPassword)
         {
-            var item = Doc.XPathSelectElement("//passwordConfig");
+            var doc = XDocument.Load(XmlFilePath);
+            var item = doc.XPathSelectElement("//passwordConfig");
             if (item == null) return;
 
             var passwordElement = item.Element("password");
@@ -22,20 +21,22 @@
                 passwordElement.Value = newPassword;
             }
 
-            Doc.Save(XmlFilePath);
+            doc.Save(XmlFilePath);
         }
 
         public static void RemovePasswordNode()
         {
-            var item = Doc.XPathSelectElement("//passwordConfig");
+            var doc = XDocument.Load(XmlFilePath);
+            var item = doc.XPathSelectElement("//passwordConfig");
             if (item == null) return;
             item.Remove();
-            Doc.Save(XmlFilePath);
+            doc.Save(XmlFilePath);
         }
 
         public static string GetPasswordValue()
         {
-            var att = (IEnumerable)Doc.XPathEvaluate("//passwordConfig/password");
+            var doc = XDocument.Load(XmlFilePath);
+            var att = (IEnumerable)doc.XPathEvaluate("//passwordConfig/password");
             var firstOrDefault = att.Cast<XElement>().FirstOrDefault();
 
             return firstOrDefault != null ? firstOrDefault.Value : "";

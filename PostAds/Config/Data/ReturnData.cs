@@ -2,6 +2,9 @@
 {
     using Interfaces;
     using Factories;
+
+    using Motorcycle.Utils;
+
     using NLog;
     using System.Collections.Generic;
     using System.IO;
@@ -82,6 +85,8 @@
                     {
                         Log.Warn(textFile.Substring(textFile.LastIndexOf(@"\", System.StringComparison.Ordinal) + 1) +
                                  " is empty");
+
+                        Informer.RaiseOnAllPostsAreCompletedEvent();
                         return;
                     }
                   

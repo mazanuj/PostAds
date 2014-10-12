@@ -9,13 +9,13 @@
     {
         private const string XmlFilePath = "Main.config";
 
-        private static readonly XDocument Doc = XDocument.Load(XmlFilePath);
-
         public static string GetItemInfo(string itemId, string site)
         {
+            var doc = XDocument.Load(XmlFilePath);
+
             var att =
                 (IEnumerable)
-                    Doc.XPathEvaluate(string.Format("//docs/item[@id='{0}']/@{1}", itemId.ToLower(), site.ToLower()));
+                    doc.XPathEvaluate(string.Format("//docs/item[@id='{0}']/@{1}", itemId.ToLower(), site.ToLower()));
 
             var firstOrDefault = att.Cast<XAttribute>().FirstOrDefault();
 

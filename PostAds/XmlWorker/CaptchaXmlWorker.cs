@@ -9,20 +9,20 @@
     {
         private const string XmlFilePath = "Main.config";
 
-        private static readonly XDocument Doc = XDocument.Load(XmlFilePath);
-
         public static void AddNewCaptchaNode(string domain, string key)
         {
-            var root = Doc.XPathSelectElement("/configuration");
+            var doc = XDocument.Load(XmlFilePath);
+            var root = doc.XPathSelectElement("/configuration");
             var captchaElement = new XElement("captcha", new XElement("domain") {Value = domain.ToLower()},
                 new XElement("key") {Value = key.ToLower()});
             root.Add(captchaElement);
-            Doc.Save(XmlFilePath);
+            doc.Save(XmlFilePath);
         }
 
         public static void ChangeCaptchaNode(string newDomain, string newKey)
         {
-            var item = Doc.XPathSelectElement("//captcha");
+            var doc = XDocument.Load(XmlFilePath);
+            var item = doc.XPathSelectElement("//captcha");
             if (item == null) return;
 
             var domainElement = item.Element("domain");
@@ -37,20 +37,22 @@
                 keyElement.Value = newKey.ToLower();
             }
 
-            Doc.Save(XmlFilePath);
+            doc.Save(XmlFilePath);
         }
 
         public static void RemoveCaptchaNode()
         {
-            var item = Doc.XPathSelectElement("//captcha");
+            var doc = XDocument.Load(XmlFilePath);
+            var item = doc.XPathSelectElement("//captcha");
             if (item == null) return;
             item.Remove();
-            Doc.Save(XmlFilePath);
+            doc.Save(XmlFilePath);
         }
 
         public static string GetCaptchaValues(string element)
         {
-            var att = (IEnumerable) Doc.XPathEvaluate(string.Format("//captcha/{0}", element.ToLower()));
+            var doc = XDocument.Load(XmlFilePath);
+            var att = (IEnumerable) doc.XPathEvaluate(string.Format("//captcha/{0}", element.ToLower()));
             var firstOrDefault = att.Cast<XElement>().FirstOrDefault();
 
             return firstOrDefault != null ? firstOrDefault.Value : "";

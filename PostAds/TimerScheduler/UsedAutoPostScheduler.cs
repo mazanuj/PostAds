@@ -24,7 +24,7 @@
         {
             FinishPosting.UsedAutoFinished = false;
 
-            timer.Interval = interval * 60000;
+            timer.Interval = interval != 0 ? interval * 60000 : 2000;
             timer.Elapsed += (s, e) =>
             {
                 lock (Locker)
@@ -55,6 +55,8 @@
                             timer.Stop();
 
                             Log.Info("All posts to UsedAuto are completed");
+
+                            Informer.RaiseOnUsedAutoPostsAreCompletedEvent();
 
                             FinishPosting.UsedAutoFinished = true;
                             if (FinishPosting.CheckIfPostingToAllSitesFinished())

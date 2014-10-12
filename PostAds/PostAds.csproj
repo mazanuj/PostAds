@@ -203,6 +203,7 @@
     <Compile Include="XmlWorker\ProxyAddressItem.cs" />
     <Compile Include="XmlWorker\ProxyXmlWorker.cs" />
     <Compile Include="XmlWorker\SpareEquipXmlWorker.cs" />
+    <Compile Include="XmlWorker\TimerXmlWorker.cs" />
     <Page Include="Resources\Icons.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

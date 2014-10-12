@@ -9,24 +9,25 @@ namespace Motorcycle.XmlWorker
     internal static class CityXmlWorker
     {
         private const string XmlFilePath = "Main.config";
-        private static readonly XDocument Doc = XDocument.Load(XmlFilePath);
         private const string ItemXPath = "//city/item[text() = '{0}']";
 
         public static void AddNewItemNode(string cityName, string m, string p, string u)
         {
-            var city = Doc.XPathSelectElement("//city");
+            var doc = XDocument.Load(XmlFilePath);
+            var city = doc.XPathSelectElement("//city");
 
             var element = new XElement("item", new XAttribute("m", m), new XAttribute("p", p), new XAttribute("u", u))
             {
                 Value = cityName.ToLower()
             };
             city.Add(element);
-            Doc.Save(XmlFilePath);
+            doc.Save(XmlFilePath);
         }
 
         public static void ChangeItemNode(string oldCityName, CityItem newItem)
         {
-            var item = Doc.XPathSelectElement(string.Format(ItemXPath, oldCityName.ToLower()));
+            var doc = XDocument.Load(XmlFilePath);
+            var item = doc.XPathSelectElement(string.Format(ItemXPath, oldCityName.ToLower()));
             if (item == null) return;
 
             item.Attribute("m").Value = newItem.M;
@@ -34,22 +35,24 @@ namespace Motorcycle.XmlWorker
             item.Attribute("u").Value = newItem.U;
             item.Value = newItem.CityName.ToLower();
 
-            Doc.Save(XmlFilePath);
+            doc.Save(XmlFilePath);
         }
 
         public static void RemoveItemNode(string cityName)
         {
-            var item = Doc.XPathSelectElement(string.Format(ItemXPath, cityName));
+            var doc = XDocument.Load(XmlFilePath);
+            var item = doc.XPathSelectElement(string.Format(ItemXPath, cityName));
             if (item == null) return;
             item.Remove();
-            Doc.Save(XmlFilePath);
+            doc.Save(XmlFilePath);
         }
 
         public static string GetItemSiteValueUsingCity(string city, string site)
         {
+            var doc = XDocument.Load(XmlFilePath);
             var att =
                 (IEnumerable)
-                    Doc.XPathEvaluate(string.Format("//city/item[text() = '{0}']/@{1}", city.ToLower(), site.ToLower()));
+                    doc.XPathEvaluate(string.Format("//city/item[text() = '{0}']/@{1}", city.ToLower(), site.ToLower()));
             var firstOrDefault = att.Cast<XAttribute>().FirstOrDefault();
 
             return firstOrDefault != null ? firstOrDefault.Value : string.Empty;
@@ -57,7 +60,8 @@ namespace Motorcycle.XmlWorker
 
         public static IEnumerable<CityItem> GetItems()
         {
-            var items = (from e in Doc.Descendants("city").Descendants("item")
+            var doc = XDocument.Load(XmlFilePath);
+            var items = (from e in doc.Descendants("city").Descendants("item")
                 select new CityItem
                 {
                     CityName = e.Value,

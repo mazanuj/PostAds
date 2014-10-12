@@ -24,7 +24,7 @@
         {
             FinishPosting.ProdayFinished = false;
 
-            timer.Interval = interval * 60000;
+            timer.Interval = interval != 0 ? interval * 60000 : 2000;
             timer.Elapsed += (s, e) =>
                 {
                     lock (Locker)
@@ -59,6 +59,8 @@
                                 timer.Stop();
 
                                 Log.Info("All posts to Proday2Kolesa are completed");
+
+                                Informer.RaiseOnProdayPostsAreCompletedEvent();
 
                                 FinishPosting.ProdayFinished = true;
                                 if (FinishPosting.CheckIfPostingToAllSitesFinished())

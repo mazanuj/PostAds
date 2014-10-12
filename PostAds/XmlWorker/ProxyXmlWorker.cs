@@ -11,12 +11,11 @@
     {
         private const string XmlFilePath = "proxy.xml";
 
-        private static readonly XDocument Doc = XDocument.Load(XmlFilePath);
-
         private static void CheckDateAndResetValues()
         {
+            var doc = XDocument.Load(XmlFilePath);
             var todayDate = GenerateValidDateFormat(DateTime.Now);
-            var proxyListToUpdate = Doc.XPathSelectElements(string.Format("//servers/server[@date < {0}]", todayDate));
+            var proxyListToUpdate = doc.XPathSelectElements(string.Format("//servers/server[@date < {0}]", todayDate));
 
             foreach (var proxyElement in proxyListToUpdate)
             {
@@ -26,7 +25,7 @@
                 proxyElement.Attribute("date").Value = todayDate;
             }
 
-            Doc.Save(XmlFilePath);
+            doc.Save(XmlFilePath);
         }
 
         private static string GenerateValidDateFormat(DateTime date)
@@ -40,7 +39,8 @@
 
         public static List<ProxyAddressStruct> GetProxyListFromFile()
         {
-            var proxyList = Doc.XPathSelectElements("//servers/server");
+            var doc = XDocument.Load(XmlFilePath);
+            var proxyList = doc.XPathSelectElements("//servers/server");
 
             return proxyList.Select(proxyElement => new ProxyAddressStruct
             {
@@ -51,7 +51,8 @@
 
         public static void AddNewProxy(ProxyAddressStruct proxy)
         {
-            var servers = Doc.XPathSelectElement("//servers");
+            var doc = XDocument.Load(XmlFilePath);
+            var servers = doc.XPathSelectElement("//servers");
 
             servers.Add(
                 new XElement(
@@ -63,16 +64,17 @@
                     new XAttribute("spare", "0"),
                     new XAttribute("date", GenerateValidDateFormat(DateTime.Now))));
 
-            Doc.Save(XmlFilePath);
+            doc.Save(XmlFilePath);
         }
 
         public static void AddNewProxyListToFile(IEnumerable<ProxyAddressStruct> proxyList)
         {
+            var doc = XDocument.Load(XmlFilePath);
             var existingList = GetProxyListFromFile();
 
             var todayDate = GenerateValidDateFormat(DateTime.Now);
 
-            var servers = Doc.XPathSelectElement("//servers");
+            var servers = doc.XPathSelectElement("//servers");
 
             if (proxyList == null) return;
 
@@ -88,20 +90,22 @@
                         new XAttribute("spare", "0"),
                         new XAttribute("date", todayDate)));
             }
-            Doc.Save(XmlFilePath);
+            doc.Save(XmlFilePath);
         }
 
         public static void RemoveProxiesFromFile()
         {
-            var proxyList = Doc.XPathSelectElements("//servers/server");
+            var doc = XDocument.Load(XmlFilePath);
+            var proxyList = doc.XPathSelectElements("//servers/server");
 
             proxyList.Remove();
 
-            Doc.Save(XmlFilePath);
+            doc.Save(XmlFilePath);
         }
 
         public static ProxyAddressStruct GetProxyAddress(string purpose)
         {
+            var doc = XDocument.Load(XmlFilePath);
             CheckDateAndResetValues();
 
             var xpath = "";
@@ -118,7 +122,7 @@
                     break;
             }
 
-            var proxyList = Doc.XPathSelectElements(xpath).ToList();
+            var proxyList = doc.XPathSelectElements(xpath).ToList();
 
             if (proxyList.Any())
             {
@@ -137,7 +141,7 @@
                             (int.Parse(proxyList[0].Attribute("spare").Value) + 1).ToString();
                         break;
                 }
-                Doc.Save(XmlFilePath);
+                doc.Save(XmlFilePath);
 
                 return new ProxyAddressStruct
                 {
@@ -150,21 +154,24 @@
 
         public static void RemoveProxyAddressFromFile(string proxyAddress)
         {
-            var server = Doc.XPathSelectElement(string.Format("//servers/server[@address='{0}']", proxyAddress));
+            var doc = XDocument.Load(XmlFilePath);
+            var server = doc.XPathSelectElement(string.Format("//servers/server[@address='{0}']", proxyAddress));
             server.Remove();
-            Doc.Save(XmlFilePath);
+            doc.Save(XmlFilePath);
         }
 
         public static void RemoveAllProxyAddressesFromFile()
         {
-            var servers = Doc.XPathSelectElements("//servers/server[@address!='localhost']");
+            var doc = XDocument.Load(XmlFilePath);
+            var servers = doc.XPathSelectElements("//servers/server[@address!='localhost']");
             servers.Remove();
-            Doc.Save(XmlFilePath);
+            doc.Save(XmlFilePath);
         }
 
         public static IEnumerable<ProxyAddressItem> GetProxyAddressItemsListFromFile()
         {
-            var proxyList = Doc.XPathSelectElements("//servers/server");
+            var doc = XDocument.Load(XmlFilePath);
+            var proxyList = doc.XPathSelectElements("//servers/server");
 
             return proxyList.Select(proxyElement => new ProxyAddressItem
             {
@@ -175,13 +182,14 @@
 
         public static void ChangeProxyAddress(string oldProxyAddress, string newProxyAddress, string newType)
         {
-            var item = Doc.XPathSelectElement(string.Format("//servers/server[@address='{0}']", oldProxyAddress));
+            var doc = XDocument.Load(XmlFilePath);
+            var item = doc.XPathSelectElement(string.Format("//servers/server[@address='{0}']", oldProxyAddress));
             if (item == null) return;
 
             item.Attribute("address").Value = newProxyAddress;
             item.Attribute("type").Value = newType;
 
-            Doc.Save(XmlFilePath);
+            doc.Save(XmlFilePath);
         }
     }
 }

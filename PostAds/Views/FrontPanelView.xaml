@@ -10,13 +10,14 @@
 			 IsEnabled= "{Binding CanEditFrontPanel}">
     <UserControl.Resources>
         <converters:BoolToColorConverter x:Key="BoolToColorConverter"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-       
+
         <Border Background="LightBlue" 
         BorderBrush="LightGreen" 
         BorderThickness="2" 
@@ -27,7 +28,7 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                
+
                 <StackPanel Orientation="Horizontal" Grid.Row="0">
                     <Button x:Name="ButtonStart" Content="START" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Margin="10,10,10,50" Height="35"/>
                     <Button x:Name="ButtonStop" Content="STOP" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Margin="10,10,10,50" Height="35"/>
@@ -62,6 +63,7 @@
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" MinWidth="15"/>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
@@ -71,37 +73,41 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
-                            <TextBlock Text="С(время)" Grid.Column="1" Grid.Row="0"/>
-                            <TextBlock Text="По" Grid.Column="3" Grid.Row="0"/>
-                            <TextBlock Text="Интервал" Grid.Column="5" Grid.Row="0"/>
+                            <TextBlock Text="С(время)" Grid.Column="2" Grid.Row="0"/>
+                            <TextBlock Text="По" Grid.Column="4" Grid.Row="0"/>
+                            <TextBlock Text="Интервал" Grid.Column="6" Grid.Row="0"/>
 
-                            <CheckBox x:Name="BoxMoto" Content="Motosale" Grid.Column="0" Grid.Row="1"/>
-                            <CheckBox x:Name="BoxUsed" Content="UsedAuto" Grid.Column="0" Grid.Row="2"/>
-                            <CheckBox x:Name="BoxKol" Content="Proday2Kolesa" Grid.Column="0" Grid.Row="3"/>
+                            <Label Grid.Column="0" Grid.Row="1" Background="ForestGreen" Width="10" Height="10" Margin="0,0,5,0" Visibility="{Binding IsMotosaleFinishStatusVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                            <Label Grid.Column="0" Grid.Row="2" Background="ForestGreen" Width="10" Height="10" Margin="0,0,5,0" Visibility="{Binding IsUsedautoFinishStatusVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                            <Label Grid.Column="0" Grid.Row="3" Background="ForestGreen" Width="10" Height="10" Margin="0,0,5,0" Visibility="{Binding IsProdayFinishStatusVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                            
+                            <CheckBox x:Name="BoxMoto" Content="Motosale" Grid.Column="1" Grid.Row="1"/>
+                            <CheckBox x:Name="BoxUsed" Content="UsedAuto" Grid.Column="1" Grid.Row="2"/>
+                            <CheckBox x:Name="BoxKol" Content="Proday2Kolesa" Grid.Column="1" Grid.Row="3"/>
 
-                            <Slider x:Name="MotosaleFrom" Grid.Column="1" Grid.Row="1" Minimum="0" Maximum="23" MinWidth="50"/>
-                            <Slider x:Name="UsedAutoFrom" Grid.Column="1" Grid.Row="2" Minimum="0" Maximum="23" MinWidth="50"/>
-                            <Slider x:Name="ProdayFrom" Grid.Column="1" Grid.Row="3" Minimum="0" Maximum="23" MinWidth="50"/>
+                            <Slider x:Name="MotosaleFrom" Grid.Column="2" Grid.Row="1" Minimum="0" Maximum="23" MinWidth="50"/>
+                            <Slider x:Name="UsedAutoFrom" Grid.Column="2" Grid.Row="2" Minimum="0" Maximum="23" MinWidth="50"/>
+                            <Slider x:Name="ProdayFrom" Grid.Column="2" Grid.Row="3" Minimum="0" Maximum="23" MinWidth="50"/>
 
-                            <Label x:Name="MotosaleFromLabel" Grid.Column="2" Grid.Row="1" MinWidth="25"/>
-                            <Label x:Name="UsedAutoFromLabel" Grid.Column="2" Grid.Row="2" MinWidth="25"/>
-                            <Label x:Name="ProdayFromLabel" Grid.Column="2" Grid.Row="3" MinWidth="25"/>
+                            <Label x:Name="MotosaleFromLabel" Grid.Column="3" Grid.Row="1" MinWidth="25"/>
+                            <Label x:Name="UsedAutoFromLabel" Grid.Column="3" Grid.Row="2" MinWidth="25"/>
+                            <Label x:Name="ProdayFromLabel" Grid.Column="3" Grid.Row="3" MinWidth="25"/>
 
-                            <Slider x:Name="MotosaleTo" Grid.Column="3" Grid.Row="1" Minimum="0" Maximum="23" MinWidth="50"/>
-                            <Slider x:Name="UsedAutoTo" Grid.Column="3" Grid.Row="2" Minimum="0" Maximum="23" MinWidth="50"/>
-                            <Slider x:Name="ProdayTo" Grid.Column="3" Grid.Row="3" Minimum="0" Maximum="23" MinWidth="50"/>
+                            <Slider x:Name="MotosaleTo" Grid.Column="4" Grid.Row="1" Minimum="0" Maximum="23" MinWidth="50"/>
+                            <Slider x:Name="UsedAutoTo" Grid.Column="4" Grid.Row="2" Minimum="0" Maximum="23" MinWidth="50"/>
+                            <Slider x:Name="ProdayTo" Grid.Column="4" Grid.Row="3" Minimum="0" Maximum="23" MinWidth="50"/>
 
-                            <Label x:Name="MotosaleToLabel" Grid.Column="4" Grid.Row="1" MinWidth="25"/>
-                            <Label x:Name="UsedAutoToLabel" Grid.Column="4" Grid.Row="2" MinWidth="25"/>
-                            <Label x:Name="ProdayToLabel" Grid.Column="4" Grid.Row="3" MinWidth="25"/>
+                            <Label x:Name="MotosaleToLabel" Grid.Column="5" Grid.Row="1" MinWidth="25"/>
+                            <Label x:Name="UsedAutoToLabel" Grid.Column="5" Grid.Row="2" MinWidth="25"/>
+                            <Label x:Name="ProdayToLabel" Grid.Column="5" Grid.Row="3" MinWidth="25"/>
 
-                            <Slider x:Name="MotosaleInterval" Grid.Column="5" Grid.Row="1" Minimum="1" Maximum="100" MinWidth="50"/>
-                            <Slider x:Name="UsedAutoInterval" Grid.Column="5" Grid.Row="2" Minimum="1" Maximum="100" MinWidth="50"/>
-                            <Slider x:Name="ProdayInterval" Grid.Column="5" Grid.Row="3" Minimum="1" Maximum="100" MinWidth="50"/>
+                            <Slider x:Name="MotosaleInterval" Grid.Column="6" Grid.Row="1" Minimum="0" Maximum="100" MinWidth="50"/>
+                            <Slider x:Name="UsedAutoInterval" Grid.Column="6" Grid.Row="2" Minimum="0" Maximum="100" MinWidth="50"/>
+                            <Slider x:Name="ProdayInterval" Grid.Column="6" Grid.Row="3" Minimum="0" Maximum="100" MinWidth="50"/>
 
-                            <Label x:Name="MotosaleIntervalLabel" Grid.Column="6" Grid.Row="1" MinWidth="30"/>
-                            <Label x:Name="UsedAutoIntervalLabel" Grid.Column="6" Grid.Row="2" MinWidth="30"/>
-                            <Label x:Name="ProdayIntervalLabel" Grid.Column="6" Grid.Row="3" MinWidth="30"/>
+                            <Label x:Name="MotosaleIntervalLabel" Grid.Column="7" Grid.Row="1" MinWidth="30"/>
+                            <Label x:Name="UsedAutoIntervalLabel" Grid.Column="7" Grid.Row="2" MinWidth="30"/>
+                            <Label x:Name="ProdayIntervalLabel" Grid.Column="7" Grid.Row="3" MinWidth="30"/>
                         </Grid>
                     </GroupBox>
 
@@ -124,8 +130,8 @@
                         </Grid>
                     </GroupBox>
                 </Grid>
-                
-                
+
+
             </Grid>
         </Border>
 
@@ -135,6 +141,6 @@
         CornerRadius="45" 
         Padding="25">
             <ContentControl x:Name="LoggingControl" />
-            </Border>
+        </Border>
     </Grid>
 </UserControl>
