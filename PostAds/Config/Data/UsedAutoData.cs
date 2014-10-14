@@ -1,4 +1,5 @@
-﻿using Motorcycle.XmlWorker;
+﻿using System.IO;
+using Motorcycle.XmlWorker;
 using NLog;
 
 namespace Motorcycle.Config.Data
@@ -9,7 +10,6 @@ namespace Motorcycle.Config.Data
     internal class UsedAutoData : ISiteData
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
-
         public DicHolder GetMoto(string row, int lineNum)
         {
             var data = row.Split('\t');
@@ -32,7 +32,13 @@ namespace Motorcycle.Config.Data
             for (var i = 0; i < 8; i++)
             {
                 if (i < d.Length)
+                {
                     files[i] = FilePathXmlWorker.GetFilePath("photo") + d[i];
+                    if (File.Exists(files[i])) continue;
+
+                    Log.Warn(d[i] + " not exists");
+                    files[i] = string.Empty;
+                }
                 else files[i] = string.Empty;
             }
 
@@ -131,6 +137,12 @@ namespace Motorcycle.Config.Data
             //====================================================================================//
 
             var condition = data[10].ToLower() == "новый" ? "new" : "used";
+            var file = FilePathXmlWorker.GetFilePath("photo") + data[8].Split(',')[0];
+            if (!File.Exists(file))
+            {
+                Log.Warn(data[8].Split(',')[0] + " not exists");
+                file = string.Empty;
+            }
 
             return new DicHolder
             {
@@ -158,7 +170,7 @@ namespace Motorcycle.Config.Data
                 },
                 FileDictionary = new Dictionary<string, string>
                 {
-                    {"part_photo[]", FilePathXmlWorker.GetFilePath("photo") + data[8].Split(',')[0]} //+
+                    {"part_photo[]", file} //+
                 }
             };
         }

@@ -1,4 +1,6 @@
-﻿using Motorcycle.XmlWorker;
+﻿using System.IO;
+using Motorcycle.XmlWorker;
+using NLog;
 
 namespace Motorcycle.Config.Data
 {
@@ -7,13 +9,15 @@ namespace Motorcycle.Config.Data
 
     internal class DvaKolesaData : ISiteData
     {
+        private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+
         public DicHolder GetMoto(string row, int lineNum)
         {
             var data = row.Split('\t');
 
             //Check
             if (RemoveEntries.DataError("type", ManufactureXmlWorker.GetMotoType(data[10], "p"), row, lineNum,
-                    SiteEnum.Proday2Kolesa, ProductEnum.Motorcycle) ||
+                SiteEnum.Proday2Kolesa, ProductEnum.Motorcycle) ||
                 RemoveEntries.DataError("city", CityXmlWorker.GetItemSiteValueUsingCity(data[12], "p"), row, lineNum,
                     SiteEnum.Proday2Kolesa, ProductEnum.Motorcycle) ||
                 RemoveEntries.DataError("manufacture", ManufactureXmlWorker.GetItemSiteValueUsingPlant(data[4], "p"),
@@ -31,7 +35,13 @@ namespace Motorcycle.Config.Data
             for (var i = 0; i < 5; i++)
             {
                 if (i < d.Length)
+                {
                     files[i] = FilePathXmlWorker.GetFilePath("photo") + d[i];
+                    if (File.Exists(files[i])) continue;
+
+                    Log.Warn(d[i] + " not exists");
+                    files[i] = string.Empty;
+                }
                 else files[i] = string.Empty;
             }
 
@@ -92,7 +102,7 @@ namespace Motorcycle.Config.Data
 
             //Check
             if (RemoveEntries.DataError("manufacture", SpareEquipXmlWorker.GetItemSiteValueUsingPlant(data[4], "pz"),
-                    row, lineNum, SiteEnum.Proday2Kolesa, ProductEnum.Spare) ||
+                row, lineNum, SiteEnum.Proday2Kolesa, ProductEnum.Spare) ||
                 RemoveEntries.DataError("type", SpareEquipXmlWorker.GetSpareType(data[5], "p"), row, lineNum,
                     SiteEnum.Proday2Kolesa, ProductEnum.Spare) ||
                 RemoveEntries.DataError("condition", ManufactureXmlWorker.GetConditionState(data[10], "p"), row, lineNum,
@@ -108,7 +118,13 @@ namespace Motorcycle.Config.Data
             for (var i = 0; i < 5; i++)
             {
                 if (i < d.Length)
+                {
                     files[i] = FilePathXmlWorker.GetFilePath("photo") + d[i];
+                    if (File.Exists(files[i])) continue;
+
+                    Log.Warn(d[i] + " not exists");
+                    files[i] = string.Empty;
+                }
                 else files[i] = string.Empty;
             }
 
@@ -180,7 +196,13 @@ namespace Motorcycle.Config.Data
             for (var i = 0; i < 5; i++)
             {
                 if (i < d.Length)
+                {
                     files[i] = FilePathXmlWorker.GetFilePath("photo") + d[i];
+                    if (File.Exists(files[i])) continue;
+
+                    Log.Warn(d[i] + " not exists");
+                    files[i] = string.Empty;
+                }
                 else files[i] = string.Empty;
             }
 

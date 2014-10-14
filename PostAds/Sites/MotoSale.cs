@@ -59,7 +59,7 @@ namespace Motorcycle.Sites
                     respString = string.Empty;
                     var proxyAddress = new ProxyAddressStruct { ProxyAddresses = "localhost" };
                     while (ProxyAddressWorker.ProxyListState)
-                    {
+                     {
                         try
                         {
                             lock (Locker)
@@ -82,7 +82,7 @@ namespace Motorcycle.Sites
                             }
                         }
                     }
-                } while (respString.Contains("Введите код подтверждения:"));
+                } while (respString.Contains("Проверочный код не верен"));
                 if (respString == string.Empty) throw new Exception("Not valid proxy addresses");
                 if (respString.Contains("Ошибка при добавлении объявления. Не нарушайте правила добавления."))
                     throw new Exception("Нарушение правил добавления");
@@ -99,14 +99,14 @@ namespace Motorcycle.Sites
                     return PostStatus.ERROR;
                 }
                 if (respString.Contains("На указанный вами E-mail отправлено письмо"))
-                {
-                    Log.Info(reply + " successfully posted on Motosale");
+                {                    
                     try
                     {
                         while (
                             !PostConfirm.ConfirmAdv("pop.mail.ru", 995, true, dataDictionary["mail"],
                                 PasswordXmlWorker.GetPasswordValue()))
                             Thread.Sleep(5000);
+                        Log.Info(reply + " successfully posted on Motosale");
                     }
                     catch (Exception ex)
                     {
@@ -121,7 +121,7 @@ namespace Motorcycle.Sites
                 }
                 //=====================================================//
 
-                Log.Warn(reply + " unsuccessfully posted on Motosale");
+                Log.Warn(reply + " unsuccessfully posted on Motosale  (Server error)");
                 RemoveEntries.Unposted(data.Row, ProductEnum.Motorcycle, SiteEnum.MotoSale);
                 if (RemoveEntries.Remove(data.LineNum, ProductEnum.Motorcycle))
                     Log.Debug(reply + " removed from list (Motosale)");
@@ -211,7 +211,7 @@ namespace Motorcycle.Sites
                             }
                         }
                     }
-                } while (respString.Contains("Введите код подтверждения:"));
+                } while (respString.Contains("Проверочный код не верен"));
                 if (respString == string.Empty) throw new Exception("Not valid proxy addresses");
                 if (respString.Contains("Ошибка при добавлении объявления. Не нарушайте правила добавления."))
                     throw new Exception("Нарушение правил добавления");
@@ -227,14 +227,13 @@ namespace Motorcycle.Sites
                 }
                 if (respString.Contains("На указанный вами E-mail отправлено письмо"))
                 {
-                    Log.Info(reply + " successfully posted on Motosale");
-
                     try
                     {
                         while (
                             !PostConfirm.ConfirmAdv("pop.mail.ru", 995, true, dataDictionary["mail"],
                                 PasswordXmlWorker.GetPasswordValue()))
                             Thread.Sleep(5000);
+                        Log.Info(reply + " successfully posted on Motosale");
                     }
                     catch (Exception ex)
                     {
@@ -245,7 +244,7 @@ namespace Motorcycle.Sites
                         Log.Debug(reply + " removed from list (Motosale)");
                     return PostStatus.OK;
                 }
-                Log.Warn(reply + " unsuccessfully posted on Motosale");
+                Log.Warn(reply + " unsuccessfully posted on Motosale (Server error)");
                 RemoveEntries.Unposted(data.Row, ProductEnum.Spare, SiteEnum.MotoSale);
                 if (RemoveEntries.Remove(data.LineNum, ProductEnum.Spare))
                     Log.Debug(reply + " removed from list (Motosale)");
@@ -331,7 +330,7 @@ namespace Motorcycle.Sites
                             }
                         }
                     }
-                } while (respString.Contains("Введите код подтверждения:"));
+                } while (respString.Contains("Проверочный код не верен"));
                 if (respString == string.Empty) throw new Exception("Not valid proxy addresses");
                 if (respString.Contains("Ошибка при добавлении объявления. Не нарушайте правила добавления."))
                     throw new Exception("Нарушение правил добавления");
@@ -347,14 +346,13 @@ namespace Motorcycle.Sites
                 }
                 if (respString.Contains("На указанный вами E-mail отправлено письмо"))
                 {
-                    Log.Info(reply + " successfully posted on Motosale");
-
                     try
                     {
                         while (
                             !PostConfirm.ConfirmAdv("pop.mail.ru", 995, true, dataDictionary["mail"],
                                 PasswordXmlWorker.GetPasswordValue()))
                             Thread.Sleep(5000);
+                        Log.Info(reply + " successfully posted on Motosale");
                     }
                     catch (Exception ex)
                     {
@@ -365,7 +363,7 @@ namespace Motorcycle.Sites
                         Log.Debug(reply + " removed from list (Motosale)");
                     return PostStatus.OK;
                 }
-                Log.Warn(reply + " unsuccessfully posted on Motosale");
+                Log.Warn(reply + " unsuccessfully posted on Motosale (Server error)");
                 RemoveEntries.Unposted(data.Row, ProductEnum.Equip, SiteEnum.MotoSale);
                 return PostStatus.ERROR;
             }

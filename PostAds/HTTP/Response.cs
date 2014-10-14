@@ -7,12 +7,14 @@ using System.Text;
 using System.Windows.Media.Imaging;
 using Motorcycle.Captcha;
 using Motorcycle.Config.Proxy;
+using NLog;
 using xNet.Net;
 
 namespace Motorcycle.HTTP
 {
     internal static class Response
     {
+        private static readonly Logger Log = LogManager.GetCurrentClassLogger();
         internal static string GetResponseString(HttpWebRequest request)
         {
             using (var response = (HttpWebResponse) request.GetResponse())
@@ -35,7 +37,8 @@ namespace Motorcycle.HTTP
         }
 
         internal static string GetResponseString(CookieContainer cookieContainer,
-            Dictionary<string, string> dataDictionary, Dictionary<string, string> fileDictionary, string url, Encoding encoding = null,
+            Dictionary<string, string> dataDictionary, Dictionary<string, string> fileDictionary, string url,
+            Encoding encoding = null,
             ProxyAddressStruct proxyAddress = null)
         {
             using (var requestXNET = new HttpRequest(url))
@@ -76,7 +79,7 @@ namespace Motorcycle.HTTP
                 foreach (var value in dataDictionary)
                     requestXNET.AddField(value.Key, value.Value);
                 if (fileDictionary == null) return requestXNET.Post(url).ToString();
-                foreach (var value in fileDictionary.Where(value => value.Value != string.Empty))
+                foreach (var value in fileDictionary.Where(value =>value.Value != string.Empty))
                     requestXNET.AddFile(value.Key, value.Value);
 
                 return requestXNET.Post(url).ToString();

@@ -8,7 +8,7 @@
     using System.Collections.Generic;
     using System.Timers;
 
-    static class MotosalePostScheduler
+    internal static class MotosalePostScheduler
     {
         //don't forget FinishPosting.ResetValues() higher!!!
         private static Timer timer = new Timer();
@@ -24,59 +24,59 @@
         {
             FinishPosting.MotosaleFinished = false;
 
-            timer.Interval = interval != 0 ? interval * 60000 : 2000;
-            timer.Elapsed += (s, e) =>
+            Checker(dataList);
+            if (dataList.Count == counter)
+            {
+                if (timer.Enabled)
+                    timer.Stop();
+
+                Log.Info("All posts to MotoSale are completed");
+
+                Informer.RaiseOnMotosalePostsAreCompletedEvent();
+
+                FinishPosting.MotosaleFinished = true;
+                if (FinishPosting.CheckIfPostingToAllSitesFinished())
                 {
-                    lock (Locker)
-                    {
-                        if ((fromHour < toHour && DateTime.Now.Hour >= fromHour && DateTime.Now.Hour < toHour)
+                    //Notify UI that all posting were finished
+                    Informer.RaiseOnAllPostsAreCompletedEvent();
+                }
+                return;
+            }
+
+            timer.Interval = interval != 0 ? interval*60000 : 2000;
+            timer.Elapsed += (s, e) =>
+            {
+                lock (Locker)
+                {
+                    if ((fromHour < toHour && DateTime.Now.Hour >= fromHour && DateTime.Now.Hour < toHour)
                         || (fromHour > toHour && DateTime.Now.Hour >= fromHour && DateTime.Now.Hour > toHour)
                         || (fromHour > toHour && DateTime.Now.Hour <= fromHour && DateTime.Now.Hour < toHour))
+                    {
+                        Checker(dataList);
+                        if (dataList.Count == counter)
                         {
-                            if (dataList.Count > counter)
-                            {
-                                //Main work will be here
-                                switch (dataList[counter].Type)
-                                {
-                                    case ProductEnum.Equip:
-                                        Informer.RaiseOnPostResultChangedEvent(
-                                            MotoSale.PostEquip(dataList[counter]) == PostStatus.OK);
-                                        break;
-                                    case ProductEnum.Motorcycle:
-                                        Informer.RaiseOnPostResultChangedEvent(
-                                            MotoSale.PostMoto(dataList[counter]) == PostStatus.OK);
-                                        break;
-                                    case ProductEnum.Spare:
-                                        Informer.RaiseOnPostResultChangedEvent(
-                                            MotoSale.PostSpare(dataList[counter]) == PostStatus.OK);
-                                        break;
-                                }
-
-                                counter++;
-                            }
-                            else
-                            {
+                            if (timer.Enabled)
                                 timer.Stop();
 
-                                Log.Info("All posts to MotoSale are completed");
+                            Log.Info("All posts to MotoSale are completed");
 
-                                Informer.RaiseOnMotosalePostsAreCompletedEvent();
+                            Informer.RaiseOnMotosalePostsAreCompletedEvent();
 
-                                FinishPosting.MotosaleFinished = true;
-                                if (FinishPosting.CheckIfPostingToAllSitesFinished())
-                                {
-                                    //Notify UI that all posting were finished
-                                    Informer.RaiseOnAllPostsAreCompletedEvent();
-                                }
+                            FinishPosting.MotosaleFinished = true;
+                            if (FinishPosting.CheckIfPostingToAllSitesFinished())
+                            {
+                                //Notify UI that all posting were finished
+                                Informer.RaiseOnAllPostsAreCompletedEvent();
                             }
                         }
-                        else
-                        {
-                            //Not right time
-                            Log.Info("Can't post at this time on MotoSale");
-                        }
                     }
-                };
+                    else
+                    {
+                        //Not right time
+                        Log.Info("Can't post at this time on MotoSale");
+                    }
+                }
+            };
 
             timer.Start();
         }
@@ -90,6 +90,28 @@
         {
             timer = new Timer();
             counter = 0;
+        }
+
+        private static void Checker(IList<DicHolder> dataList)
+        {
+            if (dataList.Count <= counter) return;
+            //Main work will be here
+            switch (dataList[counter].Type)
+            {
+                case ProductEnum.Equip:
+                    Informer.RaiseOnPostResultChangedEvent(
+                        MotoSale.PostEquip(dataList[counter]) == PostStatus.OK);
+                    break;
+                case ProductEnum.Motorcycle:
+                    Informer.RaiseOnPostResultChangedEvent(
+                        MotoSale.PostMoto(dataList[counter]) == PostStatus.OK);
+                    break;
+                case ProductEnum.Spare:
+                    Informer.RaiseOnPostResultChangedEvent(
+                        MotoSale.PostSpare(dataList[counter]) == PostStatus.OK);
+                    break;
+            }
+            counter++;
         }
     }
 }

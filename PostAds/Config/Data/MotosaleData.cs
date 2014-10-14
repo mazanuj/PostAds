@@ -1,4 +1,7 @@
-﻿namespace Motorcycle.Config.Data
+﻿using System.IO;
+using NLog;
+
+namespace Motorcycle.Config.Data
 {
     using System.Collections.Generic;
     using XmlWorker;
@@ -6,6 +9,7 @@
 
     internal class MotosaleData : ISiteData
     {
+        private static readonly Logger Log = LogManager.GetCurrentClassLogger();
         public DicHolder GetMoto(string row, int lineNum)
         {
             var data = row.Split('\t');
@@ -26,7 +30,14 @@
             for (var i = 0; i < 5; i++)
             {
                 if (i < d.Length)
+                {
                     files[i] = FilePathXmlWorker.GetFilePath("photo") + d[i];
+                    if (File.Exists(files[i])) continue;
+
+                    Log.Warn(d[i] +" not exists");
+                    files[i] = string.Empty;
+                }
+                    
                 else files[i] = string.Empty;
             }
 
@@ -96,7 +107,13 @@
             for (var i = 0; i < 3; i++)
             {
                 if (i < d.Length)
+                {
                     files[i] = FilePathXmlWorker.GetFilePath("photo") + d[i];
+                    if (File.Exists(files[i])) continue;
+
+                    Log.Warn(d[i] + " not exists");
+                    files[i] = string.Empty;
+                }
                 else files[i] = string.Empty;
             }
 
@@ -150,7 +167,13 @@
             for (var i = 0; i < 3; i++)
             {
                 if (i < d.Length)
+                {
                     files[i] = FilePathXmlWorker.GetFilePath("photo") + d[i];
+                    if (File.Exists(files[i])) continue;
+
+                    Log.Warn(d[i] + " not exists");
+                    files[i] = string.Empty;
+                }
                 else files[i] = string.Empty;
             }
 

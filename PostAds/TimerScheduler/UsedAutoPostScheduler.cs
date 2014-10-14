@@ -22,9 +22,28 @@
             byte toHour,
             int interval)
         {
-            FinishPosting.UsedAutoFinished = false;
+            FinishPosting.UsedAutoFinished = false;                        
 
-            timer.Interval = interval != 0 ? interval*60000 : 2000;
+            Checker(dataList);
+            if (dataList.Count == counter)
+            {
+                if (timer.Enabled)
+                    timer.Stop();
+
+                    Log.Info("All posts to UsedAuto are completed");
+
+                Informer.RaiseOnUsedAutoPostsAreCompletedEvent();
+
+                FinishPosting.UsedAutoFinished = true;
+                if (FinishPosting.CheckIfPostingToAllSitesFinished())
+                {
+                    //Notify UI that all posting were finished
+                    Informer.RaiseOnAllPostsAreCompletedEvent();
+                }
+                return;
+            }
+
+            timer.Interval = interval != 0 ? interval * 60000 : 2000;
             timer.Elapsed += (s, e) =>
             {
                 lock (Locker)
@@ -33,26 +52,11 @@
                         || (fromHour > toHour && DateTime.Now.Hour >= fromHour && DateTime.Now.Hour > toHour)
                         || (fromHour > toHour && DateTime.Now.Hour <= fromHour && DateTime.Now.Hour < toHour))
                     {
-                        if (dataList.Count > counter)
+                        Checker(dataList);
+                        if (dataList.Count == counter)
                         {
-                            //Main work will be here
-                            switch (dataList[counter].Type)
-                            {
-                                case ProductEnum.Motorcycle:
-                                    Informer.RaiseOnPostResultChangedEvent(
-                                        UsedAuto.PostMoto(dataList[counter]) == PostStatus.OK);
-                                    break;
-                                case ProductEnum.Spare:
-                                    Informer.RaiseOnPostResultChangedEvent(
-                                        UsedAuto.PostSpare(dataList[counter]) == PostStatus.OK);
-                                    break;
-                            }
-
-                            counter++;
-                        }
-                        else
-                        {
-                            timer.Stop();
+                            if (timer.Enabled)
+                                timer.Stop();
 
                             Log.Info("All posts to UsedAuto are completed");
 
@@ -73,7 +77,7 @@
                     }
                 }
             };
-
+            
             timer.Start();
         }
 
@@ -86,6 +90,24 @@
         {
             timer = new Timer();
             counter = 0;
+        }
+
+        private static void Checker(IList<DicHolder> dataList)
+        {
+            if (dataList.Count <= counter) return;
+            //Main work will be here
+            switch (dataList[counter].Type)
+            {
+                case ProductEnum.Motorcycle:
+                    Informer.RaiseOnPostResultChangedEvent(
+                        UsedAuto.PostMoto(dataList[counter]) == PostStatus.OK);
+                    break;
+                case ProductEnum.Spare:
+                    Informer.RaiseOnPostResultChangedEvent(
+                        UsedAuto.PostSpare(dataList[counter]) == PostStatus.OK);
+                    break;
+            }
+            counter++;
         }
     }
 }

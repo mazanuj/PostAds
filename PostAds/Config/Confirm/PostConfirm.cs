@@ -23,11 +23,12 @@ namespace Motorcycle.Config.Confirm
 
                         // Authenticate ourselves towards the server
                         client.Authenticate(username, password);
-                        break;
+                        if (client.Connected)
+                            break;
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
-                        Log.Debug(ex.Message, ex);                        
+                        Log.Debug(ex.Message, ex);
                     }
                 }
 
