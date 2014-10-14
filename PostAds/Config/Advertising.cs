@@ -1,5 +1,7 @@
 ﻿namespace Motorcycle.Config
 {
+    using System.Collections.Generic;
+
     using Data;
     using TimerScheduler;
     using Utils;
@@ -19,22 +21,18 @@
 
             if (flag[0] > 0)
             {
-                var motoList =
+                var resultList =
                     returnDataHolders.Where(
-                        holder => holder.Site == SiteEnum.MotoSale && holder.Type == ProductEnum.Motorcycle).ToList();
+                        holder => holder.Site == SiteEnum.MotoSale &&
+                            (holder.Type == ProductEnum.Motorcycle || holder.Type == ProductEnum.Spare || holder.Type == ProductEnum.Equip)).ToList();
 
-                var spareList = returnDataHolders.Where(
-                    holder => holder.Site == SiteEnum.MotoSale && holder.Type == ProductEnum.Spare).ToList();
-
-                var equipList = returnDataHolders.Where(
-                    holder => holder.Site == SiteEnum.MotoSale && holder.Type == ProductEnum.Equip).ToList();
-
-                var resultList = ListMixer.MixThreeLists(motoList, spareList, equipList);
+                resultList.Shuffle();
 
                 if (resultList.Count > 0)
                 {
                     MotosalePostScheduler.ResetValues();
-                    MotosalePostScheduler.StartPostMsgWithTimer(
+
+                    await MotosalePostScheduler.StartPostMsgWithTimer(
                         resultList,
                         timerParams.MotosaleFrom,
                         timerParams.MotosaleTo,
@@ -49,19 +47,17 @@
 
             if (flag[1] > 0)
             {
-                var motoList =
+                var resultList =
                     returnDataHolders.Where(
-                        holder => holder.Site == SiteEnum.UsedAuto && holder.Type == ProductEnum.Motorcycle).ToList();
+                        holder => holder.Site == SiteEnum.UsedAuto &&
+                            (holder.Type == ProductEnum.Motorcycle || holder.Type == ProductEnum.Spare)).ToList();
 
-                var spareList = returnDataHolders.Where(
-                    holder => holder.Site == SiteEnum.UsedAuto && holder.Type == ProductEnum.Spare).ToList();
-
-                var resultList = ListMixer.MixTwoLists(motoList, spareList);
+                resultList.Shuffle();
 
                 if (resultList.Count > 0)
                 {
                     UsedAutoPostScheduler.ResetValues();
-                    UsedAutoPostScheduler.StartPostMsgWithTimer(
+                    await UsedAutoPostScheduler.StartPostMsgWithTimer(
                         resultList,
                         timerParams.UsedAutoFrom,
                         timerParams.UsedAutoTo,
@@ -75,23 +71,17 @@
 
             if (flag[2] > 0)
             {
-                var motoList =
+                var resultList =
                     returnDataHolders.Where(
-                        holder => holder.Site == SiteEnum.Proday2Kolesa && holder.Type == ProductEnum.Motorcycle)
-                        .ToList();
+                        holder => holder.Site == SiteEnum.Proday2Kolesa &&
+                            (holder.Type == ProductEnum.Motorcycle || holder.Type == ProductEnum.Spare || holder.Type == ProductEnum.Equip)).ToList();
 
-                var spareList = returnDataHolders.Where(
-                    holder => holder.Site == SiteEnum.Proday2Kolesa && holder.Type == ProductEnum.Spare).ToList();
-
-                var equipList = returnDataHolders.Where(
-                    holder => holder.Site == SiteEnum.Proday2Kolesa && holder.Type == ProductEnum.Equip).ToList();
-
-                var resultList = ListMixer.MixThreeLists(motoList, spareList, equipList);
+                resultList.Shuffle();
 
                 if (resultList.Count > 0)
                 {
                     ProdayPostScheduler.ResetValues();
-                    ProdayPostScheduler.StartPostMsgWithTimer(
+                    await ProdayPostScheduler.StartPostMsgWithTimer(
                         resultList,
                         timerParams.ProdayFrom,
                         timerParams.ProdayTo,

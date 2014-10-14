@@ -1,5 +1,7 @@
 ﻿namespace Motorcycle.TimerScheduler
 {
+    using System.Threading.Tasks;
+
     using Config.Data;
     using Sites;
     using Utils;
@@ -16,36 +18,37 @@
         private static readonly object Locker = new object();
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
-        public static void StartPostMsgWithTimer(
+        public static async Task StartPostMsgWithTimer(
             List<DicHolder> dataList,
             byte fromHour,
             byte toHour,
             int interval)
         {
             FinishPosting.ProdayFinished = false;
-            lock (Locker)
+
+            await CheckerAsync(dataList);
+            if (dataList.Count == counter)
             {
-                Checker(dataList);
-                if (dataList.Count == counter)
+                if (timer.Enabled)
+                    timer.Stop();
+
+                Log.Info("All posts to Proday2Kolesa are completed");
+
+                Informer.RaiseOnProdayPostsAreCompletedEvent();
+
+                FinishPosting.ProdayFinished = true;
+                if (FinishPosting.CheckIfPostingToAllSitesFinished())
                 {
-                    if (timer.Enabled)
-                        timer.Stop();
-
-                    Log.Info("All posts to Proday2Kolesa are completed");
-
-                    Informer.RaiseOnProdayPostsAreCompletedEvent();
-
-                    FinishPosting.ProdayFinished = true;
-                    if (FinishPosting.CheckIfPostingToAllSitesFinished())
-                    {
-                        //Notify UI that all posting were finished
-                        Informer.RaiseOnAllPostsAreCompletedEvent();
-                    }
-                    return;
+                    //Notify UI that all posting were finished
+                    Informer.RaiseOnAllPostsAreCompletedEvent();
                 }
+                return;
+            }
 
-                timer.Interval = interval != 0 ? interval*60000 : 2000;
-                timer.Elapsed += (s, e) =>
+            timer.Interval = interval != 0 ? interval * 60000 : 2000;
+            timer.Elapsed += (s, e) =>
+            {
+                lock (Locker)
                 {
                     if ((fromHour < toHour && DateTime.Now.Hour >= fromHour && DateTime.Now.Hour < toHour)
                         || (fromHour > toHour && DateTime.Now.Hour >= fromHour && DateTime.Now.Hour > toHour)
@@ -54,8 +57,7 @@
                         Checker(dataList);
                         if (dataList.Count == counter)
                         {
-                            if (timer.Enabled)
-                                timer.Stop();
+                            if (timer.Enabled) timer.Stop();
 
                             Log.Info("All posts to Proday2Kolesa are completed");
 
@@ -74,10 +76,10 @@
                         //Not right time
                         Log.Info("Can't post at this time on Proday2Kolesa");
                     }
-                };
+                }
+            };
 
-                timer.Start();
-            }
+            timer.Start();
         }
 
         public static void StopPostMsgWithTimer()
@@ -112,6 +114,12 @@
             }
 
             counter++;
+        }
+
+        private static async Task CheckerAsync(IList<DicHolder> dataList)
+        {
+            await TaskEx.Run(
+                () => Checker(dataList));
         }
     }
 }

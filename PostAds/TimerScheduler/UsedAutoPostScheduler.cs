@@ -1,5 +1,7 @@
 ﻿namespace Motorcycle.TimerScheduler
 {
+    using System.Threading.Tasks;
+
     using Config.Data;
     using Sites;
     using Utils;
@@ -16,7 +18,7 @@
         private static readonly object Locker = new object();
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
-        public static void StartPostMsgWithTimer(
+        public static async Task StartPostMsgWithTimer(
             List<DicHolder> dataList,
             byte fromHour,
             byte toHour,
@@ -24,7 +26,7 @@
         {
             FinishPosting.UsedAutoFinished = false;                        
 
-            Checker(dataList);
+            await CheckerAsync(dataList);
             if (dataList.Count == counter)
             {
                 if (timer.Enabled)
@@ -108,6 +110,12 @@
                     break;
             }
             counter++;
+        }
+
+        private static async Task CheckerAsync(IList<DicHolder> dataList)
+        {
+            await TaskEx.Run(
+                () => Checker(dataList));
         }
     }
 }

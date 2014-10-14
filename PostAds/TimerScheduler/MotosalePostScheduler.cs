@@ -1,11 +1,12 @@
 ﻿namespace Motorcycle.TimerScheduler
 {
     using Config.Data;
-    using Sites;
-    using Utils;
     using NLog;
+    using Sites;
     using System;
     using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using Utils;
     using System.Timers;
 
     internal static class MotosalePostScheduler
@@ -16,7 +17,7 @@
         private static readonly object Locker = new object();
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
-        public static void StartPostMsgWithTimer(
+        public static async Task StartPostMsgWithTimer(
             List<DicHolder> dataList,
             byte fromHour,
             byte toHour,
@@ -24,7 +25,7 @@
         {
             FinishPosting.MotosaleFinished = false;
 
-            Checker(dataList);
+            await CheckerAsync(dataList);
             if (dataList.Count == counter)
             {
                 if (timer.Enabled)
@@ -43,7 +44,7 @@
                 return;
             }
 
-            timer.Interval = interval != 0 ? interval*60000 : 2000;
+            timer.Interval = interval != 0 ? interval * 60000 : 2000;
             timer.Elapsed += (s, e) =>
             {
                 lock (Locker)
@@ -112,6 +113,12 @@
                     break;
             }
             counter++;
+        }
+
+        private static async Task CheckerAsync(IList<DicHolder> dataList)
+        {
+            await TaskEx.Run(
+                () => Checker(dataList));
         }
     }
 }
