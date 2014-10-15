@@ -127,8 +127,8 @@ namespace Motorcycle.Config.Data
 
             //Check
             if (
-                RemoveEntries.DataError("manufacture", ManufactureXmlWorker.GetItemSiteValueUsingPlant(data[4], "u"),
-                    row, lineNum, SiteEnum.UsedAuto, ProductEnum.Spare) ||
+                //RemoveEntries.DataError("manufacture", ManufactureXmlWorker.GetItemSiteValueUsingPlant(data[4], "u"),
+                //    row, lineNum, SiteEnum.UsedAuto, ProductEnum.Spare) ||
                 RemoveEntries.DataError("type", SpareEquipXmlWorker.GetSpareType(data[5], "u"), row, lineNum,
                     SiteEnum.UsedAuto, ProductEnum.Spare) ||
                 RemoveEntries.DataError("city", CityXmlWorker.GetItemSiteValueUsingCity(data[7], "u"), row, lineNum,

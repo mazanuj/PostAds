@@ -101,8 +101,9 @@ namespace Motorcycle.Config.Data
             var data = row.Split('\t');
 
             //Check
-            if (RemoveEntries.DataError("manufacture", SpareEquipXmlWorker.GetItemSiteValueUsingPlant(data[4], "pz"),
-                row, lineNum, SiteEnum.Proday2Kolesa, ProductEnum.Spare) ||
+            if (
+                //RemoveEntries.DataError("manufacture", SpareEquipXmlWorker.GetItemSiteValueUsingPlant(data[4], "pz"),
+                //    row, lineNum, SiteEnum.Proday2Kolesa, ProductEnum.Spare) ||
                 RemoveEntries.DataError("type", SpareEquipXmlWorker.GetSpareType(data[5], "p"), row, lineNum,
                     SiteEnum.Proday2Kolesa, ProductEnum.Spare) ||
                 RemoveEntries.DataError("condition", ManufactureXmlWorker.GetConditionState(data[10], "p"), row, lineNum,
@@ -128,6 +129,10 @@ namespace Motorcycle.Config.Data
                 else files[i] = string.Empty;
             }
 
+            var model = SpareEquipXmlWorker.GetItemSiteValueUsingPlant(data[4], "pz");
+            if (model == string.Empty)
+                model = "613";
+
             return new DicHolder
             {
                 Site = SiteEnum.Proday2Kolesa,
@@ -136,7 +141,7 @@ namespace Motorcycle.Config.Data
                 LineNum = lineNum,
                 DataDictionary = new Dictionary<string, string>
                 {
-                    {"model", SpareEquipXmlWorker.GetItemSiteValueUsingPlant(data[4], "pz")}, //zavod basa+
+                    {"model", model}, //zavod basa+
                     {"modification", data[3]}, //model vvod+
                     {"color", "0"}, //+
                     {"price", data[6]}, //cena vvod+
@@ -156,7 +161,7 @@ namespace Motorcycle.Config.Data
                     {"city", CityXmlWorker.GetItemSiteValueUsingCity(data[7], "p")}, //gorod basa+
                     {"during", "360"}, //+
                     {"id", ""}, //+
-                    {"vendor", SpareEquipXmlWorker.GetItemSiteValueUsingPlant(data[4], "pz")}, //zavod basa+
+                    {"vendor", model}, //zavod basa+
                     {"category", "5"}, //+
                     {"ip", "127.0.0.1"}, //+
                     {"Itemid", "6"}, //+
@@ -179,12 +184,13 @@ namespace Motorcycle.Config.Data
             var data = row.Split('\t');
 
             //Check
-            if (RemoveEntries.DataError("type", SpareEquipXmlWorker.GetEquipType(data[4], "p"), row, lineNum,
-                SiteEnum.Proday2Kolesa, ProductEnum.Equip) ||
+            if (
+                RemoveEntries.DataError("type", SpareEquipXmlWorker.GetEquipType(data[4], "p"), row, lineNum,
+                    SiteEnum.Proday2Kolesa, ProductEnum.Equip) ||
                 RemoveEntries.DataError("city", CityXmlWorker.GetItemSiteValueUsingCity(data[7], "p"), row, lineNum,
                     SiteEnum.Proday2Kolesa, ProductEnum.Equip) ||
-                RemoveEntries.DataError("manufacture", SpareEquipXmlWorker.GetItemSiteValueUsingPlant(data[5], "pe"),
-                    row, lineNum, SiteEnum.Proday2Kolesa, ProductEnum.Equip) ||
+                //RemoveEntries.DataError("manufacture", SpareEquipXmlWorker.GetItemSiteValueUsingPlant(data[5], "pe"),
+                //    row, lineNum, SiteEnum.Proday2Kolesa, ProductEnum.Equip) ||
                 RemoveEntries.DataError("condition", ManufactureXmlWorker.GetConditionState(data[11], "p"), row, lineNum,
                     SiteEnum.Proday2Kolesa, ProductEnum.Equip))
                 return new DicHolder {IsError = true};
@@ -206,6 +212,10 @@ namespace Motorcycle.Config.Data
                 else files[i] = string.Empty;
             }
 
+            var model = SpareEquipXmlWorker.GetItemSiteValueUsingPlant(data[5], "pe");
+            if (model == string.Empty)
+                model = "481";
+
             return new DicHolder
             {
                 Site = SiteEnum.Proday2Kolesa,
@@ -214,7 +224,7 @@ namespace Motorcycle.Config.Data
                 LineNum = lineNum,
                 DataDictionary = new Dictionary<string, string>
                 {
-                    {"model", SpareEquipXmlWorker.GetItemSiteValueUsingPlant(data[5], "pe")}, //+
+                    {"model", model}, //+
                     {"modification", data[3]}, //+
                     {"color", "0"}, //+
                     {"price", data[6]}, //+
@@ -234,7 +244,7 @@ namespace Motorcycle.Config.Data
                     {"city", CityXmlWorker.GetItemSiteValueUsingCity(data[7], "p")}, //+
                     {"during", "360"}, //+
                     {"id", ""}, //+
-                    {"vendor", SpareEquipXmlWorker.GetItemSiteValueUsingPlant(data[5], "pe")}, //+
+                    {"vendor", model}, //+
                     {"category", "4"}, //+
                     {"ip", "127.0.0.1"}, //+
                     {"Itemid", "5"}, //+
