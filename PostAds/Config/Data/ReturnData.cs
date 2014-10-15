@@ -87,7 +87,7 @@ namespace Motorcycle.Config.Data
                     if (listFile.Count == 0)
                     {
                         Log.Warn(textFile.Substring(textFile.LastIndexOf(@"\", StringComparison.Ordinal) + 1) +
-                                 " is empty");
+                                 " is empty", null, null);
 
                         Informer.RaiseOnAllPostsAreCompletedEvent();
                         return;

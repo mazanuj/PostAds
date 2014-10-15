@@ -2,13 +2,11 @@
 using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Media;
-using NLog;
 
 namespace Motorcycle.Controls.Converters
 {
     public class LogItemFgColorConverter : IValueConverter
     {
-        private readonly Logger log = LogManager.GetCurrentClassLogger();
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             return "Error" == value.ToString() ? Brushes.WhiteSmoke : Brushes.Black;

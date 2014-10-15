@@ -1,5 +1,7 @@
 ﻿namespace Motorcycle.TimerScheduler
 {
+    using System.Security.Policy;
+
     using Config.Data;
     using NLog;
     using Sites;
@@ -31,7 +33,7 @@
                 if (timer.Enabled)
                     timer.Stop();
 
-                Log.Info("All posts to MotoSale are completed");
+                Log.Info("All posts to MotoSale are completed", SiteEnum.MotoSale, null);
 
                 Informer.RaiseOnMotosalePostsAreCompletedEvent();
 
@@ -59,7 +61,7 @@
                             if (timer.Enabled)
                                 timer.Stop();
 
-                            Log.Info("All posts to MotoSale are completed");
+                            Log.Info("All posts to MotoSale are completed", SiteEnum.MotoSale, null);
 
                             Informer.RaiseOnMotosalePostsAreCompletedEvent();
 
@@ -74,7 +76,7 @@
                     else
                     {
                         //Not right time
-                        Log.Info("Can't post at this time on MotoSale");
+                        Log.Info("Can't post at this time on MotoSale", SiteEnum.MotoSale, null);
                     }
                 }
             };

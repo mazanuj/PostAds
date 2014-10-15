@@ -77,15 +77,15 @@
                     if (resp.StatusCode == HttpStatusCode.OK ||
                         resp.StatusCode == HttpStatusCode.InternalServerError)
                     {
-                        Log.Info(reply + " successfully posted on UsedAuto");
+                        Log.Info(reply + " successfully posted on UsedAuto", SiteEnum.UsedAuto, ProductEnum.Motorcycle);
                         if (RemoveEntries.Remove(data.LineNum, ProductEnum.Motorcycle))
-                            Log.Debug(reply + " removed from list");
+                            Log.Debug(reply + " removed from list", SiteEnum.UsedAuto, ProductEnum.Motorcycle);
                         return PostStatus.OK;
                     }
-                    Log.Warn("{0} unsuccessfully posted on UsedAuto ({1})", reply, resp.StatusCode);
+                    Log.Warn(string.Format("{0} unsuccessfully posted on UsedAuto ({1})", reply, resp.StatusCode), SiteEnum.UsedAuto, ProductEnum.Motorcycle);
                     RemoveEntries.Unposted(data.Row, ProductEnum.Motorcycle, SiteEnum.UsedAuto);
                     if (RemoveEntries.Remove(data.LineNum, ProductEnum.Motorcycle))
-                        Log.Debug(reply + " removed from list");
+                        Log.Debug(reply + " removed from list", SiteEnum.UsedAuto, ProductEnum.Motorcycle);
                     return PostStatus.ERROR;
                 }
 
@@ -145,29 +145,29 @@
 
                 if (respString.Contains("success"))
                 {
-                    Log.Info(reply + " successfully posted on UsedAuto");
+                    Log.Info(reply + " successfully posted on UsedAuto", SiteEnum.UsedAuto, ProductEnum.Spare);
                     if (RemoveEntries.Remove(data.LineNum, ProductEnum.Spare))
-                        Log.Debug(reply + " removed from list");
+                        Log.Debug(reply + " removed from list", SiteEnum.UsedAuto, ProductEnum.Spare);
                     return PostStatus.OK;
                 }
-                Log.Warn(reply + " unsuccessfully posted on UsedAuto");
+                Log.Warn(reply + " unsuccessfully posted on UsedAuto", SiteEnum.UsedAuto, ProductEnum.Spare);
 
                 RemoveEntries.Unposted(data.Row, ProductEnum.Spare, SiteEnum.UsedAuto);
                 if (RemoveEntries.Remove(data.LineNum, ProductEnum.Spare))
-                    Log.Debug(reply + " removed from list");
+                    Log.Debug(reply + " removed from list", SiteEnum.UsedAuto, ProductEnum.Spare);
                 return PostStatus.ERROR;
             }
             catch (Exception ex)
             {
                 LogManager.GetCurrentClassLogger()
-                    .Error(string.Format("{0} {1} unsuccessfully posted on UsedAuto",
+                    .Error(string.Format("{0} {1} unsuccessfully posted on UsedAuto. {3}",
                         ManufactureXmlWorker.GetItemSiteIdUsingPlant("u", data.DataDictionary["make"]),
-                        data.DataDictionary["model"]), ex);
+                        data.DataDictionary["model"], ex.Message), SiteEnum.UsedAuto, ProductEnum.Spare);
                 RemoveEntries.Unposted(data.Row, ProductEnum.Spare, SiteEnum.UsedAuto);
                 if (RemoveEntries.Remove(data.LineNum, ProductEnum.Spare))
-                    LogManager.GetCurrentClassLogger().Debug("{0} {1} removed from list (UsedAuto)",
+                    LogManager.GetCurrentClassLogger().Debug(string.Format("{0} {1} removed from list (UsedAuto)",
                         ManufactureXmlWorker.GetItemSiteIdUsingPlant("u", data.DataDictionary["make"]),
-                        data.DataDictionary["model"]);
+                        data.DataDictionary["model"]), SiteEnum.UsedAuto, ProductEnum.Spare);
                 return PostStatus.ERROR;
             }
         }

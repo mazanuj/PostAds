@@ -12,7 +12,6 @@ namespace Motorcycle.POST
 {
     internal static class PostMultiString
     {
-        private static readonly Logger Log = LogManager.GetCurrentClassLogger();
         internal static string WriteMultipartForm(string boundary, Dictionary<string, string> dataDictionary,
             Dictionary<string, string> fileDictionary)
         {

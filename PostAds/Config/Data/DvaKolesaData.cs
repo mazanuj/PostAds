@@ -39,7 +39,7 @@ namespace Motorcycle.Config.Data
                     files[i] = FilePathXmlWorker.GetFilePath("photo") + d[i];
                     if (File.Exists(files[i])) continue;
 
-                    Log.Warn(d[i] + " not exists");
+                    Log.Warn(d[i] + " not exists", SiteEnum.Proday2Kolesa, ProductEnum.Motorcycle);
                     files[i] = string.Empty;
                 }
                 else files[i] = string.Empty;
@@ -123,7 +123,7 @@ namespace Motorcycle.Config.Data
                     files[i] = FilePathXmlWorker.GetFilePath("photo") + d[i];
                     if (File.Exists(files[i])) continue;
 
-                    Log.Warn(d[i] + " not exists");
+                    Log.Warn(d[i] + " not exists", SiteEnum.Proday2Kolesa, ProductEnum.Spare);
                     files[i] = string.Empty;
                 }
                 else files[i] = string.Empty;
@@ -206,7 +206,7 @@ namespace Motorcycle.Config.Data
                     files[i] = FilePathXmlWorker.GetFilePath("photo") + d[i];
                     if (File.Exists(files[i])) continue;
 
-                    Log.Warn(d[i] + " not exists");
+                    Log.Warn(d[i] + " not exists", SiteEnum.Proday2Kolesa, ProductEnum.Equip);
                     files[i] = string.Empty;
                 }
                 else files[i] = string.Empty;

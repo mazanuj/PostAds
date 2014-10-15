@@ -39,7 +39,10 @@
             <ListView.View>
                 <GridView>
                     <GridViewColumn DisplayMemberBinding="{Binding Level}" Header="Level" Width="70"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding TimeStamp}" Header="Time" Width="170"/>
                     <GridViewColumn DisplayMemberBinding="{Binding FormattedMessage}" Header="Message" Width="400"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Parameters[0]}" Header="Site" Width="80"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Parameters[1]}" Header="Type" Width="80"/>
                 </GridView>
             </ListView.View>
         </ListView>
