@@ -60,13 +60,13 @@ namespace Motorcycle.Config.Data
             switch (type)
             {
                 case ProductEnum.Motorcycle:
-                    Log.Warn("{0} {1} {2} is not in DB ({2} {3})", data[4], data[5], key, site, type);
+                    Log.Warn(string.Format("{0} {1} {2} is not in DB ({2} {3})", data[4], data[5], key, site), site, type);
                     break;
                 case ProductEnum.Spare:
-                    Log.Warn("{0} {1} {2} is not in DB ({2} {3})", data[3], data[4], key, site, type);
+                    Log.Warn(string.Format("{0} {1} {2} is not in DB ({2} {3})", data[3], data[4], key, site), site, type);
                     break;
                 case ProductEnum.Equip:
-                    Log.Warn("{0} {1} {2} is not in DB ({2} {3})", data[3], data[5], key, site, type);
+                    Log.Warn(string.Format("{0} {1} {2} is not in DB ({2} {3})", data[3], data[5], key, site), site, type);
                     break;
             }
 

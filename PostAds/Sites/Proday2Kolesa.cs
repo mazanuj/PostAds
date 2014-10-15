@@ -8,7 +8,7 @@
     using System;
     using System.Collections.Generic;
     using XmlWorker;
-    
+
     public static class Proday2Kolesa
     {
         public static PostStatus PostMoto(DicHolder data)
@@ -108,9 +108,9 @@
                     req.Abort();
                 } while (responseString.Contains("Введите секретный код:"));
 
-                Log.Info(reply + " successfully posted on Proday2kolesa");
+                Log.Info(reply + " successfully posted on Proday2kolesa", SiteEnum.Proday2Kolesa, ProductEnum.Motorcycle);
                 if (RemoveEntries.Remove(data.LineNum, ProductEnum.Motorcycle))
-                    Log.Debug(reply + " removed from list (Proday2Kolesa)");
+                    Log.Debug(reply + " removed from list (Proday2Kolesa)", SiteEnum.Proday2Kolesa, ProductEnum.Motorcycle);
                 return PostStatus.OK;
             }
             catch (Exception ex)
@@ -227,23 +227,25 @@
                     responseString = Response.GetResponseString(req);
                 } while (responseString.Contains("Введите секретный код:"));
 
-                Log.Info(reply + " successfully posted on Proday2kolesa");
+                Log.Info(reply + " successfully posted on Proday2kolesa", SiteEnum.Proday2Kolesa, ProductEnum.Spare);
                 if (RemoveEntries.Remove(data.LineNum, ProductEnum.Spare))
-                    Log.Debug(reply + " removed from list (Proday2kolesa)");
+                    Log.Debug(reply + " removed from list (Proday2kolesa)", SiteEnum.Proday2Kolesa, ProductEnum.Spare);
                 return PostStatus.OK;
             }
             catch (Exception ex)
             {
                 LogManager.GetCurrentClassLogger()
-                    .Error(string.Format("{0} {1} unsuccessfully posted on Proday2kolesa",
+                    .Error(string.Format("{0} {1} unsuccessfully posted on Proday2kolesa. {3}",
                         SpareEquipXmlWorker.GetItemSiteIdUsingPlant("pz", data.DataDictionary["model"]),
-                        data.DataDictionary["modification"]), ex);
+                        data.DataDictionary["modification"], ex.Message),
+                        SiteEnum.Proday2Kolesa, ProductEnum.Spare);
 
                 RemoveEntries.Unposted(data.Row, ProductEnum.Spare, SiteEnum.Proday2Kolesa);
 
                 if (RemoveEntries.Remove(data.LineNum, ProductEnum.Spare))
-                    LogManager.GetCurrentClassLogger().Debug("{0} {1} removed from list (Proday2kolesa)",
-                        SpareEquipXmlWorker.GetItemSiteIdUsingPlant("pz", data.DataDictionary["model"]));
+                    LogManager.GetCurrentClassLogger().Debug(string.Format("{0} {1} removed from list (Proday2kolesa)",
+                        SpareEquipXmlWorker.GetItemSiteIdUsingPlant("pz", data.DataDictionary["model"])),
+                        SiteEnum.Proday2Kolesa, ProductEnum.Spare);
                 return PostStatus.ERROR;
             }
         }
@@ -344,9 +346,9 @@
                     responseString = Response.GetResponseString(req);
                 } while (responseString.Contains("Введите секретный код:"));
 
-                Log.Info(reply + " successfully posted on Proday2kolesa");
+                Log.Info(reply + " successfully posted on Proday2kolesa", SiteEnum.Proday2Kolesa, ProductEnum.Equip);
                 if (RemoveEntries.Remove(data.LineNum, ProductEnum.Equip))
-                    Log.Debug(reply + " removed from list (Proday2kolesa)");
+                    Log.Debug(reply + " removed from list (Proday2kolesa)", SiteEnum.Proday2Kolesa, ProductEnum.Equip);
                 return PostStatus.OK;
             }
             catch (Exception ex)

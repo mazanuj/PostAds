@@ -3,7 +3,7 @@ namespace Motorcycle.ViewModels
 {
     using Caliburn.Micro;
     using Config.Proxy;
-    using NLog;
+
     using System.Collections.ObjectModel;
     using System.ComponentModel.Composition;
     using System.Threading.Tasks;
@@ -12,15 +12,13 @@ namespace Motorcycle.ViewModels
     using System.Xml;
     using Utils;
     using XmlWorker;
-    using LogManager = LogManager;
-
 
     [Export(typeof(GeneralSettingsViewModel))]
     public class GeneralSettingsViewModel : PropertyChangedBase
     {
         private static XmlDataProvider xml;
         private const string DbPath = "Main.config";
-        private readonly Logger log = LogManager.GetCurrentClassLogger();
+
         private readonly IWindowManager _windowManager;
         private int countOfProxyAddressInFile;
         private string password = "";

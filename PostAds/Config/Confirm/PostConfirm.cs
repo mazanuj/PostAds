@@ -23,12 +23,11 @@ namespace Motorcycle.Config.Confirm
 
                         // Authenticate ourselves towards the server
                         client.Authenticate(username, password);
-                        if (client.Connected)
-                            break;
+                        break;
                     }
-                    catch (Exception ex)
+                    catch(Exception ex)
                     {
-                        Log.Debug(ex.Message, ex);
+                        Log.Debug(ex.Message, ex);                        
                     }
                 }
 
@@ -80,7 +79,7 @@ namespace Motorcycle.Config.Confirm
 
                     if (respString.Contains("after_confirm=false"))
                     {
-                        Log.Warn(string.Format("Confirmation of {0} failed", username));
+                        Log.Warn(string.Format("Confirmation of {0} failed", username), null, null);
                         continue;
                     }
                     Log.Debug(string.Format("Confirmation of {0} success", username));

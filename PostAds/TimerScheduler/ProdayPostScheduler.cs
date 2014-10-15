@@ -32,7 +32,7 @@
                 if (timer.Enabled)
                     timer.Stop();
 
-                Log.Info("All posts to Proday2Kolesa are completed");
+                Log.Info("All posts to Proday2Kolesa are completed", SiteEnum.Proday2Kolesa, null);
 
                 Informer.RaiseOnProdayPostsAreCompletedEvent();
 
@@ -59,7 +59,7 @@
                         {
                             if (timer.Enabled) timer.Stop();
 
-                            Log.Info("All posts to Proday2Kolesa are completed");
+                            Log.Info("All posts to Proday2Kolesa are completed", SiteEnum.Proday2Kolesa, null);
 
                             Informer.RaiseOnProdayPostsAreCompletedEvent();
 
@@ -74,7 +74,7 @@
                     else
                     {
                         //Not right time
-                        Log.Info("Can't post at this time on Proday2Kolesa");
+                        Log.Info("Can't post at this time on Proday2Kolesa", SiteEnum.Proday2Kolesa, null);
                     }
                 }
             };

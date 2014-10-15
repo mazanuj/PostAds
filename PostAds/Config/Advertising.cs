@@ -1,7 +1,5 @@
 ﻿namespace Motorcycle.Config
 {
-    using System.Collections.Generic;
-
     using Data;
     using TimerScheduler;
     using Utils;
@@ -23,7 +21,7 @@
             {
                 var resultList =
                     returnDataHolders.Where(
-                        holder => holder.Site == SiteEnum.MotoSale &&
+                        holder => holder.IsError == false && holder.Site == SiteEnum.MotoSale &&
                             (holder.Type == ProductEnum.Motorcycle || holder.Type == ProductEnum.Spare || holder.Type == ProductEnum.Equip)).ToList();
 
                 resultList.Shuffle();
@@ -49,7 +47,7 @@
             {
                 var resultList =
                     returnDataHolders.Where(
-                        holder => holder.Site == SiteEnum.UsedAuto &&
+                        holder => holder.IsError == false && holder.Site == SiteEnum.UsedAuto &&
                             (holder.Type == ProductEnum.Motorcycle || holder.Type == ProductEnum.Spare)).ToList();
 
                 resultList.Shuffle();
@@ -73,7 +71,7 @@
             {
                 var resultList =
                     returnDataHolders.Where(
-                        holder => holder.Site == SiteEnum.Proday2Kolesa &&
+                        holder => holder.IsError == false && holder.Site == SiteEnum.Proday2Kolesa &&
                             (holder.Type == ProductEnum.Motorcycle || holder.Type == ProductEnum.Spare || holder.Type == ProductEnum.Equip)).ToList();
 
                 resultList.Shuffle();

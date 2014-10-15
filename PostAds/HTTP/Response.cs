@@ -7,14 +7,13 @@ using System.Text;
 using System.Windows.Media.Imaging;
 using Motorcycle.Captcha;
 using Motorcycle.Config.Proxy;
-using NLog;
+
 using xNet.Net;
 
 namespace Motorcycle.HTTP
 {
     internal static class Response
     {
-        private static readonly Logger Log = LogManager.GetCurrentClassLogger();
         internal static string GetResponseString(HttpWebRequest request)
         {
             using (var response = (HttpWebResponse) request.GetResponse())

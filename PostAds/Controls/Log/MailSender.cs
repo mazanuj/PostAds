@@ -10,7 +10,7 @@ namespace Motorcycle.Controls.Log
 {
     internal static class MailSender
     {
-        private static readonly Logger log = LogManager.GetCurrentClassLogger();
+        private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
         internal static void SendEmail(string to, string from, string subject, string boby)
         {
@@ -39,13 +39,13 @@ namespace Motorcycle.Controls.Log
             }
             catch (Exception ex)
             {
-                log.Error(ex.Message, ex);
+                Log.Error(ex.Message, null, null);
             }
         }
 
         private static void SendCompletedCallback(object sender, AsyncCompletedEventArgs e)
         {
-            log.Info("Message send complete");
+            Log.Info("Message send complete", null, null);
         }
     }
 }

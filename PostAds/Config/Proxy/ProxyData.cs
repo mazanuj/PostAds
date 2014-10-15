@@ -75,7 +75,7 @@ namespace Motorcycle.Config.Proxy
             {
                 var proxiesList = new List<string>();
 
-                for (var i = 0;; i++)
+                for (var i = 0; ; i++)
                 {
                     var downloadString =
                         new WebClient().DownloadString(
@@ -100,7 +100,7 @@ namespace Motorcycle.Config.Proxy
             }
             catch (Exception ex)
             {
-                Log.Error(string.Format("{0} {1}", ErrorMsg, "www.xroxy.com"), ex);
+                Log.Error(string.Format("{0} {1}", ErrorMsg, "www.xroxy.com"), null, null);
                 return null;
             }
         }
@@ -118,20 +118,20 @@ namespace Motorcycle.Config.Proxy
                 var proxyArray = array.Split('\n');
 
                 var proxiesList = (from value in proxyArray
-                    where value.Contains("Socks5")
-                    let startIp = value.IndexOf("<tr><td>") + "<tr><td>".Length
-                    let stopIp = value.IndexOf("</td><td>", startIp)
-                    let ip = value.Substring(startIp, stopIp - startIp)
-                    let startPort = stopIp + "</td><td>".Length
-                    let stopPort = value.IndexOf("</td><td>", startPort)
-                    let port = value.Substring(startPort, stopPort - startPort)
-                    select ip + ":" + port).ToList();
+                                   where value.Contains("Socks5")
+                                   let startIp = value.IndexOf("<tr><td>") + "<tr><td>".Length
+                                   let stopIp = value.IndexOf("</td><td>", startIp)
+                                   let ip = value.Substring(startIp, stopIp - startIp)
+                                   let startPort = stopIp + "</td><td>".Length
+                                   let stopPort = value.IndexOf("</td><td>", startPort)
+                                   let port = value.Substring(startPort, stopPort - startPort)
+                                   select ip + ":" + port).ToList();
 
                 return proxiesList.Distinct().ToList();
             }
             catch (Exception ex)
             {
-                Log.Error(string.Format("{0} {1}", ErrorMsg, "www.socks-proxy.net"), ex);
+                Log.Error(string.Format("{0} {1}", ErrorMsg, "www.socks-proxy.net"), null, null);
                 return null;
             }
         }
@@ -173,7 +173,7 @@ namespace Motorcycle.Config.Proxy
             }
             catch (Exception ex)
             {
-                Log.Error(string.Format("{0} {1}", ErrorMsg, "www.letushide.com"), ex);
+                Log.Error(string.Format("{0} {1}", ErrorMsg, "www.letushide.com"), null, null);
                 return null;
             }
         }
@@ -195,16 +195,16 @@ namespace Motorcycle.Config.Proxy
                     .Split('^');
 
                 return (from value in proxyArray
-                    where value.Contains("Socks5")
-                    let startIp =
-                        value.IndexOf("<td style='width:3px;'>") + "<td style='width:3px;'>".Length
-                    let stopIp = value.IndexOf("</td><td style='width:3px;'>", startIp)
-                    let ip = value.Substring(startIp, stopIp - startIp)
-                    select ip).Distinct().ToList();
+                        where value.Contains("Socks5")
+                        let startIp =
+                            value.IndexOf("<td style='width:3px;'>") + "<td style='width:3px;'>".Length
+                        let stopIp = value.IndexOf("</td><td style='width:3px;'>", startIp)
+                        let ip = value.Substring(startIp, stopIp - startIp)
+                        select ip).Distinct().ToList();
             }
             catch (Exception ex)
             {
-                Log.Error(string.Format("{0} {1}", ErrorMsg, "www.myiptest.com"), ex);
+                Log.Error(string.Format("{0} {1}", ErrorMsg, "www.myiptest.com"), null, null);
                 return null;
             }
         }
@@ -233,8 +233,8 @@ namespace Motorcycle.Config.Proxy
 
                 var shifrDictionary =
                     (from s in shifr
-                        where s != string.Empty && s.Contains("^")
-                        select s.Remove(s.IndexOf("^")).Split('='))
+                     where s != string.Empty && s.Contains("^")
+                     select s.Remove(s.IndexOf("^")).Split('='))
                         .ToDictionary(dic => dic[0], dic => dic[1]);
 
                 var startMatch = downloadString.IndexOf("<tr class=spy1x");
@@ -244,23 +244,23 @@ namespace Motorcycle.Config.Proxy
                 var proxyArray = array.Replace("\n", "").Replace("<tr class=spy1x", "\n<tr class=spy1x").Split('\n');
 
                 return (from value in proxyArray
-                    where value.Contains("SOCKS5")
-                    let startIp = value.IndexOf("<font class=spy14>") + "<font class=spy14>".Length
-                    let stopIp = value.IndexOf("<script", startIp)
-                    let ip = value.Substring(startIp, stopIp - startIp)
-                    let startPort =
-                        value.IndexOf("<font class=spy2>:<\\/font>\"+(", stopIp) +
-                        "<font class=spy2>:<\\/font>\"+(".Length
-                    let stopPort = value.IndexOf("))</script>", startPort)
-                    let portKeys = value.Substring(startPort, stopPort - startPort).Replace(")+(", "\n").Split('\n')
-                    let port =
-                        portKeys.Aggregate(string.Empty,
-                            (current, portKey) => current + shifrDictionary[portKey.Remove(portKey.IndexOf("^"))])
-                    select ip + ":" + port).Distinct().ToList();
+                        where value.Contains("SOCKS5")
+                        let startIp = value.IndexOf("<font class=spy14>") + "<font class=spy14>".Length
+                        let stopIp = value.IndexOf("<script", startIp)
+                        let ip = value.Substring(startIp, stopIp - startIp)
+                        let startPort =
+                            value.IndexOf("<font class=spy2>:<\\/font>\"+(", stopIp) +
+                            "<font class=spy2>:<\\/font>\"+(".Length
+                        let stopPort = value.IndexOf("))</script>", startPort)
+                        let portKeys = value.Substring(startPort, stopPort - startPort).Replace(")+(", "\n").Split('\n')
+                        let port =
+                            portKeys.Aggregate(string.Empty,
+                                (current, portKey) => current + shifrDictionary[portKey.Remove(portKey.IndexOf("^"))])
+                        select ip + ":" + port).Distinct().ToList();
             }
             catch (Exception ex)
             {
-                Log.Error(string.Format("{0} {1}", ErrorMsg, "www.spys.ru"), ex);
+                Log.Error(string.Format("{0} {1}", ErrorMsg, "www.spys.ru"), null, null);
                 return null;
             }
         }

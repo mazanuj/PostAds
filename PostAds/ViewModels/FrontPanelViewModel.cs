@@ -8,17 +8,15 @@ namespace Motorcycle.ViewModels
     using Microsoft.Win32;
     using Config.Data;
     using TimerScheduler;
-    using NLog;
+
     using System;
     using System.ComponentModel.Composition;
     using Utils;
     using XmlWorker;
-    using LogManager = LogManager;
 
     [Export(typeof (FrontPanelViewModel))]
     public class FrontPanelViewModel : PropertyChangedBase
     {
-        private readonly Logger log = LogManager.GetCurrentClassLogger();
         public LoggingControlViewModel LoggingControl { get; set; }
         private readonly OpenFileDialog dlg;
         private readonly byte[] flag = new byte[3];

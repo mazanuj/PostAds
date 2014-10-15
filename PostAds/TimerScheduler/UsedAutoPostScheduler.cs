@@ -32,7 +32,7 @@
                 if (timer.Enabled)
                     timer.Stop();
 
-                    Log.Info("All posts to UsedAuto are completed");
+                Log.Info("All posts to UsedAuto are completed", SiteEnum.UsedAuto, null);
 
                 Informer.RaiseOnUsedAutoPostsAreCompletedEvent();
 
@@ -60,7 +60,7 @@
                             if (timer.Enabled)
                                 timer.Stop();
 
-                            Log.Info("All posts to UsedAuto are completed");
+                            Log.Info("All posts to UsedAuto are completed", SiteEnum.UsedAuto, null);
 
                             Informer.RaiseOnUsedAutoPostsAreCompletedEvent();
 
@@ -75,7 +75,7 @@
                     else
                     {
                         //Not right time
-                        Log.Info("Can't post at this time on UsedAuto");
+                        Log.Info("Can't post at this time on UsedAuto", SiteEnum.UsedAuto, null);
                     }
                 }
             };
