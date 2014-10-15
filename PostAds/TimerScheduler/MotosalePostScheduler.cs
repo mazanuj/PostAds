@@ -1,7 +1,5 @@
 ﻿namespace Motorcycle.TimerScheduler
 {
-    using System.Security.Policy;
-
     using Config.Data;
     using NLog;
     using Sites;
@@ -27,23 +25,33 @@
         {
             FinishPosting.MotosaleFinished = false;
 
-            await CheckerAsync(dataList);
-            if (dataList.Count == counter)
+            if ((fromHour < toHour && DateTime.Now.Hour >= fromHour && DateTime.Now.Hour < toHour)
+                || (fromHour > toHour && DateTime.Now.Hour >= fromHour && DateTime.Now.Hour > toHour)
+                || (fromHour > toHour && DateTime.Now.Hour <= fromHour && DateTime.Now.Hour < toHour))
             {
-                if (timer.Enabled)
-                    timer.Stop();
-
-                Log.Info("All posts to MotoSale are completed", SiteEnum.MotoSale, null);
-
-                Informer.RaiseOnMotosalePostsAreCompletedEvent();
-
-                FinishPosting.MotosaleFinished = true;
-                if (FinishPosting.CheckIfPostingToAllSitesFinished())
+                await CheckerAsync(dataList);
+                if (dataList.Count == counter)
                 {
-                    //Notify UI that all posting were finished
-                    Informer.RaiseOnAllPostsAreCompletedEvent();
+                    if (timer.Enabled)
+                        timer.Stop();
+
+                    Log.Info("All posts to MotoSale are completed", SiteEnum.MotoSale, null);
+
+                    Informer.RaiseOnMotosalePostsAreCompletedEvent();
+
+                    FinishPosting.MotosaleFinished = true;
+                    if (FinishPosting.CheckIfPostingToAllSitesFinished())
+                    {
+                        //Notify UI that all posting were finished
+                        Informer.RaiseOnAllPostsAreCompletedEvent();
+                    }
+                    return;
                 }
-                return;
+            }
+            else
+            {
+                //Not right time
+                Log.Info("Can't post at this time on MotoSale", SiteEnum.MotoSale, null);
             }
 
             timer.Interval = interval != 0 ? interval * 60000 : 2000;
