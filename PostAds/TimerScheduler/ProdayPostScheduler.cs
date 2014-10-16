@@ -106,23 +106,30 @@
         {
             if (dataList.Count <= counter) return;
             //Main work will be here
+            PostStatus postResult;
             switch (dataList[counter].Type)
             {
                 case ProductEnum.Equip:
-                    Informer.RaiseOnPostResultChangedEvent(
-                        Proday2Kolesa.PostEquip(dataList[counter]) == PostStatus.OK);
+                    postResult = Proday2Kolesa.PostEquip(dataList[counter++]);
+                    Informer.RaiseOnPostResultChangedEvent(postResult == PostStatus.OK);
+                    if(postResult == PostStatus.ERROR) 
+                        Checker(dataList);
                     break;
+
                 case ProductEnum.Motorcycle:
-                    Informer.RaiseOnPostResultChangedEvent(
-                        Proday2Kolesa.PostMoto(dataList[counter]) == PostStatus.OK);
+                     postResult = Proday2Kolesa.PostMoto(dataList[counter++]);
+                    Informer.RaiseOnPostResultChangedEvent(postResult == PostStatus.OK);
+                    if(postResult == PostStatus.ERROR) 
+                        Checker(dataList);
                     break;
+
                 case ProductEnum.Spare:
-                    Informer.RaiseOnPostResultChangedEvent(
-                        Proday2Kolesa.PostSpare(dataList[counter]) == PostStatus.OK);
+                     postResult = Proday2Kolesa.PostSpare(dataList[counter++]);
+                    Informer.RaiseOnPostResultChangedEvent(postResult == PostStatus.OK);
+                    if(postResult == PostStatus.ERROR) 
+                        Checker(dataList);
                     break;
             }
-
-            counter++;
         }
 
         private static async Task CheckerAsync(IList<DicHolder> dataList)
