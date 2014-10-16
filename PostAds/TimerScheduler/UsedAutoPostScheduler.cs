@@ -24,7 +24,7 @@
             byte toHour,
             int interval)
         {
-            FinishPosting.UsedAutoFinished = false;                        
+            FinishPosting.UsedAutoFinished = false;
 
             await CheckerAsync(dataList);
             if (dataList.Count == counter)
@@ -79,7 +79,7 @@
                     }
                 }
             };
-            
+
             timer.Start();
         }
 
@@ -98,18 +98,23 @@
         {
             if (dataList.Count <= counter) return;
             //Main work will be here
+            PostStatus postResult;
             switch (dataList[counter].Type)
             {
                 case ProductEnum.Motorcycle:
-                    Informer.RaiseOnPostResultChangedEvent(
-                        UsedAuto.PostMoto(dataList[counter]) == PostStatus.OK);
+                    postResult = UsedAuto.PostMoto(dataList[counter++]);
+                    Informer.RaiseOnPostResultChangedEvent(postResult == PostStatus.OK);
+                    if (postResult == PostStatus.ERROR)
+                        Checker(dataList);
                     break;
+
                 case ProductEnum.Spare:
-                    Informer.RaiseOnPostResultChangedEvent(
-                        UsedAuto.PostSpare(dataList[counter]) == PostStatus.OK);
+                    postResult = UsedAuto.PostSpare(dataList[counter++]);
+                    Informer.RaiseOnPostResultChangedEvent(postResult == PostStatus.OK);
+                    if (postResult == PostStatus.ERROR)
+                        Checker(dataList);
                     break;
             }
-            counter++;
         }
 
         private static async Task CheckerAsync(IList<DicHolder> dataList)
