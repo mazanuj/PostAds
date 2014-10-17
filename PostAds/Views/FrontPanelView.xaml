@@ -30,12 +30,13 @@
                 </Grid.RowDefinitions>
 
                 <StackPanel Orientation="Horizontal" Grid.Row="0">
-                    <Button x:Name="ButtonStart" Content="START" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Margin="10,10,10,50" Height="35"/>
-                    <Button x:Name="ButtonStop" Content="STOP" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Margin="10,10,10,50" Height="35"/>
+                    <Button x:Name="ButtonStart" Content="START" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Margin="10,10,10,20" Height="35"/>
+                    <Button x:Name="ButtonStop" Content="STOP" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Margin="10,10,10,20" Height="35"/>
                 </StackPanel>
 
                 <Grid IsEnabled= "{Binding CanEditMainSettings}" Row="1">
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -53,7 +54,12 @@
                     <Button Content="Загрузить картинки" x:Name="ButtonPhotoDir" Grid.Row="3" Width="130" Height="25" HorizontalAlignment="Left" Margin="10"/>
                     <Label Background="{Binding PhotoDirLabel, Converter={StaticResource BoolToColorConverter}}" Grid.Row="3" Width="20" Height="25" HorizontalAlignment="Left" Margin="150,10,10,10"/>
 
-                    <GroupBox Grid.Row="4" Margin="10,20,10,10" Padding="10">
+                    <StackPanel Orientation="Horizontal" Grid.Row="4">
+                        <TextBlock Text="Captcha" Margin="10, 0, 0 ,0"/>
+                        <Label Background="{Binding CaptchaLabel, Converter={StaticResource BoolToColorConverter}}" Width="15" Height="15" HorizontalAlignment="Left" Margin="5,0,0,0"/>
+                    </StackPanel>
+
+                    <GroupBox Grid.Row="5" Margin="10,20,10,10" Padding="10">
                         <GroupBox.Header>С какими сайтами работать?</GroupBox.Header>
                         <Grid>
                             <Grid.RowDefinitions>
@@ -80,7 +86,7 @@
                             <Label Grid.Column="0" Grid.Row="1" Background="ForestGreen" Width="10" Height="10" Margin="0,0,5,0" Visibility="{Binding IsMotosaleFinishStatusVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                             <Label Grid.Column="0" Grid.Row="2" Background="ForestGreen" Width="10" Height="10" Margin="0,0,5,0" Visibility="{Binding IsUsedautoFinishStatusVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                             <Label Grid.Column="0" Grid.Row="3" Background="ForestGreen" Width="10" Height="10" Margin="0,0,5,0" Visibility="{Binding IsProdayFinishStatusVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                            
+
                             <CheckBox x:Name="BoxMoto" Content="Motosale" Grid.Column="1" Grid.Row="1"/>
                             <CheckBox x:Name="BoxUsed" Content="UsedAuto" Grid.Column="1" Grid.Row="2"/>
                             <CheckBox x:Name="BoxKol" Content="Proday2Kolesa" Grid.Column="1" Grid.Row="3"/>
@@ -111,7 +117,7 @@
                         </Grid>
                     </GroupBox>
 
-                    <GroupBox Grid.Row="5" Margin="10,20,10,10" Padding="10">
+                    <GroupBox Grid.Row="6" Margin="10,20,10,10" Padding="10">
                         <GroupBox.Header>Результат</GroupBox.Header>
                         <Grid>
                             <Grid.ColumnDefinitions>

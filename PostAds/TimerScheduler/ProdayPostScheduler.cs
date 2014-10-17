@@ -1,7 +1,6 @@
 ﻿namespace Motorcycle.TimerScheduler
 {
     using System.Threading.Tasks;
-
     using Config.Data;
     using Sites;
     using Utils;
@@ -15,6 +14,7 @@
         //don't forget FinishPosting.ResetValues() higher!!!
         private static Timer timer = new Timer();
         private static int counter;
+        private static bool wasTimeBoundariesMsgAlreadyShowen;
         private static readonly object Locker = new object();
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
@@ -24,6 +24,8 @@
             byte toHour,
             int interval)
         {
+            var userInterval = interval != 0 ? interval * 60000 : 2000;
+
             FinishPosting.ProdayFinished = false;
 
             await CheckerAsync(dataList);
@@ -45,7 +47,7 @@
                 return;
             }
 
-            timer.Interval = interval != 0 ? interval * 60000 : 2000;
+            timer.Interval = 60000;
             timer.Elapsed += (s, e) =>
             {
                 lock (Locker)
@@ -54,6 +56,9 @@
                         || (fromHour > toHour && DateTime.Now.Hour >= fromHour && DateTime.Now.Hour > toHour)
                         || (fromHour > toHour && DateTime.Now.Hour <= fromHour && DateTime.Now.Hour < toHour))
                     {
+                        wasTimeBoundariesMsgAlreadyShowen = false;
+                        timer.Interval = userInterval;
+
                         Checker(dataList);
                         if (dataList.Count == counter)
                         {
@@ -74,7 +79,13 @@
                     else
                     {
                         //Not right time
-                        Log.Info("Can't post at this time on Proday2Kolesa", SiteEnum.Proday2Kolesa, null);
+                        if (!wasTimeBoundariesMsgAlreadyShowen)
+                        {
+                            wasTimeBoundariesMsgAlreadyShowen = true;
+                            timer.Interval = 60000;
+                            Log.Info("Can't post at this time on Proday2Kolesa", SiteEnum.Proday2Kolesa, null);
+
+                        }
                     }
                 }
             };
