@@ -338,7 +338,7 @@ namespace Motorcycle.ViewModels
 
         private bool CheckIfAllFieldsAreFilled()
         {
-            var tempResult = (MotoFileLabel || SpareFileLabel || EquipFileLabel) && (flag[0] + flag[1] + flag[2] != 0);
+            var tempResult = (MotoFileLabel || SpareFileLabel || EquipFileLabel) && (flag[0] + flag[1] + flag[2] != 0) && PhotoDirLabel;
             if (flag[0] > 0) tempResult = tempResult && MotosaleFrom != MotosaleTo;
             if (flag[1] > 0) tempResult = tempResult && UsedAutoFrom != UsedAutoTo;
             if (flag[2] > 0) tempResult = tempResult && ProdayFrom != ProdayTo;
