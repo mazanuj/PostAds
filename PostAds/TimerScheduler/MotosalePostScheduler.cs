@@ -1,5 +1,6 @@
 ﻿namespace Motorcycle.TimerScheduler
 {
+    using System.Timers;
     using Config.Data;
     using NLog;
     using Sites;
@@ -7,13 +8,13 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Utils;
-    using System.Timers;
 
     internal static class MotosalePostScheduler
     {
         //don't forget FinishPosting.ResetValues() higher!!!
         private static Timer timer = new Timer();
         private static int counter;
+        private static bool wasTimeBoundariesMsgAlreadyShowen;
         private static readonly object Locker = new object();
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
@@ -23,6 +24,8 @@
             byte toHour,
             int interval)
         {
+            var userInterval = interval != 0 ? interval*60000 : 2000;
+
             FinishPosting.MotosaleFinished = false;
 
             if ((fromHour < toHour && DateTime.Now.Hour >= fromHour && DateTime.Now.Hour < toHour)
@@ -54,7 +57,7 @@
                 Log.Info("Can't post at this time on MotoSale", SiteEnum.MotoSale, null);
             }
 
-            timer.Interval = interval != 0 ? interval * 60000 : 2000;
+            timer.Interval = 60000;
             timer.Elapsed += (s, e) =>
             {
                 lock (Locker)
@@ -63,11 +66,13 @@
                         || (fromHour > toHour && DateTime.Now.Hour >= fromHour && DateTime.Now.Hour > toHour)
                         || (fromHour > toHour && DateTime.Now.Hour <= fromHour && DateTime.Now.Hour < toHour))
                     {
+                        wasTimeBoundariesMsgAlreadyShowen = false;
+                        timer.Interval = userInterval;
+
                         Checker(dataList);
                         if (dataList.Count == counter)
                         {
-                            if (timer.Enabled)
-                                timer.Stop();
+                            if (timer.Enabled) timer.Stop();
 
                             Log.Info("All posts to MotoSale are completed", SiteEnum.MotoSale, null);
 
@@ -83,12 +88,17 @@
                     }
                     else
                     {
+
                         //Not right time
-                        Log.Info("Can't post at this time on MotoSale", SiteEnum.MotoSale, null);
+                        if (!wasTimeBoundariesMsgAlreadyShowen)
+                        {
+                            wasTimeBoundariesMsgAlreadyShowen = true;
+                            timer.Interval = 60000;
+                            Log.Info("Can't post at this time on MotoSale", SiteEnum.MotoSale, null);
+                        }
                     }
                 }
             };
-
             timer.Start();
         }
 
@@ -105,31 +115,35 @@
 
         private static void Checker(IList<DicHolder> dataList)
         {
-            if (dataList.Count <= counter) return;
-            //Main work will be here
-            PostStatus postResult;
-            switch (dataList[counter].Type)
+            while (true)
             {
-                case ProductEnum.Equip:
-                    postResult = MotoSale.PostEquip(dataList[counter++]);
-                    Informer.RaiseOnPostResultChangedEvent(postResult == PostStatus.OK);
-                    if(postResult == PostStatus.ERROR) 
-                        Checker(dataList);
-                    break;
+                if (dataList.Count <= counter) return;
+                //Main work will be here
+                PostStatus postResult;
+                switch (dataList[counter].Type)
+                {
+                    case ProductEnum.Equip:
+                        postResult = MotoSale.PostEquip(dataList[counter++]);
+                        Informer.RaiseOnPostResultChangedEvent(postResult == PostStatus.OK);
+                        if (postResult == PostStatus.ERROR)
+                            continue;
+                        break;
 
-                case ProductEnum.Motorcycle:
-                    postResult = MotoSale.PostMoto(dataList[counter++]);
-                    Informer.RaiseOnPostResultChangedEvent(postResult == PostStatus.OK);
-                    if(postResult == PostStatus.ERROR) 
-                        Checker(dataList);
-                    break;
+                    case ProductEnum.Motorcycle:
+                        postResult = MotoSale.PostMoto(dataList[counter++]);
+                        Informer.RaiseOnPostResultChangedEvent(postResult == PostStatus.OK);
+                        if (postResult == PostStatus.ERROR)
+                            continue;
+                        break;
 
-                case ProductEnum.Spare:
-                    postResult = MotoSale.PostSpare(dataList[counter++]);
-                    Informer.RaiseOnPostResultChangedEvent(postResult == PostStatus.OK);
-                    if(postResult == PostStatus.ERROR) 
-                        Checker(dataList);
-                    break;
+                    case ProductEnum.Spare:
+                        postResult = MotoSale.PostSpare(dataList[counter++]);
+                        Informer.RaiseOnPostResultChangedEvent(postResult == PostStatus.OK);
+                        if (postResult == PostStatus.ERROR)
+                            continue;
+                        break;
+                }
+                break;
             }
         }
 

@@ -5,6 +5,7 @@
         public delegate void InformMethod(bool result);
         public delegate void ParameterlessInformMethod();
         public static event InformMethod OnPostResultChanged;
+        public static event InformMethod OnCaptchaStatusChanged;
         public static event InformMethod OnProxyListFromInternetUpdated;
         public static event ParameterlessInformMethod OnAllPostsAreCompleted;
         public static event ParameterlessInformMethod OnMotosalePostsAreCompleted;
@@ -16,6 +17,13 @@
             var handler = OnPostResultChanged;
             if (handler != null)
                 handler(post);
+        }
+
+        public static void RaiseOnCaptchaStatusChangedEvent(bool result)
+        {
+            var handler = OnCaptchaStatusChanged;
+            if (handler != null)
+                handler(result);
         }
 
         public static void RaiseOnProxyListFromInternetUpdatedEvent(bool result)
