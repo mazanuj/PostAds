@@ -1,4 +1,6 @@
-﻿namespace Motorcycle.Sites
+﻿using Motorcycle.Utils;
+
+namespace Motorcycle.Sites
 {
     using Captcha;
     using Config.Data;
@@ -85,8 +87,16 @@
                     //Get captcha result
                     var captchaFileName = CaptchaString.GetCaptchaImage(captchaUrl);
                     var captcha = CaptchaString.GetCaptchaString(CaptchaXmlWorker.GetCaptchaValues("key"),
-                        captchaFileName,
-                        CaptchaXmlWorker.GetCaptchaValues("domain"));
+                        captchaFileName, CaptchaXmlWorker.GetCaptchaValues("domain"));
+
+                    if (captcha == "ZERO")
+                    {
+                        Log.Warn("Нулевой либо отрицательный баланс", SiteEnum.Proday2Kolesa, ProductEnum.Motorcycle);
+                        RemoveEntries.Unposted(data.Row, ProductEnum.Motorcycle, SiteEnum.Proday2Kolesa);
+                        if (RemoveEntries.Remove(data.LineNum, ProductEnum.Motorcycle))
+                            Log.Debug(reply + " removed from list (Proday2kolesa)", SiteEnum.Proday2Kolesa, ProductEnum.Motorcycle);
+                        return PostStatus.CAPTCHA_ERROR;
+                    }
 
                     //Send captcha request
                     var captchaDictionary = new Dictionary<string, string>
@@ -205,8 +215,16 @@
                     //Get captcha result
                     var captchaFileName = CaptchaString.GetCaptchaImage(captchaUrl);
                     var captcha = CaptchaString.GetCaptchaString(CaptchaXmlWorker.GetCaptchaValues("key"),
-                        captchaFileName,
-                        CaptchaXmlWorker.GetCaptchaValues("domain"));
+                        captchaFileName, CaptchaXmlWorker.GetCaptchaValues("domain"));
+
+                    if (captcha == "ZERO")
+                    {
+                        Log.Warn("Нулевой либо отрицательный баланс", SiteEnum.Proday2Kolesa, ProductEnum.Spare);
+                        RemoveEntries.Unposted(data.Row, ProductEnum.Spare, SiteEnum.Proday2Kolesa);
+                        if (RemoveEntries.Remove(data.LineNum, ProductEnum.Spare))
+                            Log.Debug(reply + " removed from list (Proday2kolesa)", SiteEnum.Proday2Kolesa, ProductEnum.Spare);
+                        return PostStatus.CAPTCHA_ERROR;
+                    }
 
                     //Send captcha request
                     var captchaDictionary = new Dictionary<string, string>
@@ -324,8 +342,16 @@
                     //Get captcha result
                     var captchaFileName = CaptchaString.GetCaptchaImage(captchaUrl);
                     var captcha = CaptchaString.GetCaptchaString(CaptchaXmlWorker.GetCaptchaValues("key"),
-                        captchaFileName,
-                        CaptchaXmlWorker.GetCaptchaValues("domain"));
+                        captchaFileName, CaptchaXmlWorker.GetCaptchaValues("domain"));
+
+                    if (captcha == "ZERO")
+                    {
+                        Log.Warn("Нулевой либо отрицательный баланс", SiteEnum.Proday2Kolesa, ProductEnum.Equip);
+                        RemoveEntries.Unposted(data.Row, ProductEnum.Equip, SiteEnum.Proday2Kolesa);
+                        if (RemoveEntries.Remove(data.LineNum, ProductEnum.Equip))
+                            Log.Debug(reply + " removed from list (Proday2kolesa)", SiteEnum.Proday2Kolesa, ProductEnum.Equip);
+                        return PostStatus.CAPTCHA_ERROR;
+                    }                    
 
                     //Send captcha request
                     var captchaDictionary = new Dictionary<string, string>

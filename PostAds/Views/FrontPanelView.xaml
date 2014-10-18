@@ -45,19 +45,23 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
-                    <Button Content="Транспорт" x:Name="ButtonMoto" Grid.Row="0" Width="130" Height="25" HorizontalAlignment="Left" Margin="10"/>
-                    <Label Background="{Binding MotoFileLabel, Converter={StaticResource BoolToColorConverter}}" Grid.Row="0" Width="20" Height="25" HorizontalAlignment="Left" Margin="150,10,10,10"/>
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button Content="Транспорт" x:Name="ButtonMoto" Grid.Row="0" Grid.Column="0" Width="130" Height="25" HorizontalAlignment="Left" Margin="10"/>
+                        <Label Background="{Binding MotoFileLabel, Converter={StaticResource BoolToColorConverter}}" Grid.Row="0" Grid.Column="0" Width="20" Height="25" HorizontalAlignment="Left" Margin="150,10,10,10"/>
+                        <TextBlock Text="Captcha" Grid.Row="0" Grid.Column="1"   Margin="30,10,143,10"/>
+                        <Label Background="{Binding CaptchaLabel, Converter={StaticResource BoolToColorConverter}}" Grid.Row="0" Grid.Column="1"  Width="15" Height="15" HorizontalAlignment="Left" Margin="88,10,0,20" RenderTransformOrigin="5.667,-0.2"/>
+                    </Grid>
+                    
                     <Button Content="Запчасти" x:Name="ButtonSpare" Grid.Row="1" Width="130" Height="25" HorizontalAlignment="Left" Margin="10"/>
                     <Label Background="{Binding SpareFileLabel, Converter={StaticResource BoolToColorConverter}}" Grid.Row="1" Width="20" Height="25" HorizontalAlignment="Left" Margin="150,10,10,10"/>
                     <Button Content="Экипировка" x:Name="ButtonEquip" Grid.Row="2" Width="130" Height="25" HorizontalAlignment="Left" Margin="10"/>
                     <Label Background="{Binding EquipFileLabel, Converter={StaticResource BoolToColorConverter}}" Grid.Row="2" Width="20" Height="25" HorizontalAlignment="Left" Margin="150,10,10,10"/>
                     <Button Content="Загрузить картинки" x:Name="ButtonPhotoDir" Grid.Row="3" Width="130" Height="25" HorizontalAlignment="Left" Margin="10"/>
                     <Label Background="{Binding PhotoDirLabel, Converter={StaticResource BoolToColorConverter}}" Grid.Row="3" Width="20" Height="25" HorizontalAlignment="Left" Margin="150,10,10,10"/>
-
-                    <StackPanel Orientation="Horizontal" Grid.Row="4">
-                        <TextBlock Text="Captcha" Margin="10, 0, 0 ,0"/>
-                        <Label Background="{Binding CaptchaLabel, Converter={StaticResource BoolToColorConverter}}" Width="15" Height="15" HorizontalAlignment="Left" Margin="5,0,0,0"/>
-                    </StackPanel>
 
                     <GroupBox Grid.Row="5" Margin="10,20,10,10" Padding="10">
                         <GroupBox.Header>С какими сайтами работать?</GroupBox.Header>

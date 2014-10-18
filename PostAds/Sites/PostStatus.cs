@@ -3,6 +3,7 @@
     public enum PostStatus
     {
         OK,
-        ERROR
+        ERROR,
+        CAPTCHA_ERROR
     }
 }

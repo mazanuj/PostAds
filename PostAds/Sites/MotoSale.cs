@@ -48,10 +48,16 @@ namespace Motorcycle.Sites
                     var captchaFileName = Response.GetImageFromResponse(requestImage);
 
                     //Get captcha result
-                    var captcha = CaptchaString.GetCaptchaString(
-                        CaptchaXmlWorker.GetCaptchaValues("key"),
-                        captchaFileName,
-                        CaptchaXmlWorker.GetCaptchaValues("domain"));
+                    var captcha = CaptchaString.GetCaptchaString(CaptchaXmlWorker.GetCaptchaValues("key"), captchaFileName, CaptchaXmlWorker.GetCaptchaValues("domain"));
+
+                    if (captcha == "ZERO")
+                    {
+                        Log.Warn("Нулевой либо отрицательный баланс", SiteEnum.MotoSale, ProductEnum.Motorcycle);
+                        RemoveEntries.Unposted(data.Row, ProductEnum.Motorcycle, SiteEnum.MotoSale);
+                        if (RemoveEntries.Remove(data.LineNum, ProductEnum.Motorcycle))
+                            Log.Debug(reply + " removed from list (Motosale)", SiteEnum.MotoSale, ProductEnum.Motorcycle);
+                        return PostStatus.CAPTCHA_ERROR;
+                    }
 
                     dataDictionary["fConfirmationCode"] = captcha;
 
@@ -179,10 +185,16 @@ namespace Motorcycle.Sites
                     var captchaFileName = Response.GetImageFromResponse(requestImage);
 
                     //Get captcha result
-                    var captcha = CaptchaString.GetCaptchaString(
-                        CaptchaXmlWorker.GetCaptchaValues("key"),
-                        captchaFileName,
-                        CaptchaXmlWorker.GetCaptchaValues("domain"));
+                    var captcha = CaptchaString.GetCaptchaString(CaptchaXmlWorker.GetCaptchaValues("key"), captchaFileName, CaptchaXmlWorker.GetCaptchaValues("domain"));
+
+                    if (captcha == "ZERO")
+                    {
+                        Log.Warn("Нулевой либо отрицательный баланс", SiteEnum.MotoSale, ProductEnum.Spare);
+                        RemoveEntries.Unposted(data.Row, ProductEnum.Spare, SiteEnum.MotoSale);
+                        if (RemoveEntries.Remove(data.LineNum, ProductEnum.Spare))
+                            Log.Debug(reply + " removed from list (Motosale)", SiteEnum.MotoSale, ProductEnum.Spare);
+                        return PostStatus.CAPTCHA_ERROR;
+                    }
 
                     dataDictionary["fConfirmationCode"] = captcha;
 
@@ -298,10 +310,16 @@ namespace Motorcycle.Sites
                     var captchaFileName = Response.GetImageFromResponse(requestImage);
 
                     //Get captcha result
-                    var captcha = CaptchaString.GetCaptchaString(
-                        CaptchaXmlWorker.GetCaptchaValues("key"),
-                        captchaFileName,
-                        CaptchaXmlWorker.GetCaptchaValues("domain"));
+                    var captcha = CaptchaString.GetCaptchaString( CaptchaXmlWorker.GetCaptchaValues("key"), captchaFileName, CaptchaXmlWorker.GetCaptchaValues("domain"));
+
+                    if (captcha == "ZERO")
+                    {
+                        Log.Warn("Нулевой либо отрицательный баланс", SiteEnum.MotoSale, ProductEnum.Equip);
+                        RemoveEntries.Unposted(data.Row, ProductEnum.Equip, SiteEnum.MotoSale);
+                        if (RemoveEntries.Remove(data.LineNum, ProductEnum.Equip))
+                            Log.Debug(reply + " removed from list (Motosale)", SiteEnum.MotoSale, ProductEnum.Equip);
+                        return PostStatus.CAPTCHA_ERROR;
+                    }
 
                     dataDictionary["fConfirmationCode"] = captcha;
 
