@@ -136,6 +136,7 @@
     <Compile Include="TimerScheduler\FinishPosting.cs" />
     <Compile Include="TimerScheduler\MotosalePostScheduler.cs" />
     <Compile Include="TimerScheduler\ProdayPostScheduler.cs" />
+    <Compile Include="TimerScheduler\ProdayPostSchedulerNew.cs" />
     <Compile Include="TimerScheduler\TimerSchedulerParams.cs" />
     <Compile Include="TimerScheduler\UsedAutoPostScheduler.cs" />
     <Compile Include="Utils\Informer.cs" />
