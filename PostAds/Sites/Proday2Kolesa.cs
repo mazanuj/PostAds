@@ -1,19 +1,18 @@
-﻿using Motorcycle.Utils;
-
-namespace Motorcycle.Sites
+﻿namespace Motorcycle.Sites
 {
     using Captcha;
     using Config.Data;
     using HTTP;
+    using Interfaces;
     using NLog;
     using POST;
     using System;
     using System.Collections.Generic;
     using XmlWorker;
 
-    public static class Proday2Kolesa
+    public class Proday2Kolesa : ISitePoster
     {
-        public static PostStatus PostMoto(DicHolder data)
+        public PostStatus PostMoto(DicHolder data)
         {
             try
             {
@@ -91,23 +90,25 @@ namespace Motorcycle.Sites
 
                     if (captcha == "ZERO")
                     {
-                        Log.Warn(reply + " || Нулевой либо отрицательный баланс", SiteEnum.Proday2Kolesa, ProductEnum.Motorcycle);
+                        Log.Warn(reply + " || Нулевой либо отрицательный баланс", SiteEnum.Proday2Kolesa,
+                            ProductEnum.Motorcycle);
                         RemoveEntries.Unposted(data.Row, ProductEnum.Motorcycle, SiteEnum.Proday2Kolesa);
                         if (RemoveEntries.Remove(data.LineNum, ProductEnum.Motorcycle))
-                            Log.Debug(reply + " removed from list (Proday2kolesa)", SiteEnum.Proday2Kolesa, ProductEnum.Motorcycle);
+                            Log.Debug(reply + " removed from list (Proday2kolesa)", SiteEnum.Proday2Kolesa,
+                                ProductEnum.Motorcycle);
                         return PostStatus.CAPTCHA_ERROR;
                     }
 
                     //Send captcha request
                     var captchaDictionary = new Dictionary<string, string>
-                            {
-                                {"secure_code", captcha},
-                                {"id", id},
-                                {"Itemid", Itemid},
-                                {"option", option},
-                                {"task", task},
-                                {"simage_id", simage_id}
-                            };
+                    {
+                        {"secure_code", captcha},
+                        {"id", id},
+                        {"Itemid", Itemid},
+                        {"option", option},
+                        {"task", task},
+                        {"simage_id", simage_id}
+                    };
 
                     referer = string.Format(
                         "http://proday2kolesa.com.ua/component/option,{0}/task,publish/id,{1}/error,0/Itemid,{2}/",
@@ -120,7 +121,8 @@ namespace Motorcycle.Sites
 
                 Log.Info(reply + " successfully posted on Proday2kolesa", SiteEnum.Proday2Kolesa, ProductEnum.Motorcycle);
                 if (RemoveEntries.Remove(data.LineNum, ProductEnum.Motorcycle))
-                    Log.Debug(reply + " removed from list (Proday2Kolesa)", SiteEnum.Proday2Kolesa, ProductEnum.Motorcycle);
+                    Log.Debug(reply + " removed from list (Proday2Kolesa)", SiteEnum.Proday2Kolesa,
+                        ProductEnum.Motorcycle);
                 return PostStatus.OK;
             }
             catch (Exception ex)
@@ -141,7 +143,7 @@ namespace Motorcycle.Sites
             }
         }
 
-        public static PostStatus PostSpare(DicHolder data)
+        public PostStatus PostSpare(DicHolder data)
         {
             try
             {
@@ -219,23 +221,25 @@ namespace Motorcycle.Sites
 
                     if (captcha == "ZERO")
                     {
-                        Log.Warn(reply + " || Нулевой либо отрицательный баланс", SiteEnum.Proday2Kolesa, ProductEnum.Spare);
+                        Log.Warn(reply + " || Нулевой либо отрицательный баланс", SiteEnum.Proday2Kolesa,
+                            ProductEnum.Spare);
                         RemoveEntries.Unposted(data.Row, ProductEnum.Spare, SiteEnum.Proday2Kolesa);
                         if (RemoveEntries.Remove(data.LineNum, ProductEnum.Spare))
-                            Log.Debug(reply + " removed from list (Proday2kolesa)", SiteEnum.Proday2Kolesa, ProductEnum.Spare);
+                            Log.Debug(reply + " removed from list (Proday2kolesa)", SiteEnum.Proday2Kolesa,
+                                ProductEnum.Spare);
                         return PostStatus.CAPTCHA_ERROR;
                     }
 
                     //Send captcha request
                     var captchaDictionary = new Dictionary<string, string>
-                            {
-                                {"secure_code", captcha},
-                                {"id", id},
-                                {"Itemid", Itemid},
-                                {"option", option},
-                                {"task", task},
-                                {"simage_id", simage_id}
-                            };
+                    {
+                        {"secure_code", captcha},
+                        {"id", id},
+                        {"Itemid", Itemid},
+                        {"option", option},
+                        {"task", task},
+                        {"simage_id", simage_id}
+                    };
 
                     referer = string.Format(
                         "http://proday2kolesa.com.ua/component/option,{0}/task,publish/id,{1}/error,0/Itemid,{2}/",
@@ -253,7 +257,7 @@ namespace Motorcycle.Sites
             catch (Exception ex)
             {
                 LogManager.GetCurrentClassLogger()
-                    .Error(string.Format("{0} {1} unsuccessfully posted on Proday2kolesa. {3}",
+                    .Error(string.Format("{0} {1} unsuccessfully posted on Proday2kolesa. {2}",
                         SpareEquipXmlWorker.GetItemSiteIdUsingPlant("pz", data.DataDictionary["model"]),
                         data.DataDictionary["modification"], ex.Message),
                         SiteEnum.Proday2Kolesa, ProductEnum.Spare);
@@ -261,14 +265,14 @@ namespace Motorcycle.Sites
                 RemoveEntries.Unposted(data.Row, ProductEnum.Spare, SiteEnum.Proday2Kolesa);
 
                 if (RemoveEntries.Remove(data.LineNum, ProductEnum.Spare))
-                    LogManager.GetCurrentClassLogger().Debug(string.Format("{0} {1} removed from list (Proday2kolesa)",
+                    LogManager.GetCurrentClassLogger().Debug(string.Format("{0} removed from list (Proday2kolesa)",
                         SpareEquipXmlWorker.GetItemSiteIdUsingPlant("pz", data.DataDictionary["model"])),
                         SiteEnum.Proday2Kolesa, ProductEnum.Spare);
                 return PostStatus.ERROR;
             }
         }
 
-        public static PostStatus PostEquip(DicHolder data)
+        public PostStatus PostEquip(DicHolder data)
         {
             try
             {
@@ -346,23 +350,25 @@ namespace Motorcycle.Sites
 
                     if (captcha == "ZERO")
                     {
-                        Log.Warn(reply + " || Нулевой либо отрицательный баланс", SiteEnum.Proday2Kolesa, ProductEnum.Equip);
+                        Log.Warn(reply + " || Нулевой либо отрицательный баланс", SiteEnum.Proday2Kolesa,
+                            ProductEnum.Equip);
                         RemoveEntries.Unposted(data.Row, ProductEnum.Equip, SiteEnum.Proday2Kolesa);
                         if (RemoveEntries.Remove(data.LineNum, ProductEnum.Equip))
-                            Log.Debug(reply + " removed from list (Proday2kolesa)", SiteEnum.Proday2Kolesa, ProductEnum.Equip);
+                            Log.Debug(reply + " removed from list (Proday2kolesa)", SiteEnum.Proday2Kolesa,
+                                ProductEnum.Equip);
                         return PostStatus.CAPTCHA_ERROR;
-                    }                    
+                    }
 
                     //Send captcha request
                     var captchaDictionary = new Dictionary<string, string>
-                            {
-                                {"secure_code", captcha},
-                                {"id", id},
-                                {"Itemid", Itemid},
-                                {"option", option},
-                                {"task", task},
-                                {"simage_id", simage_id}
-                            };
+                    {
+                        {"secure_code", captcha},
+                        {"id", id},
+                        {"Itemid", Itemid},
+                        {"option", option},
+                        {"task", task},
+                        {"simage_id", simage_id}
+                    };
 
                     referer = string.Format(
                         "http://proday2kolesa.com.ua/component/option,{0}/task,publish/id,{1}/error,0/Itemid,{2}/",

@@ -2,6 +2,9 @@
 {
     using Config.Data;
     using HTTP;
+
+    using Motorcycle.Interfaces;
+
     using XmlWorker;
     using NLog;
     using POST;
@@ -11,9 +14,9 @@
     using System.Text;
     using xNet.Net;
 
-    public static class UsedAuto
+    public class UsedAuto : ISitePoster
     {
-        public static PostStatus PostMoto(DicHolder data)
+        public PostStatus PostMoto(DicHolder data)
         {
             try
             {
@@ -126,7 +129,7 @@
             }
         }
 
-        public static PostStatus PostSpare(DicHolder data)
+        public PostStatus PostSpare(DicHolder data)
         {
             try
             {
@@ -170,6 +173,12 @@
                         data.DataDictionary["model"]), SiteEnum.UsedAuto, ProductEnum.Spare);
                 return PostStatus.ERROR;
             }
+        }
+
+        public PostStatus PostEquip(DicHolder data)
+        {
+            //this is only stub method
+            return PostStatus.OK;
         }
     }
 }

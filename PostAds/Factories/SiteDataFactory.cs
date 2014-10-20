@@ -19,7 +19,7 @@ namespace Motorcycle.Factories
                     return new MotosaleData();
 
                 default:
-                    return new DvaKolesaData();
+                    return null;
             }
         }
     }

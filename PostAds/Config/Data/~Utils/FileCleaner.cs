@@ -6,6 +6,8 @@ namespace Motorcycle.Config.Data
 {
     internal static class FileCleaner
     {
+        private static readonly object Locker = new object();
+
         private static void RemoveEmptyLinesInFile(string purpose)
         {
             var filePath = FilePathXmlWorker.GetFilePath(purpose);
@@ -16,10 +18,11 @@ namespace Motorcycle.Config.Data
                 .Where(x => !string.IsNullOrEmpty(x))
                 .Distinct().ToList();
 
-            if (array.Count() != 0)
-                File.WriteAllLines(filePath, array);
-            else if (filePath.Contains("Unposted"))
-                File.Delete(filePath);
+            lock (Locker)
+            {
+                if (array.Count() != 0) File.WriteAllLines(filePath, array);
+                else if (filePath.Contains("Unposted")) File.Delete(filePath);
+            }
         }
 
         public static void RemoveEmptyLinesFromAllFiles()
