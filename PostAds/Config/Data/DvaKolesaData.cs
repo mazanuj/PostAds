@@ -26,6 +26,7 @@ namespace Motorcycle.Config.Data
                     row, lineNum, SiteEnum.Proday2Kolesa, ProductEnum.Motorcycle) ||
                 RemoveEntries.DataError("color", ManufactureXmlWorker.GetConditionState(data[17], "p"),
                     row, lineNum, SiteEnum.Proday2Kolesa, ProductEnum.Motorcycle))
+
                 return new DicHolder {IsError = true};
             //==========================================================================================//
 
