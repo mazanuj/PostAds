@@ -52,7 +52,7 @@ namespace Motorcycle.Sites
 
                     if (captcha == "ZERO")
                     {
-                        Log.Warn("Нулевой либо отрицательный баланс", SiteEnum.MotoSale, ProductEnum.Motorcycle);
+                        Log.Warn(reply + " || Нулевой либо отрицательный баланс", SiteEnum.MotoSale, ProductEnum.Motorcycle);
                         RemoveEntries.Unposted(data.Row, ProductEnum.Motorcycle, SiteEnum.MotoSale);
                         if (RemoveEntries.Remove(data.LineNum, ProductEnum.Motorcycle))
                             Log.Debug(reply + " removed from list (Motosale)", SiteEnum.MotoSale, ProductEnum.Motorcycle);
@@ -189,7 +189,7 @@ namespace Motorcycle.Sites
 
                     if (captcha == "ZERO")
                     {
-                        Log.Warn("Нулевой либо отрицательный баланс", SiteEnum.MotoSale, ProductEnum.Spare);
+                        Log.Warn(reply + " || Нулевой либо отрицательный баланс", SiteEnum.MotoSale, ProductEnum.Spare);
                         RemoveEntries.Unposted(data.Row, ProductEnum.Spare, SiteEnum.MotoSale);
                         if (RemoveEntries.Remove(data.LineNum, ProductEnum.Spare))
                             Log.Debug(reply + " removed from list (Motosale)", SiteEnum.MotoSale, ProductEnum.Spare);
@@ -314,7 +314,7 @@ namespace Motorcycle.Sites
 
                     if (captcha == "ZERO")
                     {
-                        Log.Warn("Нулевой либо отрицательный баланс", SiteEnum.MotoSale, ProductEnum.Equip);
+                        Log.Warn(reply + " || Нулевой либо отрицательный баланс", SiteEnum.MotoSale, ProductEnum.Equip);
                         RemoveEntries.Unposted(data.Row, ProductEnum.Equip, SiteEnum.MotoSale);
                         if (RemoveEntries.Remove(data.LineNum, ProductEnum.Equip))
                             Log.Debug(reply + " removed from list (Motosale)", SiteEnum.MotoSale, ProductEnum.Equip);

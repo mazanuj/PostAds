@@ -91,7 +91,7 @@ namespace Motorcycle.Sites
 
                     if (captcha == "ZERO")
                     {
-                        Log.Warn("Нулевой либо отрицательный баланс", SiteEnum.Proday2Kolesa, ProductEnum.Motorcycle);
+                        Log.Warn(reply + " || Нулевой либо отрицательный баланс", SiteEnum.Proday2Kolesa, ProductEnum.Motorcycle);
                         RemoveEntries.Unposted(data.Row, ProductEnum.Motorcycle, SiteEnum.Proday2Kolesa);
                         if (RemoveEntries.Remove(data.LineNum, ProductEnum.Motorcycle))
                             Log.Debug(reply + " removed from list (Proday2kolesa)", SiteEnum.Proday2Kolesa, ProductEnum.Motorcycle);
@@ -219,7 +219,7 @@ namespace Motorcycle.Sites
 
                     if (captcha == "ZERO")
                     {
-                        Log.Warn("Нулевой либо отрицательный баланс", SiteEnum.Proday2Kolesa, ProductEnum.Spare);
+                        Log.Warn(reply + " || Нулевой либо отрицательный баланс", SiteEnum.Proday2Kolesa, ProductEnum.Spare);
                         RemoveEntries.Unposted(data.Row, ProductEnum.Spare, SiteEnum.Proday2Kolesa);
                         if (RemoveEntries.Remove(data.LineNum, ProductEnum.Spare))
                             Log.Debug(reply + " removed from list (Proday2kolesa)", SiteEnum.Proday2Kolesa, ProductEnum.Spare);
@@ -346,7 +346,7 @@ namespace Motorcycle.Sites
 
                     if (captcha == "ZERO")
                     {
-                        Log.Warn("Нулевой либо отрицательный баланс", SiteEnum.Proday2Kolesa, ProductEnum.Equip);
+                        Log.Warn(reply + " || Нулевой либо отрицательный баланс", SiteEnum.Proday2Kolesa, ProductEnum.Equip);
                         RemoveEntries.Unposted(data.Row, ProductEnum.Equip, SiteEnum.Proday2Kolesa);
                         if (RemoveEntries.Remove(data.LineNum, ProductEnum.Equip))
                             Log.Debug(reply + " removed from list (Proday2kolesa)", SiteEnum.Proday2Kolesa, ProductEnum.Equip);
