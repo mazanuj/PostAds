@@ -1,6 +1,9 @@
 ﻿namespace Motorcycle.Config
 {
     using Data;
+
+    using Motorcycle.TimerScheduler.Old;
+
     using TimerScheduler;
     using Utils;
     using System.Linq;
@@ -28,9 +31,8 @@
 
                 if (resultList.Count > 0)
                 {
-                    MotosalePostScheduler.ResetValues();
-
-                    await MotosalePostScheduler.StartPostMsgWithTimer(
+                    var motosalePostScheduler = new MotosalePostScheduler();
+                    motosalePostScheduler.StartPostMsgWithTimer(
                         resultList,
                         timerParams.MotosaleFrom,
                         timerParams.MotosaleTo,
@@ -54,8 +56,8 @@
 
                 if (resultList.Count > 0)
                 {
-                    UsedAutoPostScheduler.ResetValues();
-                    await UsedAutoPostScheduler.StartPostMsgWithTimer(
+                    var usedAutoPostScheduler = new UsedAutoPostScheduler();
+                    usedAutoPostScheduler.StartPostMsgWithTimer(
                         resultList,
                         timerParams.UsedAutoFrom,
                         timerParams.UsedAutoTo,
@@ -78,8 +80,8 @@
 
                 if (resultList.Count > 0)
                 {
-                    ProdayPostScheduler.ResetValues();
-                    await ProdayPostScheduler.StartPostMsgWithTimer(
+                    var prodayPostScheduler = new ProdayPostScheduler();
+                    prodayPostScheduler.StartPostMsgWithTimer(
                         resultList,
                         timerParams.ProdayFrom,
                         timerParams.ProdayTo,

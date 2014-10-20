@@ -5,19 +5,22 @@ namespace Motorcycle.Sites
     using Captcha;
     using Config.Data;
     using HTTP;
+
+    using Motorcycle.Interfaces;
+
     using NLog;
     using POST;
     using System;
     using System.Collections.Generic;
     using XmlWorker;
 
-    public static class Proday2Kolesa
+    public class Proday2Kolesa : ISitePoster
     {
-        public static PostStatus PostMoto(DicHolder data)
+        public PostStatus PostMoto(DicHolder data)
         {
             try
             {
-                var Log = LogManager.GetCurrentClassLogger();
+                var log = LogManager.GetCurrentClassLogger();
                 var dataDictionary = data.DataDictionary;
                 var fileDictionary = data.FileDictionary;
                 var reply = string.Format("{0} {1}",
@@ -91,10 +94,10 @@ namespace Motorcycle.Sites
 
                     if (captcha == "ZERO")
                     {
-                        Log.Warn("Нулевой либо отрицательный баланс", SiteEnum.Proday2Kolesa, ProductEnum.Motorcycle);
+                        log.Warn("Нулевой либо отрицательный баланс", SiteEnum.Proday2Kolesa, ProductEnum.Motorcycle);
                         RemoveEntries.Unposted(data.Row, ProductEnum.Motorcycle, SiteEnum.Proday2Kolesa);
                         if (RemoveEntries.Remove(data.LineNum, ProductEnum.Motorcycle))
-                            Log.Debug(reply + " removed from list (Proday2kolesa)", SiteEnum.Proday2Kolesa, ProductEnum.Motorcycle);
+                            log.Debug(reply + " removed from list (Proday2kolesa)", SiteEnum.Proday2Kolesa, ProductEnum.Motorcycle);
                         return PostStatus.CAPTCHA_ERROR;
                     }
 
@@ -118,9 +121,9 @@ namespace Motorcycle.Sites
                     req.Abort();
                 } while (responseString.Contains("Введите секретный код:"));
 
-                Log.Info(reply + " successfully posted on Proday2kolesa", SiteEnum.Proday2Kolesa, ProductEnum.Motorcycle);
+                log.Info(reply + " successfully posted on Proday2kolesa", SiteEnum.Proday2Kolesa, ProductEnum.Motorcycle);
                 if (RemoveEntries.Remove(data.LineNum, ProductEnum.Motorcycle))
-                    Log.Debug(reply + " removed from list (Proday2Kolesa)", SiteEnum.Proday2Kolesa, ProductEnum.Motorcycle);
+                    log.Debug(reply + " removed from list (Proday2Kolesa)", SiteEnum.Proday2Kolesa, ProductEnum.Motorcycle);
                 return PostStatus.OK;
             }
             catch (Exception ex)
@@ -141,11 +144,11 @@ namespace Motorcycle.Sites
             }
         }
 
-        public static PostStatus PostSpare(DicHolder data)
+        public PostStatus PostSpare(DicHolder data)
         {
             try
             {
-                var Log = LogManager.GetCurrentClassLogger();
+                var log = LogManager.GetCurrentClassLogger();
                 var dataDictionary = data.DataDictionary;
                 var fileDictionary = data.FileDictionary;
                 var reply = string.Format("{0} {1}",
@@ -219,10 +222,10 @@ namespace Motorcycle.Sites
 
                     if (captcha == "ZERO")
                     {
-                        Log.Warn("Нулевой либо отрицательный баланс", SiteEnum.Proday2Kolesa, ProductEnum.Spare);
+                        log.Warn("Нулевой либо отрицательный баланс", SiteEnum.Proday2Kolesa, ProductEnum.Spare);
                         RemoveEntries.Unposted(data.Row, ProductEnum.Spare, SiteEnum.Proday2Kolesa);
                         if (RemoveEntries.Remove(data.LineNum, ProductEnum.Spare))
-                            Log.Debug(reply + " removed from list (Proday2kolesa)", SiteEnum.Proday2Kolesa, ProductEnum.Spare);
+                            log.Debug(reply + " removed from list (Proday2kolesa)", SiteEnum.Proday2Kolesa, ProductEnum.Spare);
                         return PostStatus.CAPTCHA_ERROR;
                     }
 
@@ -245,9 +248,9 @@ namespace Motorcycle.Sites
                     responseString = Response.GetResponseString(req);
                 } while (responseString.Contains("Введите секретный код:"));
 
-                Log.Info(reply + " successfully posted on Proday2kolesa", SiteEnum.Proday2Kolesa, ProductEnum.Spare);
+                log.Info(reply + " successfully posted on Proday2kolesa", SiteEnum.Proday2Kolesa, ProductEnum.Spare);
                 if (RemoveEntries.Remove(data.LineNum, ProductEnum.Spare))
-                    Log.Debug(reply + " removed from list (Proday2kolesa)", SiteEnum.Proday2Kolesa, ProductEnum.Spare);
+                    log.Debug(reply + " removed from list (Proday2kolesa)", SiteEnum.Proday2Kolesa, ProductEnum.Spare);
                 return PostStatus.OK;
             }
             catch (Exception ex)
@@ -268,11 +271,11 @@ namespace Motorcycle.Sites
             }
         }
 
-        public static PostStatus PostEquip(DicHolder data)
+        public PostStatus PostEquip(DicHolder data)
         {
             try
             {
-                var Log = LogManager.GetCurrentClassLogger();
+                var log = LogManager.GetCurrentClassLogger();
                 var dataDictionary = data.DataDictionary;
                 var fileDictionary = data.FileDictionary;
                 var reply = string.Format("{0} {1}",
@@ -346,12 +349,12 @@ namespace Motorcycle.Sites
 
                     if (captcha == "ZERO")
                     {
-                        Log.Warn("Нулевой либо отрицательный баланс", SiteEnum.Proday2Kolesa, ProductEnum.Equip);
+                        log.Warn("Нулевой либо отрицательный баланс", SiteEnum.Proday2Kolesa, ProductEnum.Equip);
                         RemoveEntries.Unposted(data.Row, ProductEnum.Equip, SiteEnum.Proday2Kolesa);
                         if (RemoveEntries.Remove(data.LineNum, ProductEnum.Equip))
-                            Log.Debug(reply + " removed from list (Proday2kolesa)", SiteEnum.Proday2Kolesa, ProductEnum.Equip);
+                            log.Debug(reply + " removed from list (Proday2kolesa)", SiteEnum.Proday2Kolesa, ProductEnum.Equip);
                         return PostStatus.CAPTCHA_ERROR;
-                    }                    
+                    }
 
                     //Send captcha request
                     var captchaDictionary = new Dictionary<string, string>
@@ -372,9 +375,9 @@ namespace Motorcycle.Sites
                     responseString = Response.GetResponseString(req);
                 } while (responseString.Contains("Введите секретный код:"));
 
-                Log.Info(reply + " successfully posted on Proday2kolesa", SiteEnum.Proday2Kolesa, ProductEnum.Equip);
+                log.Info(reply + " successfully posted on Proday2kolesa", SiteEnum.Proday2Kolesa, ProductEnum.Equip);
                 if (RemoveEntries.Remove(data.LineNum, ProductEnum.Equip))
-                    Log.Debug(reply + " removed from list (Proday2kolesa)", SiteEnum.Proday2Kolesa, ProductEnum.Equip);
+                    log.Debug(reply + " removed from list (Proday2kolesa)", SiteEnum.Proday2Kolesa, ProductEnum.Equip);
                 return PostStatus.OK;
             }
             catch (Exception ex)

@@ -7,6 +7,9 @@ namespace Motorcycle.ViewModels
     using Config;
     using Microsoft.Win32;
     using Config.Data;
+
+    using Motorcycle.TimerScheduler.Old;
+
     using TimerScheduler;
 
     using System;
@@ -426,9 +429,7 @@ namespace Motorcycle.ViewModels
 
         public void ButtonStop()
         {
-            MotosalePostScheduler.StopPostMsgWithTimer();
-            UsedAutoPostScheduler.StopPostMsgWithTimer();
-            ProdayPostScheduler.StopPostMsgWithTimer();
+            Informer.RaiseStopTimerClickedEvent();
 
             CanButtonStart = true;
             NotifyOfPropertyChange(() => CanButtonStart);
