@@ -1,7 +1,7 @@
 ﻿namespace Motorcycle.TimerScheduler
 {
-    using Motorcycle.Config.Data;
-    using Motorcycle.Utils;
+    using Config.Data;
+    using Utils;
 
     public class MotosalePostScheduler : PostSchedulerBase
     {

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Net;
+using System.Text.RegularExpressions;
 using Motorcycle.HTTP;
 using NLog;
 using OpenPop.Pop3;
@@ -64,18 +66,8 @@ namespace Motorcycle.Config.Confirm
                     var html = message.FindFirstHtmlVersion();
                     if (html == null) continue;
 
-                    var text = html.GetBodyAsText();
-
-                    var start = text.IndexOf("<a href='");
-                    if (start == -1) continue;
-
-                    start += "<a href='".Length;
-                    var stop = text.IndexOf("' target=", start);
-
-                    var url = text.Substring(start, stop - start);
-                    var req = Request.GETRequest(url);
-
-                    var respString = Response.GetResponseString(req);
+                    var url = Regex.Match(html.GetBodyAsText(), @"http://www.motosale.com.ua/\?confirm=\w*(?=</a>)").Value;
+                    var respString = new WebClient().DownloadString(url);
 
                     if (respString.Contains("after_confirm=false"))
                     {
