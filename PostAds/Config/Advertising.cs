@@ -1,9 +1,8 @@
 ﻿namespace Motorcycle.Config
 {
+    using System.Collections.Generic;
+
     using Data;
-
-    using Motorcycle.TimerScheduler.Old;
-
     using TimerScheduler;
     using Utils;
     using System.Linq;
@@ -22,12 +21,7 @@
 
             if (flag[0] > 0)
             {
-                var resultList =
-                    returnDataHolders.Where(
-                        holder => holder.IsError == false && holder.Site == SiteEnum.MotoSale &&
-                            (holder.Type == ProductEnum.Motorcycle || holder.Type == ProductEnum.Spare || holder.Type == ProductEnum.Equip)).ToList();
-
-                resultList.Shuffle();
+                var resultList = GetResultList(returnDataHolders, SiteEnum.MotoSale);
 
                 if (resultList.Count > 0)
                 {
@@ -47,12 +41,7 @@
 
             if (flag[1] > 0)
             {
-                var resultList =
-                    returnDataHolders.Where(
-                        holder => holder.IsError == false && holder.Site == SiteEnum.UsedAuto &&
-                            (holder.Type == ProductEnum.Motorcycle || holder.Type == ProductEnum.Spare)).ToList();
-
-                resultList.Shuffle();
+                var resultList = GetResultList(returnDataHolders, SiteEnum.UsedAuto);
 
                 if (resultList.Count > 0)
                 {
@@ -71,12 +60,7 @@
 
             if (flag[2] > 0)
             {
-                var resultList =
-                    returnDataHolders.Where(
-                        holder => holder.IsError == false && holder.Site == SiteEnum.Proday2Kolesa &&
-                            (holder.Type == ProductEnum.Motorcycle || holder.Type == ProductEnum.Spare || holder.Type == ProductEnum.Equip)).ToList();
-
-                resultList.Shuffle();
+                var resultList = GetResultList(returnDataHolders, SiteEnum.Proday2Kolesa);
 
                 if (resultList.Count > 0)
                 {
@@ -90,6 +74,26 @@
             }
 
             #endregion
+        }
+
+        private static List<DicHolder> GetResultList(IEnumerable<DicHolder> returnDataHolders, SiteEnum site)
+        {
+            List<DicHolder> resultList;
+
+            if (site == SiteEnum.UsedAuto)
+                resultList = returnDataHolders.Where(
+                     holder =>
+                     holder.IsError == false && holder.Site == site
+                     && (holder.Type == ProductEnum.Motorcycle || holder.Type == ProductEnum.Spare)).ToList();
+            else
+                resultList = returnDataHolders.Where(
+                    holder =>
+                    holder.IsError == false && holder.Site == site
+                    && (holder.Type == ProductEnum.Motorcycle || holder.Type == ProductEnum.Spare
+                        || holder.Type == ProductEnum.Equip)).ToList();
+
+            resultList.Shuffle();
+            return resultList;
         }
     }
 }
