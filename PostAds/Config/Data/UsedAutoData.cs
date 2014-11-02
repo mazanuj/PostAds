@@ -10,6 +10,7 @@ namespace Motorcycle.Config.Data
     internal class UsedAutoData : ISiteData
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+
         public DicHolder GetMoto(string row, int lineNum)
         {
             var data = row.Split('\t');

@@ -137,12 +137,9 @@
     <Compile Include="Sites\PostStatus.cs" />
     <Compile Include="TimerScheduler\FinishPosting.cs" />
     <Compile Include="TimerScheduler\MotosalePostScheduler.cs" />
-    <Compile Include="TimerScheduler\Old\MotosalePostSchedulerOld.cs" />
     <Compile Include="TimerScheduler\PostSchedulerBase.cs" />
-    <Compile Include="TimerScheduler\Old\ProdayPostSchedulerOld.cs" />
     <Compile Include="TimerScheduler\ProdayPostScheduler.cs" />
     <Compile Include="TimerScheduler\TimerSchedulerParams.cs" />
-    <Compile Include="TimerScheduler\Old\UsedAutoPostSchedulerOld.cs" />
     <Compile Include="TimerScheduler\UsedAutoPostScheduler.cs" />
     <Compile Include="Utils\Informer.cs" />
     <Compile Include="Utils\ListExtensions.cs" />

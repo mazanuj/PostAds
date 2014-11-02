@@ -1,10 +1,10 @@
-﻿namespace Motorcycle.Sites
+﻿using System.Security.Policy;
+
+namespace Motorcycle.Sites
 {
     using Config.Data;
     using HTTP;
-
-    using Motorcycle.Interfaces;
-
+    using Interfaces;
     using XmlWorker;
     using NLog;
     using POST;
@@ -41,8 +41,8 @@
                         fileDictionary
                             .Where(fotoPath => fotoPath.Value != string.Empty)
                             .Select(fotoPath => Request.POSTRequest(urlFile, cookieContainer,
-                                new Dictionary<string, string> { { "photos", "" } },
-                                new Dictionary<string, string> { { "file", fotoPath.Value } })))
+                                new Dictionary<string, string> {{"photos", ""}},
+                                new Dictionary<string, string> {{"file", fotoPath.Value}})))
                 {
                     requestFile.Referer = referer;
                     var responseFileString = Response.GetResponseString(requestFile);
@@ -61,15 +61,6 @@
                 dataDictionary["photos"] = photoId;
                 //==============End upload fotos==============//
 
-                ////Dictionary to NameValueCollection
-                //var valueCollection = new NameValueCollection();
-                //foreach (var value in dataDictionary)
-                //    valueCollection.Add(value.Key, value.Value);
-
-                ////Post advert's data            
-                //var responseByte = new WebClient().UploadValues(url, "POST", valueCollection);
-                //var responseString = Encoding.Default.GetString(responseByte);
-
                 using (var req = new HttpRequest())
                 {
                     req.IgnoreProtocolErrors = true;
@@ -80,51 +71,27 @@
                     if (resp.StatusCode == HttpStatusCode.OK ||
                         resp.StatusCode == HttpStatusCode.InternalServerError)
                     {
-                        Log.Info(reply + " successfully posted on UsedAuto", SiteEnum.UsedAuto, ProductEnum.Motorcycle);
-                        if (RemoveEntries.Remove(data.LineNum, ProductEnum.Motorcycle))
-                            Log.Debug(reply + " removed from list", SiteEnum.UsedAuto, ProductEnum.Motorcycle);
+                        Log.Info(reply + " successfully posted", SiteEnum.UsedAuto, ProductEnum.Motorcycle);
+                        RemoveEntries.Remove(data.LineNum, ProductEnum.Motorcycle);
+
                         return PostStatus.OK;
                     }
-                    Log.Warn(string.Format("{0} unsuccessfully posted on UsedAuto ({1})", reply, resp.StatusCode), SiteEnum.UsedAuto, ProductEnum.Motorcycle);
-                    RemoveEntries.Unposted(data.Row, ProductEnum.Motorcycle, SiteEnum.UsedAuto);
-                    if (RemoveEntries.Remove(data.LineNum, ProductEnum.Motorcycle))
-                        Log.Debug(reply + " removed from list", SiteEnum.UsedAuto, ProductEnum.Motorcycle);
+                    Log.Warn(string.Format("{0} unsuccessfully posted ({1})", reply, resp.StatusCode), SiteEnum.UsedAuto,
+                        ProductEnum.Motorcycle);
+                    RemoveEntries.Remove(data.LineNum, ProductEnum.Motorcycle, data.Row, SiteEnum.UsedAuto);
+
                     return PostStatus.ERROR;
                 }
-
-                //var responseString = Response.GetResponseString(cookieContainer, dataDictionary, null, url, Encoding.UTF8);
-
-                //if (responseString.Contains("redirect"))
-                //{
-                //    //var start = responseString.IndexOf("value=\"") + "value=\"".Length;
-                //    //var stop = responseString.IndexOf("\">") + "\">".Length;
-                //    //var redirectUrl = responseString.Substring(start, stop - start).Replace("&amp;", "&");
-
-                //    //responseString = Response.GetResponseString(Request.GETRequest(redirectUrl, cookieContainer));
-
-                //    Log.Info(reply + " successfully posted on UsedAuto");
-                //    if (RemoveEntries.Remove(data.LineNum, ProductEnum.Motorcycle))
-                //        Log.Debug(reply + " removed from list");
-                //    return SitePoster.PostStatus.OK;
-                //}
-
-                //Log.Warn(string.Format("{0} unsuccessfully posted on UsedAuto ({1})"),reply,);
-                //RemoveEntries.Unposted(data.Row, ProductEnum.Motorcycle, SiteEnum.UsedAuto);
-                //if (RemoveEntries.Remove(data.LineNum, ProductEnum.Motorcycle))
-                //    Log.Debug(reply + " removed from list");
-                //return SitePoster.PostStatus.ERROR;
             }
             catch (Exception ex)
             {
                 LogManager.GetCurrentClassLogger()
-                    .Error(string.Format("{0} {1} unsuccessfully posted on UsedAuto",
-                        ManufactureXmlWorker.GetItemSiteIdUsingPlant("u", data.DataDictionary["input[1]"]),
-                        data.DataDictionary["input[153]"]), ex);
-                RemoveEntries.Unposted(data.Row, ProductEnum.Motorcycle, SiteEnum.UsedAuto);
-                if (RemoveEntries.Remove(data.LineNum, ProductEnum.Motorcycle))
-                    LogManager.GetCurrentClassLogger().Debug("{0} {1} removed from list (UsedAuto)",
-                        ManufactureXmlWorker.GetItemSiteIdUsingPlant("u", data.DataDictionary["input[1]"]),
-                        data.DataDictionary["input[153]"]);
+                    .Error(
+                        string.Format("{0} {1} unsuccessfully posted {2}",
+                            ManufactureXmlWorker.GetItemSiteIdUsingPlant("u", data.DataDictionary["input[1]"]),
+                            data.DataDictionary["input[153]"], ex.Message), SiteEnum.UsedAuto, ProductEnum.Motorcycle);
+                RemoveEntries.Remove(data.LineNum, ProductEnum.Motorcycle, data.Row, SiteEnum.UsedAuto);
+
                 return PostStatus.ERROR;
             }
         }
@@ -148,29 +115,25 @@
 
                 if (respString.Contains("success"))
                 {
-                    Log.Info(reply + " successfully posted on UsedAuto", SiteEnum.UsedAuto, ProductEnum.Spare);
-                    if (RemoveEntries.Remove(data.LineNum, ProductEnum.Spare))
-                        Log.Debug(reply + " removed from list", SiteEnum.UsedAuto, ProductEnum.Spare);
+                    Log.Info(reply + " successfully posted", SiteEnum.UsedAuto, ProductEnum.Spare);
+                    RemoveEntries.Remove(data.LineNum, ProductEnum.Spare);
+
                     return PostStatus.OK;
                 }
-                Log.Warn(reply + " unsuccessfully posted on UsedAuto", SiteEnum.UsedAuto, ProductEnum.Spare);
+                Log.Warn(reply + " unsuccessfully posted", SiteEnum.UsedAuto, ProductEnum.Spare);
+                RemoveEntries.Remove(data.LineNum, ProductEnum.Spare,data.Row, SiteEnum.UsedAuto);
 
-                RemoveEntries.Unposted(data.Row, ProductEnum.Spare, SiteEnum.UsedAuto);
-                if (RemoveEntries.Remove(data.LineNum, ProductEnum.Spare))
-                    Log.Debug(reply + " removed from list", SiteEnum.UsedAuto, ProductEnum.Spare);
                 return PostStatus.ERROR;
             }
             catch (Exception ex)
             {
                 LogManager.GetCurrentClassLogger()
-                    .Error(string.Format("{0} {1} unsuccessfully posted on UsedAuto. {3}",
-                        ManufactureXmlWorker.GetItemSiteIdUsingPlant("u", data.DataDictionary["make"]),
-                        data.DataDictionary["model"], ex.Message), SiteEnum.UsedAuto, ProductEnum.Spare);
-                RemoveEntries.Unposted(data.Row, ProductEnum.Spare, SiteEnum.UsedAuto);
-                if (RemoveEntries.Remove(data.LineNum, ProductEnum.Spare))
-                    LogManager.GetCurrentClassLogger().Debug(string.Format("{0} {1} removed from list (UsedAuto)",
-                        ManufactureXmlWorker.GetItemSiteIdUsingPlant("u", data.DataDictionary["make"]),
-                        data.DataDictionary["model"]), SiteEnum.UsedAuto, ProductEnum.Spare);
+                    .Error(
+                        string.Format("{0} {1} unsuccessfully posted {2}",
+                            ManufactureXmlWorker.GetItemSiteIdUsingPlant("u", data.DataDictionary["make"]),
+                            data.DataDictionary["model"], ex.Message), SiteEnum.UsedAuto, ProductEnum.Spare);
+                RemoveEntries.Remove(data.LineNum, ProductEnum.Spare,data.Row, SiteEnum.UsedAuto);
+
                 return PostStatus.ERROR;
             }
         }

@@ -1,9 +1,9 @@
 ﻿namespace Motorcycle.TimerScheduler
 {
-    using Motorcycle.Config.Data;
-    using Motorcycle.Factories;
-    using Motorcycle.Sites;
-    using Motorcycle.Utils;
+    using Config.Data;
+    using Factories;
+    using Sites;
+    using Utils;
     using NLog;
     using System;
     using System.Collections.Generic;
@@ -21,7 +21,7 @@
 
         protected abstract SiteEnum Site { get; set; }
 
-        private bool CheckTimeBounderies(byte fromHour, byte toHour)
+        private static bool CheckTimeBounderies(byte fromHour, byte toHour)
         {
             return (fromHour < toHour && DateTime.Now.Hour >= fromHour && DateTime.Now.Hour < toHour)
                    || (fromHour > toHour && DateTime.Now.Hour >= fromHour && DateTime.Now.Hour > toHour)
@@ -30,55 +30,58 @@
 
         private void PostOnSite(IList<DicHolder> dataList)
         {
-            if (dataList.Count <= this.counter) return;
-
-            var sitePoster = SitePosterFactory.GetSitePoster(Site);
-            PostStatus postResult;
-
-            switch (dataList[this.counter].Type)
+            while (true)
             {
-                case ProductEnum.Equip:
-                    postResult = sitePoster.PostEquip(dataList[this.counter++]);
-                    Informer.RaiseOnPostResultChangedEvent(postResult == PostStatus.OK);
-                    if (postResult == PostStatus.ERROR)
-                        PostOnSite(dataList);
-                    break;
+                if (dataList.Count <= counter) return;
 
-                case ProductEnum.Motorcycle:
-                    postResult = sitePoster.PostMoto(dataList[this.counter++]);
-                    Informer.RaiseOnPostResultChangedEvent(postResult == PostStatus.OK);
-                    if (postResult == PostStatus.ERROR)
-                        PostOnSite(dataList);
-                    break;
+                var sitePoster = SitePosterFactory.GetSitePoster(Site);
+                PostStatus postResult;
 
-                case ProductEnum.Spare:
-                    postResult = sitePoster.PostSpare(dataList[this.counter++]);
-                    Informer.RaiseOnPostResultChangedEvent(postResult == PostStatus.OK);
-                    if (postResult == PostStatus.ERROR)
-                        PostOnSite(dataList);
-                    break;
+                switch (dataList[counter].Type)
+                {
+                    case ProductEnum.Equip:
+                        postResult = sitePoster.PostEquip(dataList[counter++]);
+                        Informer.RaiseOnPostResultChangedEvent(postResult == PostStatus.OK);
+                        if (postResult == PostStatus.ERROR)
+                            continue;
+                        break;
+
+                    case ProductEnum.Motorcycle:
+                        postResult = sitePoster.PostMoto(dataList[counter++]);
+                        Informer.RaiseOnPostResultChangedEvent(postResult == PostStatus.OK);
+                        if (postResult == PostStatus.ERROR)
+                            continue;
+                        break;
+
+                    case ProductEnum.Spare:
+                        postResult = sitePoster.PostSpare(dataList[counter++]);
+                        Informer.RaiseOnPostResultChangedEvent(postResult == PostStatus.OK);
+                        if (postResult == PostStatus.ERROR)
+                            continue;
+                        break;
+                }
+                break;
             }
         }
 
         private void StopTimer()
         {
-            if (this.timer != null)
+            if (timer != null)
             {
-                this.timer.Dispose();
+                timer.Dispose();
             }
 
-            this.log.Info(string.Format("All posts to {0} are completed", this.Site), this.Site, null);
-            this.RaiseOnSitePostsAreCompleted();
-            this.SetFinishPostingStatus(true);
+            log.Info(string.Format("All posts to {0} are completed", Site), Site, null);
+            RaiseOnSitePostsAreCompleted();
+            SetFinishPostingStatus(true);
 
-            lock (this.lockerForChecking)
+            lock (lockerForChecking)
             {
-                if (FinishPosting.CheckIfPostingToAllSitesFinished() && !this.wasOnAllPostsAreCompletedEventAlreadyRaised)
-                {
-                    this.wasOnAllPostsAreCompletedEventAlreadyRaised = true;
-                    //Notify UI that all posting were finished
-                    Informer.RaiseOnAllPostsAreCompletedEvent();
-                }
+                if (!FinishPosting.CheckIfPostingToAllSitesFinished() || wasOnAllPostsAreCompletedEventAlreadyRaised)
+                    return;
+                wasOnAllPostsAreCompletedEventAlreadyRaised = true;
+                //Notify UI that all posting were finished
+                Informer.RaiseOnAllPostsAreCompletedEvent();
             }
         }
 
@@ -89,15 +92,15 @@
         protected PostSchedulerBase()
         {
             Informer.OnStopTimerClicked += () =>
-                {
-                    if (timer != null)
-                        timer.Dispose();
-                };
+            {
+                if (timer != null)
+                    timer.Dispose();
+            };
         }
 
         public void StartPostMsgWithTimer(List<DicHolder> dataList, byte fromHour, byte toHour, int interval)
         {
-            var userInterval = interval == 0 ? 5000 : interval * 60000;
+            var userInterval = interval == 0 ? 5000 : interval*60000;
 
             counter = 0;
             wasOnAllPostsAreCompletedEventAlreadyRaised = false;
@@ -132,14 +135,13 @@
                         if (!wasTimeBoundariesMsgAlreadyShowen)
                         {
                             wasTimeBoundariesMsgAlreadyShowen = true;
-                            log.Info(string.Format("Can't post at this time on Proday2Kolesa", Site), Site, null);
+                            log.Info(string.Format("Can't post at this time on {0}", Site), Site, null);
                         }
-                        if (this.timer != null)
-                            this.timer.Change(60000, Timeout.Infinite);
+                        if (timer != null)
+                            timer.Change(60000, Timeout.Infinite);
                     }
                 },
                 null, 0, Timeout.Infinite);
-
         }
     }
 }

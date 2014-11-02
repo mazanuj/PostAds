@@ -1,7 +1,6 @@
 ﻿namespace Motorcycle.Config
 {
     using System.Collections.Generic;
-
     using Data;
     using TimerScheduler;
     using Utils;
@@ -31,7 +30,6 @@
                         timerParams.MotosaleFrom,
                         timerParams.MotosaleTo,
                         timerParams.MotosaleInterval);
-
                 }
             }
 
@@ -82,15 +80,15 @@
 
             if (site == SiteEnum.UsedAuto)
                 resultList = returnDataHolders.Where(
-                     holder =>
-                     holder.IsError == false && holder.Site == site
-                     && (holder.Type == ProductEnum.Motorcycle || holder.Type == ProductEnum.Spare)).ToList();
+                    holder =>
+                        holder.IsError == false && holder.Site == site
+                        && (holder.Type == ProductEnum.Motorcycle || holder.Type == ProductEnum.Spare)).ToList();
             else
                 resultList = returnDataHolders.Where(
                     holder =>
-                    holder.IsError == false && holder.Site == site
-                    && (holder.Type == ProductEnum.Motorcycle || holder.Type == ProductEnum.Spare
-                        || holder.Type == ProductEnum.Equip)).ToList();
+                        holder.IsError == false && holder.Site == site
+                        && (holder.Type == ProductEnum.Motorcycle || holder.Type == ProductEnum.Spare
+                            || holder.Type == ProductEnum.Equip)).ToList();
 
             resultList.Shuffle();
             return resultList;

@@ -10,13 +10,14 @@ namespace Motorcycle.Config.Data
     internal class MotosaleData : ISiteData
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+
         public DicHolder GetMoto(string row, int lineNum)
         {
             var data = row.Split('\t');
 
             //Check
             if (RemoveEntries.DataError("type", ManufactureXmlWorker.GetMotoType(data[10], "m"), row, lineNum,
-                    SiteEnum.MotoSale, ProductEnum.Motorcycle) ||
+                SiteEnum.MotoSale, ProductEnum.Motorcycle) ||
                 RemoveEntries.DataError("city", CityXmlWorker.GetItemSiteValueUsingCity(data[12], "m"), row, lineNum,
                     SiteEnum.MotoSale, ProductEnum.Motorcycle) ||
                 RemoveEntries.DataError("manufacture", ManufactureXmlWorker.GetItemSiteValueUsingPlant(data[4], "m"),
@@ -37,7 +38,7 @@ namespace Motorcycle.Config.Data
                     Log.Warn(d[i] + " not exists", SiteEnum.MotoSale, ProductEnum.Motorcycle);
                     files[i] = string.Empty;
                 }
-                    
+
                 else files[i] = string.Empty;
             }
 
@@ -155,7 +156,7 @@ namespace Motorcycle.Config.Data
 
             //Check
             if (RemoveEntries.DataError("type", SpareEquipXmlWorker.GetEquipType(data[4], "m"), row, lineNum,
-                    SiteEnum.MotoSale, ProductEnum.Equip) ||
+                SiteEnum.MotoSale, ProductEnum.Equip) ||
                 RemoveEntries.DataError("city", CityXmlWorker.GetItemSiteValueUsingCity(data[7], "m"), row, lineNum,
                     SiteEnum.MotoSale, ProductEnum.Equip))
                 return new DicHolder {IsError = true};

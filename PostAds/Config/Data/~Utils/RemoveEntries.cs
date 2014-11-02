@@ -10,7 +10,7 @@ namespace Motorcycle.Config.Data
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
         private static readonly object locker = new object();
 
-        public static bool Remove(int lineNum, ProductEnum product)
+        public static void Remove(int lineNum, ProductEnum product)
         {
             string direction;
 
@@ -26,7 +26,7 @@ namespace Motorcycle.Config.Data
                     direction = "equip";
                     break;
                 default:
-                    return false;
+                    return;
             }
 
             lock (locker)
@@ -35,12 +35,18 @@ namespace Motorcycle.Config.Data
                 rows[lineNum] = string.Empty;
                 File.WriteAllLines(FilePathXmlWorker.GetFilePath(direction), rows);
             }
-
-            return true;
         }
 
-        public static void Unposted(string row, ProductEnum product, SiteEnum site)
+        /// <summary>
+        /// Move to unposted + remove row from input file
+        /// </summary>
+        /// <param name="lineNum"></param>
+        /// <param name="row"></param>
+        /// <param name="product"></param>
+        /// <param name="site"></param>
+        public static void Remove(int lineNum, ProductEnum product, string row, SiteEnum site)
         {
+            Remove(lineNum, product);
             lock (locker)
             {
                 if (!Directory.Exists("Unposted"))
@@ -60,18 +66,20 @@ namespace Motorcycle.Config.Data
             switch (type)
             {
                 case ProductEnum.Motorcycle:
-                    Log.Warn(string.Format("{0} {1} {2} is not in DB ({2} {3})", data[4], data[5], key, site), site, type);
+                    Log.Warn(string.Format("{0} {1} {2} is not in DB ({2} {3})", data[4], data[5], key, site), site,
+                        type);
                     break;
                 case ProductEnum.Spare:
-                    Log.Warn(string.Format("{0} {1} {2} is not in DB ({2} {3})", data[3], data[4], key, site), site, type);
+                    Log.Warn(string.Format("{0} {1} {2} is not in DB ({2} {3})", data[3], data[4], key, site), site,
+                        type);
                     break;
                 case ProductEnum.Equip:
-                    Log.Warn(string.Format("{0} {1} {2} is not in DB ({2} {3})", data[3], data[5], key, site), site, type);
+                    Log.Warn(string.Format("{0} {1} {2} is not in DB ({2} {3})", data[3], data[5], key, site), site,
+                        type);
                     break;
             }
 
-            Unposted(row, type, site);
-            Remove(lineNum, type);
+            Remove(lineNum, type, row, site);
 
             return true;
         }

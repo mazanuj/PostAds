@@ -19,9 +19,6 @@
                 var Log = LogManager.GetCurrentClassLogger();
                 var dataDictionary = data.DataDictionary;
                 var fileDictionary = data.FileDictionary;
-                var reply = string.Format("{0} {1}",
-                    ManufactureXmlWorker.GetItemSiteIdUsingPlant("p", dataDictionary["model"]),
-                    dataDictionary["modification"]);
 
                 const string url = "http://proday2kolesa.com.ua/index.php";
                 var referer =
@@ -90,12 +87,10 @@
 
                     if (captcha == "ZERO")
                     {
-                        Log.Warn(reply + " || Нулевой либо отрицательный баланс", SiteEnum.Proday2Kolesa,
+                        Log.Warn(dataDictionary["modification"] + " || Нулевой либо отрицательный баланс",
+                            SiteEnum.Proday2Kolesa,
                             ProductEnum.Motorcycle);
-                        RemoveEntries.Unposted(data.Row, ProductEnum.Motorcycle, SiteEnum.Proday2Kolesa);
-                        if (RemoveEntries.Remove(data.LineNum, ProductEnum.Motorcycle))
-                            Log.Debug(reply + " removed from list (Proday2kolesa)", SiteEnum.Proday2Kolesa,
-                                ProductEnum.Motorcycle);
+                        RemoveEntries.Remove(data.LineNum, ProductEnum.Motorcycle, data.Row, SiteEnum.Proday2Kolesa);
                         return PostStatus.CAPTCHA_ERROR;
                     }
 
@@ -119,25 +114,18 @@
                     req.Abort();
                 } while (responseString.Contains("Введите секретный код:"));
 
-                Log.Info(reply + " successfully posted on Proday2kolesa", SiteEnum.Proday2Kolesa, ProductEnum.Motorcycle);
-                if (RemoveEntries.Remove(data.LineNum, ProductEnum.Motorcycle))
-                    Log.Debug(reply + " removed from list (Proday2Kolesa)", SiteEnum.Proday2Kolesa,
-                        ProductEnum.Motorcycle);
+                Log.Info(dataDictionary["modification"] + " successfully posted", SiteEnum.Proday2Kolesa,
+                    ProductEnum.Motorcycle);
+                RemoveEntries.Remove(data.LineNum, ProductEnum.Motorcycle);
+
                 return PostStatus.OK;
             }
             catch (Exception ex)
             {
                 LogManager.GetCurrentClassLogger()
-                    .Error(string.Format("{0} {1} unsuccessfully posted on Proday2kolesa",
-                        ManufactureXmlWorker.GetItemSiteIdUsingPlant("p", data.DataDictionary["model"]),
-                        data.DataDictionary["modification"]), ex);
-
-                RemoveEntries.Unposted(data.Row, ProductEnum.Motorcycle, SiteEnum.Proday2Kolesa);
-
-                if (RemoveEntries.Remove(data.LineNum, ProductEnum.Motorcycle))
-                    LogManager.GetCurrentClassLogger().Debug("{0} {1} removed from list (Proday2Kolesa)",
-                        SpareEquipXmlWorker.GetItemSiteIdUsingPlant("p", data.DataDictionary["model"]),
-                        data.DataDictionary["modification"]);
+                    .Error(data.DataDictionary["modification"] + " unsuccessfully posted" + ex.Message,
+                        SiteEnum.Proday2Kolesa, ProductEnum.Motorcycle);
+                RemoveEntries.Remove(data.LineNum, ProductEnum.Motorcycle, data.Row, SiteEnum.Proday2Kolesa);
 
                 return PostStatus.ERROR;
             }
@@ -150,9 +138,6 @@
                 var Log = LogManager.GetCurrentClassLogger();
                 var dataDictionary = data.DataDictionary;
                 var fileDictionary = data.FileDictionary;
-                var reply = string.Format("{0} {1}",
-                    SpareEquipXmlWorker.GetItemSiteIdUsingPlant("pz", dataDictionary["model"]),
-                    dataDictionary["modification"]);
 
                 const string url = "http://proday2kolesa.com.ua/index.php";
                 var referer =
@@ -221,12 +206,11 @@
 
                     if (captcha == "ZERO")
                     {
-                        Log.Warn(reply + " || Нулевой либо отрицательный баланс", SiteEnum.Proday2Kolesa,
+                        Log.Warn(dataDictionary["modification"] + " || Нулевой либо отрицательный баланс",
+                            SiteEnum.Proday2Kolesa,
                             ProductEnum.Spare);
-                        RemoveEntries.Unposted(data.Row, ProductEnum.Spare, SiteEnum.Proday2Kolesa);
-                        if (RemoveEntries.Remove(data.LineNum, ProductEnum.Spare))
-                            Log.Debug(reply + " removed from list (Proday2kolesa)", SiteEnum.Proday2Kolesa,
-                                ProductEnum.Spare);
+                        RemoveEntries.Remove(data.LineNum, ProductEnum.Spare, data.Row, SiteEnum.Proday2Kolesa);
+
                         return PostStatus.CAPTCHA_ERROR;
                     }
 
@@ -249,25 +233,19 @@
                     responseString = Response.GetResponseString(req);
                 } while (responseString.Contains("Введите секретный код:"));
 
-                Log.Info(reply + " successfully posted on Proday2kolesa", SiteEnum.Proday2Kolesa, ProductEnum.Spare);
-                if (RemoveEntries.Remove(data.LineNum, ProductEnum.Spare))
-                    Log.Debug(reply + " removed from list (Proday2kolesa)", SiteEnum.Proday2Kolesa, ProductEnum.Spare);
+                Log.Info(dataDictionary["modification"] + " successfully posted", SiteEnum.Proday2Kolesa,
+                    ProductEnum.Spare);
+                RemoveEntries.Remove(data.LineNum, ProductEnum.Spare);
+
                 return PostStatus.OK;
             }
             catch (Exception ex)
             {
                 LogManager.GetCurrentClassLogger()
-                    .Error(string.Format("{0} {1} unsuccessfully posted on Proday2kolesa. {2}",
-                        SpareEquipXmlWorker.GetItemSiteIdUsingPlant("pz", data.DataDictionary["model"]),
-                        data.DataDictionary["modification"], ex.Message),
+                    .Error(data.DataDictionary["modification"] + " unsuccessfully posted " + ex.Message,
                         SiteEnum.Proday2Kolesa, ProductEnum.Spare);
+                RemoveEntries.Remove(data.LineNum, ProductEnum.Spare, data.Row, SiteEnum.Proday2Kolesa);
 
-                RemoveEntries.Unposted(data.Row, ProductEnum.Spare, SiteEnum.Proday2Kolesa);
-
-                if (RemoveEntries.Remove(data.LineNum, ProductEnum.Spare))
-                    LogManager.GetCurrentClassLogger().Debug(string.Format("{0} removed from list (Proday2kolesa)",
-                        SpareEquipXmlWorker.GetItemSiteIdUsingPlant("pz", data.DataDictionary["model"])),
-                        SiteEnum.Proday2Kolesa, ProductEnum.Spare);
                 return PostStatus.ERROR;
             }
         }
@@ -279,9 +257,6 @@
                 var Log = LogManager.GetCurrentClassLogger();
                 var dataDictionary = data.DataDictionary;
                 var fileDictionary = data.FileDictionary;
-                var reply = string.Format("{0} {1}",
-                    SpareEquipXmlWorker.GetItemSiteIdUsingPlant("pe", dataDictionary["model"]),
-                    dataDictionary["modification"]);
 
                 const string url = "http://proday2kolesa.com.ua/index.php";
                 var referer =
@@ -350,12 +325,11 @@
 
                     if (captcha == "ZERO")
                     {
-                        Log.Warn(reply + " || Нулевой либо отрицательный баланс", SiteEnum.Proday2Kolesa,
+                        Log.Warn(dataDictionary["modification"] + " || Нулевой либо отрицательный баланс",
+                            SiteEnum.Proday2Kolesa,
                             ProductEnum.Equip);
-                        RemoveEntries.Unposted(data.Row, ProductEnum.Equip, SiteEnum.Proday2Kolesa);
-                        if (RemoveEntries.Remove(data.LineNum, ProductEnum.Equip))
-                            Log.Debug(reply + " removed from list (Proday2kolesa)", SiteEnum.Proday2Kolesa,
-                                ProductEnum.Equip);
+                        RemoveEntries.Remove(data.LineNum, ProductEnum.Equip, data.Row, SiteEnum.Proday2Kolesa);
+
                         return PostStatus.CAPTCHA_ERROR;
                     }
 
@@ -378,22 +352,19 @@
                     responseString = Response.GetResponseString(req);
                 } while (responseString.Contains("Введите секретный код:"));
 
-                Log.Info(reply + " successfully posted on Proday2kolesa", SiteEnum.Proday2Kolesa, ProductEnum.Equip);
-                if (RemoveEntries.Remove(data.LineNum, ProductEnum.Equip))
-                    Log.Debug(reply + " removed from list (Proday2kolesa)", SiteEnum.Proday2Kolesa, ProductEnum.Equip);
+                Log.Info(dataDictionary["modification"] + " successfully posted", SiteEnum.Proday2Kolesa,
+                    ProductEnum.Equip);
+                RemoveEntries.Remove(data.LineNum, ProductEnum.Equip);
+
                 return PostStatus.OK;
             }
             catch (Exception ex)
             {
                 LogManager.GetCurrentClassLogger()
-                    .Error(string.Format("{0} {1} unsuccessfully posted on Proday2kolesa",
-                        SpareEquipXmlWorker.GetItemSiteIdUsingPlant("pe", data.DataDictionary["model"]),
-                        data.DataDictionary["modification"]), ex);
-                RemoveEntries.Unposted(data.Row, ProductEnum.Equip, SiteEnum.Proday2Kolesa);
-                if (RemoveEntries.Remove(data.LineNum, ProductEnum.Equip))
-                    LogManager.GetCurrentClassLogger().Debug("{0} {1} removed from list (Proday2kolesa)",
-                        SpareEquipXmlWorker.GetItemSiteIdUsingPlant("pe", data.DataDictionary["model"]),
-                        data.DataDictionary["modification"]);
+                    .Error(data.DataDictionary["modification"] + " unsuccessfully posted " + ex.Message,
+                        SiteEnum.Proday2Kolesa, ProductEnum.Equip);
+                RemoveEntries.Remove(data.LineNum, ProductEnum.Equip, data.Row, SiteEnum.Proday2Kolesa);
+
                 return PostStatus.ERROR;
             }
         }

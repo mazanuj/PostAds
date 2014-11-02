@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Net;
 using System.Text.RegularExpressions;
-using Motorcycle.HTTP;
 using NLog;
 using OpenPop.Pop3;
 
@@ -10,6 +9,7 @@ namespace Motorcycle.Config.Confirm
     internal static class PostConfirm
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+        private static bool checker;
 
         public static bool ConfirmAdv(string hostname, int port, bool useSsl, string username, string password)
         {
@@ -27,9 +27,9 @@ namespace Motorcycle.Config.Confirm
                         client.Authenticate(username, password);
                         break;
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
-                        Log.Debug(ex.Message, ex);                        
+                        Log.Debug(ex.Message, ex);
                     }
                 }
 
@@ -66,7 +66,8 @@ namespace Motorcycle.Config.Confirm
                     var html = message.FindFirstHtmlVersion();
                     if (html == null) continue;
 
-                    var url = Regex.Match(html.GetBodyAsText(), @"http://www.motosale.com.ua/\?confirm=\w*(?=</a>)").Value;
+                    var url =
+                        Regex.Match(html.GetBodyAsText(), @"http://www.motosale.com.ua/\?confirm=\w*(?=</a>)").Value;
                     var respString = new WebClient().DownloadString(url);
 
                     if (respString.Contains("after_confirm=false"))
@@ -74,12 +75,14 @@ namespace Motorcycle.Config.Confirm
                         Log.Warn(string.Format("Confirmation of {0} failed", username), null, null);
                         continue;
                     }
+
+                    checker = true;
+                    client.DeleteMessage(i);
+                }
+                if (checker)
                     Log.Debug(string.Format("Confirmation of {0} success", username));
 
-                    client.DeleteMessage(i);
-                    return true;
-                }
-                return false;
+                return checker;
             }
         }
     }
