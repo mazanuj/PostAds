@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using Motorcycle.Config.Confirm;
 using Motorcycle.Config.Proxy;
@@ -73,7 +74,7 @@ namespace Motorcycle.Sites
 
                             respString = Response.GetResponseString(cookieContainer, dataDictionary,
                                 fileDictionary, url, Encoding.GetEncoding("windows-1251"), proxyAddress);
-                            if (!respString.Contains("http://www.motosale.com.ua"))
+                            if (!Regex.IsMatch(respString, @"[а-яА-Я]+?"))
                                 continue;
                             break;
                         }
@@ -198,7 +199,7 @@ namespace Motorcycle.Sites
 
                             respString = Response.GetResponseString(cookieContainer, dataDictionary,
                                 fileDictionary, url, Encoding.GetEncoding("windows-1251"), proxyAddress);
-                            if (!respString.Contains("http://www.motosale.com.ua"))
+                            if (!Regex.IsMatch(respString, @"[а-яА-Я]+?"))
                                 continue;
                             break;
                         }
@@ -327,7 +328,7 @@ namespace Motorcycle.Sites
                             respString = Response.GetResponseString(cookieContainer, dataDictionary,
                                 fileDictionary,
                                 url, Encoding.GetEncoding("windows-1251"), proxyAddress);
-                            if (!respString.Contains("http://www.motosale.com.ua"))
+                            if (!Regex.IsMatch(respString, @"[а-яА-Я]+?"))
                                 continue;
                             break;
                         }
