@@ -98,7 +98,7 @@ namespace Motorcycle.Config.Proxy
 
                 return proxiesList.Distinct().ToList();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Log.Error(string.Format("{0} {1}", ErrorMsg, "www.xroxy.com"), null, null);
                 return null;
@@ -129,7 +129,7 @@ namespace Motorcycle.Config.Proxy
 
                 return proxiesList.Distinct().ToList();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Log.Error(string.Format("{0} {1}", ErrorMsg, "www.socks-proxy.net"), null, null);
                 return null;
@@ -171,7 +171,7 @@ namespace Motorcycle.Config.Proxy
                 }
                 return proxiesList.Distinct().ToList();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Log.Error(string.Format("{0} {1}", ErrorMsg, "www.letushide.com"), null, null);
                 return null;
@@ -202,7 +202,7 @@ namespace Motorcycle.Config.Proxy
                         let ip = value.Substring(startIp, stopIp - startIp)
                         select ip).Distinct().ToList();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Log.Error(string.Format("{0} {1}", ErrorMsg, "www.myiptest.com"), null, null);
                 return null;
@@ -258,7 +258,7 @@ namespace Motorcycle.Config.Proxy
                                 (current, portKey) => current + shifrDictionary[portKey.Remove(portKey.IndexOf("^"))])
                         select ip + ":" + port).Distinct().ToList();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Log.Error(string.Format("{0} {1}", ErrorMsg, "www.spys.ru"), null, null);
                 return null;

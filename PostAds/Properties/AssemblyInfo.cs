@@ -52,5 +52,5 @@ using System.Resources;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
-[assembly: NeutralResourcesLanguageAttribute("en")]
-[assembly: GuidAttribute("A7E0FBDB-B0AE-4B3B-B0D1-6468BD6D72E4")]
+[assembly: NeutralResourcesLanguage("en")]
+[assembly: Guid("A7E0FBDB-B0AE-4B3B-B0D1-6468BD6D72E4")]

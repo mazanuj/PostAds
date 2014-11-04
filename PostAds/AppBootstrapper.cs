@@ -22,6 +22,7 @@
 
         protected override void Configure()
         {
+            // ReSharper disable once RedundantEnumerableCastCall
             _container = new CompositionContainer(
                 new AggregateCatalog(
                     AssemblySource.Instance.Select(x => new AssemblyCatalog(x)).OfType<ComposablePartCatalog>()));
@@ -38,8 +39,9 @@
             var contract = string.IsNullOrEmpty(key) ? AttributedModelServices.GetContractName(serviceType) : key;
             var exports = _container.GetExportedValues<object>(contract);
 
-            if (exports.Any())
-                return exports.First();
+            var enumerable = exports as IList<object> ?? exports.ToList();
+            if (enumerable.Any())
+                return enumerable.First();
 
             throw new Exception(string.Format("Could not locate any instances of contract {0}.", contract));
         }

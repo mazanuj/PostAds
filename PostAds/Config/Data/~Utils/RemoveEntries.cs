@@ -31,29 +31,36 @@ namespace Motorcycle.Config.Data
 
             lock (locker)
             {
-                var rows = File.ReadAllLines(FilePathXmlWorker.GetFilePath(direction)).ToList();
+                var filePath = FilePathXmlWorker.GetFilePath(direction);
+                if(string.IsNullOrEmpty(filePath))
+                    return;
+                var rows = File.ReadAllLines(filePath).ToList();
                 rows[lineNum] = string.Empty;
-                File.WriteAllLines(FilePathXmlWorker.GetFilePath(direction), rows);
+                File.WriteAllLines(filePath, rows);
             }
         }
 
         /// <summary>
         /// Move to unposted + remove row from input file
         /// </summary>
-        /// <param name="lineNum"></param>
-        /// <param name="row"></param>
-        /// <param name="product"></param>
-        /// <param name="site"></param>
-        public static void Remove(int lineNum, ProductEnum product, string row, SiteEnum site)
+        public static void Remove(DicHolder dicHolder, ProductEnum product, SiteEnum site)
         {
-            Remove(lineNum, product);
+            Remove(dicHolder.LineNum, product);
             lock (locker)
             {
                 if (!Directory.Exists("Unposted"))
                     Directory.CreateDirectory("Unposted");
 
-                using (var sw = new StreamWriter(string.Format("Unposted\\{0}{1}Unposted.txt", site, product), true))
-                    sw.WriteLine(row);
+                var fileName = string.Format("Unposted\\{0}{1}Unposted.txt", site, product);
+
+                //if (File.Exists(fileName))
+                //{
+                //    var rows = File.ReadAllLines(fileName).;
+                //    var rowsToWrite = 
+                //}
+
+                using (var sw = new StreamWriter(fileName, true))
+                    sw.WriteLine(dicHolder.Row);
             }
         }
 
@@ -66,20 +73,20 @@ namespace Motorcycle.Config.Data
             switch (type)
             {
                 case ProductEnum.Motorcycle:
-                    Log.Warn(string.Format("{0} {1} {2} is not in DB ({2} {3})", data[4], data[5], key, site), site,
+                    Log.Warn(string.Format("{0} {1} {2} is not in DB", data[4], data[5], key), site,
                         type);
                     break;
                 case ProductEnum.Spare:
-                    Log.Warn(string.Format("{0} {1} {2} is not in DB ({2} {3})", data[3], data[4], key, site), site,
+                    Log.Warn(string.Format("{0} {1} {2} is not in DB", data[3], data[4], key), site,
                         type);
                     break;
                 case ProductEnum.Equip:
-                    Log.Warn(string.Format("{0} {1} {2} is not in DB ({2} {3})", data[3], data[5], key, site), site,
+                    Log.Warn(string.Format("{0} {1} {2} is not in DB", data[3], data[5], key), site,
                         type);
                     break;
             }
 
-            Remove(lineNum, type, row, site);
+            Remove(new DicHolder {Row = row, LineNum = lineNum}, type, site);
 
             return true;
         }

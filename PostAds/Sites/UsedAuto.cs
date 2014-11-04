@@ -1,6 +1,4 @@
-﻿using System.Security.Policy;
-
-namespace Motorcycle.Sites
+﻿namespace Motorcycle.Sites
 {
     using Config.Data;
     using HTTP;
@@ -78,7 +76,7 @@ namespace Motorcycle.Sites
                     }
                     Log.Warn(string.Format("{0} unsuccessfully posted ({1})", reply, resp.StatusCode), SiteEnum.UsedAuto,
                         ProductEnum.Motorcycle);
-                    RemoveEntries.Remove(data.LineNum, ProductEnum.Motorcycle, data.Row, SiteEnum.UsedAuto);
+                    RemoveEntries.Remove(data, ProductEnum.Motorcycle, SiteEnum.UsedAuto);
 
                     return PostStatus.ERROR;
                 }
@@ -90,7 +88,7 @@ namespace Motorcycle.Sites
                         string.Format("{0} {1} unsuccessfully posted {2}",
                             ManufactureXmlWorker.GetItemSiteIdUsingPlant("u", data.DataDictionary["input[1]"]),
                             data.DataDictionary["input[153]"], ex.Message), SiteEnum.UsedAuto, ProductEnum.Motorcycle);
-                RemoveEntries.Remove(data.LineNum, ProductEnum.Motorcycle, data.Row, SiteEnum.UsedAuto);
+                RemoveEntries.Remove(data, ProductEnum.Motorcycle, SiteEnum.UsedAuto);
 
                 return PostStatus.ERROR;
             }
@@ -121,7 +119,7 @@ namespace Motorcycle.Sites
                     return PostStatus.OK;
                 }
                 Log.Warn(reply + " unsuccessfully posted", SiteEnum.UsedAuto, ProductEnum.Spare);
-                RemoveEntries.Remove(data.LineNum, ProductEnum.Spare,data.Row, SiteEnum.UsedAuto);
+                RemoveEntries.Remove(data, ProductEnum.Spare, SiteEnum.UsedAuto);
 
                 return PostStatus.ERROR;
             }
@@ -132,7 +130,7 @@ namespace Motorcycle.Sites
                         string.Format("{0} {1} unsuccessfully posted {2}",
                             ManufactureXmlWorker.GetItemSiteIdUsingPlant("u", data.DataDictionary["make"]),
                             data.DataDictionary["model"], ex.Message), SiteEnum.UsedAuto, ProductEnum.Spare);
-                RemoveEntries.Remove(data.LineNum, ProductEnum.Spare,data.Row, SiteEnum.UsedAuto);
+                RemoveEntries.Remove(data, ProductEnum.Spare, SiteEnum.UsedAuto);
 
                 return PostStatus.ERROR;
             }

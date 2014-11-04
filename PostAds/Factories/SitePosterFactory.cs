@@ -1,8 +1,8 @@
 ﻿namespace Motorcycle.Factories
 {
-    using Motorcycle.Config.Data;
-    using Motorcycle.Interfaces;
-    using Motorcycle.Sites;
+    using Config.Data;
+    using Interfaces;
+    using Sites;
 
     public static class SitePosterFactory
     {

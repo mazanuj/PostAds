@@ -90,7 +90,7 @@
                         Log.Warn(dataDictionary["modification"] + " || Нулевой либо отрицательный баланс",
                             SiteEnum.Proday2Kolesa,
                             ProductEnum.Motorcycle);
-                        RemoveEntries.Remove(data.LineNum, ProductEnum.Motorcycle, data.Row, SiteEnum.Proday2Kolesa);
+                        RemoveEntries.Remove(data, ProductEnum.Motorcycle, SiteEnum.Proday2Kolesa);
                         return PostStatus.CAPTCHA_ERROR;
                     }
 
@@ -125,7 +125,7 @@
                 LogManager.GetCurrentClassLogger()
                     .Error(data.DataDictionary["modification"] + " unsuccessfully posted" + ex.Message,
                         SiteEnum.Proday2Kolesa, ProductEnum.Motorcycle);
-                RemoveEntries.Remove(data.LineNum, ProductEnum.Motorcycle, data.Row, SiteEnum.Proday2Kolesa);
+                RemoveEntries.Remove(data, ProductEnum.Motorcycle, SiteEnum.Proday2Kolesa);
 
                 return PostStatus.ERROR;
             }
@@ -209,7 +209,7 @@
                         Log.Warn(dataDictionary["modification"] + " || Нулевой либо отрицательный баланс",
                             SiteEnum.Proday2Kolesa,
                             ProductEnum.Spare);
-                        RemoveEntries.Remove(data.LineNum, ProductEnum.Spare, data.Row, SiteEnum.Proday2Kolesa);
+                        RemoveEntries.Remove(data, ProductEnum.Spare, SiteEnum.Proday2Kolesa);
 
                         return PostStatus.CAPTCHA_ERROR;
                     }
@@ -244,7 +244,7 @@
                 LogManager.GetCurrentClassLogger()
                     .Error(data.DataDictionary["modification"] + " unsuccessfully posted " + ex.Message,
                         SiteEnum.Proday2Kolesa, ProductEnum.Spare);
-                RemoveEntries.Remove(data.LineNum, ProductEnum.Spare, data.Row, SiteEnum.Proday2Kolesa);
+                RemoveEntries.Remove(data, ProductEnum.Spare, SiteEnum.Proday2Kolesa);
 
                 return PostStatus.ERROR;
             }
@@ -328,7 +328,7 @@
                         Log.Warn(dataDictionary["modification"] + " || Нулевой либо отрицательный баланс",
                             SiteEnum.Proday2Kolesa,
                             ProductEnum.Equip);
-                        RemoveEntries.Remove(data.LineNum, ProductEnum.Equip, data.Row, SiteEnum.Proday2Kolesa);
+                        RemoveEntries.Remove(data, ProductEnum.Equip, SiteEnum.Proday2Kolesa);
 
                         return PostStatus.CAPTCHA_ERROR;
                     }
@@ -363,7 +363,7 @@
                 LogManager.GetCurrentClassLogger()
                     .Error(data.DataDictionary["modification"] + " unsuccessfully posted " + ex.Message,
                         SiteEnum.Proday2Kolesa, ProductEnum.Equip);
-                RemoveEntries.Remove(data.LineNum, ProductEnum.Equip, data.Row, SiteEnum.Proday2Kolesa);
+                RemoveEntries.Remove(data, ProductEnum.Equip, SiteEnum.Proday2Kolesa);
 
                 return PostStatus.ERROR;
             }

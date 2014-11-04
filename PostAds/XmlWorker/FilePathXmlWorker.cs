@@ -18,7 +18,7 @@
 
             var firstOrDefault = att.Cast<XAttribute>().FirstOrDefault();
 
-            return firstOrDefault != null ? firstOrDefault.Value : null;
+            return firstOrDefault != null ? firstOrDefault.Value : string.Empty;
         }
 
         public static void SetFilePath(string purpose, string path)

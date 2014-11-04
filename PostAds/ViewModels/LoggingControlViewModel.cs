@@ -2,7 +2,6 @@
 using System.ComponentModel.Composition;
 using System.Windows.Threading;
 using Caliburn.Micro;
-using Motorcycle.Controls;
 using Motorcycle.Controls.Log;
 using NLog;
 using NLog.Config;

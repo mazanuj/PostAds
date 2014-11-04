@@ -178,6 +178,8 @@ namespace Motorcycle.Config.Data
                 else files[i] = string.Empty;
             }
 
+            var model = string.IsNullOrEmpty(data[5]) ? "другой.." : data[5].ToUpper();
+
             return new DicHolder
             {
                 Site = SiteEnum.MotoSale,
@@ -191,7 +193,7 @@ namespace Motorcycle.Config.Data
                     {"phone", data[2]}, //+
                     {"type_obj", "1"}, //+
                     {"type", SpareEquipXmlWorker.GetEquipType(data[4], "m")}, //vid+
-                    {"brand", data[5].ToUpper()}, //proizvoditel'+
+                    {"brand", model}, //proizvoditel'+
                     {"header", data[3]}, //+
                     {"text", data[9]}, //+
                     {"price", data[6]}, //+

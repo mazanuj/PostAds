@@ -1,7 +1,7 @@
 ﻿namespace Motorcycle.Interfaces
 {
-    using Motorcycle.Config.Data;
-    using Motorcycle.Sites;
+    using Config.Data;
+    using Sites;
 
     public interface ISitePoster
     {

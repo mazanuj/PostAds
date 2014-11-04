@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
+using MailKit.Net.Pop3;
+using MimeKit;
 using NLog;
-using OpenPop.Pop3;
 
 namespace Motorcycle.Config.Confirm
 {
@@ -11,8 +13,9 @@ namespace Motorcycle.Config.Confirm
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
         private static bool checker;
 
-        public static bool ConfirmAdv(string hostname, int port, bool useSsl, string username, string password)
+        public static bool ConfirmAdv(string username, string password = "1358888t")
         {
+            checker = false;
             // The client disconnects from the server when being disposed
             using (var client = new Pop3Client())
             {
@@ -20,10 +23,8 @@ namespace Motorcycle.Config.Confirm
                 {
                     try
                     {
-                        // Connect to the server
-                        client.Connect(hostname, port, useSsl);
-
-                        // Authenticate ourselves towards the server
+                        client.Connect("pop.mail.ru", 995, true);
+                        client.AuthenticationMechanisms.Remove("XOAUTH2");
                         client.Authenticate(username, password);
                         break;
                     }
@@ -33,54 +34,28 @@ namespace Motorcycle.Config.Confirm
                     }
                 }
 
-                // Get the number of messages in the inbox
-                var messageCount = client.GetMessageCount();
-
-                for (var i = 1; i <= messageCount; i++)
+                var headers = client.GetMessageHeaders(0, client.Count());
+                for (var i = 0; i < headers.Count; i++)
                 {
-                    // We want to check the headers of the message before we download
-                    // the full message
-                    var headers = client.GetMessageHeaders(i);
+                    if (headers[i][HeaderId.Subject] != "Активируйте свое объявление.") continue;
 
-                    var from = headers.From;
-                    var subject = headers.Subject;
-
-                    // Only want to download message if:
-                    //  - is from test@xample.com
-                    //  - has subject "Some subject"
-                    try
-                    {
-                        if (!@from.HasValidMailAddress || !@from.Address.Equals("admin@motosale.com.ua") ||
-                            !subject.Contains("Активируйте свое объявление"))
-                            continue;
-                    }
-                    catch (Exception ex)
-                    {
-                        Log.Debug(ex.Message, ex);
-                        continue;
-                    }
-
-                    // Download the full message
                     var message = client.GetMessage(i);
-
-                    var html = message.FindFirstHtmlVersion();
-                    if (html == null) continue;
-
                     var url =
-                        Regex.Match(html.GetBodyAsText(), @"http://www.motosale.com.ua/\?confirm=\w*(?=</a>)").Value;
+                        Regex.Match(message.Body.ToString(), @"http://www.motosale.com.ua/\?confirm=\w*(?=</a>)")
+                            .Value;
                     var respString = new WebClient().DownloadString(url);
 
                     if (respString.Contains("after_confirm=false"))
+                        Log.Warn(string.Format("Ads was confirmed for {0}", username), null, null);
+                    else if (respString.Contains("after_confirm=true"))
                     {
-                        Log.Warn(string.Format("Confirmation of {0} failed", username), null, null);
-                        continue;
+                        Log.Debug(string.Format("Confirmation of {0} success", username));
+                        checker = true;
                     }
-
-                    checker = true;
                     client.DeleteMessage(i);
                 }
-                if (checker)
-                    Log.Debug(string.Format("Confirmation of {0} success", username));
+
+                client.Disconnect(true);
 
                 return checker;
             }

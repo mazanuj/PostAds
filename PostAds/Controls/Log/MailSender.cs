@@ -45,7 +45,7 @@ namespace Motorcycle.Controls.Log
 
         private static void SendCompletedCallback(object sender, AsyncCompletedEventArgs e)
         {
-            Log.Info("Message send complete", null, null);
+            Log.Info("Message send complete");
         }
     }
 }

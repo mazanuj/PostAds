@@ -1,9 +1,7 @@
-﻿using LogManager = NLog.LogManager;
-namespace Motorcycle.ViewModels
+﻿namespace Motorcycle.ViewModels
 {
     using Caliburn.Micro;
     using Config.Proxy;
-
     using System.Collections.ObjectModel;
     using System.ComponentModel.Composition;
     using System.Threading.Tasks;

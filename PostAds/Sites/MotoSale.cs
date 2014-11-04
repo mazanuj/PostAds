@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.IO;
+using System.Text;
 using System.Threading;
 using Motorcycle.Config.Confirm;
 using Motorcycle.Config.Proxy;
@@ -28,8 +29,8 @@ namespace Motorcycle.Sites
 
                 if (!ProxyAddressWorker.ProxyListState)
                 {
-                    Log.Warn("Proxy list == null", SiteEnum.MotoSale, ProductEnum.Motorcycle);
-                    RemoveEntries.Remove(data.LineNum, ProductEnum.Motorcycle, data.Row, SiteEnum.MotoSale);
+                    Log.Warn("Proxy list == null");
+                    RemoveEntries.Remove(data, ProductEnum.Motorcycle, SiteEnum.MotoSale);
                     return PostStatus.ERROR;
                 }
 
@@ -52,7 +53,7 @@ namespace Motorcycle.Sites
                     {
                         Log.Warn(dataDictionary["header"] + " || Нулевой либо отрицательный баланс", SiteEnum.MotoSale,
                             ProductEnum.Motorcycle);
-                        RemoveEntries.Remove(data.LineNum, ProductEnum.Motorcycle, data.Row, SiteEnum.MotoSale);
+                        RemoveEntries.Remove(data, ProductEnum.Motorcycle, SiteEnum.MotoSale);
                         return PostStatus.CAPTCHA_ERROR;
                     }
 
@@ -71,10 +72,9 @@ namespace Motorcycle.Sites
                             }
 
                             respString = Response.GetResponseString(cookieContainer, dataDictionary,
-                                fileDictionary,
-                                url, Encoding.GetEncoding("windows-1251"), proxyAddress);
-                            if (respString == string.Empty)
-                                respString = "Response string is empty";
+                                fileDictionary, url, Encoding.GetEncoding("windows-1251"), proxyAddress);
+                            if (!respString.Contains("http://www.motosale.com.ua"))
+                                continue;
                             break;
                         }
                         catch
@@ -85,18 +85,18 @@ namespace Motorcycle.Sites
                             }
                         }
                     }
-                } while (respString.Contains("Проверочный код не верен"));
-                if (respString == string.Empty) throw new Exception("Not valid proxy addresses");
+                } while (respString.Contains("Проверочный код не верен") || respString.Contains("squid"));
                 if (respString.Contains("Ошибка при добавлении объявления. Не нарушайте правила добавления."))
                     throw new Exception("Нарушение правил добавления");
-                if (respString == "Response string is empty") throw new Exception("Response string is empty");
+                if (respString == "Response string is empty")
+                    throw new Exception("Response string is empty");
                 if (respString.Contains("Вы исчерпали дневной лимит подачи объявлений"))
                 {
                     Log.Warn(dataDictionary["header"] + " unsuccessfully posted || дневной лимит для " +
                              dataDictionary["mail"] + " или " + dataDictionary["phone"], SiteEnum.MotoSale,
                         ProductEnum.Motorcycle);
 
-                    RemoveEntries.Remove(data.LineNum, ProductEnum.Motorcycle, data.Row, SiteEnum.MotoSale);
+                    RemoveEntries.Remove(data, ProductEnum.Motorcycle, SiteEnum.MotoSale);
 
                     return PostStatus.ERROR;
                 }
@@ -106,8 +106,7 @@ namespace Motorcycle.Sites
                     {
                         for (var i = 0; i < 10; i++)
                         {
-                            if (!PostConfirm.ConfirmAdv("pop.mail.ru", 995, true, dataDictionary["mail"],
-                                PasswordXmlWorker.GetPasswordValue()))
+                            if (!PostConfirm.ConfirmAdv(dataDictionary["mail"]))
                             {
                                 Thread.Sleep(5000);
                                 continue;
@@ -131,16 +130,15 @@ namespace Motorcycle.Sites
 
                 Log.Warn(dataDictionary["header"] + " unsuccessfully posted (Server error)", SiteEnum.MotoSale,
                     ProductEnum.Motorcycle);
-                RemoveEntries.Remove(data.LineNum, ProductEnum.Motorcycle, data.Row, SiteEnum.MotoSale);
+                RemoveEntries.Remove(data, ProductEnum.Motorcycle, SiteEnum.MotoSale);
 
                 return PostStatus.ERROR;
             }
             catch (Exception ex)
             {
                 LogManager.GetCurrentClassLogger()
-                    .Error(data.DataDictionary["header"] + " unsuccessfully posted " + ex.Message, SiteEnum.MotoSale,
-                        ProductEnum.Motorcycle);
-                RemoveEntries.Remove(data.LineNum, ProductEnum.Motorcycle, data.Row, SiteEnum.MotoSale);
+                    .Error(data.DataDictionary["header"] + " " + ex.Message, SiteEnum.MotoSale, ProductEnum.Motorcycle);
+                RemoveEntries.Remove(data, ProductEnum.Motorcycle, SiteEnum.MotoSale);
 
                 return PostStatus.ERROR;
             }
@@ -156,8 +154,8 @@ namespace Motorcycle.Sites
 
                 if (!ProxyAddressWorker.ProxyListState)
                 {
-                    Log.Warn("Proxy list == null", SiteEnum.MotoSale, ProductEnum.Spare);
-                    RemoveEntries.Remove(data.LineNum, ProductEnum.Spare, data.Row, SiteEnum.MotoSale);
+                    Log.Warn("Proxy list == null");
+                    RemoveEntries.Remove(data, ProductEnum.Spare, SiteEnum.MotoSale);
                     return PostStatus.ERROR;
                 }
 
@@ -180,7 +178,7 @@ namespace Motorcycle.Sites
                     {
                         Log.Warn(dataDictionary["header"] + " || Нулевой либо отрицательный баланс", SiteEnum.MotoSale,
                             ProductEnum.Spare);
-                        RemoveEntries.Remove(data.LineNum, ProductEnum.Spare, data.Row, SiteEnum.MotoSale);
+                        RemoveEntries.Remove(data, ProductEnum.Spare, SiteEnum.MotoSale);
                         return PostStatus.CAPTCHA_ERROR;
                     }
 
@@ -199,10 +197,9 @@ namespace Motorcycle.Sites
                             }
 
                             respString = Response.GetResponseString(cookieContainer, dataDictionary,
-                                fileDictionary,
-                                url, Encoding.GetEncoding("windows-1251"), proxyAddress);
-                            if (respString == string.Empty)
-                                respString = "Response string is empty";
+                                fileDictionary, url, Encoding.GetEncoding("windows-1251"), proxyAddress);
+                            if (!respString.Contains("http://www.motosale.com.ua"))
+                                continue;
                             break;
                         }
                         catch
@@ -213,17 +210,17 @@ namespace Motorcycle.Sites
                             }
                         }
                     }
-                } while (respString.Contains("Проверочный код не верен"));
-                if (respString == string.Empty) throw new Exception("Not valid proxy addresses");
+                } while (respString.Contains("Проверочный код не верен") || respString.Contains("squid"));
+                if (respString == string.Empty)
+                    throw new Exception("Not valid proxy addresses");
                 if (respString.Contains("Ошибка при добавлении объявления. Не нарушайте правила добавления."))
                     throw new Exception("Нарушение правил добавления");
-                if (respString == "Response string is empty") throw new Exception("Response string is empty");
                 if (respString.Contains("Вы исчерпали дневной лимит подачи объявлений"))
                 {
                     Log.Warn(dataDictionary["header"] + " unsuccessfully posted || дневной лимит для " +
                              dataDictionary["mail"] + " или " + dataDictionary["phone"], SiteEnum.MotoSale,
                         ProductEnum.Spare);
-                    RemoveEntries.Remove(data.LineNum, ProductEnum.Spare, data.Row, SiteEnum.MotoSale);
+                    RemoveEntries.Remove(data, ProductEnum.Spare, SiteEnum.MotoSale);
 
                     return PostStatus.ERROR;
                 }
@@ -233,8 +230,7 @@ namespace Motorcycle.Sites
                     {
                         for (var i = 0; i < 10; i++)
                         {
-                            if (!PostConfirm.ConfirmAdv("pop.mail.ru", 995, true, dataDictionary["mail"],
-                                PasswordXmlWorker.GetPasswordValue()))
+                            if (!PostConfirm.ConfirmAdv(dataDictionary["mail"]))
                             {
                                 Thread.Sleep(5000);
                                 continue;
@@ -255,15 +251,23 @@ namespace Motorcycle.Sites
                 }
                 Log.Warn(dataDictionary["header"] + " unsuccessfully posted (Server error)", SiteEnum.MotoSale,
                     ProductEnum.Spare);
-                RemoveEntries.Remove(data.LineNum, ProductEnum.Spare, data.Row, SiteEnum.MotoSale);
+
+                using (var sw = new StreamWriter("response.txt", true, Encoding.GetEncoding("windows-1251")))
+                {
+                    sw.WriteLine(respString);
+                    sw.WriteLine(new string('=', 50));
+                }
+
+
+                RemoveEntries.Remove(data, ProductEnum.Spare, SiteEnum.MotoSale);
 
                 return PostStatus.ERROR;
             }
             catch (Exception ex)
             {
                 LogManager.GetCurrentClassLogger()
-                    .Error(data.DataDictionary["header"] + " unsuccessfully posted", ex);
-                RemoveEntries.Remove(data.LineNum, ProductEnum.Spare, data.Row, SiteEnum.MotoSale);
+                    .Error(data.DataDictionary["header"] + " " + ex.Message, SiteEnum.MotoSale, ProductEnum.Spare);
+                RemoveEntries.Remove(data, ProductEnum.Spare, SiteEnum.MotoSale);
                 return PostStatus.ERROR;
             }
         }
@@ -278,8 +282,8 @@ namespace Motorcycle.Sites
 
                 if (!ProxyAddressWorker.ProxyListState)
                 {
-                    Log.Warn("Proxy list == null", SiteEnum.MotoSale, ProductEnum.Equip);
-                    RemoveEntries.Remove(data.LineNum, ProductEnum.Equip, data.Row, SiteEnum.MotoSale);
+                    Log.Warn("Proxy list == null");
+                    RemoveEntries.Remove(data, ProductEnum.Equip, SiteEnum.MotoSale);
                     return PostStatus.ERROR;
                 }
 
@@ -302,7 +306,7 @@ namespace Motorcycle.Sites
                     {
                         Log.Warn(dataDictionary["header"] + " || Нулевой либо отрицательный баланс", SiteEnum.MotoSale,
                             ProductEnum.Equip);
-                        RemoveEntries.Remove(data.LineNum, ProductEnum.Equip, data.Row, SiteEnum.MotoSale);
+                        RemoveEntries.Remove(data, ProductEnum.Equip, SiteEnum.MotoSale);
                         return PostStatus.CAPTCHA_ERROR;
                     }
 
@@ -323,8 +327,8 @@ namespace Motorcycle.Sites
                             respString = Response.GetResponseString(cookieContainer, dataDictionary,
                                 fileDictionary,
                                 url, Encoding.GetEncoding("windows-1251"), proxyAddress);
-                            if (respString == string.Empty)
-                                respString = "Response string is empty";
+                            if (!respString.Contains("http://www.motosale.com.ua"))
+                                continue;
                             break;
                         }
                         catch
@@ -336,16 +340,14 @@ namespace Motorcycle.Sites
                         }
                     }
                 } while (respString.Contains("Проверочный код не верен") || respString.Contains("squid"));
-                if (respString == string.Empty) throw new Exception("Not valid proxy addresses");
                 if (respString.Contains("Ошибка при добавлении объявления. Не нарушайте правила добавления."))
                     throw new Exception("Нарушение правил добавления");
-                if (respString == "Response string is empty") throw new Exception("Response string is empty");
                 if (respString.Contains("Вы исчерпали дневной лимит подачи объявлений"))
                 {
                     Log.Warn(dataDictionary["header"] + " unsuccessfully posted || дневной лимит для " +
                              dataDictionary["mail"] + " или " + dataDictionary["phone"], SiteEnum.MotoSale,
                         ProductEnum.Equip);
-                    RemoveEntries.Remove(data.LineNum, ProductEnum.Equip, data.Row, SiteEnum.MotoSale);
+                    RemoveEntries.Remove(data, ProductEnum.Equip, SiteEnum.MotoSale);
                     return PostStatus.ERROR;
                 }
                 if (respString.Contains("На указанный вами E-mail отправлено письмо"))
@@ -354,8 +356,7 @@ namespace Motorcycle.Sites
                     {
                         for (var i = 0; i < 10; i++)
                         {
-                            if (!PostConfirm.ConfirmAdv("pop.mail.ru", 995, true, dataDictionary["mail"],
-                                PasswordXmlWorker.GetPasswordValue()))
+                            if (!PostConfirm.ConfirmAdv(dataDictionary["mail"]))
                             {
                                 Thread.Sleep(5000);
                                 continue;
@@ -376,14 +377,14 @@ namespace Motorcycle.Sites
                 }
                 Log.Warn(dataDictionary["header"] + " unsuccessfully posted (Server error)", SiteEnum.MotoSale,
                     ProductEnum.Equip);
-                RemoveEntries.Remove(data.LineNum, ProductEnum.Equip, data.Row, SiteEnum.MotoSale);
+                RemoveEntries.Remove(data, ProductEnum.Equip, SiteEnum.MotoSale);
                 return PostStatus.ERROR;
             }
             catch (Exception ex)
             {
                 LogManager.GetCurrentClassLogger()
-                    .Error(data.DataDictionary["header"] + " unsuccessfully posted", ex);
-                RemoveEntries.Remove(data.LineNum, ProductEnum.Equip, data.Row, SiteEnum.MotoSale);
+                    .Error(data.DataDictionary["header"] + " " + ex.Message, SiteEnum.MotoSale, ProductEnum.Equip);
+                RemoveEntries.Remove(data, ProductEnum.Equip, SiteEnum.MotoSale);
 
                 return PostStatus.ERROR;
             }
