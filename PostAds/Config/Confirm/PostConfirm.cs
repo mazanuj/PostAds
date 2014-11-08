@@ -34,6 +34,9 @@ namespace Motorcycle.Config.Confirm
                     }
                 }
 
+                if (client.GetMessageCount() == 0)
+                    return checker;
+
                 var headers = client.GetMessageHeaders(0, client.Count());
                 for (var i = 0; i < headers.Count; i++)
                 {
@@ -46,7 +49,7 @@ namespace Motorcycle.Config.Confirm
                     var respString = new WebClient().DownloadString(url);
 
                     if (respString.Contains("after_confirm=false"))
-                        Log.Warn(string.Format("Ads was confirmed for {0}", username), null, null);
+                        Log.Warn(string.Format("Ads was confirmed EARLIER for {0}", username), null, null);
                     else if (respString.Contains("after_confirm=true"))
                     {
                         Log.Debug(string.Format("Confirmation of {0} success", username));
@@ -56,7 +59,6 @@ namespace Motorcycle.Config.Confirm
                 }
 
                 client.Disconnect(true);
-
                 return checker;
             }
         }

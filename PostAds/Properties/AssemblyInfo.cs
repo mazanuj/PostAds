@@ -12,7 +12,7 @@ using System.Resources;
 [assembly: AssemblyCompany("Mazyaka")]
 [assembly: AssemblyProduct("Post Adverts")]
 [assembly: AssemblyCopyright("Copyright ©  2014")]
-[assembly: AssemblyTrademark("mazanuj&pele")]
+[assembly: AssemblyTrademark("mazanuj & pele")]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
@@ -50,7 +50,7 @@ using System.Resources;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("1.1.0.0")]
+[assembly: AssemblyFileVersion("1.1.0.0")]
 [assembly: NeutralResourcesLanguage("en")]
 [assembly: Guid("A7E0FBDB-B0AE-4B3B-B0D1-6468BD6D72E4")]

@@ -89,8 +89,6 @@ namespace Motorcycle.Sites
                 } while (respString.Contains("Проверочный код не верен") || respString.Contains("squid"));
                 if (respString.Contains("Ошибка при добавлении объявления. Не нарушайте правила добавления."))
                     throw new Exception("Нарушение правил добавления");
-                if (respString == "Response string is empty")
-                    throw new Exception("Response string is empty");
                 if (respString.Contains("Вы исчерпали дневной лимит подачи объявлений"))
                 {
                     Log.Warn(dataDictionary["header"] + " unsuccessfully posted || дневной лимит для " +
@@ -103,28 +101,37 @@ namespace Motorcycle.Sites
                 }
                 if (respString.Contains("На указанный вами E-mail отправлено письмо"))
                 {
-                    try
+                    var checker = false;
+                    for (var i = 0; i < 12; i++)
                     {
-                        for (var i = 0; i < 10; i++)
+                        try
                         {
                             if (!PostConfirm.ConfirmAdv(dataDictionary["mail"]))
                             {
-                                Thread.Sleep(5000);
+                                Thread.Sleep(10000);
                                 continue;
                             }
-                            Log.Info(dataDictionary["header"] + " successfully posted", SiteEnum.MotoSale,
-                                ProductEnum.Motorcycle);
+
+                            checker = true;
                             break;
                         }
+                        catch (Exception ex)
+                        {
+                            Log.Debug(dataDictionary["mail"] + " not confirmed " + ex.Message, SiteEnum.MotoSale,
+                                ProductEnum.Motorcycle);
+                        }
                     }
-                    catch (Exception ex)
-                    {
-                        Log.Warn(dataDictionary["mail"] + " not confirmed. " + ex.Message, SiteEnum.MotoSale,
+
+                    if (checker)
+                        Log.Info(dataDictionary["header"] + " successfully posted and confirmed", SiteEnum.MotoSale,
                             ProductEnum.Motorcycle);
-                    }
+                    else
+                        Log.Warn(
+                            dataDictionary["header"] + " successfully posted BUT NOT confirmed // " +
+                            dataDictionary["mail"], SiteEnum.MotoSale,
+                            ProductEnum.Motorcycle);
 
                     RemoveEntries.Remove(data.LineNum, ProductEnum.Motorcycle);
-
                     return PostStatus.OK;
                 }
                 //=====================================================//
@@ -212,8 +219,6 @@ namespace Motorcycle.Sites
                         }
                     }
                 } while (respString.Contains("Проверочный код не верен") || respString.Contains("squid"));
-                if (respString == string.Empty)
-                    throw new Exception("Not valid proxy addresses");
                 if (respString.Contains("Ошибка при добавлении объявления. Не нарушайте правила добавления."))
                     throw new Exception("Нарушение правил добавления");
                 if (respString.Contains("Вы исчерпали дневной лимит подачи объявлений"))
@@ -227,25 +232,35 @@ namespace Motorcycle.Sites
                 }
                 if (respString.Contains("На указанный вами E-mail отправлено письмо"))
                 {
-                    try
+                    var checker = false;
+                    for (var i = 0; i < 12; i++)
                     {
-                        for (var i = 0; i < 10; i++)
+                        try
                         {
                             if (!PostConfirm.ConfirmAdv(dataDictionary["mail"]))
                             {
-                                Thread.Sleep(5000);
+                                Thread.Sleep(10000);
                                 continue;
                             }
-                            Log.Info(dataDictionary["header"] + " successfully posted", SiteEnum.MotoSale,
-                                ProductEnum.Spare);
+
+                            checker = true;
                             break;
                         }
+                        catch (Exception ex)
+                        {
+                            Log.Debug(dataDictionary["mail"] + " not confirmed " + ex.Message, SiteEnum.MotoSale,
+                                ProductEnum.Spare);
+                        }
                     }
-                    catch (Exception ex)
-                    {
-                        Log.Warn(dataDictionary["mail"] + " not confirmed. " + ex.Message, SiteEnum.MotoSale,
+
+                    if (checker)
+                        Log.Info(dataDictionary["header"] + " successfully posted and confirmed", SiteEnum.MotoSale,
                             ProductEnum.Spare);
-                    }
+                    else
+                        Log.Warn(
+                            dataDictionary["header"] + " successfully posted BUT NOT confirmed // " +
+                            dataDictionary["mail"], SiteEnum.MotoSale,
+                            ProductEnum.Spare);
 
                     RemoveEntries.Remove(data.LineNum, ProductEnum.Spare);
                     return PostStatus.OK;
@@ -353,25 +368,35 @@ namespace Motorcycle.Sites
                 }
                 if (respString.Contains("На указанный вами E-mail отправлено письмо"))
                 {
-                    try
+                    var checker = false;
+                    for (var i = 0; i < 12; i++)
                     {
-                        for (var i = 0; i < 10; i++)
+                        try
                         {
                             if (!PostConfirm.ConfirmAdv(dataDictionary["mail"]))
                             {
-                                Thread.Sleep(5000);
+                                Thread.Sleep(10000);
                                 continue;
                             }
-                            Log.Info(dataDictionary["header"] + " successfully posted", SiteEnum.MotoSale,
-                                ProductEnum.Equip);
+
+                            checker = true;
                             break;
                         }
+                        catch (Exception ex)
+                        {
+                            Log.Debug(dataDictionary["mail"] + " not confirmed " + ex.Message, SiteEnum.MotoSale,
+                                ProductEnum.Equip);
+                        }
                     }
-                    catch (Exception ex)
-                    {
-                        Log.Warn(dataDictionary["mail"] + " not confirmed " + ex.Message, SiteEnum.MotoSale,
+
+                    if (checker)
+                        Log.Info(dataDictionary["header"] + " successfully posted and confirmed", SiteEnum.MotoSale,
                             ProductEnum.Equip);
-                    }
+                    else
+                        Log.Warn(
+                            dataDictionary["header"] + " successfully posted BUT NOT confirmed // " +
+                            dataDictionary["mail"], SiteEnum.MotoSale,
+                            ProductEnum.Equip);
 
                     RemoveEntries.Remove(data.LineNum, ProductEnum.Equip);
                     return PostStatus.OK;
