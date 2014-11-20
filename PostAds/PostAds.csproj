@@ -321,6 +321,7 @@
     <Resource Include="Resources\WindowsIcons-license.txt" />
     <None Include="proxy.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </None>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

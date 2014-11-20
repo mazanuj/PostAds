@@ -14,6 +14,5 @@
 
         public string ProxyAddress { get; set; }
         public string Type { get; set; }
-
     }
 }

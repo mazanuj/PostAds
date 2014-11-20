@@ -1,10 +1,9 @@
-﻿using System.Globalization;
-
-namespace Motorcycle.XmlWorker
+﻿namespace Motorcycle.XmlWorker
 {
     using Config.Proxy;
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using System.Xml.Linq;
     using System.Xml.XPath;
@@ -16,7 +15,7 @@ namespace Motorcycle.XmlWorker
         private static void CheckDateAndResetValues()
         {
             var doc = XDocument.Load(XmlFilePath);
-            var todayDate = GenerateValidDateFormat(DateTime.Now);
+            var todayDate = DateTime.Now.AddDays(-1).ToString("yyMMddHHmmss");
             var proxyListToUpdate = doc.XPathSelectElements(string.Format("//servers/server[@date < {0}]", todayDate));
 
             foreach (var proxyElement in proxyListToUpdate)
@@ -28,17 +27,6 @@ namespace Motorcycle.XmlWorker
             }
 
             doc.Save(XmlFilePath);
-        }
-
-        private static string GenerateValidDateFormat(DateTime date)
-        {
-            var month = date.Month < 10
-                ? string.Format("0{0}", date.Month)
-                : date.Month.ToString(CultureInfo.InvariantCulture);
-
-            var day = date.Day < 10 ? string.Format("0{0}", date.Day) : date.Day.ToString(CultureInfo.InvariantCulture);
-
-            return string.Format("{0}{1}{2}", date.Year, month, day);
         }
 
         public static List<ProxyAddressStruct> GetProxyListFromFile()
@@ -66,7 +54,7 @@ namespace Motorcycle.XmlWorker
                     new XAttribute("moto", "0"),
                     new XAttribute("equip", "0"),
                     new XAttribute("spare", "0"),
-                    new XAttribute("date", GenerateValidDateFormat(DateTime.Now))));
+                    new XAttribute("date", DateTime.Now.ToString("yyMMddHHmmss"))));
 
             doc.Save(XmlFilePath);
         }
@@ -76,8 +64,7 @@ namespace Motorcycle.XmlWorker
             var doc = XDocument.Load(XmlFilePath);
             var existingList = GetProxyListFromFile();
 
-            var todayDate = GenerateValidDateFormat(DateTime.Now);
-
+            var todayDate = DateTime.Now.ToString("yyMMddHHmmss");
             var servers = doc.XPathSelectElement("//servers");
 
             if (proxyList == null) return;
