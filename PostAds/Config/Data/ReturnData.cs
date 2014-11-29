@@ -5,9 +5,7 @@ namespace Motorcycle.Config.Data
 {
     using Interfaces;
     using Factories;
-
     using Utils;
-
     using NLog;
     using System.Collections.Generic;
     using System.IO;
@@ -49,6 +47,12 @@ namespace Motorcycle.Config.Data
             if (flag[2] == 1)
             {
                 await OrganizeWorkWithDifferentFiles(SiteEnum.Proday2Kolesa);
+            }
+
+            //Olx
+            if (flag[3] == 1)
+            {
+                await OrganizeWorkWithDifferentFiles(SiteEnum.Olx);
             }
 
             return ReturnDataHolders;

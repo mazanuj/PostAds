@@ -30,6 +30,7 @@
     {
         MotoSale,
         Proday2Kolesa,
-        UsedAuto
+        UsedAuto,
+        Olx
     }
 }

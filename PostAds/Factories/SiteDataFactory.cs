@@ -18,6 +18,9 @@ namespace Motorcycle.Factories
                 case SiteEnum.MotoSale:
                     return new MotosaleData();
 
+                case SiteEnum.Olx:
+                    return new OlxData();
+
                 default:
                     return null;
             }

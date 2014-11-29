@@ -72,6 +72,25 @@
             }
 
             #endregion
+
+            #region Post on Olx
+
+            if (flag[3] > 0)
+            {
+                var resultList = GetResultList(returnDataHolders, SiteEnum.Olx);
+
+                if (resultList.Count > 0)
+                {
+                    var olxPostScheduler = new OlxPostScheduler();
+                    olxPostScheduler.StartPostMsgWithTimer(
+                        resultList,
+                        timerParams.OlxFrom,
+                        timerParams.OlxTo,
+                        timerParams.OlxInterval);
+                }
+            }
+
+            #endregion
         }
 
         private static List<DicHolder> GetResultList(IEnumerable<DicHolder> returnDataHolders, SiteEnum site)

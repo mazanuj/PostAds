@@ -13,5 +13,9 @@
         public byte ProdayFrom { get; set; }
         public byte ProdayTo { get; set; }
         public int ProdayInterval { get; set; }
+
+        public byte OlxFrom { get; set; }
+        public byte OlxTo { get; set; }
+        public int OlxInterval { get; set; }
     }
 }

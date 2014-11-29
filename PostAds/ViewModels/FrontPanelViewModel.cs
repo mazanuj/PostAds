@@ -17,23 +17,27 @@ namespace Motorcycle.ViewModels
     {
         public LoggingControlViewModel LoggingControl { get; set; }
         private readonly OpenFileDialog dlg;
-        private readonly byte[] flag = new byte[3];
+        private readonly byte[] flag = new byte[4];
 
         private bool boxMoto;
         private bool boxUsed;
         private bool boxKol;
+        private bool boxOlx;
 
         private byte motosaleFrom;
         private byte usedAutoFrom;
         private byte prodayFrom;
+        private byte olxFrom;
 
         private byte motosaleTo;
         private byte usedAutoTo;
         private byte prodayTo;
+        private byte olxTo;
 
         private int motosaleInterval;
         private int usedAutoInterval;
         private int prodayInterval;
+        private int olxInterval;
 
         [ImportingConstructor]
         public FrontPanelViewModel(LoggingControlViewModel loggingControlModel)
@@ -43,6 +47,7 @@ namespace Motorcycle.ViewModels
             CanEditFrontPanel = true;
             CanEditMainSettings = true;
             CaptchaLabel = true;
+
             // Create OpenFileDialog
             dlg = new OpenFileDialog
             {
@@ -74,7 +79,11 @@ namespace Motorcycle.ViewModels
                 CaptchaLabel = result;
                 NotifyOfPropertyChange(() => CaptchaLabel);
             };
-
+            Informer.OnOlxPostsAreCompleted += () =>
+            {
+                IsOlxFinishStatusVisible = true;
+                NotifyOfPropertyChange(() => IsOlxFinishStatusVisible);
+            };
 
             LoadTimersValuesFromXml();
         }
@@ -82,6 +91,7 @@ namespace Motorcycle.ViewModels
         public bool IsMotosaleFinishStatusVisible { get; set; }
         public bool IsUsedautoFinishStatusVisible { get; set; }
         public bool IsProdayFinishStatusVisible { get; set; }
+        public bool IsOlxFinishStatusVisible { get; set; }
 
         public int CountSuccess { get; set; }
 
@@ -123,6 +133,20 @@ namespace Motorcycle.ViewModels
                 boxKol = value;
                 flag[2] = boxKol ? flag[2] += 1 : flag[2] -= 1;
                 NotifyOfPropertyChange(() => BoxKol);
+
+                CanButtonStart = CheckIfAllFieldsAreFilled();
+                NotifyOfPropertyChange(() => CanButtonStart);
+            }
+        }
+
+        public bool BoxOlx
+        {
+            get { return boxOlx; }
+            set
+            {
+                boxOlx = value;
+                flag[3] = boxOlx ? flag[3] += 1 : flag[3] -= 1;
+                NotifyOfPropertyChange(() => BoxOlx);
 
                 CanButtonStart = CheckIfAllFieldsAreFilled();
                 NotifyOfPropertyChange(() => CanButtonStart);
@@ -171,6 +195,20 @@ namespace Motorcycle.ViewModels
             }
         }
 
+        public byte OlxFrom
+        {
+            get { return olxFrom; }
+            set
+            {
+                olxFrom = value;
+                OlxFromLabel = value;
+                NotifyOfPropertyChange(() => OlxFromLabel);
+
+                CanButtonStart = CheckIfAllFieldsAreFilled();
+                NotifyOfPropertyChange(() => CanButtonStart);
+            }
+        }
+
         public byte MotosaleTo
         {
             get { return motosaleTo; }
@@ -213,6 +251,20 @@ namespace Motorcycle.ViewModels
             }
         }
 
+        public byte OlxTo
+        {
+            get { return olxTo; }
+            set
+            {
+                olxTo = value;
+                OlxToLabel = value;
+                NotifyOfPropertyChange(() => OlxToLabel);
+
+                CanButtonStart = CheckIfAllFieldsAreFilled();
+                NotifyOfPropertyChange(() => CanButtonStart);
+            }
+        }
+
         public int MotosaleInterval
         {
             get { return motosaleInterval; }
@@ -246,19 +298,33 @@ namespace Motorcycle.ViewModels
             }
         }
 
+        public int OlxInterval
+        {
+            get { return olxInterval; }
+            set
+            {
+                olxInterval = value;
+                OlxIntervalLabel = value;
+                NotifyOfPropertyChange(() => OlxIntervalLabel);
+            }
+        }
+
         public int MotosaleFromLabel { get; set; }
         public int UsedAutoFromLabel { get; set; }
         public int ProdayFromLabel { get; set; }
+        public int OlxFromLabel { get; set; }
 
         public int MotosaleToLabel { get; set; }
         public int UsedAutoToLabel { get; set; }
         public int ProdayToLabel { get; set; }
+        public int OlxToLabel { get; set; }
 
         public int MotosaleIntervalLabel { get; set; }
         public int UsedAutoIntervalLabel { get; set; }
         public int ProdayIntervalLabel { get; set; }
-        public bool MotoFileLabel { get; set; }
+        public int OlxIntervalLabel { get; set; }
 
+        public bool MotoFileLabel { get; set; }
         public bool SpareFileLabel { get; set; }
 
         public bool EquipFileLabel { get; set; }
@@ -308,9 +374,10 @@ namespace Motorcycle.ViewModels
             BoxKol = false;
             BoxMoto = false;
             BoxUsed = false;
+            BoxOlx = false;
             CanEditMainSettings = true;
             CanButtonStop = false;
-            flag[0] = flag[1] = flag[2] = 0;
+            flag[0] = flag[1] = flag[2] = flag[3] = 0;
 
             NotifyOfPropertyChange(() => MotoFileLabel);
             NotifyOfPropertyChange(() => SpareFileLabel);
@@ -320,6 +387,7 @@ namespace Motorcycle.ViewModels
             NotifyOfPropertyChange(() => BoxKol);
             NotifyOfPropertyChange(() => BoxMoto);
             NotifyOfPropertyChange(() => BoxUsed);
+            NotifyOfPropertyChange(() => BoxOlx);
             NotifyOfPropertyChange(() => CanEditMainSettings);
             NotifyOfPropertyChange(() => CanButtonStop);
         }
@@ -329,18 +397,22 @@ namespace Motorcycle.ViewModels
             IsProdayFinishStatusVisible = false;
             IsMotosaleFinishStatusVisible = false;
             IsUsedautoFinishStatusVisible = false;
+            IsOlxFinishStatusVisible = false;
             NotifyOfPropertyChange(() => IsProdayFinishStatusVisible);
             NotifyOfPropertyChange(() => IsMotosaleFinishStatusVisible);
             NotifyOfPropertyChange(() => IsUsedautoFinishStatusVisible);
+            NotifyOfPropertyChange(() => IsOlxFinishStatusVisible);
         }
 
         private bool CheckIfAllFieldsAreFilled()
         {
-            var tempResult = (MotoFileLabel || SpareFileLabel || EquipFileLabel) && (flag[0] + flag[1] + flag[2] != 0) &&
+            var tempResult = (MotoFileLabel || SpareFileLabel || EquipFileLabel) &&
+                             (flag[0] + flag[1] + flag[2] + flag[3] != 0) &&
                              PhotoDirLabel;
             if (flag[0] > 0) tempResult = tempResult && MotosaleFrom != MotosaleTo;
             if (flag[1] > 0) tempResult = tempResult && UsedAutoFrom != UsedAutoTo;
             if (flag[2] > 0) tempResult = tempResult && ProdayFrom != ProdayTo;
+            if (flag[3] > 0) tempResult = tempResult && OlxFrom != OlxTo;
 
             return tempResult;
         }
@@ -357,26 +429,32 @@ namespace Motorcycle.ViewModels
             MotosaleInterval = TimerXmlWorker.GetTimerValue("motosale", "interval");
             UsedAutoInterval = TimerXmlWorker.GetTimerValue("usedauto", "interval");
             ProdayInterval = TimerXmlWorker.GetTimerValue("proday", "interval");
+            OlxInterval = TimerXmlWorker.GetTimerValue("olx", "interval");
 
             MotosaleFrom = (byte) TimerXmlWorker.GetTimerValue("motosale", "from");
             UsedAutoFrom = (byte) TimerXmlWorker.GetTimerValue("usedauto", "from");
             ProdayFrom = (byte) TimerXmlWorker.GetTimerValue("proday", "from");
+            OlxFrom = (byte) TimerXmlWorker.GetTimerValue("olx", "from");
 
             MotosaleTo = (byte) TimerXmlWorker.GetTimerValue("motosale", "to");
             UsedAutoTo = (byte) TimerXmlWorker.GetTimerValue("usedauto", "to");
             ProdayTo = (byte) TimerXmlWorker.GetTimerValue("proday", "to");
+            OlxTo = (byte) TimerXmlWorker.GetTimerValue("olx", "to");
 
             NotifyOfPropertyChange(() => MotosaleInterval);
             NotifyOfPropertyChange(() => UsedAutoInterval);
             NotifyOfPropertyChange(() => ProdayInterval);
+            NotifyOfPropertyChange(() => OlxInterval);
 
             NotifyOfPropertyChange(() => MotosaleFrom);
             NotifyOfPropertyChange(() => UsedAutoFrom);
             NotifyOfPropertyChange(() => ProdayFrom);
+            NotifyOfPropertyChange(() => OlxFrom);
 
             NotifyOfPropertyChange(() => MotosaleTo);
             NotifyOfPropertyChange(() => UsedAutoTo);
             NotifyOfPropertyChange(() => ProdayTo);
+            NotifyOfPropertyChange(() => OlxTo);
         }
 
         private void SaveTimersValuesToXml()
@@ -392,6 +470,10 @@ namespace Motorcycle.ViewModels
             TimerXmlWorker.SetTimerValue("proday", "interval", (byte) ProdayInterval);
             TimerXmlWorker.SetTimerValue("proday", "from", ProdayFrom);
             TimerXmlWorker.SetTimerValue("proday", "to", ProdayTo);
+
+            TimerXmlWorker.SetTimerValue("olx", "interval", (byte) OlxInterval);
+            TimerXmlWorker.SetTimerValue("olx", "from", OlxFrom);
+            TimerXmlWorker.SetTimerValue("olx", "to", OlxTo);
         }
 
         public async void ButtonStart()
@@ -412,12 +494,18 @@ namespace Motorcycle.ViewModels
                 MotosaleFrom = MotosaleFrom,
                 MotosaleInterval = MotosaleInterval,
                 MotosaleTo = MotosaleTo,
+
                 ProdayFrom = ProdayFrom,
                 ProdayInterval = ProdayInterval,
                 ProdayTo = ProdayTo,
+
                 UsedAutoFrom = UsedAutoFrom,
                 UsedAutoInterval = UsedAutoInterval,
-                UsedAutoTo = UsedAutoTo
+                UsedAutoTo = UsedAutoTo,
+
+                OlxFrom = OlxFrom,
+                OlxInterval = OlxInterval,
+                OlxTo = OlxTo,
             };
 
             await Advertising.Initialize(flag, timerParams);

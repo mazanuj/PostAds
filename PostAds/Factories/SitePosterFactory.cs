@@ -19,6 +19,9 @@
                 case SiteEnum.MotoSale:
                     return new MotoSale();
 
+                case SiteEnum.Olx:
+                    return new Olx();
+
                 default:
                     return null;
             }

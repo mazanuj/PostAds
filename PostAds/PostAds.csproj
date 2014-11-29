@@ -128,6 +128,7 @@
     <Compile Include="AppBootstrapper.cs" />
     <Compile Include="Config\Advertising.cs" />
     <Compile Include="Config\Confirm\PostConfirm.cs" />
+    <Compile Include="Config\Data\OlxData.cs" />
     <Compile Include="Config\Data\~Utils\DicHolder.cs" />
     <Compile Include="Config\Data\~Utils\RemoveEntries.cs" />
     <Compile Include="Config\Data\~Utils\FileCleaner.cs" />
@@ -141,9 +142,11 @@
     <Compile Include="Controls\Converters\BoolToColorConverter.cs" />
     <Compile Include="Captcha\CaptchaFileNameGenerator.cs" />
     <Compile Include="Interfaces\ISitePoster.cs" />
+    <Compile Include="Sites\Olx.cs" />
     <Compile Include="Sites\PostStatus.cs" />
     <Compile Include="TimerScheduler\FinishPosting.cs" />
     <Compile Include="TimerScheduler\MotosalePostScheduler.cs" />
+    <Compile Include="TimerScheduler\OlxPostScheduler.cs" />
     <Compile Include="TimerScheduler\PostSchedulerBase.cs" />
     <Compile Include="TimerScheduler\ProdayPostScheduler.cs" />
     <Compile Include="TimerScheduler\TimerSchedulerParams.cs" />

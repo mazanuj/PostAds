@@ -71,6 +71,7 @@
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" MinWidth="15"/>
@@ -90,34 +91,42 @@
                             <Label Grid.Column="0" Grid.Row="1" Background="ForestGreen" Width="10" Height="10" Margin="0,0,5,0" Visibility="{Binding IsMotosaleFinishStatusVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                             <Label Grid.Column="0" Grid.Row="2" Background="ForestGreen" Width="10" Height="10" Margin="0,0,5,0" Visibility="{Binding IsUsedautoFinishStatusVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                             <Label Grid.Column="0" Grid.Row="3" Background="ForestGreen" Width="10" Height="10" Margin="0,0,5,0" Visibility="{Binding IsProdayFinishStatusVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                            <Label Grid.Column="0" Grid.Row="4" Background="ForestGreen" Width="10" Height="10" Margin="0,0,5,0" Visibility="{Binding IsOlxFinishStatusVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
                             <CheckBox x:Name="BoxMoto" Content="Motosale" Grid.Column="1" Grid.Row="1"/>
                             <CheckBox x:Name="BoxUsed" Content="UsedAuto" Grid.Column="1" Grid.Row="2"/>
                             <CheckBox x:Name="BoxKol" Content="Proday2Kolesa" Grid.Column="1" Grid.Row="3"/>
+                            <CheckBox x:Name="BoxOlx" Content="Olx" Grid.Column="1" Grid.Row="4"/>
 
                             <Slider x:Name="MotosaleFrom" Grid.Column="2" Grid.Row="1" Minimum="0" Maximum="23" MinWidth="50"/>
                             <Slider x:Name="UsedAutoFrom" Grid.Column="2" Grid.Row="2" Minimum="0" Maximum="23" MinWidth="50"/>
                             <Slider x:Name="ProdayFrom" Grid.Column="2" Grid.Row="3" Minimum="0" Maximum="23" MinWidth="50"/>
+                            <Slider x:Name="OlxFrom" Grid.Column="2" Grid.Row="4" Minimum="0" Maximum="23" MinWidth="50"/>
 
                             <Label x:Name="MotosaleFromLabel" Grid.Column="3" Grid.Row="1" MinWidth="25"/>
                             <Label x:Name="UsedAutoFromLabel" Grid.Column="3" Grid.Row="2" MinWidth="25"/>
                             <Label x:Name="ProdayFromLabel" Grid.Column="3" Grid.Row="3" MinWidth="25"/>
+                            <Label x:Name="OlxFromLabel" Grid.Column="3" Grid.Row="4" MinWidth="25"/>
 
                             <Slider x:Name="MotosaleTo" Grid.Column="4" Grid.Row="1" Minimum="0" Maximum="23" MinWidth="50"/>
                             <Slider x:Name="UsedAutoTo" Grid.Column="4" Grid.Row="2" Minimum="0" Maximum="23" MinWidth="50"/>
                             <Slider x:Name="ProdayTo" Grid.Column="4" Grid.Row="3" Minimum="0" Maximum="23" MinWidth="50"/>
+                            <Slider x:Name="OlxTo" Grid.Column="4" Grid.Row="4" Minimum="0" Maximum="23" MinWidth="50"/>
 
                             <Label x:Name="MotosaleToLabel" Grid.Column="5" Grid.Row="1" MinWidth="25"/>
                             <Label x:Name="UsedAutoToLabel" Grid.Column="5" Grid.Row="2" MinWidth="25"/>
                             <Label x:Name="ProdayToLabel" Grid.Column="5" Grid.Row="3" MinWidth="25"/>
+                            <Label x:Name="OlxToLabel" Grid.Column="5" Grid.Row="4" MinWidth="25"/>
 
                             <Slider x:Name="MotosaleInterval" Grid.Column="6" Grid.Row="1" Minimum="0" Maximum="100" MinWidth="50"/>
                             <Slider x:Name="UsedAutoInterval" Grid.Column="6" Grid.Row="2" Minimum="0" Maximum="100" MinWidth="50"/>
                             <Slider x:Name="ProdayInterval" Grid.Column="6" Grid.Row="3" Minimum="0" Maximum="100" MinWidth="50"/>
+                            <Slider x:Name="OlxInterval" Grid.Column="6" Grid.Row="4" Minimum="0" Maximum="100" MinWidth="50"/>
 
                             <Label x:Name="MotosaleIntervalLabel" Grid.Column="7" Grid.Row="1" MinWidth="30"/>
                             <Label x:Name="UsedAutoIntervalLabel" Grid.Column="7" Grid.Row="2" MinWidth="30"/>
                             <Label x:Name="ProdayIntervalLabel" Grid.Column="7" Grid.Row="3" MinWidth="30"/>
+                            <Label x:Name="OlxIntervalLabel" Grid.Column="7" Grid.Row="4" MinWidth="30"/>
                         </Grid>
                     </GroupBox>
 
@@ -139,9 +148,8 @@
                             <TextBlock Grid.Column="1" Grid.Row="1" x:Name="CountFailure" Margin="5,0,0,0"/>
                         </Grid>
                     </GroupBox>
+                    
                 </Grid>
-
-
             </Grid>
         </Border>
 

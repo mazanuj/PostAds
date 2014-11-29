@@ -11,6 +11,7 @@
         public static event ParameterlessInformMethod OnMotosalePostsAreCompleted;
         public static event ParameterlessInformMethod OnUsedAutoPostsAreCompleted;
         public static event ParameterlessInformMethod OnProdayPostsAreCompleted;
+        public static event ParameterlessInformMethod OnOlxPostsAreCompleted;
         public static event ParameterlessInformMethod OnStopTimerClicked;
 
         public static void RaiseOnPostResultChangedEvent(bool post)
@@ -58,6 +59,13 @@
         public static void RaiseOnProdayPostsAreCompletedEvent()
         {
             var handler = OnProdayPostsAreCompleted;
+            if (handler != null)
+                handler();
+        }
+
+        public static void RaiseOnOlxPostsAreCompletedEvent()
+        {
+            var handler = OnOlxPostsAreCompleted;
             if (handler != null)
                 handler();
         }
