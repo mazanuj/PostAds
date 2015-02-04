@@ -19,6 +19,7 @@ namespace Motorcycle.ViewModels
         public string M { get; set; }
         public string P { get; set; }
         public string U { get; set; }
+        public string O { get; set; }
 
         public bool IsOkay { get; set; }
 
@@ -34,6 +35,7 @@ namespace Motorcycle.ViewModels
             M = currentItem.M;
             P = currentItem.P;
             U = currentItem.U;
+            O = currentItem.O;
         }
 
         public void Save()
@@ -50,7 +52,7 @@ namespace Motorcycle.ViewModels
             }
             else
             {
-                CityXmlWorker.AddNewItemNode(CityName, M, P, U);    
+                CityXmlWorker.AddNewItemNode(CityName, M, P, U, O);    
             }
             
             IsOkay = true;
@@ -65,12 +67,12 @@ namespace Motorcycle.ViewModels
 
         private bool CheckIfFieldsAreFilled()
         {
-            return !string.IsNullOrEmpty(CityName) && !string.IsNullOrEmpty(M) && !string.IsNullOrEmpty(P) && !string.IsNullOrEmpty(U);
+            return !string.IsNullOrEmpty(CityName) && !string.IsNullOrEmpty(M) && !string.IsNullOrEmpty(P) && !string.IsNullOrEmpty(U) && !string.IsNullOrEmpty(O);
         }
 
         private void ChangeCurrentItemNode()
         {
-            var newItem = new CityItem(CityName, M, P, U);
+            var newItem = new CityItem(CityName, M, P, U, O);
             CityXmlWorker.ChangeItemNode(_currentItem.CityName, newItem);
         }
     }

@@ -11,7 +11,7 @@
     using Utils;
     using XmlWorker;
 
-    [Export(typeof(GeneralSettingsViewModel))]
+    [Export(typeof (GeneralSettingsViewModel))]
     public class GeneralSettingsViewModel : PropertyChangedBase
     {
         private static XmlDataProvider xml;
@@ -28,11 +28,9 @@
                 countOfProxyAddressInFile = ProxyXmlWorker.GetProxyListFromFile().Count;
                 return countOfProxyAddressInFile;
             }
-            set
-            {
-                countOfProxyAddressInFile = value;
-            }
+            set { countOfProxyAddressInFile = value; }
         }
+
         public bool CanRefreshProxyListFromInternet { get; set; }
 
         public ObservableCollection<CityItem> ItemCollection { get; private set; }
@@ -41,7 +39,7 @@
         [ImportingConstructor]
         public GeneralSettingsViewModel(IWindowManager windowManager)
         {
-            xml = new XmlDataProvider { Document = new XmlDocument() };
+            xml = new XmlDataProvider {Document = new XmlDocument()};
             xml.Document.Load(DbPath);
 
             _windowManager = windowManager;
@@ -58,7 +56,7 @@
         public async void RefreshProxyListFromInternet()
         {
             IsLoadingAnimationVisible = true;
-            NotifyOfPropertyChange(() => IsLoadingAnimationVisible);//start animation
+            NotifyOfPropertyChange(() => IsLoadingAnimationVisible); //start animation
 
             //RefreshProxyListStatus = true;
             //NotifyOfPropertyChange(() => RefreshProxyListStatus);
@@ -83,11 +81,12 @@
             RefreshProxyAddressItemList();
 
             IsLoadingAnimationVisible = false;
-            NotifyOfPropertyChange(() => IsLoadingAnimationVisible);//end animation
+            NotifyOfPropertyChange(() => IsLoadingAnimationVisible); //end animation
         }
 
 
         public bool IsLoadingAnimationVisible { get; set; }
+
         public void ClearProxyFile()
         {
             ProxyXmlWorker.RemoveAllProxyAddressesFromFile();
@@ -134,22 +133,18 @@
         }
 
         #region Password
+
         public string Password
         {
-            get
-            {
-                return PasswordXmlWorker.GetPasswordValue();
-            }
-            set
-            {
-                password = value;
-            }
+            get { return PasswordXmlWorker.GetPasswordValue(); }
+            set { password = value; }
         }
 
         public void ChangePassword()
         {
             PasswordXmlWorker.ChangePasswordNode(password);
         }
+
         #endregion
 
         #region CityXml
@@ -194,7 +189,6 @@
                 RefreshItemList();
             }
         }
-
 
         private void GetItemsFromFile()
         {

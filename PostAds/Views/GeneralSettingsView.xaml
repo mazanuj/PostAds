@@ -89,6 +89,7 @@
                         <GridViewColumn Header="Moto" DisplayMemberBinding="{Binding M}" Width="65"/>
                         <GridViewColumn Header="Proday" DisplayMemberBinding="{Binding P}" Width="65"/>
                         <GridViewColumn Header="Used" DisplayMemberBinding="{Binding U}" Width="65"/>
+                        <GridViewColumn Header="Olx" DisplayMemberBinding="{Binding O}" Width="65"/>
                     </GridView>
                 </ListView.View>
 

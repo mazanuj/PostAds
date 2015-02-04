@@ -42,11 +42,12 @@
             </ListView.ItemContainerStyle>
 
             <ListView.View>
-                <GridView  >
-                    <GridViewColumn Header="Завод" DisplayMemberBinding="{Binding Id}" Width="150"/>
+                <GridView>
+                    <GridViewColumn Header="Завод" DisplayMemberBinding="{Binding Id}" Width="120"/>
                     <GridViewColumn Header="Moto" DisplayMemberBinding="{Binding M}" Width="70"/>
                     <GridViewColumn Header="Proday" DisplayMemberBinding="{Binding P}" Width="70"/>
                     <GridViewColumn Header="Used" DisplayMemberBinding="{Binding U}" Width="70"/>
+                    <GridViewColumn Header="Olx" DisplayMemberBinding="{Binding O}" Width="70"/>
                 </GridView>
             </ListView.View>
 

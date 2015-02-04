@@ -78,7 +78,7 @@ namespace Motorcycle.HTTP
                 foreach (var value in dataDictionary)
                     requestXNET.AddField(value.Key, value.Value);
                 if (fileDictionary == null) return requestXNET.Post(url).ToString();
-                foreach (var value in fileDictionary.Where(value =>value.Value != string.Empty))
+                foreach (var value in fileDictionary.Where(value => value.Value != string.Empty))
                     requestXNET.AddFile(value.Key, value.Value);
 
                 return requestXNET.Post(url).ToString();
@@ -101,24 +101,26 @@ namespace Motorcycle.HTTP
             var fileName = CaptchaFileNameGenerator.GetFileName();
 
             using (var response = (HttpWebResponse) request.GetResponse())
-            using (var stream = response.GetResponseStream())
             {
-                if (File.Exists(fileName))
-                    File.Delete(fileName);
+                using (var stream = response.GetResponseStream())
+                {
+                    if (File.Exists(fileName))
+                        File.Delete(fileName);
 
-                if (stream == null)
-                    return "";
+                    if (stream == null)
+                        return "";
 
-                var memoryStream = new MemoryStream();
-                stream.CopyTo(memoryStream);
+                    var memoryStream = new MemoryStream();
+                    stream.CopyTo(memoryStream);
 
-                var jpegEncoder = new JpegBitmapEncoder();
-                jpegEncoder.Frames.Add(BitmapFrame.Create(memoryStream, BitmapCreateOptions.None,
-                    BitmapCacheOption.OnLoad));
-                using (var fs = new FileStream(fileName, FileMode.Create, FileAccess.Write))
-                    jpegEncoder.Save(fs);
+                    var jpegEncoder = new JpegBitmapEncoder();
+                    jpegEncoder.Frames.Add(BitmapFrame.Create(memoryStream, BitmapCreateOptions.None,
+                        BitmapCacheOption.OnLoad));
+                    using (var fs = new FileStream(fileName, FileMode.Create, FileAccess.Write))
+                        jpegEncoder.Save(fs);
 
-                return fileName;
+                    return fileName;
+                }
             }
         }
     }

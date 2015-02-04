@@ -16,6 +16,7 @@
         public string M { get; set; }
         public string P { get; set; }
         public string U { get; set; }
+        public string O { get; set; }
 
         public bool IsOkay { get; set; }
 
@@ -31,6 +32,7 @@
             M = currentItem.M;
             P = currentItem.P;
             U = currentItem.U;
+            O = currentItem.O;
         }
 
         public void Save()
@@ -47,7 +49,7 @@
             }
             else
             {
-                ManufactureXmlWorker.AddNewItemNode(Id, M, P, U);    
+                ManufactureXmlWorker.AddNewItemNode(Id, M, P, U, O);
             }
             
             IsOkay = true;
@@ -62,12 +64,12 @@
 
         private bool CheckIfFieldsAreFilled()
         {
-            return !string.IsNullOrEmpty(Id) && !string.IsNullOrEmpty(M) && !string.IsNullOrEmpty(P) && !string.IsNullOrEmpty(U);
+            return !string.IsNullOrEmpty(Id) && !string.IsNullOrEmpty(M) && !string.IsNullOrEmpty(P) && !string.IsNullOrEmpty(U) && !string.IsNullOrEmpty(O);
         }
 
         private void ChangeCurrentItemNode()
         {
-            var newItem = new ManufactureItem(Id, M, P, U);
+            var newItem = new ManufactureItem(Id, M, P, U, O);
             ManufactureXmlWorker.ChangeItemNode(_currentItem, newItem);
         }
     }

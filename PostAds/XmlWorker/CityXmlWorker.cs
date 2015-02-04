@@ -11,12 +11,12 @@ namespace Motorcycle.XmlWorker
         private const string XmlFilePath = "Main.config";
         private const string ItemXPath = "//city/item[text() = '{0}']";
 
-        public static void AddNewItemNode(string cityName, string m, string p, string u)
+        public static void AddNewItemNode(string cityName, string m, string p, string u, string o)
         {
             var doc = XDocument.Load(XmlFilePath);
             var city = doc.XPathSelectElement("//city");
 
-            var element = new XElement("item", new XAttribute("m", m), new XAttribute("p", p), new XAttribute("u", u))
+            var element = new XElement("item", new XAttribute("m", m), new XAttribute("p", p), new XAttribute("u", u), new XAttribute("o", o))
             {
                 Value = cityName.ToLower()
             };
@@ -67,7 +67,8 @@ namespace Motorcycle.XmlWorker
                     CityName = e.Value,
                     M = (string) e.Attribute("m"),
                     P = (string) e.Attribute("p"),
-                    U = (string) e.Attribute("u")
+                    U = (string) e.Attribute("u"),
+                    O = (string)e.Attribute("o")
                 }).ToList();
 
             return items;
