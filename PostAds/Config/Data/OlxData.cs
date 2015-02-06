@@ -188,9 +188,7 @@ namespace Motorcycle.Config.Data
                 else files[i] = string.Empty;
             }
 
-            var model = string.IsNullOrEmpty(data[5])
-                ? "766"
-                : ManufactureXmlWorker.GetItemSiteValueUsingPlant(data[5], "o");
+            var model = ManufactureXmlWorker.GetItemSiteValueUsingPlant(data[5], "o");
             var state = data[11].ToLower() == "новый" ? "new" : "used";
             var city = CityXmlWorker.GetItemSiteValueUsingCity(data[7], "o").Split(':');
 
@@ -209,7 +207,7 @@ namespace Motorcycle.Config.Data
                     {"data[param_price][1]", data[6]}, //+
                     {"data[param_price][currency]", "USD"}, //+
                     {"data[param_state]", state}, //+
-                    {"data[param_bike_manufacturer]", model}, //+
+                    {"data[param_bike_manufacturer]", string.IsNullOrEmpty(model) ? "766" : model}, //+
                     {"data[param_currency]", string.Empty}, //+
                     {"data[private_business]", "private"}, //+
                     {"data[description]", data[9]}, //+

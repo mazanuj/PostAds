@@ -135,7 +135,7 @@
     <Compile Include="Config\Data\~Utils\DicHolder.cs" />
     <Compile Include="Config\Data\~Utils\RemoveEntries.cs" />
     <Compile Include="Config\Data\~Utils\FileCleaner.cs" />
-    <Compile Include="Config\OlxAuthoriz.cs" />
+    <Compile Include="Config\OlxAuthorize.cs" />
     <Compile Include="Config\Proxy\ProxyAddressStruct.cs" />
     <Compile Include="Config\Proxy\ProxyChecker.cs" />
     <Compile Include="Config\Proxy\ProxyData.cs" />

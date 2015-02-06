@@ -24,7 +24,7 @@ namespace Motorcycle.Sites
                 const string url = "http://olx.ua/post-new-ad/";
                 var urlFile = "http://olx.ua/ajax/upload/upload/?riak_key=&ad_id=&preview=&category=0";
 
-                var cookies = OlxAuthorize.GetPhpSesID("slandoecip@mail.ru").Result; //TODO slandomoto@mail.ru
+                var cookies = OlxAuthorize.GetPhpSesID().Result; //TODO slandomoto@mail.ru
                 using (var req = new HttpRequest())
                 {
                     req.Cookies = cookies;
@@ -118,7 +118,7 @@ namespace Motorcycle.Sites
                 const string url = "http://olx.ua/post-new-ad/";
                 var urlFile = "http://olx.ua/ajax/upload/upload/?riak_key=&ad_id=&preview=&category=0";
 
-                var cookies = OlxAuthorize.GetPhpSesID("slandoecip@mail.ru").Result; //TODO slandomoto@mail.ru
+                var cookies = OlxAuthorize.GetPhpSesID().Result; //TODO slandospare@mail.ru
                 using (var req = new HttpRequest())
                 {
                     req.Cookies = cookies;
@@ -212,7 +212,7 @@ namespace Motorcycle.Sites
                 const string url = "http://olx.ua/post-new-ad/";
                 var urlFile = "http://olx.ua/ajax/upload/upload/?riak_key=&ad_id=&preview=&category=0";
 
-                var cookies = OlxAuthorize.GetPhpSesID("slandoecip@mail.ru").Result;
+                var cookies = OlxAuthorize.GetPhpSesID().Result;
                 using (var req = new HttpRequest())
                 {
                     req.Cookies = cookies;

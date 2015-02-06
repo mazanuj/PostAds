@@ -1,33 +1,26 @@
 ﻿using System.Threading.Tasks;
+using Motorcycle.XmlWorker;
 using xNet.Net;
 
 namespace Motorcycle.Config
 {
     internal static class OlxAuthorize
     {
-        internal static async Task<CookieDictionary> GetPhpSesID(string login, string pass = "1358888t",
+        internal static async Task<CookieDictionary> GetPhpSesID(string login = "slandoecip@mail.ru", string password = "",
             string domain = @"https://ssl.olx.ua/account/?ref%5B0%5D%5Baction%5D=myaccount&ref%5B0%5D%5Bmethod%5D=index")
         {
+            if (string.IsNullOrEmpty(password))
+                password = PasswordXmlWorker.GetPasswordValue();
+
             return await Task<CookieDictionary>.Factory.StartNew(() =>
             {
                 var cookies = new CookieDictionary();
 
                 var request = new HttpRequest {Cookies = cookies};
-                request.AddField("login[email]", "slandoecip@mail.ru");
-                request.AddField("login[password]", "1358888t");
-                var resp = request.Post(domain);
+                request.AddField("login[email]", login);
+                request.AddField("login[password]", password);
 
-                //var cookieContainer = new CookieContainer();
-
-                //var captchaDictionary = new Dictionary<string, string>
-                //{
-                //    {"login[email]", "slandoecip@mail.ru"},
-                //    {"login[password]", "1358888t"}
-                //};
-
-                //var req = Request.POSTRequest(domain, cookieContainer, captchaDictionary, null, domain);
-                //var responseString = Response.GetResponseString(req);
-
+                request.Post(domain).None();
 
                 return cookies;
             });

@@ -4,6 +4,7 @@ using System.Net;
 using System.Text.RegularExpressions;
 using MailKit.Net.Pop3;
 using MimeKit;
+using Motorcycle.XmlWorker;
 using NLog;
 
 namespace Motorcycle.Config.Confirm
@@ -13,8 +14,11 @@ namespace Motorcycle.Config.Confirm
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
         private static bool checker;
 
-        public static bool ConfirmAdv(string username, string password = "1358888t")
+        public static bool ConfirmAdv(string username, string password = "")
         {
+            if (string.IsNullOrEmpty(password))
+                password = PasswordXmlWorker.GetPasswordValue();
+
             checker = false;
             // The client disconnects from the server when being disposed
             using (var client = new Pop3Client())
