@@ -45,7 +45,7 @@ namespace Motorcycle.Config.Proxy
             {
                 var dicIp = new Dictionary<string, string>();
                 var requestString = string.Empty;
-                var count = 0;                
+                var count = 0;
 
                 for (; count < 100 && proxyAddresses.Count > i; count++)
                 {

@@ -1,4 +1,7 @@
-﻿namespace Motorcycle.Config
+﻿using System.Threading;
+using Motorcycle.Config.Confirm;
+
+namespace Motorcycle.Config
 {
     using System.Collections.Generic;
     using Data;
@@ -11,86 +14,93 @@
     {
         internal static async Task Initialize(byte[] flag, TimerSchedulerParams timerParams)
         {
-            //List<DicHolder>
-            var returnDataHolders = await ReturnData.GetData(flag);
+            //Check Olx mail with confirmation all ads
+           await PostConfirm.ConfirmAllOlxAdv();
 
-            FinishPosting.ResetValues();
-
-            #region Post on Motosale
-
-            if (flag[0] > 0)
+            while (true)
             {
-                var resultList = GetResultList(returnDataHolders, SiteEnum.MotoSale);
-
-                if (resultList.Count > 0)
-                {
-                    var motosalePostScheduler = new MotosalePostScheduler();
-                    motosalePostScheduler.StartPostMsgWithTimer(
-                        resultList,
-                        timerParams.MotosaleFrom,
-                        timerParams.MotosaleTo,
-                        timerParams.MotosaleInterval);
-                }
+                Thread.Sleep(200000000);
             }
+           //List<DicHolder>
+           var returnDataHolders = await ReturnData.GetData(flag);
 
-            #endregion
+           FinishPosting.ResetValues();
 
-            #region Post on UsedAuto
+           #region Post on Motosale
 
-            if (flag[1] > 0)
-            {
-                var resultList = GetResultList(returnDataHolders, SiteEnum.UsedAuto);
+           if (flag[0] > 0)
+           {
+               var resultList = GetResultList(returnDataHolders, SiteEnum.MotoSale);
 
-                if (resultList.Count > 0)
-                {
-                    var usedAutoPostScheduler = new UsedAutoPostScheduler();
-                    usedAutoPostScheduler.StartPostMsgWithTimer(
-                        resultList,
-                        timerParams.UsedAutoFrom,
-                        timerParams.UsedAutoTo,
-                        timerParams.UsedAutoInterval);
-                }
-            }
+               if (resultList.Count > 0)
+               {
+                   var motosalePostScheduler = new MotosalePostScheduler();
+                   motosalePostScheduler.StartPostMsgWithTimer(
+                       resultList,
+                       timerParams.MotosaleFrom,
+                       timerParams.MotosaleTo,
+                       timerParams.MotosaleInterval);
+               }
+           }
 
-            #endregion
+           #endregion
 
-            #region Post on Proday2Kolesa
+           #region Post on UsedAuto
 
-            if (flag[2] > 0)
-            {
-                var resultList = GetResultList(returnDataHolders, SiteEnum.Proday2Kolesa);
+           if (flag[1] > 0)
+           {
+               var resultList = GetResultList(returnDataHolders, SiteEnum.UsedAuto);
 
-                if (resultList.Count > 0)
-                {
-                    var prodayPostScheduler = new ProdayPostScheduler();
-                    prodayPostScheduler.StartPostMsgWithTimer(
-                        resultList,
-                        timerParams.ProdayFrom,
-                        timerParams.ProdayTo,
-                        timerParams.ProdayInterval);
-                }
-            }
+               if (resultList.Count > 0)
+               {
+                   var usedAutoPostScheduler = new UsedAutoPostScheduler();
+                   usedAutoPostScheduler.StartPostMsgWithTimer(
+                       resultList,
+                       timerParams.UsedAutoFrom,
+                       timerParams.UsedAutoTo,
+                       timerParams.UsedAutoInterval);
+               }
+           }
 
-            #endregion
+           #endregion
 
-            #region Post on Olx
+           #region Post on Proday2Kolesa
 
-            if (flag[3] > 0)
-            {
-                var resultList = GetResultList(returnDataHolders, SiteEnum.Olx);
+           if (flag[2] > 0)
+           {
+               var resultList = GetResultList(returnDataHolders, SiteEnum.Proday2Kolesa);
 
-                if (resultList.Count > 0)
-                {
-                    var olxPostScheduler = new OlxPostScheduler();
-                    olxPostScheduler.StartPostMsgWithTimer(
-                        resultList,
-                        timerParams.OlxFrom,
-                        timerParams.OlxTo,
-                        timerParams.OlxInterval);
-                }
-            }
+               if (resultList.Count > 0)
+               {
+                   var prodayPostScheduler = new ProdayPostScheduler();
+                   prodayPostScheduler.StartPostMsgWithTimer(
+                       resultList,
+                       timerParams.ProdayFrom,
+                       timerParams.ProdayTo,
+                       timerParams.ProdayInterval);
+               }
+           }
 
-            #endregion
+           #endregion
+
+           #region Post on Olx
+
+           if (flag[3] > 0)
+           {
+               var resultList = GetResultList(returnDataHolders, SiteEnum.Olx);
+
+               if (resultList.Count > 0)
+               {
+                   var olxPostScheduler = new OlxPostScheduler();
+                   olxPostScheduler.StartPostMsgWithTimer(
+                       resultList,
+                       timerParams.OlxFrom,
+                       timerParams.OlxTo,
+                       timerParams.OlxInterval);
+               }
+           }
+
+           #endregion
         }
 
         private static List<DicHolder> GetResultList(IEnumerable<DicHolder> returnDataHolders, SiteEnum site)
