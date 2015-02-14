@@ -131,15 +131,12 @@ namespace Motorcycle.Config.Confirm
                             //var respString = Encoding.UTF8.GetString(new WebClient().DownloadData(url));
 
                             if (respString.Contains("Ваши объявления были обновлены и скоро появятся"))
-                            {
-                                client.DeleteMessage(i);
-                                Log.Debug("Все ваши объявления на OLX были обновлены");
-                                break;
-                            }
-                            Log.Warn("Сейчас у вас нет объявлений, которые можно обновить на OLX");
+                                Log.Debug("Все ваши объявления на OLX были обновлены", null, null);
+                            Log.Warn("Сейчас у вас нет объявлений, которые можно обновить на OLX", null, null);
+                            client.DeleteMessage(i);
                         }
+                        break;
                     }
-
                     client.Disconnect(true);
                 }
             });

@@ -1,5 +1,4 @@
-﻿using System.Threading;
-using Motorcycle.Config.Confirm;
+﻿using Motorcycle.Config.Confirm;
 
 namespace Motorcycle.Config
 {
@@ -17,10 +16,6 @@ namespace Motorcycle.Config
             //Check Olx mail with confirmation all ads
            await PostConfirm.ConfirmAllOlxAdv();
 
-            while (true)
-            {
-                Thread.Sleep(200000000);
-            }
            //List<DicHolder>
            var returnDataHolders = await ReturnData.GetData(flag);
 
