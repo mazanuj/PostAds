@@ -77,68 +77,67 @@ namespace Motorcycle.Config.Confirm
                 if (string.IsNullOrEmpty(password))
                     password = PasswordXmlWorker.GetPasswordValue();
 
-                using (var client = new Pop3Client())
-                {
-                    while (true)
-                    {
-                        try
-                        {
-                            client.Connect("pop.mail.ru", 995, true);
-                            client.AuthenticationMechanisms.Remove("XOAUTH2");
-                            client.Authenticate(username, password);
-                            break;
-                        }
-                        catch (Exception ex)
-                        {
-                            Log.Debug(ex.Message, ex);
-                        }
-                    }
+	            using (var client = new Pop3Client())
+	            {
+		            while (true)
+		            {
+			            try
+			            {
+				            client.Connect("pop.mail.ru", 995, true);
+				            client.AuthenticationMechanisms.Remove("XOAUTH2");
+				            client.Authenticate(username, password);
+				            break;
+			            }
+			            catch (Exception ex)
+			            {
+				            Log.Debug(ex.Message, ex);
+			            }
+		            }
 
-                    if (client.GetMessageCount() == 0)
-                        return;
+		            if (client.GetMessageCount() == 0)
+			            return;
 
-                    var headers = client.GetMessageHeaders(0, client.Count());
-                    for (var i = 0; i < headers.Count; i++)
-                    {
-                        if (!headers[i][HeaderId.Subject].Contains("Обновите свои объявления")) continue;
+		            var headers = client.GetMessageHeaders(0, client.Count());
+		            for (var i = 0; i < headers.Count; i++)
+		            {
+			            if (!headers[i][HeaderId.Subject].Contains("Обновите свои объявления")) continue;
 
-                        var message = client.GetMessage(i);
+			            var message = client.GetMessage(i);
 
-                        var doc = new HtmlDocument();
-                        var body =
-                            message.BodyParts.OfType<TextPart>()
-                                .FirstOrDefault(x => x.ContentType.Matches("text", "html"));
+			            var doc = new HtmlDocument();
+			            var body =
+				            message.BodyParts.OfType<TextPart>()
+					            .FirstOrDefault(x => x.ContentType.Matches("text", "html"));
 
-                        if (body == null)
-                            continue;
+			            if (body == null)
+				            continue;
 
-                        doc.LoadHtml(body.Text);
-                        var url =
-                            doc.DocumentNode.Descendants("a")
-                                .First(
-                                    x =>
-                                        x.HasAttributes && x.Attributes.Contains("href") &&
-                                        x.Attributes["href"].Value.StartsWith(
-                                            "https://ssl.olx.ua/obyavlenie/refreshall/?action=refreshall"))
-                                .Attributes["href"].Value;
+			            doc.LoadHtml(body.Text);
+			            var url =
+				            doc.DocumentNode.Descendants("a")
+					            .First(
+						            x =>
+							            x.HasAttributes && x.Attributes.Contains("href") &&
+							            x.Attributes["href"].Value.StartsWith(
+								            "https://ssl.olx.ua/obyavlenie/refreshall/?action=refreshall"))
+					            .Attributes["href"].Value;
 
-                        var cookies = await OlxAuthorize.GetPhpSesID(username);
-                        using (var req = new HttpRequest())
-                        {
-                            req.Cookies = cookies;
-                            var respString = req.Get(url).ToString();
+			            var cookies = await OlxAuthorize.GetPhpSesID(username);
+			            using (var req = new HttpRequest())
+			            {
+				            req.Cookies = cookies;
+				            var respString = req.Get(url).ToString();
 
-                            //var respString = Encoding.UTF8.GetString(new WebClient().DownloadData(url));
+				            //var respString = Encoding.UTF8.GetString(new WebClient().DownloadData(url));
 
-                            if (respString.Contains("Ваши объявления были обновлены и скоро появятся"))
-                                Log.Debug("Все ваши объявления на OLX были обновлены", null, null);
-                            Log.Warn("Сейчас у вас нет объявлений, которые можно обновить на OLX", null, null);
-                            client.DeleteMessage(i);
-                        }
-                        break;
-                    }
-                    client.Disconnect(true);
-                }
+				            if (respString.Contains("Ваши объявления были обновлены и скоро появятся"))
+					            Log.Debug("Все ваши объявления на OLX были обновлены", null, null);
+				            else Log.Warn("Сейчас у вас нет объявлений, которые можно обновить на OLX", null, null);
+				            client.DeleteMessage(i);
+			            }
+		            }
+		            client.Disconnect(true);					
+	            }
             });
         }
     }

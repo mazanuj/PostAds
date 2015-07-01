@@ -9,12 +9,11 @@ using System.Xml.Linq;
 using System.Xml.XPath;
 using HtmlAgilityPack;
 using xNet.Net;
+using System.Collections.Generic;
+using NLog;
 
 namespace Motorcycle.Config.Proxy
 {
-    using System.Collections.Generic;
-    using NLog;
-
     internal static class ProxyData
     {
         private static int loopVar;

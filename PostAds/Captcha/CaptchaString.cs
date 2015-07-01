@@ -7,46 +7,47 @@ using NLog;
 
 namespace Motorcycle.Captcha
 {
-    internal static class CaptchaString
-    {
-        private static readonly Logger Log = LogManager.GetCurrentClassLogger();
-        internal static string GetCaptchaString(string key, string filePath, string domain)
-        {
-            string check;
-            var dataDictionary = new Dictionary<string, string>
-            {
-                {"method", "post"},
-                {"key", key}
-            };
+	internal static class CaptchaString
+	{
+		private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
-            var fileDictionary = new Dictionary<string, string> {{"file", filePath}};
+		internal static string GetCaptchaString(string key, string filePath, string domain)
+		{
+			string check;
+			var dataDictionary = new Dictionary<string, string>
+			{
+				{"method", "post"},
+				{"key", key}
+			};
 
-            do
-            {
-                check = SolveCaptcha.GetText(dataDictionary, fileDictionary, domain, 5000);
-                if (check == "ERROR_NO_SLOT_AVAILABLE")
-                    Thread.Sleep(2000);
-                if (check == "ERROR_ZERO_BALANCE")
-                {
-                    Informer.RaiseOnCaptchaStatusChangedEvent(false);
-                    return "ZERO";
-                }
-            } while ((check == "ERROR_NO_SLOT_AVAILABLE"));
-            Informer.RaiseOnCaptchaStatusChangedEvent(true);
-            return check;
-        }
+			var fileDictionary = new Dictionary<string, string> {{"file", filePath}};
 
-        internal static string GetCaptchaImage(string url)
-        {
-            var fileName = CaptchaFileNameGenerator.GetFileName();
+			do
+			{
+				check = SolveCaptcha.GetText(dataDictionary, fileDictionary, domain, 5000);
+				if (check == "ERROR_NO_SLOT_AVAILABLE")
+					Thread.Sleep(2000);
+				if (check == "ERROR_ZERO_BALANCE")
+				{
+					Informer.RaiseOnCaptchaStatusChangedEvent(false);
+					return "ZERO";
+				}
+			} while ((check == "ERROR_NO_SLOT_AVAILABLE"));
+			Informer.RaiseOnCaptchaStatusChangedEvent(true);
+			return check;
+		}
 
-            if (File.Exists(fileName))
-                File.Delete(fileName);
-            var wc = new WebClient();
+		internal static string GetCaptchaImage(string url)
+		{
+			var fileName = CaptchaFileNameGenerator.GetFileName();
 
-            wc.DownloadFile(url, fileName);
+			if (File.Exists(fileName))
+				File.Delete(fileName);
+			var wc = new WebClient();
 
-            return fileName;
-        }
-    }
+			wc.DownloadFile(url, fileName);
+
+			return fileName;
+		}
+	}
 }

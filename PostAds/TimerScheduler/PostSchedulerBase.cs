@@ -21,7 +21,7 @@
 
         protected abstract SiteEnum Site { get; set; }
 
-        private static bool CheckTimeBounderies(byte fromHour, byte toHour)
+        private static bool CheckTimeBoundaries(byte fromHour, byte toHour)
         {
             return (fromHour < toHour && DateTime.Now.Hour >= fromHour && DateTime.Now.Hour < toHour)
                    || (fromHour > toHour && DateTime.Now.Hour >= fromHour && DateTime.Now.Hour > toHour)
@@ -102,7 +102,10 @@
         {
             var userInterval = interval == 0 ? 5000 : interval*60000;
 
-            counter = 0;
+            lock (lockerForPost)
+            {
+	            counter = 0;
+            }
             wasOnAllPostsAreCompletedEventAlreadyRaised = false;
 
             SetFinishPostingStatus(false);
@@ -110,7 +113,7 @@
             timer = new Timer(
                 state =>
                 {
-                    if (CheckTimeBounderies(fromHour, toHour))
+                    if (CheckTimeBoundaries(fromHour, toHour))
                     {
                         wasTimeBoundariesMsgAlreadyShowen = false;
 

@@ -27,15 +27,15 @@ namespace Motorcycle.Config
            {
                var resultList = GetResultList(returnDataHolders, SiteEnum.MotoSale);
 
-               if (resultList.Count > 0)
-               {
+               //if (resultList.Count > 0)
+               //{
                    var motosalePostScheduler = new MotosalePostScheduler();
                    motosalePostScheduler.StartPostMsgWithTimer(
                        resultList,
                        timerParams.MotosaleFrom,
                        timerParams.MotosaleTo,
                        timerParams.MotosaleInterval);
-               }
+               //}
            }
 
            #endregion
@@ -46,15 +46,15 @@ namespace Motorcycle.Config
            {
                var resultList = GetResultList(returnDataHolders, SiteEnum.UsedAuto);
 
-               if (resultList.Count > 0)
-               {
+               //if (resultList.Count > 0)
+               //{
                    var usedAutoPostScheduler = new UsedAutoPostScheduler();
                    usedAutoPostScheduler.StartPostMsgWithTimer(
                        resultList,
                        timerParams.UsedAutoFrom,
                        timerParams.UsedAutoTo,
                        timerParams.UsedAutoInterval);
-               }
+               //}
            }
 
            #endregion
@@ -65,15 +65,15 @@ namespace Motorcycle.Config
            {
                var resultList = GetResultList(returnDataHolders, SiteEnum.Proday2Kolesa);
 
-               if (resultList.Count > 0)
-               {
+               //if (resultList.Count > 0)
+               //{
                    var prodayPostScheduler = new ProdayPostScheduler();
                    prodayPostScheduler.StartPostMsgWithTimer(
                        resultList,
                        timerParams.ProdayFrom,
                        timerParams.ProdayTo,
                        timerParams.ProdayInterval);
-               }
+               //}
            }
 
            #endregion
@@ -84,15 +84,15 @@ namespace Motorcycle.Config
            {
                var resultList = GetResultList(returnDataHolders, SiteEnum.Olx);
 
-               if (resultList.Count > 0)
-               {
+               //if (resultList.Count > 0)
+               //{
                    var olxPostScheduler = new OlxPostScheduler();
                    olxPostScheduler.StartPostMsgWithTimer(
                        resultList,
                        timerParams.OlxFrom,
                        timerParams.OlxTo,
                        timerParams.OlxInterval);
-               }
+               //}
            }
 
            #endregion

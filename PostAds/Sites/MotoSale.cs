@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using Motorcycle.Config.Confirm;
 using Motorcycle.Config.Proxy;
+using xNet.Net;
 
 namespace Motorcycle.Sites
 {
@@ -18,7 +19,7 @@ namespace Motorcycle.Sites
 
     public class MotoSale : ISitePoster
     {
-        private readonly Object locker = new object();
+        private readonly object locker = new object();
 
         public PostStatus PostMoto(DicHolder data)
         {
@@ -337,7 +338,14 @@ namespace Motorcycle.Sites
                         {
                             lock (locker)
                             {
-                                proxyAddress = ProxyAddressWorker.GetValidProxyAddress("equip");
+								proxyAddress = ProxyAddressWorker.GetValidProxyAddress("equip");
+
+								//Fiddler
+								//proxyAddress = new ProxyAddressStruct
+	       //                     {
+		      //                      ProxyAddresses = "127.0.0.1:8888",
+		      //                      Type = ProxyType.Http
+	       //                     };
                             }
 
                             respString = Response.GetResponseString(cookieContainer, dataDictionary,
