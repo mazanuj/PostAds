@@ -39,7 +39,7 @@
             var att = (IEnumerable) doc.XPathEvaluate("//passwordConfig/password");
             var firstOrDefault = att.Cast<XElement>().FirstOrDefault();
 
-            return firstOrDefault != null ? firstOrDefault.Value : "";
+            return firstOrDefault?.Value ?? "";
         }
     }
 }

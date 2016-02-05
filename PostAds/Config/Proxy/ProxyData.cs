@@ -10,6 +10,7 @@ using System.Xml.XPath;
 using HtmlAgilityPack;
 using xNet.Net;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using NLog;
 
 namespace Motorcycle.Config.Proxy
@@ -60,11 +61,13 @@ namespace Motorcycle.Config.Proxy
             }
         }
 
-        public static IEnumerable<ProxyAddressStruct> GetProxyDataAllAtOnce()
+        public static async Task<IEnumerable<ProxyAddressStruct>> GetProxyDataAllAtOnce()
         {
             var proxyList = new List<ProxyAddressStruct>();
-            proxyList.AddRange(ProxyChecker.ProxyAddresses(HideMyAssCom()));
-            proxyList.AddRange(ProxyChecker.ProxyAddresses(RosinstrumentCom()));
+            //proxyList.AddRange(ProxyChecker.ProxyAddresses(HideMyAssCom()));
+            //proxyList.AddRange(HideMyAssComStruct());
+            proxyList.AddRange(await ProxyChecker.CheckProxy(HideMyAssComStruct()));
+            //proxyList.AddRange(ProxyChecker.ProxyAddresses(RosinstrumentCom()));
             //proxyList.AddRange(ProxyChecker.ProxyAddresses(SocksProxyNetData()));
             //proxyList.AddRange(ProxyChecker.ProxyAddresses(LetUsHideComData()));
             //proxyList.AddRange(ProxyChecker.ProxyAddresses(SpysRu()));
@@ -84,9 +87,7 @@ namespace Motorcycle.Config.Proxy
                 {
                     var downloadString =
                         new WebClient().DownloadString(
-                            string.Format(
-                                "http://www.xroxy.com/proxylist.php?port=&type=Socks5&ssl=&country=&latency=&reliability=&sort=reliability&desc=true&pnum={0}#table",
-                                i));
+                            $"http://www.xroxy.com/proxylist.php?port=&type=Socks5&ssl=&country=&latency=&reliability=&sort=reliability&desc=true&pnum={i}#table");
 
                     if (!downloadString.Contains("View this Proxy details")) break;
 
@@ -105,7 +106,7 @@ namespace Motorcycle.Config.Proxy
             }
             catch (Exception)
             {
-                Log.Error(string.Format("{0} {1}", ErrorMsg, "www.xroxy.com"), null, null);
+                Log.Error($"{ErrorMsg} {"www.xroxy.com"}", null, null);
                 return new List<string>();
             }
         }
@@ -136,7 +137,7 @@ namespace Motorcycle.Config.Proxy
             }
             catch (Exception)
             {
-                Log.Error(string.Format("{0} {1}", ErrorMsg, "www.socks-proxy.net"), null, null);
+                Log.Error($"{ErrorMsg} {"www.socks-proxy.net"}", null, null);
                 return new List<string>();
             }
         }
@@ -153,12 +154,11 @@ namespace Motorcycle.Config.Proxy
                 var stopMatch = matchString.IndexOf(" ", startMatch);
                 var result = int.Parse(matchString.Substring(startMatch, stopMatch - startMatch));
 
-                for (var i = 0; proxiesList.Count() < result; i++)
+                for (var i = 0; proxiesList.Count < result; i++)
                 {
                     var downloadString =
                         new WebClient().DownloadString(
-                            string.Format(
-                                "http://letushide.com/filter/socks5,all,all/{0}/list_of_free_SOCKS5_proxy_servers", i));
+                            $"http://letushide.com/filter/socks5,all,all/{i}/list_of_free_SOCKS5_proxy_servers");
 
                     var stopIp = 0;
                     while (true)
@@ -178,7 +178,7 @@ namespace Motorcycle.Config.Proxy
             }
             catch (Exception)
             {
-                Log.Error(string.Format("{0} {1}", ErrorMsg, "www.letushide.com"), null, null);
+                Log.Error($"{ErrorMsg} {"www.letushide.com"}", null, null);
                 return new List<string>();
             }
         }
@@ -209,7 +209,7 @@ namespace Motorcycle.Config.Proxy
             }
             catch (Exception)
             {
-                Log.Error(string.Format("{0} {1}", ErrorMsg, "www.myiptest.com"), null, null);
+                Log.Error($"{ErrorMsg} {"www.myiptest.com"}", null, null);
                 return new List<string>();
             }
         }
@@ -265,7 +265,7 @@ namespace Motorcycle.Config.Proxy
             }
             catch (Exception)
             {
-                Log.Error(string.Format("{0} {1}", ErrorMsg, "www.spys.ru"), null, null);
+                Log.Error($"{ErrorMsg} {"www.spys.ru"}", null, null);
                 return new List<string>();
             }
         }
@@ -290,14 +290,10 @@ namespace Motorcycle.Config.Proxy
                     var respStr = request.Get("http://tools.rosinstrument.com/proxy/plab100.xml").ToString();
 
                     var Doc = XDocument.Parse(responseStr);
-                    var att =
-                        (IEnumerable)
-                            Doc.XPathEvaluate(string.Format("//item/title"));
+                    var att = (IEnumerable) Doc.XPathEvaluate("//item/title");
 
                     Doc = XDocument.Parse(respStr);
-                    var abb =
-                        (IEnumerable)
-                            Doc.XPathEvaluate(string.Format("//item/title"));
+                    var abb = (IEnumerable) Doc.XPathEvaluate("//item/title");
 
                     return
                         att.Cast<XElement>().Concat(abb.Cast<XElement>()).Select(val => val.Value).Distinct().ToList();
@@ -305,7 +301,7 @@ namespace Motorcycle.Config.Proxy
             }
             catch (Exception)
             {
-                Log.Error(string.Format("{0} {1}", ErrorMsg, "www.rosinstrument.com"), null, null);
+                Log.Error($"{ErrorMsg} {"www.rosinstrument.com"}", null, null);
                 return new List<string>();
             }
         }
@@ -331,7 +327,7 @@ namespace Motorcycle.Config.Proxy
                 for (var i = 1; i <= lastPage; i++)
                 {
                     doc =
-                        new HtmlWeb().Load(string.Format("http://proxylist.hidemyass.com/search-1292985/{0}#listable", i));
+                        new HtmlWeb().Load($"http://proxylist.hidemyass.com/search-1292985/{i}#listable");
                     if (
                         !doc.DocumentNode.Descendants("tr")
                             .Any(x => x.Attributes.Contains("class") && x.Attributes["class"].Value == "altshade"))
@@ -372,7 +368,7 @@ namespace Motorcycle.Config.Proxy
                                                  !none.Contains(x.Attributes["class"].Value))
                                             ip += x.InnerText;
                                     });
-                        list.Add(ip + ":" + port);
+                        list.Add(Regex.Replace(ip, @"[^\d\.]", string.Empty) + ":" + port);
                     }
                 }
 
@@ -380,8 +376,123 @@ namespace Motorcycle.Config.Proxy
             }
             catch (Exception)
             {
-                Log.Error(string.Format("{0} {1}", ErrorMsg, "www.HideMyAss.com"), null, null);
+                Log.Error($"{ErrorMsg} {"www.HideMyAss.com"}", null, null);
                 return new List<string>();
+            }
+        }
+
+        private static IEnumerable<ProxyAddressStruct> HideMyAssComStruct()
+        {
+            try
+            {
+                var list = new List<ProxyAddressStruct>();
+
+                var doc = new HtmlWeb().Load("http://proxylist.hidemyass.com/search-1292985/1#listable");
+                var lastPage = int.Parse(
+                    doc.DocumentNode.Descendants("ul")
+                        .First(
+                            x => x.Attributes.Contains("class") && x.Attributes["class"].Value == "pagination ng-scope")
+                        .Descendants("li")
+                        .Last(x => !x.Attributes.Contains("class"))
+                        .Descendants("a")
+                        .First(x => x.Attributes.Contains("href"))
+                        .InnerText
+                    );
+
+                for (var i = 1; i <= lastPage; i++)//todo lastPage
+                {
+                    try
+                    {
+                        doc =
+                            new HtmlWeb().Load($"http://proxylist.hidemyass.com/search-1292985/{i}#listable");
+                        if (
+                            !doc.DocumentNode.Descendants("tr")
+                                .Any(x => x.Attributes.Contains("class") && x.Attributes["class"].Value == "altshade"))
+                            continue;
+
+                        var urls =
+                            doc.DocumentNode.Descendants("table")
+                                .First(x => x.Attributes.Contains("class") && x.Attributes["class"].Value == "hma-table")
+                                .Descendants("tr").Skip(1);
+
+                        foreach (var url in urls)
+                        {
+                            try
+                            {
+                                var port = Regex.Match(url.Descendants("td").ElementAt(2).InnerText, @"\d+").Value;
+                                var ipSpan = url.Descendants("td").ElementAt(1).ChildNodes.First(x => x.Name == "span");
+                                var style =
+                                    ipSpan.ChildNodes.First(x => x.Name == "style")
+                                        .InnerText.Split('\n')
+                                        .Where(x => !string.IsNullOrEmpty(x))
+                                        .ToList();
+                                //var inline = style.Where(x => x.Contains("inline")).Select(x => Regex.Match(x, @"(?<=\.).+(?=\{)").Value);
+                                var none =
+                                    style.Where(x => x.Contains("none"))
+                                        .Select(x => Regex.Match(x, @"(?<=\.).+(?=\{)").Value);
+
+                                var ip = string.Empty;
+                                ipSpan.ChildNodes.Where(
+                                    x =>
+                                        (x.HasAttributes &&
+                                         (x.Attributes.Contains("class") || x.Attributes.Contains("style"))) ||
+                                        x.Name == "#text").ToList().ForEach(
+                                            x =>
+                                            {
+                                                if (x.Name == "#text")
+                                                    ip += x.InnerText;
+                                                if (x.Attributes.Contains("style") &&
+                                                    !x.Attributes["style"].Value.Contains("none"))
+                                                    ip += x.InnerText;
+                                                else if (x.Attributes.Contains("class") &&
+                                                         !none.Contains(x.Attributes["class"].Value))
+                                                    ip += x.InnerText;
+                                            });
+
+                                ProxyType type;
+                                switch (
+                                    url.Descendants("td")
+                                        .ElementAt(6)
+                                        .InnerText.Replace(" ", string.Empty)
+                                        .Replace("\n", string.Empty)
+                                        .ToLower())
+                                {
+                                    case "socks4/5":
+                                        type = ProxyType.Socks5;
+                                        break;
+                                    case "http":
+                                        type = ProxyType.Http;
+                                        break;
+                                    case "https":
+                                        type = ProxyType.Http;
+                                        break;
+                                    default:
+                                        type = ProxyType.Http;
+                                        break;
+                                }
+
+                                list.Add(new ProxyAddressStruct
+                                {
+                                    ProxyAddresses = Regex.Replace(ip, @"[^\d\.]", string.Empty) + ":" + port,
+                                    Type = type
+                                });
+                            }
+                            catch (Exception)
+                            {
+                            }
+                        }
+                    }
+                    catch (Exception)
+                    {
+                    }
+                }
+
+                return list.Distinct();
+            }
+            catch (Exception)
+            {
+                Log.Error($"{ErrorMsg} {"www.HideMyAss.com"}", null, null);
+                return new List<ProxyAddressStruct>();
             }
         }
     }

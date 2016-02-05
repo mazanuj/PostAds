@@ -38,14 +38,14 @@ namespace Motorcycle.HTTP
         internal static string GetResponseString(CookieContainer cookieContainer,
             Dictionary<string, string> dataDictionary, Dictionary<string, string> fileDictionary, string url,
             Encoding encoding = null,
-            ProxyAddressStruct proxyAddress = null)
+            ProxyAddressStruct proxyAddress = null, bool motosale = false)
         {
             using (var requestXNET = new HttpRequest(url))
             {
                 var cookieDic = new CookieDictionary();
                 var cookUrl = new Uri(url);
                 var cookieColl =
-                    cookieContainer.GetCookies(new Uri(string.Format("{0}://{1}/", cookUrl.Scheme, cookUrl.DnsSafeHost)));
+                    cookieContainer.GetCookies(new Uri($"{cookUrl.Scheme}://{cookUrl.DnsSafeHost}/"));
                 var cookieArray = new Cookie[cookieColl.Count];
                 cookieColl.CopyTo(cookieArray, 0);
                 foreach (var cookie in cookieArray)
@@ -78,8 +78,13 @@ namespace Motorcycle.HTTP
                 foreach (var value in dataDictionary)
                     requestXNET.AddField(value.Key, value.Value);
                 if (fileDictionary == null) return requestXNET.Post(url).ToString();
-                foreach (var value in fileDictionary.Where(value => value.Value != string.Empty))
-                    requestXNET.AddFile(value.Key, value.Value);
+
+                if (motosale)
+                    foreach (var value in fileDictionary.Where(value => value.Value != string.Empty))
+                        requestXNET.AddFile("filename[]", value.Value);
+                else
+                    foreach (var value in fileDictionary.Where(value => value.Value != string.Empty))
+                        requestXNET.AddFile(value.Key, value.Value);
 
                 return requestXNET.Post(url).ToString();
             }

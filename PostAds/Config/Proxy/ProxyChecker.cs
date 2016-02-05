@@ -1,8 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Threading.Tasks;
+using Motorcycle.Utils;
 using Newtonsoft.Json;
 using xNet.Net;
 
@@ -65,14 +68,14 @@ namespace Motorcycle.Config.Proxy
 
                     var group = responseJsone.group;
                     var checkUrl =
-                        "http://hideme.ru/api/checker.php?out=js&action=get&fields=resolved_ip,result_http,result_ssl,result_socks4,result_socks5&groups=" +
+                        "http://hideme.ru/api/checker.php?out=js&action=get&filters=progress!:queued;changed:1&fields=resolved_ip,progress,progress_http,progress_ssl,progress_socks4,progress_socks5,time_http,time_ssl,time_socks4,time_socks5,result_http,result_ssl,result_socks4,result_socks5&groups=" +
                         group;
 
                     dynamic responseJs;
                     while (true)
                     {
                         var respJs = JsonConvert.DeserializeObject(new HttpRequest().Get(checkUrl).ToString());
-                        if (respJs.finished.Value != count)
+                        if (respJs.working.Value != 0 || respJs.queued.Value != 0)
                         {
                             Thread.Sleep(2000);
                             continue;
@@ -95,15 +98,60 @@ namespace Motorcycle.Config.Proxy
                             addr.Type = ProxyType.Http;
                         else continue;
 
-                        addr.ProxyAddresses =
-                            proxyAddresses[
+                        try
+                        {
+                            var predicate =
                                 proxyAddresses.FindIndex(
-                                    y => y.Contains(dicIp.FirstOrDefault(x => x.Value == item.Name).Key))];
+                                    y => y.Contains(dicIp.FirstOrDefault(x => x.Value == item.Name).Key));
+                            addr.ProxyAddresses = proxyAddresses[predicate];
+                        }
+                        catch (Exception)
+                        {
+                        }
+
                         proxyAddressesList.Add(addr);
                     }
                 }
             }
             return proxyAddressesList;
+        }
+
+        internal static async Task<List<ProxyAddressStruct>> CheckProxy(IEnumerable<ProxyAddressStruct> proxyStruct)
+        {
+            return await Task.Run(async () =>
+            {
+                var list = new List<ProxyAddressStruct>();
+
+                try
+                {
+                    await proxyStruct.ForEachAsync(200, async proxy => //todo more than 1
+                    {
+                        await Task.Run(() =>
+                        {
+                            using (var req = new HttpRequest {ConnectTimeout = 10000, ReadWriteTimeout = 10000})
+                            {
+                                try
+                                {
+                                    var arr = proxy.ProxyAddresses.Split(':');
+                                    if (proxy.Type == ProxyType.Http)
+                                        req.Proxy = new HttpProxyClient(arr[0], int.Parse(arr[1]));
+                                    else req.Proxy = new Socks5ProxyClient(arr[0], int.Parse(arr[1]));
+
+                                    req.Get("http://www.motosale.com.ua").None();
+                                    list.Add(proxy);
+                                }
+                                catch (Exception)
+                                {
+                                }
+                            }
+                        });
+                    });
+                }
+                catch (Exception)
+                {
+                }
+                return list;
+            });
         }
     }
 }

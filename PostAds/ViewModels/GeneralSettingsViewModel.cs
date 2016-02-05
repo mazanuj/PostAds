@@ -33,8 +33,9 @@
 
         public bool CanRefreshProxyListFromInternet { get; set; }
 
-        public ObservableCollection<CityItem> ItemCollection { get; private set; }
-        public ObservableCollection<ProxyAddressItem> ProxyAddressCollection { get; private set; }
+        public ObservableCollection<CityItem> ItemCollection { get; }
+
+        public ObservableCollection<ProxyAddressItem> ProxyAddressCollection { get; }
 
         [ImportingConstructor]
         public GeneralSettingsViewModel(IWindowManager windowManager)
@@ -66,8 +67,7 @@
 
             Informer.RaiseOnProxyListFromInternetUpdatedEvent(false); //disable FrontPanel
 
-            await TaskEx.Run(
-                () => ProxyXmlWorker.AddNewProxyListToFile(ProxyData.GetProxyDataAllAtOnce()));
+            await TaskEx.Run(async () => ProxyXmlWorker.AddNewProxyListToFile(await ProxyData.GetProxyDataAllAtOnce()));
 
             //RefreshProxyListStatus = false;
             //NotifyOfPropertyChange(() => RefreshProxyListStatus);
@@ -100,7 +100,7 @@
             get
             {
                 var selectSingleNode = xml.Document.SelectSingleNode("/configuration/captcha/key");
-                return selectSingleNode == null ? string.Empty : selectSingleNode.InnerText;
+                return selectSingleNode?.InnerText ?? string.Empty;
             }
             set
             {
@@ -116,7 +116,7 @@
             get
             {
                 var selectSingleNode = xml.Document.SelectSingleNode("/configuration/captcha/domain");
-                return selectSingleNode == null ? string.Empty : selectSingleNode.InnerText;
+                return selectSingleNode?.InnerText ?? string.Empty;
             }
             set
             {

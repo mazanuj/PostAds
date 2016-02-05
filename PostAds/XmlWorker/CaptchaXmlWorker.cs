@@ -52,7 +52,7 @@
         public static string GetCaptchaValues(string element)
         {
             var doc = XDocument.Load(XmlFilePath);
-            var att = (IEnumerable) doc.XPathEvaluate(string.Format("//captcha/{0}", element.ToLower()));
+            var att = (IEnumerable) doc.XPathEvaluate($"//captcha/{element.ToLower()}");
             var firstOrDefault = att.Cast<XElement>().FirstOrDefault();
 
             return firstOrDefault != null ? firstOrDefault.Value : "";

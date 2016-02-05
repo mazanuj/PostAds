@@ -15,7 +15,7 @@ namespace Motorcycle.XmlWorker
         {
             var doc = XDocument.Load(XmlFilePath);
 
-            var att = (IEnumerable) doc.XPathEvaluate(string.Format("//timers/item[@id='{0}']/@{1}", site, purpose));
+            var att = (IEnumerable) doc.XPathEvaluate($"//timers/item[@id='{site}']/@{purpose}");
 
             var firstOrDefault = att.Cast<XAttribute>().FirstOrDefault();
 
@@ -28,7 +28,7 @@ namespace Motorcycle.XmlWorker
         {
             var doc = XDocument.Load(XmlFilePath);
 
-            var att = (IEnumerable) doc.XPathEvaluate(string.Format("//timers/item[@id='{0}']/@{1}", site, purpose));
+            var att = (IEnumerable) doc.XPathEvaluate($"//timers/item[@id='{site}']/@{purpose}");
 
             var firstOrDefault = att.Cast<XAttribute>().FirstOrDefault();
 

@@ -52,7 +52,7 @@ namespace Motorcycle.XmlWorker
             var doc = XDocument.Load(XmlFilePath);
             var att =
                 (IEnumerable)
-                    doc.XPathEvaluate(string.Format("//city/item[text() = '{0}']/@{1}", city.ToLower(), site.ToLower()));
+                    doc.XPathEvaluate($"//city/item[text() = '{city.ToLower()}']/@{site.ToLower()}");
             var firstOrDefault = att.Cast<XAttribute>().FirstOrDefault();
 
             return firstOrDefault != null ? firstOrDefault.Value : string.Empty;

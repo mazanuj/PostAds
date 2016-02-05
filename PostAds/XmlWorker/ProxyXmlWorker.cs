@@ -16,7 +16,7 @@
         {
             var doc = XDocument.Load(XmlFilePath);
             var todayDate = DateTime.Now.AddDays(-1).ToString("yyMMddHHmmss");
-            var proxyListToUpdate = doc.XPathSelectElements(string.Format("//servers/server[@date < {0}]", todayDate));
+            var proxyListToUpdate = doc.XPathSelectElements($"//servers/server[@date < {todayDate}]");
 
             foreach (var proxyElement in proxyListToUpdate)
             {
@@ -143,7 +143,7 @@
         public static void RemoveProxyAddressFromFile(string proxyAddress)
         {
             var doc = XDocument.Load(XmlFilePath);
-            var server = doc.XPathSelectElement(string.Format("//servers/server[@address='{0}']", proxyAddress));
+            var server = doc.XPathSelectElement($"//servers/server[@address='{proxyAddress}']");
             server.Remove();
             doc.Save(XmlFilePath);
         }
@@ -171,7 +171,7 @@
         public static void ChangeProxyAddress(string oldProxyAddress, string newProxyAddress, string newType)
         {
             var doc = XDocument.Load(XmlFilePath);
-            var item = doc.XPathSelectElement(string.Format("//servers/server[@address='{0}']", oldProxyAddress));
+            var item = doc.XPathSelectElement($"//servers/server[@address='{oldProxyAddress}']");
             if (item == null) return;
 
             item.Attribute("address").Value = newProxyAddress;

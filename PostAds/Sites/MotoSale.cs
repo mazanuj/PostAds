@@ -4,7 +4,6 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using Motorcycle.Config.Confirm;
 using Motorcycle.Config.Proxy;
-using xNet.Net;
 
 namespace Motorcycle.Sites
 {
@@ -74,7 +73,7 @@ namespace Motorcycle.Sites
                             }
 
                             respString = Response.GetResponseString(cookieContainer, dataDictionary,
-                                fileDictionary, url, Encoding.GetEncoding("windows-1251"), proxyAddress);
+                                fileDictionary, url, Encoding.GetEncoding("windows-1251"), proxyAddress, true);
                             if (!Regex.IsMatch(respString, @"[а-яА-Я]+?"))
                                 continue;
                             break;
@@ -206,7 +205,7 @@ namespace Motorcycle.Sites
                             }
 
                             respString = Response.GetResponseString(cookieContainer, dataDictionary,
-                                fileDictionary, url, Encoding.GetEncoding("windows-1251"), proxyAddress);
+                                fileDictionary, url, Encoding.GetEncoding("windows-1251"), proxyAddress, true);
                             if (!Regex.IsMatch(respString, @"[а-яА-Я]+?"))
                                 continue;
                             break;
@@ -338,19 +337,11 @@ namespace Motorcycle.Sites
                         {
                             lock (locker)
                             {
-								proxyAddress = ProxyAddressWorker.GetValidProxyAddress("equip");
-
-								//Fiddler
-								//proxyAddress = new ProxyAddressStruct
-	       //                     {
-		      //                      ProxyAddresses = "127.0.0.1:8888",
-		      //                      Type = ProxyType.Http
-	       //                     };
+                                proxyAddress = ProxyAddressWorker.GetValidProxyAddress("equip");
                             }
 
                             respString = Response.GetResponseString(cookieContainer, dataDictionary,
-                                fileDictionary,
-                                url, Encoding.GetEncoding("windows-1251"), proxyAddress);
+                                fileDictionary, url, Encoding.GetEncoding("windows-1251"), proxyAddress, true);
                             if (!Regex.IsMatch(respString, @"[а-яА-Я]+?"))
                                 continue;
                             break;

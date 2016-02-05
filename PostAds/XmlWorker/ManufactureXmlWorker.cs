@@ -84,12 +84,11 @@
             var doc = XDocument.Load(XmlFilePath);
             var att =
                 (IEnumerable)
-                    doc.XPathEvaluate(string.Format("//moto/manufacture/item[@id='{0}']/@{1}", itemId.ToLower(),
-                        site.ToLower()));
+                    doc.XPathEvaluate($"//moto/manufacture/item[@id='{itemId.ToLower()}']/@{site.ToLower()}");
 
             var firstOrDefault = att.Cast<XAttribute>().FirstOrDefault();
 
-            return firstOrDefault != null ? firstOrDefault.Value : string.Empty;
+            return firstOrDefault?.Value ?? string.Empty;
         }
 
         public static string GetItemSiteIdUsingPlant(string site, string value)
@@ -97,12 +96,11 @@
             var doc = XDocument.Load(XmlFilePath);
             var att =
                 (IEnumerable)
-                    doc.XPathEvaluate(string.Format("//moto/manufacture/item[@{0}='{1}']/@id", site.ToLower(),
-                        value.ToLower()));
+                    doc.XPathEvaluate($"//moto/manufacture/item[@{site.ToLower()}='{value.ToLower()}']/@id");
 
             var firstOrDefault = att.Cast<XAttribute>().FirstOrDefault();
 
-            return firstOrDefault != null ? firstOrDefault.Value : string.Empty;
+            return firstOrDefault?.Value ?? string.Empty;
         }
 
         public static string GetMotoType(string itemId, string site)
@@ -110,11 +108,11 @@
             var doc = XDocument.Load(XmlFilePath);
             var att =
                 (IEnumerable)
-                    doc.XPathEvaluate(string.Format("//type/item[@id='{0}']/@{1}", itemId.ToLower(), site.ToLower()));
+                    doc.XPathEvaluate($"//type/item[@id='{itemId.ToLower()}']/@{site.ToLower()}");
 
             var firstOrDefault = att.Cast<XAttribute>().FirstOrDefault();
 
-            return firstOrDefault != null ? firstOrDefault.Value : string.Empty;
+            return firstOrDefault?.Value ?? string.Empty;
         }
 
         public static string GetMotoColor(string itemId, string site)
@@ -122,11 +120,11 @@
             var doc = XDocument.Load(XmlFilePath);
             var att =
                 (IEnumerable)
-                    doc.XPathEvaluate(string.Format("//color/item[@id='{0}']/@{1}", itemId.ToLower(), site.ToLower()));
+                    doc.XPathEvaluate($"//color/item[@id='{itemId.ToLower()}']/@{site.ToLower()}");
 
             var firstOrDefault = att.Cast<XAttribute>().FirstOrDefault();
 
-            return firstOrDefault != null ? firstOrDefault.Value : string.Empty;
+            return firstOrDefault?.Value ?? string.Empty;
         }
 
         public static string GetConditionState(string itemId, string site)
@@ -134,11 +132,11 @@
             var doc = XDocument.Load(XmlFilePath);
             var att =
                 (IEnumerable)
-                    doc.XPathEvaluate(string.Format("//condition/item[@id='{0}']/@{1}", itemId.ToLower(), site.ToLower()));
+                    doc.XPathEvaluate($"//condition/item[@id='{itemId.ToLower()}']/@{site.ToLower()}");
 
             var firstOrDefault = att.Cast<XAttribute>().FirstOrDefault();
 
-            return firstOrDefault != null ? firstOrDefault.Value : string.Empty;
+            return firstOrDefault?.Value ?? string.Empty;
         }
 
         public static string GetMadeYear(string itemId, string site)
@@ -146,11 +144,11 @@
             var doc = XDocument.Load(XmlFilePath);
             var att =
                 (IEnumerable)
-                    doc.XPathEvaluate(string.Format("//year/item[@id='{0}']/@{1}", itemId.ToLower(), site.ToLower()));
+                    doc.XPathEvaluate($"//year/item[@id='{itemId.ToLower()}']/@{site.ToLower()}");
 
             var firstOrDefault = att.Cast<XAttribute>().FirstOrDefault();
 
-            return firstOrDefault != null ? firstOrDefault.Value : "1";
+            return firstOrDefault?.Value ?? "1";
         }
 
         public static string GetItemValueUsingPlantAndName(string itemId, string name)
@@ -158,12 +156,12 @@
             var doc = XDocument.Load(XmlFilePath);
             var att =
                 (IEnumerable)
-                    doc.XPathEvaluate(string.Format("//moto/manufacture/item[@id = '{0}']/value[@name = '{1}']",
-                        itemId.ToLower(), name.ToLower()));
+                    doc.XPathEvaluate(
+                        $"//moto/manufacture/item[@id = '{itemId.ToLower()}']/value[@name = '{name.ToLower()}']");
 
             var firstOrDefault = att.Cast<XElement>().FirstOrDefault();
 
-            return firstOrDefault != null ? firstOrDefault.Value : string.Empty;
+            return firstOrDefault?.Value ?? string.Empty;
         }
 
         public static string GetItemNameUsingValue(string site, string siteValue, string value)
@@ -171,12 +169,12 @@
             var doc = XDocument.Load(XmlFilePath);
             var att =
                 (IEnumerable)
-                    doc.XPathEvaluate(string.Format("//moto/manufacture/item[@{0}='{1}']/value[text() = '{2}']/@name",
-                        site.ToLower(), siteValue.ToLower(), value.ToLower()));
+                    doc.XPathEvaluate(
+                        $"//moto/manufacture/item[@{site.ToLower()}='{siteValue.ToLower()}']/value[text() = '{value.ToLower()}']/@name");
 
             var firstOrDefault = att.Cast<XAttribute>().FirstOrDefault();
 
-            return firstOrDefault != null ? firstOrDefault.Value : string.Empty;
+            return firstOrDefault?.Value ?? string.Empty;
         }
 
         #endregion

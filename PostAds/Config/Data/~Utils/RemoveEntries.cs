@@ -51,7 +51,7 @@ namespace Motorcycle.Config.Data
                 if (!Directory.Exists("Unposted"))
                     Directory.CreateDirectory("Unposted");
 
-                var fileName = string.Format("Unposted\\{0}{1}Unposted.txt", site, product);
+                var fileName = $"Unposted\\{site}{product}Unposted.txt";
 
                 //if (File.Exists(fileName))
                 //{
@@ -73,15 +73,15 @@ namespace Motorcycle.Config.Data
             switch (type)
             {
                 case ProductEnum.Motorcycle:
-                    Log.Warn(string.Format("{0} {1} {2} is not in DB", data[4], data[5], key), site,
+                    Log.Warn($"{data[4]} {data[5]} {key} is not in DB", site,
                         type);
                     break;
                 case ProductEnum.Spare:
-                    Log.Warn(string.Format("{0} {1} {2} is not in DB", data[3], data[4], key), site,
+                    Log.Warn($"{data[3]} {data[4]} {key} is not in DB", site,
                         type);
                     break;
                 case ProductEnum.Equip:
-                    Log.Warn(string.Format("{0} {1} {2} is not in DB", data[3], data[5], key), site,
+                    Log.Warn($"{data[3]} {data[5]} {key} is not in DB", site,
                         type);
                     break;
             }

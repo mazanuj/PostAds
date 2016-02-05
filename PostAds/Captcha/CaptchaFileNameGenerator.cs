@@ -16,7 +16,7 @@ namespace Motorcycle.Captcha
 					Directory.CreateDirectory("Captcha");
 			}
 
-			return string.Format(@"Captcha\captcha{0}.jpg", Interlocked.Increment(ref fileCounter));
+			return $@"Captcha\captcha{Interlocked.Increment(ref fileCounter)}.jpg";
 		}
 	}
 }

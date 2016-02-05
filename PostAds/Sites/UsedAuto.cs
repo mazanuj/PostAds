@@ -21,9 +21,8 @@
                 var Log = LogManager.GetCurrentClassLogger();
                 var dataDictionary = data.DataDictionary;
                 var fileDictionary = data.FileDictionary;
-                var reply = string.Format("{0} {1}",
-                    ManufactureXmlWorker.GetItemSiteIdUsingPlant("u", dataDictionary["input[1]"]),
-                    dataDictionary["input[153]"]);
+                var reply =
+                    $"{ManufactureXmlWorker.GetItemSiteIdUsingPlant("u", dataDictionary["input[1]"])} {dataDictionary["input[153]"]}";
 
                 const string url = "http://usedauto.com.ua/add/add.php";
                 const string urlFile = "http://usedauto.com.ua/add/modules/picturesUpload.php";
@@ -74,7 +73,7 @@
 
                         return PostStatus.OK;
                     }
-                    Log.Warn(string.Format("{0} unsuccessfully posted ({1})", reply, resp.StatusCode), SiteEnum.UsedAuto,
+                    Log.Warn($"{reply} unsuccessfully posted ({resp.StatusCode})", SiteEnum.UsedAuto,
                         ProductEnum.Motorcycle);
                     RemoveEntries.Remove(data, ProductEnum.Motorcycle, SiteEnum.UsedAuto);
 
@@ -85,9 +84,7 @@
             {
                 LogManager.GetCurrentClassLogger()
                     .Error(
-                        string.Format("{0} {1} unsuccessfully posted {2}",
-                            ManufactureXmlWorker.GetItemSiteIdUsingPlant("u", data.DataDictionary["input[1]"]),
-                            data.DataDictionary["input[153]"], ex.Message), SiteEnum.UsedAuto, ProductEnum.Motorcycle);
+                        $"{ManufactureXmlWorker.GetItemSiteIdUsingPlant("u", data.DataDictionary["input[1]"])} {data.DataDictionary["input[153]"]} unsuccessfully posted {ex.Message}", SiteEnum.UsedAuto, ProductEnum.Motorcycle);
                 RemoveEntries.Remove(data, ProductEnum.Motorcycle, SiteEnum.UsedAuto);
 
                 return PostStatus.ERROR;
@@ -101,9 +98,8 @@
                 var Log = LogManager.GetCurrentClassLogger();
                 var dataDictionary = data.DataDictionary;
                 var fileDictionary = data.FileDictionary;
-                var reply = string.Format("{0} {1}",
-                    ManufactureXmlWorker.GetItemSiteIdUsingPlant("u", data.DataDictionary["make"]),
-                    data.DataDictionary["model"]);
+                var reply =
+                    $"{ManufactureXmlWorker.GetItemSiteIdUsingPlant("u", data.DataDictionary["make"])} {data.DataDictionary["model"]}";
 
                 const string url = "http://usedauto.com.ua/add/zapchasti.php";
 
@@ -127,9 +123,7 @@
             {
                 LogManager.GetCurrentClassLogger()
                     .Error(
-                        string.Format("{0} {1} unsuccessfully posted {2}",
-                            ManufactureXmlWorker.GetItemSiteIdUsingPlant("u", data.DataDictionary["make"]),
-                            data.DataDictionary["model"], ex.Message), SiteEnum.UsedAuto, ProductEnum.Spare);
+                        $"{ManufactureXmlWorker.GetItemSiteIdUsingPlant("u", data.DataDictionary["make"])} {data.DataDictionary["model"]} unsuccessfully posted {ex.Message}", SiteEnum.UsedAuto, ProductEnum.Spare);
                 RemoveEntries.Remove(data, ProductEnum.Spare, SiteEnum.UsedAuto);
 
                 return PostStatus.ERROR;

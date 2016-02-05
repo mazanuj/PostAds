@@ -23,7 +23,8 @@ namespace Motorcycle.Captcha
             for (var i = 0; i < 30; i++)
             {
                 Thread.Sleep(delay);
-                var request2 = Request.GETRequest(string.Format("http://{0}/res.php?key={1}&action=get&id={2}", domain, dataDictionary["key"], captchaId));
+                var request2 = Request.GETRequest(
+                    $"http://{domain}/res.php?key={dataDictionary["key"]}&action=get&id={captchaId}");
                 var response2 = Response.GetResponseString(request2);
 
                 if (response2 == "CAPCHA_NOT_READY") continue;

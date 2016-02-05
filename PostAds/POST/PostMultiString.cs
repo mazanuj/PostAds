@@ -66,9 +66,9 @@ namespace Motorcycle.POST
                                 sFileContent += Encoding.Default.GetString(buffer);
                             ms.Close();
                         }
-                        catch(Exception ex)
+                        catch (Exception ex)
                         {
-                            LogManager.GetCurrentClassLogger().Error(ex.Message, ex);
+                            LogManager.GetCurrentClassLogger().Error(ex.Message, ex, "", "");
                         }
 
                         break;

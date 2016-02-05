@@ -11,7 +11,7 @@
     {
         private readonly IWindowManager _windowManager;
 
-        private SpareEquipItem _selectedItemCollection;
+        //private SpareEquipItem _selectedItemCollection;
 
         public ObservableCollection<SpareEquipItem> ItemCollection { get; private set; }
 

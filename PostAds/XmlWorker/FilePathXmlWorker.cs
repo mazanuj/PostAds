@@ -14,18 +14,18 @@
         {
             var doc = XDocument.Load(XmlFilePath);
 
-            var att = (IEnumerable)doc.XPathEvaluate(string.Format("//file/item[@purpose='{0}']/@path", purpose.ToLower()));
+            var att = (IEnumerable)doc.XPathEvaluate($"//file/item[@purpose='{purpose.ToLower()}']/@path");
 
             var firstOrDefault = att.Cast<XAttribute>().FirstOrDefault();
 
-            return firstOrDefault != null ? firstOrDefault.Value : string.Empty;
+            return firstOrDefault?.Value ?? string.Empty;
         }
 
         public static void SetFilePath(string purpose, string path)
         {
             var doc = XDocument.Load(XmlFilePath);
 
-            var att = (IEnumerable)doc.XPathEvaluate(string.Format("//file/item[@purpose='{0}']/@path", purpose.ToLower()));
+            var att = (IEnumerable)doc.XPathEvaluate($"//file/item[@purpose='{purpose.ToLower()}']/@path");
 
             var firstOrDefault = att.Cast<XAttribute>().FirstOrDefault();
 

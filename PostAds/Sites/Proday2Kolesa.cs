@@ -22,10 +22,7 @@
 
                 const string url = "http://proday2kolesa.com.ua/index.php";
                 var referer =
-                    string.Format(
-                        "http://proday2kolesa.com.ua/component/option,{0}/v,{1}/Itemid,{2}/task,edit/category,{3}/",
-                        dataDictionary["option"], dataDictionary["vendor"], dataDictionary["Itemid"],
-                        dataDictionary["category"]);
+                    $"http://proday2kolesa.com.ua/component/option,{dataDictionary["option"]}/v,{dataDictionary["vendor"]}/Itemid,{dataDictionary["Itemid"]}/task,edit/category,{dataDictionary["category"]}/";
 
                 var cookieContainer = Cookies.GetCookiesContainer(referer);
 
@@ -105,9 +102,8 @@
                         {"simage_id", simage_id}
                     };
 
-                    referer = string.Format(
-                        "http://proday2kolesa.com.ua/component/option,{0}/task,publish/id,{1}/error,0/Itemid,{2}/",
-                        dataDictionary["option"], id, Itemid);
+                    referer =
+                        $"http://proday2kolesa.com.ua/component/option,{dataDictionary["option"]}/task,publish/id,{id}/error,0/Itemid,{Itemid}/";
 
                     var req = Request.POSTRequest(url, cookieContainer, captchaDictionary, null, referer);
                     responseString = Response.GetResponseString(req);
@@ -141,10 +137,7 @@
 
                 const string url = "http://proday2kolesa.com.ua/index.php";
                 var referer =
-                    string.Format(
-                        "http://proday2kolesa.com.ua/component/option,{0}/v,{1}/Itemid,{2}/task,edit/category,{3}/",
-                        dataDictionary["option"], dataDictionary["vendor"], dataDictionary["Itemid"],
-                        dataDictionary["category"]);
+                    $"http://proday2kolesa.com.ua/component/option,{dataDictionary["option"]}/v,{dataDictionary["vendor"]}/Itemid,{dataDictionary["Itemid"]}/task,edit/category,{dataDictionary["category"]}/";
 
                 var cookieContainer = Cookies.GetCookiesContainer(referer);
 
@@ -225,9 +218,8 @@
                         {"simage_id", simage_id}
                     };
 
-                    referer = string.Format(
-                        "http://proday2kolesa.com.ua/component/option,{0}/task,publish/id,{1}/error,0/Itemid,{2}/",
-                        dataDictionary["option"], id, Itemid);
+                    referer =
+                        $"http://proday2kolesa.com.ua/component/option,{dataDictionary["option"]}/task,publish/id,{id}/error,0/Itemid,{Itemid}/";
 
                     var req = Request.POSTRequest(url, cookieContainer, captchaDictionary, null, referer);
                     responseString = Response.GetResponseString(req);
@@ -260,10 +252,7 @@
 
                 const string url = "http://proday2kolesa.com.ua/index.php";
                 var referer =
-                    string.Format(
-                        "http://proday2kolesa.com.ua/component/option,{0}/v,{1}/Itemid,{2}/task,edit/category,{3}/",
-                        dataDictionary["option"], dataDictionary["vendor"], dataDictionary["Itemid"],
-                        dataDictionary["category"]);
+                    $"http://proday2kolesa.com.ua/component/option,{dataDictionary["option"]}/v,{dataDictionary["vendor"]}/Itemid,{dataDictionary["Itemid"]}/task,edit/category,{dataDictionary["category"]}/";
 
                 var cookieContainer = Cookies.GetCookiesContainer(referer);
 
@@ -344,9 +333,8 @@
                         {"simage_id", simage_id}
                     };
 
-                    referer = string.Format(
-                        "http://proday2kolesa.com.ua/component/option,{0}/task,publish/id,{1}/error,0/Itemid,{2}/",
-                        dataDictionary["option"], id, Itemid);
+                    referer =
+                        $"http://proday2kolesa.com.ua/component/option,{dataDictionary["option"]}/task,publish/id,{id}/error,0/Itemid,{Itemid}/";
 
                     var req = Request.POSTRequest(url, cookieContainer, captchaDictionary, null, referer);
                     responseString = Response.GetResponseString(req);

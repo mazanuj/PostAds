@@ -15,11 +15,11 @@
 
             var att =
                 (IEnumerable)
-                    doc.XPathEvaluate(string.Format("//docs/item[@id='{0}']/@{1}", itemId.ToLower(), site.ToLower()));
+                    doc.XPathEvaluate($"//docs/item[@id='{itemId.ToLower()}']/@{site.ToLower()}");
 
             var firstOrDefault = att.Cast<XAttribute>().FirstOrDefault();
 
-            return firstOrDefault != null ? firstOrDefault.Value : "1";
+            return firstOrDefault?.Value ?? "1";
         }
     }
 }

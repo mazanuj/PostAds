@@ -24,7 +24,7 @@ namespace Motorcycle.Controls.Log
 
                 var message = new MailMessage(from, to, subject, boby);
 
-                var file = string.Format(@"{0}logs\current.log", AppDomain.CurrentDomain.BaseDirectory);
+                var file = $@"{AppDomain.CurrentDomain.BaseDirectory}logs\current.log";
                 if (File.Exists(file))
                 {
                     // Create  the file attachment for this e-mail message.

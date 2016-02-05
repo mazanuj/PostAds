@@ -66,12 +66,9 @@
 
         private void StopTimer()
         {
-            if (timer != null)
-            {
-                timer.Dispose();
-            }
+            timer?.Dispose();
 
-            log.Info(string.Format("All posts to {0} are completed", Site), Site, null);
+            log.Info($"All posts to {Site} are completed", Site, null);
             RaiseOnSitePostsAreCompleted();
             SetFinishPostingStatus(true);
 
@@ -93,8 +90,7 @@
         {
             Informer.OnStopTimerClicked += () =>
             {
-                if (timer != null)
-                    timer.Dispose();
+                timer?.Dispose();
             };
         }
 
@@ -104,7 +100,7 @@
 
             lock (lockerForPost)
             {
-	            counter = 0;
+                counter = 0;
             }
             wasOnAllPostsAreCompletedEventAlreadyRaised = false;
 
@@ -129,8 +125,7 @@
                             return;
                         }
 
-                        if (timer != null)
-                            timer.Change(userInterval, Timeout.Infinite);
+                        timer?.Change(userInterval, Timeout.Infinite);
                     }
                     else
                     {
@@ -138,10 +133,9 @@
                         if (!wasTimeBoundariesMsgAlreadyShowen)
                         {
                             wasTimeBoundariesMsgAlreadyShowen = true;
-                            log.Info(string.Format("Can't post at this time on {0}", Site), Site, null);
+                            log.Info($"Can't post at this time on {Site}", Site, null);
                         }
-                        if (timer != null)
-                            timer.Change(60000, Timeout.Infinite);
+                        timer?.Change(60000, Timeout.Infinite);
                     }
                 },
                 null, 0, Timeout.Infinite);

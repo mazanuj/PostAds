@@ -87,7 +87,7 @@ namespace Motorcycle.Sites
 
                         return PostStatus.OK;
                     }
-                    Log.Warn(string.Format("{0} unsuccessfully posted", reply), SiteEnum.Olx,
+                    Log.Warn($"{reply} unsuccessfully posted", SiteEnum.Olx,
                         ProductEnum.Motorcycle);
                     RemoveEntries.Remove(data, ProductEnum.Motorcycle, SiteEnum.Olx);
 
@@ -98,8 +98,7 @@ namespace Motorcycle.Sites
             {
                 LogManager.GetCurrentClassLogger()
                     .Error(
-                        string.Format("{0} unsuccessfully posted {1}",
-                            data.DataDictionary["data[title]"], ex.Message), SiteEnum.Olx, ProductEnum.Motorcycle);
+                        $"{data.DataDictionary["data[title]"]} unsuccessfully posted {ex.Message}", SiteEnum.Olx, ProductEnum.Motorcycle);
                 RemoveEntries.Remove(data, ProductEnum.Motorcycle, SiteEnum.Olx);
 
                 return PostStatus.ERROR;
@@ -181,7 +180,7 @@ namespace Motorcycle.Sites
 
                         return PostStatus.OK;
                     }
-                    Log.Warn(string.Format("{0} unsuccessfully posted", reply), SiteEnum.Olx,
+                    Log.Warn($"{reply} unsuccessfully posted", SiteEnum.Olx,
                         ProductEnum.Spare);
                     RemoveEntries.Remove(data, ProductEnum.Spare, SiteEnum.Olx);
 
@@ -192,8 +191,7 @@ namespace Motorcycle.Sites
             {
                 LogManager.GetCurrentClassLogger()
                     .Error(
-                        string.Format("{0} unsuccessfully posted {1}",
-                            data.DataDictionary["data[title]"], ex.Message), SiteEnum.Olx, ProductEnum.Spare);
+                        $"{data.DataDictionary["data[title]"]} unsuccessfully posted {ex.Message}", SiteEnum.Olx, ProductEnum.Spare);
                 RemoveEntries.Remove(data, ProductEnum.Spare, SiteEnum.Olx);
 
                 return PostStatus.ERROR;
@@ -275,7 +273,7 @@ namespace Motorcycle.Sites
 
                         return PostStatus.OK;
                     }
-                    Log.Warn(string.Format("{0} unsuccessfully posted", reply), SiteEnum.Olx,
+                    Log.Warn($"{reply} unsuccessfully posted", SiteEnum.Olx,
                         ProductEnum.Equip);
                     RemoveEntries.Remove(data, ProductEnum.Equip, SiteEnum.Olx);
 
@@ -286,8 +284,7 @@ namespace Motorcycle.Sites
             {
                 LogManager.GetCurrentClassLogger()
                     .Error(
-                        string.Format("{0} unsuccessfully posted {1}",
-                            data.DataDictionary["data[title]"], ex.Message), SiteEnum.Olx, ProductEnum.Equip);
+                        $"{data.DataDictionary["data[title]"]} unsuccessfully posted {ex.Message}", SiteEnum.Olx, ProductEnum.Equip);
                 RemoveEntries.Remove(data, ProductEnum.Equip, SiteEnum.Olx);
 
                 return PostStatus.ERROR;

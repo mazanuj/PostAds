@@ -27,8 +27,8 @@ namespace Motorcycle.Config.Data
 
             //Photos
             var d = data[13].Split(',');
-            var files = new string[5];
-            for (var i = 0; i < 5; i++)
+            var files = new string[10];
+            for (var i = 0; i < 10; i++)
             {
                 if (i < d.Length)
                 {
@@ -82,7 +82,12 @@ namespace Motorcycle.Config.Data
                     {"filename2", files[1]},
                     {"filename3", files[2]},
                     {"filename4", files[3]},
-                    {"filename5", files[4]}
+                    {"filename5", files[4]},
+                    {"filename6", files[5]},
+                    {"filename7", files[6]},
+                    {"filename8", files[7]},
+                    {"filename9", files[8]},
+                    {"filename10", files[9]}
                 }
             };
         }
@@ -104,8 +109,8 @@ namespace Motorcycle.Config.Data
 
             //Photos
             var d = data[8].Split(',');
-            var files = new string[3];
-            for (var i = 0; i < 3; i++)
+            var files = new string[10];
+            for (var i = 0; i < 10; i++)
             {
                 if (i < d.Length)
                 {
@@ -143,9 +148,16 @@ namespace Motorcycle.Config.Data
                 },
                 FileDictionary = new Dictionary<string, string>
                 {
-                    {"myfile", files[0]},
-                    {"myfile2", files[1]},
-                    {"myfile3", files[2]}
+                    {"filename", files[0]},
+                    {"filename2", files[1]},
+                    {"filename3", files[2]},
+                    {"filename4", files[3]},
+                    {"filename5", files[4]},
+                    {"filename6", files[5]},
+                    {"filename7", files[6]},
+                    {"filename8", files[7]},
+                    {"filename9", files[8]},
+                    {"filename10", files[9]}
                 }
             };
         }
@@ -164,8 +176,8 @@ namespace Motorcycle.Config.Data
 
             //Photos
             var d = data[8].Split(',');
-            var files = new string[3];
-            for (var i = 0; i < 3; i++)
+            var files = new string[10];
+            for (var i = 0; i < 10; i++)
             {
                 if (i < d.Length)
                 {
@@ -204,9 +216,16 @@ namespace Motorcycle.Config.Data
                 },
                 FileDictionary = new Dictionary<string, string>
                 {
-                    {"myfile", files[0]},
-                    {"myfile2", files[1]},
-                    {"myfile3", files[2]}
+                    {"filename", files[0]},
+                    {"filename2", files[1]},
+                    {"filename3", files[2]},
+                    {"filename4", files[3]},
+                    {"filename5", files[4]},
+                    {"filename6", files[5]},
+                    {"filename7", files[6]},
+                    {"filename8", files[7]},
+                    {"filename9", files[8]},
+                    {"filename10", files[9]}
                 }
             };
         }

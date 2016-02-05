@@ -20,7 +20,7 @@ namespace Motorcycle.Config.Data
 
             lock (Locker)
             {
-                if (array.Count() != 0) File.WriteAllLines(filePath, array);
+                if (array.Count != 0) File.WriteAllLines(filePath, array);
                 else if (filePath.Contains("Unposted")) File.Delete(filePath);
             }
         }
